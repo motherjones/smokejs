@@ -1,0 +1,32 @@
+<div class="container">
+    <header id="main-header">
+        <div id="nameplate" class="row"></div>
+        <div id="site-nav"></div>
+    </header>
+
+    <div id="main-content" class="row">
+        <div id="full-width" class="sixteen columns one-column-layout mojo-column-layout">
+            I am within a full width layout
+        </div>
+
+        <div id="two-column-left" class="eleven columns two-column-layout mojo-column-layout">
+            left column in a two column layout
+        </div>
+        <div id="two-column-right" class="five columns two-column-layout mojo-column-layout">
+            right column in a two column layout
+        </div>
+
+        <div id="three-column-left" class="eight columns three-column-layout mojo-column-layout">
+            left column ihn a three column layout
+        </div>
+        <div id="three-column-middle" class="three columns three-column-layout mojo-column-layout">
+            middle column in a three column layout
+        </div>
+        <div id="three-column-right" class="five columns three-column-layout mojo-column-layout">
+            right column in  athre column layout
+        </div>
+    </div>
+
+    <footer id="main-footer" class="row">
+    </footer>
+</div>

@@ -1,0 +1,14 @@
+<header>
+    {hed}
+</header>
+<h4>
+    {dek}
+</h4>
+
+<p>
+    {content}
+</p>
+
+<p>
+    {byline}
+</p>

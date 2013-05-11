@@ -1,0 +1,14 @@
+<div {@if cond="{class}"}class="{class}"{/if}>
+    {@if cond="{link}"}
+        <a href="{link}">
+    {/if}
+        {@if cond="{title}"}
+            <h5>{title}<h5>
+        {/if}
+        {@if cond="{content}"}
+            <p>{content}<p>
+        {/if}
+    {@if cond="{link}"}
+        </a>
+    {/if}
+</div>
