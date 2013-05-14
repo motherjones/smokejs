@@ -20,5 +20,7 @@ require([
         });
         siteView.render();
 
+        siteState.on('change:current_view': siteView.updateContent);
+
     }
 );

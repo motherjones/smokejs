@@ -124,7 +124,7 @@ module.exports = function(grunt) {
           useStrict: true,
           baseUrl: "dev/js",
           mainConfigFile: "dev/config.js",
-          out: "dev/wobbly.js",
+          out: "dist/wobbly.js",
         }
       }
     },
@@ -142,7 +142,7 @@ module.exports = function(grunt) {
       },
       src: {
         files: '<%= jshint.src.src %>',
-        tasks: ['requirejs', 'jshint:src', 'qunit']
+        tasks: ['jshint:src', 'qunit']
       },
       templates: {
         files: 'dev/templates/**/*.dust',
@@ -181,6 +181,6 @@ module.exports = function(grunt) {
   grunt.registerTask('css', ['less', 'cssmin']);
   grunt.registerTask('dust', ['dustjs']);
   grunt.registerTask('fab', ['dustjs', 'requirejs', 'concat', 'uglify', 'less', 'cssmin', 'smoosher', 'htmlmin']);
-  grunt.registerTask('serve', ['dustjs', 'requirejs', 'less', 'connect', 'watch']);
+  grunt.registerTask('serve', ['dustjs', 'less', 'connect', 'watch']);
 
 };

@@ -12,17 +12,12 @@ define([
     function(_, Backbone, dust, nameplate, site_nav) {
         var SiteState = Backbone.Model.extend({
             defaults: {
-                display_ticker: true,
-                display_third_column: true,
-                display_second_column: true,
+                current_view: new page_view.HomePageView(),
             }
         });
 
         var SiteView = Backbone.View.extend({
             el: $('body'),
-            initialize: function(attrs, options) {
-                this.model = new SiteState(attrs, options);
-            },
 
             render: function() {
                 var that = this;
@@ -41,9 +36,17 @@ define([
                         model : navModel
                     });
                     $('#site-nav', this.el).html( navView.render().el );
+
+                    this.updateContent();
                 });
             },
+
+            updateContent: function() {
+                $('#main-content', this.el).html( model.current_view.render().el );
+            },
+
         });
+
         return {
             'SiteView': SiteView,
             'SiteState': SiteState,

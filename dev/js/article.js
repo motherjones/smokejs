@@ -10,7 +10,7 @@ define([
         'module',
     ], 
     function(_, Backbone, dust, module) {
-        var Article = Backbone.Model.extend({
+        var Article = Backbone.Tastypie.Model.extend({
             defaults : {
                 slug: 'fakeslug',
                 hed: 'headline',
@@ -21,25 +21,15 @@ define([
             urlroot : module.config().DATA_STORE + 'article/',
         });
 
-        var Articles = Backbone.Collection.extend({
+        var Articles = Backbone.Tastypie.Collection.extend({
             model: Article,
             urlroot : module.config().DATA_STORE + 'article/',
         });
 
-        //like the slider, for instance
-        var ArticleList = Backbone.Model.extend({
-            defaults : {
-            },
-            initialize : function() {
-                this.articles = new Articles();
-                this.articles.url = module.config().DATA_STORE + 'article_list/' + this.id + '/articles';
-            }
-        });
 
         var ArticleView = Backbone.View.extend({
             tagName : 'article',
             className : 'article',
-            el: $('body'),
             render : function() {
                 var that = this;
                 dust.render("article", this.model.attributes, function(err, out) {
@@ -47,7 +37,7 @@ define([
                         console.log(err);
                         // throw error here
                     } else {
-                        that.$el.html(out);
+                        that.$el = that.el = out;
                     }
                 });
                 return this;

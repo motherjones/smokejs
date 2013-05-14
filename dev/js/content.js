@@ -11,7 +11,7 @@ define([
         'module',
     ], 
     function(_, $, Backbone, dust, module) {
-        var BaseContent = Backbone.Model.extend({
+        var BaseContent = Backbone.Tastypie.Model.extend({
             urlroot: module.config().DATA_STORE + 'basecontent/',
             defaults: {
                 content: '',
@@ -42,7 +42,7 @@ define([
             },
         });
 
-        var BaseContentList = Backbone.Collection.extend({
+        var BaseContentList = Backbone.Tastypie.Collection.extend({
             model: function(attrs, options) {
                //cases here, get more specific content type if wanted
                return new BaseContent(attrs, options);
