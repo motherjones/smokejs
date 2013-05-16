@@ -124,7 +124,7 @@ module.exports = function(grunt) {
           useStrict: true,
           baseUrl: "dev/js",
           mainConfigFile: "dev/config.js",
-          out: "dist/wobbly.js",
+          out: "dist/smoke.js",
         }
       }
     },

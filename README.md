@@ -1,18 +1,18 @@
-# wobbly
+# smoke
 
 A new front end for MotherJones
 
 ## Getting Started
 Download the [production version][min] or the [development version][max].
 
-[min]: https://raw.github.com/motherjones/wobbly/master/demo/js/wobbly.min.js
-[max]: https://raw.github.com/motherjones/wobbly/master/dev/js/wobbly.js
+[min]: https://raw.github.com/motherjones/smoke/master/demo/js/smoke.min.js
+[max]: https://raw.github.com/motherjones/smoke/master/dev/js/smoke.js
 
 In your web page:
 
 ```html
 <script src="jquery.js"></script>
-<script src="demo/wobbly.min.js"></script>
+<script src="demo/smoke.min.js"></script>
 <script>
 jQuery(function($) {
   $.awesome(); // "awesome"

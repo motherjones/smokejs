@@ -1,6 +1,6 @@
 /*global require */
 
-require(['jquery', 'wobbly'], function($) {
+require(['jquery', 'smoke'], function($) {
   /*
     ======== A Handy Little QUnit Reference ========
     http://docs.jquery.com/QUnit
