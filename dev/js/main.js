@@ -10,11 +10,17 @@
 require([
         'controller',
         'application',
+        'page',
     ], 
-    function(controller, application) {
-        // start the app instead of fucking around with jquery
-        //controller.router.navigate('/article:slug', true);
+    function(controler, application, page) {
+        //FIXME do some figuring here, see what initial site state should be
         var siteState = new application.SiteState();
+
+        var pageModel = new page.PageModel();
+        siteState.currentView = new page.PageView({
+            model: pageModel
+        });
+
         var siteView = new application.SiteView({
             model: siteState
         });

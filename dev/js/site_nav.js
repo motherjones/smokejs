@@ -8,9 +8,10 @@ define([
         'backbone',
         'dust',
         'content',
-        'module',
+        'env_config',
+        'templates',
     ], 
-    function(_, Backbone, dust, content, module) {
+    function(_, Backbone, dust, content, env_config, templates) {
         var NavModel = Backbone.Model.extend({
             defaults: {
                 selected: false,
@@ -28,14 +29,14 @@ define([
             tagName: 'div',
             initialize: function() {
                 this.navCollection = new content.BaseContentList({
-                    url: module.config().DATA_STORE + '/topnav/' + this.nav,
+                    url: env_config.DATA_STORE + '/topnav/' + this.nav,
                 });
                 this.navView = new content.BaseContentListView({
                     collection: this.navCollection
                 });
 
                 this.tickerCollection = new content.BaseContentList({
-                    url: module.config().DATA_STORE + '/ticker/' + this.ticker,
+                    url: env_config.DATA_STORE + '/ticker/' + this.ticker,
                 });
                 this.tickerView = new content.BaseContentListView({
                     collection: this.tickerCollection
@@ -47,7 +48,7 @@ define([
                 dust.render("site_nav", this.model.attributes, function(err, out) {
                     if (err) {
                         //throw error
-                        console.log(err);
+                        env_config.ERROR_HANDLER(err);
                     } else {
                         that.$el = that.el = out;
                     }

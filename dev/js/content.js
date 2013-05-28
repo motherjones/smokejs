@@ -7,18 +7,20 @@ define([
         'underscore',
         'jquery',
         'backbone',
+        'backbone_tastypie',
         'dust',
         'module',
     ], 
-    function(_, $, Backbone, dust, module) {
-        var BaseContent = Backbone.Tastypie.Model.extend({
-            urlroot: module.config().DATA_STORE + 'basecontent/',
+    function(_, $, Backbone, Tastypie, dust, module) {
+        var BaseContent = Backbone.Model.extend({
+            urlroot: module.config().DATA_STORE + 'content/',
             defaults: {
                 content: '',
                 title: '',
                 link: '',
                 layout: '',
                 'class': '',
+                renderer: 'base_content',
             },
         });
 
@@ -26,12 +28,10 @@ define([
             initialize: function() {
             },
 
-            renderer: 'base_content',
-
             render: function() {
                 var that = this;
-                dust.render(this.renderer, this.model.attributes, function(err, out) {
-                    if (err) {
+                dust.render(this.model.renderer, this.model.attributes, function(err, out) {
+                    if (err.length) {
                         //throw error
                         console.log(err);
                     } else {
@@ -42,11 +42,7 @@ define([
             },
         });
 
-        var BaseContentList = Backbone.Tastypie.Collection.extend({
-            model: function(attrs, options) {
-               //cases here, get more specific content type if wanted
-               return new BaseContent(attrs, options);
-            },
+        var BaseContentList = Backbone.Collection.extend({
             urlroot: module.config().DATA_STORE + 'basecontent/',
             defaults: {
                 'class': '',

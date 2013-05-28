@@ -8,6 +8,7 @@
         <div id="full-width" class="sixteen columns one-column-layout mojo-column-layout">
             I am within a full width layout
         </div>
+        <a href="#/asset/fakeidgoeshere">CLICK ME I GO OT FAKEASSETA</a>
 
         <div id="two-column-left" class="eleven columns two-column-layout mojo-column-layout">
             left column in a two column layout

@@ -7,11 +7,13 @@ define([
         'underscore',
         'backbone',
         'article',
+        'assets',
     ], 
-    function(_, Backbone, Article) {
+    function(_, Backbone, Article, Asset) {
         var Router = Backbone.Router.extend({
             routes : {
-                "article:slug" : "display_article",
+                "article/:slug" : "display_article",
+                "asset/:slug" : "display_asset",
             },
 
             display_article : function(slug) {
@@ -25,6 +27,18 @@ define([
                 });
                 fakeArticleView.$el.show();
                 
+            },
+
+            display_asset : function(slug) {
+                var fakeAssetModel = new Asset.Asset({
+                    'slug': slug,
+                });
+
+                var fakeAssetView = new Asset.AssetView({
+                    model: fakeAssetModel
+                });
+
+                fakeAssetView.render();
             }
         });
 

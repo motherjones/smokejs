@@ -1,21 +1,24 @@
 require.config({
-    config: {
-        DATA_STORE : 'http://localhost:8000/api/', // for testing, real datastore will be our api
-        ERROR_HANDLER : function(err) { console.log(err); },
-    },
     paths: {
         jquery: 'libs/jquery-1.9.1.min',
         underscore: 'libs/underscore-min',
         backbone: 'libs/backbone-min',
         dust: 'libs/dust-full-1.2.3.min',
-        application: 'application'
+        application: 'application',
+        templates: 'templates',
+        backbone_tastypie: 'libs/backbone-tastypie',
+        config: '../prod_config',
     },
     shim: {
+        'backbone_tastypie': {
+            deps: ['backbone', "underscore", 'jquery',],
+            attach: 'Backbone',
+        },
         'backbone': {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone',
+            deps: ['underscore', 'jquery', ],
+            exports: "Backbone",
             init: function() {
-                require(['js/libs/backbone-tastypie.js']);
+                require(['backbone_tastypie']);
             },
         },
         'underscore': {
@@ -32,5 +35,3 @@ require.config({
         },
     }
 });
-
-

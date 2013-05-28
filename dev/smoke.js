@@ -7,4 +7,16 @@
  */
 'use strict';
 
-require([ 'main' ]);
+require(['config'], function() {
+    require.config({
+        baseUrl: 'js/',
+        paths: {
+            env_config: '../prod_config',
+        },
+    });
+
+
+    require([ 'main', ], function(main) {
+
+    });
+});

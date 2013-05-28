@@ -7,12 +7,12 @@ define([
         'dust',
         'nameplate',
         'site_nav',
+        'page',
         'templates'
     ], 
-    function(_, Backbone, dust, nameplate, site_nav) {
+    function(_, Backbone, dust, nameplate, site_nav, page) {
         var SiteState = Backbone.Model.extend({
             defaults: {
-                current_view: new page_view.HomePageView(),
             }
         });
 
@@ -37,12 +37,13 @@ define([
                     });
                     $('#site-nav', this.el).html( navView.render().el );
 
-                    this.updateContent();
+                    that.updateContent();
                 });
             },
 
             updateContent: function() {
-                $('#main-content', this.el).html( model.current_view.render().el );
+               var that = this;
+               $('#main-content', this.el).html( that.model.currentView.render().el );
             },
 
         });

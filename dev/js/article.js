@@ -6,11 +6,12 @@
 define([
         'underscore',
         'backbone',
+        'backbone_tastypie',
         'dust',
         'module',
     ], 
-    function(_, Backbone, dust, module) {
-        var Article = Backbone.Tastypie.Model.extend({
+    function(_, Backbone, Tastypie, dust, module) {
+        var Article = Backbone.Model.extend({
             defaults : {
                 slug: 'fakeslug',
                 hed: 'headline',
@@ -21,7 +22,7 @@ define([
             urlroot : module.config().DATA_STORE + 'article/',
         });
 
-        var Articles = Backbone.Tastypie.Collection.extend({
+        var Articles = Backbone.Collection.extend({
             model: Article,
             urlroot : module.config().DATA_STORE + 'article/',
         });
@@ -48,7 +49,7 @@ define([
         return {
             Article: Article,
             Articles: Articles,
-            ArticleList: ArticleList,
+            //ArticleList: ArticleList,
             ArticleView: ArticleView,
         };
     }
