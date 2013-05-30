@@ -1,4 +1,10 @@
 /*global define */
+/* okay
+ * so a content is a collection of assets with extra stuff
+ * so in the content model creation, we create an asset collection,
+ * and stick it in the content model.
+ * yeah rendering will be a little strange, but whatever
+ */
 'use strict';
 
 (function(define) {
@@ -8,80 +14,122 @@ define([
         'jquery',
         'backbone',
         'backbone_tastypie',
+        'assets',
         'dust',
         'env_config',
     ], 
-    function(_, $, Backbone, Tastypie, dust, env_config) {
-        var BaseContent = Backbone.Model.extend({
-            urlroot: env_config.DATA_STORE + 'content/',
-            defaults: {
-                content: '',
-                title: '',
-                link: '',
-                layout: '',
-                'class': '',
-                renderer: 'base_content',
+    function(_, $, Backbone, Tastypie, Assets, dust, env_config) {
+
+        var Content = Backbone.Model.extend({
+            initialize: function() {
+                this.url = env_config.DATA_STORE 
+                        + 'content/' + this.attributes.slug;
+                //this.asset_collection = new Assets.AssetCollection().add(this.assets);
             },
         });
+
+        var ContentViewConstructor = function(view_context, model) {
+            switch (view_context)
+            {
+                case 'main_content':
+                    return new MainContentView({
+                        model: model
+                    });
+                case 'right_sidebar':
+                    return new SidebarContentView({
+                        model: model
+                    });
+                //more here as we identify other contexts for content
+            };
+        }
 
         var BaseContentView = Backbone.View.extend({
             initialize: function() {
+                this.template = this.content_type_to_templates[this.model.attributes.spec];
             },
 
-            render: function() {
+            render: function(callback) {
                 var that = this;
-                dust.render(this.model.renderer, this.model.attributes, function(err, out) {
-                    if (err.length) {
-                        //throw error
-                        console.log(err);
-                    } else {
-                        that.$el = that.el = (out);
+                dust.render(
+                    this.template,
+                    this.model.attributes,
+                    function(err, out) {
+                        if (err) {
+                            env_config.ERROR_HANDLER(err);
+                        } else {
+                            that.$el = that.el = (out);
+                            if (callback) { callback(that); }
+                        }
                     }
-                });
+                );
                 return this;
             },
         });
 
-        var BaseContentList = Backbone.Collection.extend({
-            urlroot: env_config.DATA_STORE + 'basecontent/',
-            defaults: {
-                'class': '',
+        var MainContentView = BaseContentView.extend({
+            content_type_to_templates : {
+                article : 'main_content_article',
+                photoessay : 'main_content_photoessay',
+                page :  'main_content_page',
+                //more here as we get differetn content types that go on the main page
             },
+        })
+
+        var SidebarContentView = BaseContentView.extend({
+            content_type_to_templates : {
+                article : 'sidebar_content_hed_dek_master',
+                photoessay : 'sidebar_content_hed_dek_master',
+                page :  'sidebar_content_snippet',
+                //more here as we get differetn content types that go in the sidebar
+            },
+        })
+
+//FIXME THIS IS ASS NEED GOOD LIST HANDLING
+        var ContentList = Backbone.Collection.extend({
+            model: Content,
         });
 
-        var BaseContentListView = Backbone.View.extend({
-            initialize: function() {
-            },
-            tagName: 'div',
-            modelView: BaseContentView,
+
+        var ContentListViewConstructor = function(view_context, collection) {
+            //FISXME make this return as appropriate, not this
+            return new ContentListView({ collection: collection });
+            //do things here when I have stuff
+            switch (view_context)
+            {
+                //more here as we identify other contexts for content
+            };
+        }
+
+        var ContentListView = Backbone.View.extend({
             render: function(container) {
                 var that = this;
-                if (this.title) {
-                    this.$el.append('<h4>' + this.title + '</h4>');
-                }
-                this.$el.append('<ul></ul>');
-                this.container = $(container);
-                _(this.collection.models).each(function(item) {
-                    that.appendItem(item);
-                });
+                this.collection.each(function() {
+                    //make model, put in view, render, append to that.$el
+                })
+                /*
+                dust.render(
+                    'content_list',
+                    this.model.attributes,
+                    function(err, out) {
+                        if (err) {
+                            env_config.ERROR_HANDLER(err);
+                        } else {
+                            that.$el = that.el = (out);
+
+                        }
+                    }
+                );
+                */
                 return this;
             },
 
-            appendItem: function(item) {
-                var itemView = new this.modelView({
-                    model: item
-                });
-                $('ul', this.el).append(
-                    itemView.render().el
-                );
-            },
         });
 
         return {
-            'BaseContent': BaseContent,
-            'BaseContentView' : BaseContentView,
-            'BaseContentList': BaseContentList,
-            'BaseContentListView' : BaseContentListView,
+            'Content': Content,
+            'ContentViewConstructor' : ContentViewConstructor,
+            'ContentList': ContentList,
+            'ContentListViewConstructor' : ContentListViewConstructor,
         };
     }
 );

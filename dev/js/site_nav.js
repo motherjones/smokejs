@@ -28,19 +28,15 @@ define([
             id: 'site-nav',
             tagName: 'div',
             initialize: function() {
-                this.navCollection = new content.BaseContentList({
+                this.navCollection = new content.ContentList({
                     url: env_config.DATA_STORE + '/topnav/' + this.nav,
                 });
-                this.navView = new content.BaseContentListView({
-                    collection: this.navCollection
-                });
+                this.navView = new content.ContentListViewConstructor('topnav', this.navCollection);
 
-                this.tickerCollection = new content.BaseContentList({
+                this.tickerCollection = new content.ContentList({
                     url: env_config.DATA_STORE + '/ticker/' + this.ticker,
                 });
-                this.tickerView = new content.BaseContentListView({
-                    collection: this.tickerCollection
-                });
+                this.tickerView = new content.ContentListViewConstructor('ticker', this.tickerCollection)
             },
 
             render: function() {

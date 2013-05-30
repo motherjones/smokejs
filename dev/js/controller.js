@@ -6,27 +6,28 @@
 define([
         'underscore',
         'backbone',
-        'article',
+        'content',
         'assets',
         'env_config',
     ], 
-    function(_, Backbone, Article, Asset, env_config) {
+    function(_, Backbone, Content, Asset, env_config) {
         var Router = Backbone.Router.extend({
             routes : {
-                "article/:slug" : "display_article",
+                "article/:slug" : "display_main_content",
                 "asset/:slug" : "display_asset",
             },
 
-            display_article : function(slug) {
-                //article = new Article.Article(slug);
-                var article = new Article.Article({
+            display_main_content : function(slug) {
+                var content = new Content.Content({
                     slug: slug,
+                })
+                content.fetch()
+                .success(function(model, response, options) {
+                    Content.ContentViewConstructor('main_content', content).render(function(stuff) {
+                        console.log(stuff);
+                    });
                 });
 
-                var articleView = new Article.ArticleView({
-                    model : article
-                });
-                articleView.$el.show();
                 
             },
 

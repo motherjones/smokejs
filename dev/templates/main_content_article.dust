@@ -1,0 +1,10 @@
+<h1> put article hed here</h1>
+
+{#assets}
+    <p>
+        {keyword}    
+        fuuuck i need to go through each asset and build them all separate? 
+        wish stuff like hed dek and master was just in the thing
+        that is ass
+    </p>
+{/assets}

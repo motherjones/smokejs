@@ -6,31 +6,27 @@
 define([
         'underscore',
         'backbone',
-        'backbone_tastypie',
         'dust',
         'env_config',
         'jquery',
     ], 
-    function(_, Backbone, Tastypie, dust, env_config, $) {
+    function(_, Backbone, dust, env_config, $) {
 
         var Asset = Backbone.Model.extend({
 
             initialize: function() {
                 this.url = env_config.DATA_STORE 
                         + 'asset/' + this.attributes.slug;
-
-                
-                var that = this;
-
-
-
-                this.fetch()
-                    .error(env_config.ERROR_HANDLER)
             },
             defaults: {
                 renderer: 'asset',
             },
         });
+
+        var AssetCollection = Backbone.Collection.extend({
+            model: Asset,
+            urlroot: env_config.DATA_STORE + 'asset/',
+        })
 
         var AssetView = Backbone.View.extend({
             initialize: function() {
@@ -55,6 +51,7 @@ define([
         return {
             Asset: Asset,
             AssetView: AssetView,
+            AssetCollection: AssetCollection,
         };
     }
 );
