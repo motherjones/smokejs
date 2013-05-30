@@ -8,8 +8,9 @@ define([
         'backbone',
         'article',
         'assets',
+        'env_config',
     ], 
-    function(_, Backbone, Article, Asset) {
+    function(_, Backbone, Article, Asset, env_config) {
         var Router = Backbone.Router.extend({
             routes : {
                 "article/:slug" : "display_article",
@@ -18,27 +19,28 @@ define([
 
             display_article : function(slug) {
                 //article = new Article.Article(slug);
-                var fakeArticle = new Article.Article({
+                var article = new Article.Article({
                     slug: slug,
                 });
 
-                var fakeArticleView = new Article.ArticleView({
-                    model : fakeArticle
+                var articleView = new Article.ArticleView({
+                    model : article
                 });
-                fakeArticleView.$el.show();
+                articleView.$el.show();
                 
             },
 
             display_asset : function(slug) {
-                var fakeAssetModel = new Asset.Asset({
+                var that = this;
+                var assetModel = new Asset.Asset({
                     'slug': slug,
+                })
+
+                var assetView = new Asset.AssetView({
+                    model: assetModel
                 });
 
-                var fakeAssetView = new Asset.AssetView({
-                    model: fakeAssetModel
-                });
-
-                fakeAssetView.render();
+                assetView.render();
             }
         });
 

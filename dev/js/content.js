@@ -9,11 +9,11 @@ define([
         'backbone',
         'backbone_tastypie',
         'dust',
-        'module',
+        'env_config',
     ], 
-    function(_, $, Backbone, Tastypie, dust, module) {
+    function(_, $, Backbone, Tastypie, dust, env_config) {
         var BaseContent = Backbone.Model.extend({
-            urlroot: module.config().DATA_STORE + 'content/',
+            urlroot: env_config.DATA_STORE + 'content/',
             defaults: {
                 content: '',
                 title: '',
@@ -43,7 +43,7 @@ define([
         });
 
         var BaseContentList = Backbone.Collection.extend({
-            urlroot: module.config().DATA_STORE + 'basecontent/',
+            urlroot: env_config.DATA_STORE + 'basecontent/',
             defaults: {
                 'class': '',
             },

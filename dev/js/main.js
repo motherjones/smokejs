@@ -10,9 +10,10 @@
 require([
         'controller',
         'application',
+        'jquery',
         'page',
     ], 
-    function(controler, application, page) {
+    function(controler, application, $, page) {
         //FIXME do some figuring here, see what initial site state should be
         var siteState = new application.SiteState();
 

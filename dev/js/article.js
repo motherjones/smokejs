@@ -8,9 +8,9 @@ define([
         'backbone',
         'backbone_tastypie',
         'dust',
-        'module',
+        'env_config',
     ], 
-    function(_, Backbone, Tastypie, dust, module) {
+    function(_, Backbone, Tastypie, dust, env_config) {
         var Article = Backbone.Model.extend({
             defaults : {
                 slug: 'fakeslug',
@@ -19,12 +19,12 @@ define([
                 content: ['hellooo above the fold', ' anyone home below the fold', 'other pages'],
                 byline: 'by nobody ever',
             },
-            urlroot : module.config().DATA_STORE + 'article/',
+            urlroot : env_config.DATA_STORE + 'article/',
         });
 
         var Articles = Backbone.Collection.extend({
             model: Article,
-            urlroot : module.config().DATA_STORE + 'article/',
+            urlroot : env_config.DATA_STORE + 'article/',
         });
 
 
