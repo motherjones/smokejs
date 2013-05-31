@@ -15,14 +15,13 @@ define([
         'backbone',
         'backbone_tastypie',
         'assets',
-        'dust',
-        'env_config',
+        'util',
     ], 
-    function(_, $, Backbone, Tastypie, Assets, dust, env_config) {
+    function(_, $, Backbone, Tastypie, Assets, util) {
 
         var Content = Backbone.Model.extend({
             initialize: function() {
-                this.url = env_config.DATA_STORE 
+                this.url = util.DATA_STORE 
                         + 'content/' + this.attributes.slug;
                 //this.asset_collection = new Assets.AssetCollection().add(this.assets);
             },
@@ -48,21 +47,8 @@ define([
                 this.template = this.content_type_to_templates[this.model.attributes.spec];
             },
 
-            render: function(callback) {
-                var that = this;
-                dust.render(
-                    this.template,
-                    this.model.attributes,
-                    function(err, out) {
-                        if (err) {
-                            env_config.ERROR_HANDLER(err);
-                        } else {
-                            that.$el = that.el = (out);
-                            if (callback) { callback(that); }
-                        }
-                    }
-                );
-                return this;
+            render: function() {
+                return util.render(this); //this returns a promise that on completion, the view.el will have the rendered bit
             },
         });
 
@@ -112,7 +98,7 @@ define([
                     this.model.attributes,
                     function(err, out) {
                         if (err) {
-                            env_config.ERROR_HANDLER(err);
+                            utiutilERROR_HANDLER(err);
                         } else {
                             that.$el = that.el = (out);
 

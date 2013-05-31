@@ -23,8 +23,10 @@ define([
                 })
                 content.fetch()
                 .success(function(model, response, options) {
-                    Content.ContentViewConstructor('main_content', content).render(function(stuff) {
-                        console.log(stuff);
+                    var contentView = Content.ContentViewConstructor('main_content', content)
+                    $.when(contentView.render()).done(function() {
+                        //PUT HTML FROM contentView.el IN PAGE
+                        console.log(contentView.el);
                     });
                 });
 
