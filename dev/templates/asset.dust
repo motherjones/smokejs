@@ -1,4 +1,4 @@
 <div>
 TTHIS IS AN ASSET BOY I WHISH THIS WAS SMARTER AND A REAL TEMPLATE
-    {content}
+    {slug}
 </div>

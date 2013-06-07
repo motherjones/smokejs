@@ -12,21 +12,26 @@ define([
     ], 
     function(_, Backbone, Content, Asset, env_config) {
         var Router = Backbone.Router.extend({
+
+            initialize: function(options) {
+                this.site_state = options.site_state;
+            },
+
             routes : {
                 "article/:slug" : "display_main_content",
                 "asset/:slug" : "display_asset",
             },
 
             display_main_content : function(slug) {
+                var self = this;
                 var content = new Content.Content({
                     slug: slug,
                 })
                 content.fetch()
                 .success(function(model, response, options) {
-                    var contentView = Content.ContentViewConstructor('main_content', content)
-                    $.when(contentView.render()).done(function() {
-                        //PUT HTML FROM contentView.el IN PAGE
-                        console.log(contentView.el);
+                    self.site_state.set({spec : model.spec});
+                    self.site_state.set({
+                        content_view : Content.ContentViewConstructor('main_content', content)
                     });
                 });
 
@@ -49,11 +54,8 @@ define([
 
 
 
-        var router = new Router();
-
-        Backbone.history.start();
         return {
-            'router': router
+            'Router': Router
         };
 
     }

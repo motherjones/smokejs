@@ -13,6 +13,8 @@ define([
     function(_, Backbone, dust, nameplate, site_nav, page) {
         var SiteState = Backbone.Model.extend({
             defaults: {
+              spec: 'homepage',
+              content_view: null,
             }
         });
 
@@ -37,16 +39,24 @@ define([
                     });
                     $('#site-nav', this.el).html( navView.render().el );
 
-                    that.updateContent();
                 });
             },
-
+            updateLayout: function() {
+                console.log('re render column layout to be appropriate for the spec : ');
+                console.log(this.model.get('spec'));
+            },
             updateContent: function() {
-               var that = this;
-               $('#main-content', this.el).html( that.model.currentView.render().el );
+               var self = this;
+               $.when(self.model.get('content_view').render()).done(function() {
+                   $('#main-content', self.el).html( self.model.get('content_view').el );
+               });
+               //do some logic to show/notshow third/second colums depending on view type
+                // do some shit here to properly render third/second column as well
+               // 
             },
 
         });
+
 
         return {
             'SiteView': SiteView,

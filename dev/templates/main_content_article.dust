@@ -1,5 +1,8 @@
 <h1> put article hed here</h1>
 
-{#assets}
+{slug}
+
+{ressource_uri}
+{#attributes}
         {load_asset}
-{/assets}
+{/attributes}

@@ -18,16 +18,15 @@ define('util', [
                 load_asset: function(chunk, context) {
                     var assets = require('assets');
                     return chunk.map(function(chunk) {
-                        console.log(context.stack.head);
                         var assetModel = new assets.Asset({
-                            'slug': context.stack.head.asset.slug,
+                            'slug': context.stack.head.attribute.slug,
                         })
                         var assetView = new assets.AssetView({
                             model: assetModel
                         });
 
                         $.when(
-                            assetView.render()
+                            assetView.render(context)
                         ).done(function() {
                             chunk.end(assetView.el);
                         });

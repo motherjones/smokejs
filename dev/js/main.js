@@ -10,24 +10,28 @@
 require([
         'controller',
         'application',
-        'jquery',
-        'page',
     ], 
-    function(controler, application, $, page) {
+    function(Controler, Application) {
         //FIXME do some figuring here, see what initial site state should be
-        var siteState = new application.SiteState();
+        var site_state = new Application.SiteState();
 
-        var pageModel = new page.PageModel();
-        siteState.currentView = new page.PageView({
-            model: pageModel
+        var site_view = new Application.SiteView({
+            model: site_state,
         });
 
-        var siteView = new application.SiteView({
-            model: siteState
+        site_state.on('change:content_view', function() {
+            site_view.updateContent();
         });
-        siteView.render();
+        site_state.on('change:spec', function() {
+            site_view.updateLayout();
+        });
 
-        siteState.on('change:current_view', siteView.updateContent);
+        var router = new Controler.Router({
+            site_state: site_state,
+        });
 
+        site_view.render();
+
+        Backbone.history.start();
     }
 );
