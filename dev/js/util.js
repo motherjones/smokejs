@@ -15,12 +15,15 @@ define('util', [
             DATA_STORE : env_config.DATA_STORE,
             ERROR_HANDLER : env_config.ERROR_HANDLER,
             dustbase : dust.makeBase({
+                media_base : env_config.MEDIA_STORE,
                 load_asset: function(chunk, context) {
                     var assets = require('assets');
+                    console.log('here');
                     return chunk.map(function(chunk) {
-                        var assetModel = new assets.Asset({
-                            'slug': context.stack.head.attribute.slug,
-                        })
+                        console.log(context);
+                        var assetModel = new assets.Asset(
+                            context.stack.head.attribute
+                        )
                         var assetView = new assets.AssetView({
                             model: assetModel
                         });
