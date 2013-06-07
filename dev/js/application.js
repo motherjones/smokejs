@@ -21,14 +21,20 @@ define([
         var SiteView = Backbone.View.extend({
             el: $('body'),
 
+            spec_to_column_layout: {
+                article: 'two_column_layout',
+                page: 'single_column_layout',
+                homepage: 'three_column_layout',
+            },
+
             render: function() {
-                var that = this;
+                var self = this;
                 dust.render("site_structure", this.model.attributes, function(err, out) {
                     if (err) {
                         //throw error
                         console.log(err);
                     } else {
-                        that.$el.html(out);
+                        self.$el.html(out);
                     }
                     var nameplateView = new nameplate.NameplateView();
                     $('#nameplate', this.el).html( nameplateView.render().el );
@@ -39,11 +45,25 @@ define([
                     });
                     $('#site-nav', this.el).html( navView.render().el );
 
+                    self.updateLayout();
                 });
             },
             updateLayout: function() {
-                console.log('re render column layout to be appropriate for the spec : ');
-                console.log(this.model.get('spec'));
+                var self = this;
+                console.log(self.spec_to_column_layout[self.model.get('spec')]);
+                dust.render(
+                    self.spec_to_column_layout[self.model.get('spec')],
+                    this.model.attributes,
+                    function(err, out) {
+                        if (err) {
+                            //throw error
+                            console.log(err);
+                        } else {
+                            console.log(out);
+                            $('#content', self.el).html( out );
+                        }
+                    }
+                )
             },
             updateContent: function() {
                var self = this;
