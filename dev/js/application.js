@@ -50,7 +50,6 @@ define([
             },
             updateLayout: function() {
                 var self = this;
-                console.log(self.spec_to_column_layout[self.model.get('spec')]);
                 dust.render(
                     self.spec_to_column_layout[self.model.get('spec')],
                     this.model.attributes,
@@ -59,7 +58,6 @@ define([
                             //throw error
                             console.log(err);
                         } else {
-                            console.log(out);
                             $('#content', self.el).html( out );
                         }
                     }
