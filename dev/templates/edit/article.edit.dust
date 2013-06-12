@@ -1,0 +1,6 @@
+<formfield>
+    {#attributes}
+    <!-- FIXME encoding is imperfect, assets should have specs by this point -->
+        {>"asset.{encoding}.edit"/}
+    {/attributes}
+</formfield>
