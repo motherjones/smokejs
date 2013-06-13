@@ -26,8 +26,8 @@ define([
 
         var AssetView = Backbone.View.extend({
             initialize: function() {
+                this.template = this.model.get('encoding');
             },
-            template: 'asset',
             render: function() {
                 return util.render(this); //this returns a promise that on completion, the view.el will have the rendered bit
             },

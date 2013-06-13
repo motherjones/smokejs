@@ -44,7 +44,7 @@ define([
 
         var BaseContentView = Backbone.View.extend({
             initialize: function() {
-                this.template = this.content_type_to_templates[this.model.attributes.spec];
+                this.template =  this.content_type_to_templates[this.model.attributes.spec];
             },
 
             render: function() {

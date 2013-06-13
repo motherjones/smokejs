@@ -25,9 +25,8 @@ define('util', [
                         var assetView = new assets.AssetView({
                             model: assetModel
                         });
-
                         $.when(
-                            assetView.render(context)
+                            assetView.render()
                         ).done(function() {
                             chunk.end(assetView.el);
                         });
