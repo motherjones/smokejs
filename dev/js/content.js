@@ -38,6 +38,10 @@ define([
                     return new SidebarContentView({
                         model: model
                     });
+                case 'edit_content':
+                    return new EditContentView({
+                        model: model
+                    });
                 //more here as we identify other contexts for content
             };
         }
@@ -71,6 +75,15 @@ define([
                 article : 'sidebar_content_hed_dek_master',
                 photoessay : 'sidebar_content_hed_dek_master',
                 page :  'sidebar_content_snippet',
+                //more here as we get differetn content types that go in the sidebar
+            },
+        })
+        
+        var EditContentView = BaseContentView.extend({
+            content_type_to_templates : {
+                article : 'edit_article',
+                photoessay : 'edit_photoessay',
+                page :  'edit_page',
                 //more here as we get differetn content types that go in the sidebar
             },
         })

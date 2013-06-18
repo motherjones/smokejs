@@ -1,0 +1,17 @@
+<form>
+    <formfield name="metadata">
+        <label for="title">Title:</label>
+        <input name="title" value="{metadata.title}"></input>
+
+        <label for="dek">Dek:</label>
+        <input name="dek" value="{metadata.dek}"></input>
+    </formfield>
+    <formfield name="members">
+        {#members}
+            <label>page {order} </label>
+            <textarea>
+                {load_asset}
+            </textarea>
+        {/members}
+    </formfield>
+</form>

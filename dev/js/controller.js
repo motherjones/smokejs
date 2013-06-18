@@ -20,6 +20,8 @@ define([
             routes : {
                 "article/:slug" : "display_main_content",
                 "asset/:slug" : "display_asset",
+                //FIXME move edit elsewhere
+                "edit/:slug" : "edit_content",
             },
 
             display_main_content : function(slug) {
@@ -27,7 +29,6 @@ define([
                 var content = new Content.Content({
                     slug: slug,
                 })
-
                 content.fetch()
                 .success(function(model, response, options) {
                     self.site_state.set({spec : model.spec});
@@ -35,8 +36,6 @@ define([
                         content_view : Content.ContentViewConstructor('main_content', content)
                     });
                 });
-
-                
             },
 
             display_asset : function(slug) {
@@ -50,7 +49,22 @@ define([
                 });
 
                 assetView.render();
-            }
+            },
+            //FIXME move edit elsewhere
+            edit_content : function(slug) {
+                var self = this;
+                var content = new Content.Content({
+                    slug: slug,
+                })
+                content.fetch()
+                .success(function(model, response, options) {
+                    self.site_state.set({spec : 'page'});
+                    self.site_state.set({
+                        content_view : Content.ContentViewConstructor('edit_content', content)
+                    });
+                });
+            },
+
         });
 
 
