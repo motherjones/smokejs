@@ -16,8 +16,12 @@ content type:
 </p>
 
 {#attributes}
+    <div class="asset" id="asset_{slug}">
         {load_asset}
+    </div>
 {/attributes}
 {#members}
-        {load_asset}
+    <div class="asset" id="asset_{slug}">
+            {load_asset}
+    </div>
 {/members}

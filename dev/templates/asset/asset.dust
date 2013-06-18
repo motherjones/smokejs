@@ -1,6 +1,4 @@
 <div>
-TTHIS IS AN ASSET BOY I WHISH THIS WAS SMARTER AND A REAL TEMPLATE
-<br/>
     {slug}
     {data}
     <img src="{media_base}{data}"/>

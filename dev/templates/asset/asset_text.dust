@@ -1,3 +1,1 @@
-<div class="asset" id="asset_{slug}">
     {content|s}
-</div>
