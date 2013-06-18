@@ -27,6 +27,7 @@ define([
                 var content = new Content.Content({
                     slug: slug,
                 })
+
                 content.fetch()
                 .success(function(model, response, options) {
                     self.site_state.set({spec : model.spec});

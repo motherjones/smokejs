@@ -75,10 +75,15 @@ define([
 
         });
 
+        var auth = function(role) {
+            //FIXME do some auth here
+            return true;
+        }
 
         return {
             'SiteView': SiteView,
             'SiteState': SiteState,
+            'auth' : auth,
         };
     }
 );

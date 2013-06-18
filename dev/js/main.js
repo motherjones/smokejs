@@ -11,7 +11,8 @@ require([
         'controller',
         'application',
     ], 
-    function(Controler, Application) {
+    function(Controller, Application) {
+
         //FIXME do some figuring here, see what initial site state should be
         var site_state = new Application.SiteState();
 
@@ -26,7 +27,7 @@ require([
             site_view.updateLayout();
         });
 
-        var router = new Controler.Router({
+        var router = new Controller.Router({
             site_state: site_state,
         });
 
