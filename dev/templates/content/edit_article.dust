@@ -5,6 +5,13 @@
 
         <label for="dek">Dek:</label>
         <input name="dek" value="{metadata.dek}"></input>
+
+        <label for="master_image">Master Image</label>
+        {#master_image}
+        <div class="master_preview">
+            {load_asset}
+        </div>
+        {/master_image}
     </formfield>
     <formfield name="members">
         {#members}
