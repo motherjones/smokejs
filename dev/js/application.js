@@ -7,10 +7,9 @@ define([
         'dust',
         'nameplate',
         'site_nav',
-        'page',
         'templates'
     ], 
-    function(_, Backbone, dust, nameplate, site_nav, page) {
+    function(_, Backbone, dust, nameplate, site_nav) {
         var SiteState = Backbone.Model.extend({
             defaults: {
               spec: 'homepage',
