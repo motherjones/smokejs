@@ -7,6 +7,7 @@ require.config({
         application: 'application',
         templates: 'templates',
         backbone_tastypie: 'libs/backbone-tastypie',
+        blowfish: 'libs/blowfish',
         config: '../prod_config',
     },
     shim: {
@@ -21,8 +22,11 @@ require.config({
                 require(['backbone_tastypie']);
             },
         },
+        'blowfish' : {
+            exports: "Blowfish",
+        },
         'underscore': {
-            exports: '_'
+            exports: '_',
         },
         'dust': {
             exports: 'dust',

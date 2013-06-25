@@ -9,8 +9,9 @@ define([
         'backbone',
         'backbone_tastypie',
         'env_config',
+        'auth',
     ], 
-    function(_, $, Backbone, Tastypie, env_config) {
+    function(_, $, Backbone, Tastypie, env_config, Auth) {
 
         var APIObjectModel = Backbone.Model.extend({
             initialize: function() {
@@ -34,6 +35,13 @@ define([
             },
             initialize: function() {
                 this.loaded = new $.Deferred();
+                this.model.on('change:editing', this.auth_check);
+            },
+            auth_check: function() {
+                            //FIXME check against object type maybe?
+                if (!Auth.is_editor()) {
+                    this.model.set('editing', false);
+                }
             },
             setup_template_change: function() {
                 this.template = this.possible_templates
