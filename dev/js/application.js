@@ -42,7 +42,7 @@ define([
                     var navView = new site_nav.NavView({
                         model : navModel
                     });
-                    $('#site-nav', this.el).html( navView.render().el );
+                    //$('#site-nav', this.el).html( navView.render().el );
 
                     self.updateLayout();
                 });
@@ -65,7 +65,9 @@ define([
             updateContent: function() {
                var self = this;
                $.when(self.model.get('content_view').render()).done(function() {
-                   $('#main-content', self.el).html( self.model.get('content_view').el );
+                   $('#main-content', self.el).html( 
+                       self.model.get('content_view').el 
+                   );
                });
                //do some logic to show/notshow third/second colums depending on view type
                 // do some shit here to properly render third/second column as well

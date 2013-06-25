@@ -1,2 +1,3 @@
-<img class="asset" id="slug_{slug}" src="{media_base}{data}">
+{keyword}
+<img class="asset" id="slug_{attribute.slug}" src="{media_base}/{attribute.slug}">
 </img>

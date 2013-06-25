@@ -20,8 +20,9 @@ content type:
         {load_asset}
     </div>
 {/master_image}
-{#members}
+{#member_views}
+<h1>lolher</h1>
     <div class="asset" id="asset_{slug}">
             {load_asset}
     </div>
-{/members}
+{/member_views}

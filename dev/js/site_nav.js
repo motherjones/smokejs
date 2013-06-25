@@ -28,10 +28,11 @@ define([
             id: 'site-nav',
             tagName: 'div',
             initialize: function() {
-                this.navCollection = new content.ContentList({
+                return;
+                this.navCollection = new content.ContentListModel({
                     url: env_config.DATA_STORE + '/topnav/' + this.nav,
                 });
-                this.navView = new content.ContentListViewConstructor('topnav', this.navCollection);
+                this.navView = new content.ContentListView(this.navCollection);
 
                 this.tickerCollection = new content.ContentList({
                     url: env_config.DATA_STORE + '/ticker/' + this.ticker,
@@ -40,6 +41,7 @@ define([
             },
 
             render: function() {
+                        return;
                 var that = this;
                 dust.render("site_nav", this.model.attributes, function(err, out) {
                     if (err) {

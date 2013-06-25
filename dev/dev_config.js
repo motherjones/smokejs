@@ -5,7 +5,7 @@
 
     define([], function() {
         return {
-            DATA_STORE : 'http://localhost:8000/api/v1/',
+            DATA_STORE : 'http://localhost:8000',
             MEDIA_STORE : 'http://localhost:8000', // CHANGEME MAKE ME REAL
             ERROR_HANDLER : function(err) { console.log(err); },
         }

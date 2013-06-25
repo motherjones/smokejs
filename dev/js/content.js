@@ -10,101 +10,115 @@
 (function(define) {
 
 define([
-        'underscore',
         'jquery',
-        'backbone',
-        'backbone_tastypie',
+        'api_object',
         'assets',
-        'util',
     ], 
-    function(_, $, Backbone, Tastypie, Assets, util) {
+    function($, APIObject, Asset) {
 
-        var Content = Backbone.Model.extend({
-            initialize: function() {
-                this.url = util.DATA_STORE 
-                        + 'content/' + this.attributes.slug;
-                //this.asset_collection = new Assets.AssetCollection().add(this.assets);
+        var ContentModel = APIObject.APIObjectModel.extend({
+            object_type: 'content',
+            defaults : {
+                context: 'main',
+                editing: false,
             },
         });
 
-        var ContentViewConstructor = function(view_context, model) {
-            switch (view_context)
-            {
-                case 'main_content':
-                    return new MainContentView({
-                        model: model
-                    });
-                case 'right_sidebar':
-                    return new SidebarContentView({
-                        model: model
-                    });
-                case 'edit_content':
-                    return new EditContentView({
-                        model: model
-                    });
-                //more here as we identify other contexts for content
-            };
-        }
+        //this.asset_collection = new Assets.AssetCollection().add(this.assets);
 
-        var BaseContentView = Backbone.View.extend({
-            initialize: function() {
-                this.template =  this.content_type_to_templates[this.model.attributes.spec];
+        var spec_to_templates = {
+            article : {
+                main : {
+                    view: 'main_article',
+                    edit: 'edit_main_article',
+                },
+                sidebar : {
+                    view: 'sidebar_content',
+                    edit: 'edit_sidebar_content',
+                },
+                list :  {
+                    view: 'list_content',
+                    edit: 'edit_list_content',
+                },
+            },
+            photoessay : {
+                main : {
+                    view: 'main_photoessay',
+                    edit: 'edit_main_photoessay',
+                },
+                sidebar : {
+                    view: 'sidebar_content',
+                    edit: 'edit_sidebar_content',
+                },
+                list :  {
+                    view: 'list_content',
+                    edit: 'edit_list_content',
+                },
+            },
+            blog : {
+                main : {
+                    view: 'main_blog',
+                    edit: 'edit_main_blog',
+                },
+                sidebar : {
+                    view: 'sidebar_content',
+                    edit: 'edit_sidebar_content',
+                },
+                list :  {
+                    view: 'list_content',
+                    edit: 'edit_list_content',
+                },
+            },
+        };
+
+        var ContentView = APIObject.APIObjectView.extend({
+            contexts_which_require_assets_loaded: [
+                'main_content',
+            ],
+            post_load: function() {
+                this.possible_templates = spec_to_templates[this.model.get('spec')]
+                this.template = this.possible_templates
+                    [this.model.get('context')]
+                    [this.model.get('editing') ? 'edit' : 'view' ];
                 var content_attributes = this.model.get('attributes');
-                for ( var i = 0; i < content_attributes.length; i++) {
-                    var attribute = content_attributes[i];
-                    this.model.set(attribute.keyword, attribute);
+                for ( var attribute in content_attributes) {
+                    var attributeView = this.create_asset_view(
+                        content_attributes[attribute]
+                    );
+                    this.model.set(attribute, attributeView);
                 }
-            },
 
-            render: function() {
-                return util.render(this); //this returns a promise that on completion, the view.el will have the rendered bit
+                var content_members = this.model.get('members');
+                var member_views = [];
+                for ( var i = 0; i < content_members.length; i++) {
+                    member_views.push(
+                        this.create_asset_view(content_members[i].member)
+                    );
+                }
+                this.model.set('member_views', member_views);
+            },
+            create_asset_view: function(asset_data) {
+                var assetModel = new Asset.AssetModel( asset_data );
+                var assetView = new Asset.AssetView({ model: assetModel });
+                if ( _.contains(
+                        this.contexts_which_require_assets_loaded,
+                        this.model.get('context')
+                    ) 
+                ) {
+                    assetView.load();
+                }
+                return assetView;
             },
         });
-
-        var MainContentView = BaseContentView.extend({
-            content_type_to_templates : {
-                article : 'main_content_article',
-                photoessay : 'main_content_photoessay',
-                page :  'main_content_page',
-                //more here as we get differetn content types that go on the main page
-            },
-        })
-
-        var SidebarContentView = BaseContentView.extend({
-            content_type_to_templates : {
-                article : 'sidebar_content_hed_dek_master',
-                photoessay : 'sidebar_content_hed_dek_master',
-                page :  'sidebar_content_snippet',
-                //more here as we get differetn content types that go in the sidebar
-            },
-        })
-        
-        var EditContentView = BaseContentView.extend({
-            content_type_to_templates : {
-                article : 'edit_article',
-                photoessay : 'edit_photoessay',
-                page :  'edit_page',
-                //more here as we get differetn content types that go in the sidebar
-            },
-        })
 
 //FIXME THIS IS ASS NEED GOOD LIST HANDLING
-        var ContentList = Backbone.Collection.extend({
-            model: Content,
+        var ContentListModel = Backbone.Collection.extend({
+            model: ContentModel,
         });
 
 
-        var ContentListViewConstructor = function(view_context, collection) {
-            //FISXME make this return as appropriate, not this
-            return new ContentListView({ collection: collection });
-            //do things here when I have stuff
-            switch (view_context)
-            {
-                //more here as we identify other contexts for content
-            };
-        }
-
         var ContentListView = Backbone.View.extend({
+            //FIXME this is awful
             render: function(container) {
                 var that = this;
                 this.collection.each(function() {
@@ -130,10 +144,10 @@ define([
         });
 
         return {
-            'Content': Content,
-            'ContentViewConstructor' : ContentViewConstructor,
-            'ContentList': ContentList,
-            'ContentListViewConstructor' : ContentListViewConstructor,
+            'ContentModel': ContentModel,
+            'ContentView' : ContentView,
+            'ContentListModel' : ContentListModel,
+            'ContentListView' : ContentListView,
         };
     }
 );

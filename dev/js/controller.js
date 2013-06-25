@@ -26,15 +26,12 @@ define([
 
             display_main_content : function(slug) {
                 var self = this;
-                var content = new Content.Content({
-                    slug: slug,
+                var content = new Content.ContentModel({
+                    resource_uri : '/api/v1/content/' + slug,
                 })
-                content.fetch()
-                .success(function(model, response, options) {
-                    self.site_state.set({spec : model.spec});
-                    self.site_state.set({
-                        content_view : Content.ContentViewConstructor('main_content', content)
-                    });
+                var content_view = new Content.ContentView({ model: content });
+                self.site_state.set({
+                    content_view : content_view,
                 });
             },
 

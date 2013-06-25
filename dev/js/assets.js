@@ -7,72 +7,78 @@ define([
         'underscore',
         'backbone',
         'jquery',
+        'api_object',
         'env_config',
-        'util',
     ], 
-    function(_, Backbone, $, env_config, util) {
-
-        var Asset = Backbone.Model.extend({
-
-            initialize: function() {
-                this.url = util.DATA_STORE 
-                        + 'asset/' + this.get('slug');
+    function(_, Backbone, $, APIObject, EnvConfig) {
+        
+        var AssetModel = APIObject.APIObjectModel.extend({
+            object_type: 'asset',
+            defaults : {
+                context: 'main_content',
+                editing: false,
             },
         });
 
         var AssetCollection = Backbone.Collection.extend({
-            model: Asset,
-            urlroot: util.DATA_STORE + 'asset/',
+            model: AssetModel,
+            //urlroot: util.DATA_STORE + 'asset/',
         })
 
-        var AssetView = Backbone.View.extend({
-            requires_external_content : [
+        var AssetView = APIObject.APIObjectView.extend({
+            is_text_type : [
                 'text',
                 'html',
                 'md',
             ],
-            render: function() {
+            requires_content_load : [
+                'text',
+                'html',
+                'md',
+            ],
+            possible_templates: {
+                text: {
+                    view: 'asset_text',
+                    edit: 'asset_text_edit',
+                },
+                image: {
+                    view: 'asset_image',
+                    edit: 'asset_image_edit',
+                },
+            },
+            post_load: function() {
                 var self = this;
-
-                if (!this.template) {
-                    this.template = _.contains(
-                            this.requires_external_content,
-                            this.model.get('encoding')
-                    )
-                        ? 'asset_text'
-                        : 'asset_image'
-                    ;
-                }
-
-                if ( _.contains(this.requires_external_content, this.model.get('encoding')) ) {
-                    var promise = $.Deferred();
-
-                    jQuery.ajax({
-                        url: env_config.MEDIA_STORE + this.model.get('data'),
-                        success: function(data) {
+                var promise = $.Deferred();
+                var context = _.contains(
+                    this.is_text_type,
+                    this.model.get('encoding')
+                )
+                    ? 'text'
+                    : 'image'
+                ;
+                this.model.set('context', context);
+                this.template = this.possible_templates
+                    [this.model.get('context')]
+                    [this.model.get('editing') ? 'edit' : 'view' ];
+                if ( _.contains(this.is_text_type, this.model.get('encoding')) ) {
+                    //FIXME probably doesn'/t point to realy data store right now
+                    console.log(this.model.get('data_url'));
+                    jQuery.get(EnvConfig.MEDIA_STORE + this.model.get('data_url'))
+                        .success(function(data) {
                             self.model.set('content', data);
-                            $.when(
-                                util.render(self)
-                            ).done(function() {
-                                promise.resolve();
-                            });
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            env_config.ERROR_HANDLER('Failed to load external content: ' + err);
-                            promise.resolve();
-                        }
-                    });
-
-                    return promise;
-
+                            console.log(data);
+                            promise.resolve()
+                        });
                 } else {
-                    return util.render(this); //this returns a promise that on completion, the view.el will have the rendered bit
+                    promise.resolve()
                 }
+                return promise;
+
             },
         });
 
         return {
-            Asset: Asset,
+            AssetModel: AssetModel,
             AssetView: AssetView,
             AssetCollection: AssetCollection,
         };
