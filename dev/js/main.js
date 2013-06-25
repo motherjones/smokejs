@@ -8,10 +8,10 @@
 'use strict';
 
 require([
-        'controller',
+        'router',
         'application',
     ], 
-    function(Controller, Application) {
+    function(Router, Application) {
 
         //FIXME do some figuring here, see what initial site state should be
         var site_state = new Application.SiteState();
@@ -27,7 +27,7 @@ require([
             site_view.updateLayout();
         });
 
-        var router = new Controller.Router({
+        var router = new Router.Router({
             site_state: site_state,
         });
 
