@@ -1,5 +1,0 @@
-
-    <img src="{media_base}{data}"/>
-    <p class="byline">
-        {metadata.byline}
-    </p>

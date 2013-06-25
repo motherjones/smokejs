@@ -1,5 +1,0 @@
-<div>
-    {slug}
-    {data}
-    <img src="{media_base}{attribute.slug}"/>
-</div>
