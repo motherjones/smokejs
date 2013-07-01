@@ -1,3 +1,8 @@
+# oh sweet jesus don't use me i'm very much in a state of development
+
+
+
+
 # smoke
 
 A new front end for MotherJones
@@ -5,7 +10,7 @@ A new front end for MotherJones
 ## Getting Started
 Download the [production version][min] or the [development version][max].
 
-[min]: https://raw.github.com/motherjones/smoke/master/demo/js/smoke.min.js
+[min]: https://raw.github.com/motherjones/smoke/master/prod/js/smoke.min.js
 [max]: https://raw.github.com/motherjones/smoke/master/dev/js/smoke.js
 
 In your web page:
