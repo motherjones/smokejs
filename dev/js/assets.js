@@ -27,23 +27,23 @@ define([
 
         var AssetView = APIObject.APIObjectView.extend({
             is_text_type : [
-                'text',
-                'html',
-                'md',
+                '.text',
+                '.html',
+                '.md',
             ],
             requires_content_load : [
-                'text',
-                'html',
-                'md',
+                '.text',
+                '.html',
+                '.md',
             ],
             possible_templates: {
                 text: {
                     view: 'asset_text',
-                    edit: 'asset_text_edit',
+                    edit: 'asset_text.edit',
                 },
                 image: {
                     view: 'asset_image',
-                    edit: 'asset_image_edit',
+                    edit: 'asset_image.edit',
                 },
             },
             post_load: function() {
@@ -62,14 +62,13 @@ define([
                     [this.model.get('editing') ? 'edit' : 'view' ];
                 if ( _.contains(this.is_text_type, this.model.get('encoding')) ) {
                     //FIXME probably doesn'/t point to realy data store right now
-                    console.log(this.model.get('data_url'));
                     jQuery.get(EnvConfig.MEDIA_STORE + this.model.get('data_url'))
                         .success(function(data) {
                             self.model.set('content', data);
-                            console.log(data);
                             promise.resolve()
                         });
                 } else {
+                    console.log(this.model);
                     promise.resolve()
                 }
                 return promise;

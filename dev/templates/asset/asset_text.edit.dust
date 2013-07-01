@@ -1,0 +1,6 @@
+<form>
+    <textarea name="text_edit_{slug}">
+        {content|s}
+    </textarea>
+    <input type="submit" />
+</form>

@@ -15,13 +15,12 @@ content type:
 {spec}
 </p>
 
-{#master_image}
+{#master}
     <div class="master_image" id="asset_{slug}">
         {load_asset}
     </div>
-{/master_image}
+{/master}
 {#member_views}
-<h1>lolher</h1>
     <div class="asset" id="asset_{slug}">
             {load_asset}
     </div>

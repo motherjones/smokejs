@@ -30,43 +30,43 @@ define([
             article : {
                 main : {
                     view: 'main_article',
-                    edit: 'edit_main_article',
+                    edit: 'main_article.edit',
                 },
                 sidebar : {
                     view: 'sidebar_content',
-                    edit: 'edit_sidebar_content',
+                    edit: 'sidebar_content.edit',
                 },
                 list :  {
                     view: 'list_content',
-                    edit: 'edit_list_content',
+                    edit: 'list_content.edit',
                 },
             },
             photoessay : {
                 main : {
                     view: 'main_photoessay',
-                    edit: 'edit_main_photoessay',
+                    edit: 'main_photoessay.edit',
                 },
                 sidebar : {
                     view: 'sidebar_content',
-                    edit: 'edit_sidebar_content',
+                    edit: 'sidebar_content.edit',
                 },
                 list :  {
                     view: 'list_content',
-                    edit: 'edit_list_content',
+                    edit: 'list_content.edit',
                 },
             },
             blog : {
                 main : {
                     view: 'main_blog',
-                    edit: 'edit_main_blog',
+                    edit: 'main_blog.edit',
                 },
                 sidebar : {
                     view: 'sidebar_content',
-                    edit: 'edit_sidebar_content',
+                    edit: 'sidebar_content.edit',
                 },
                 list :  {
                     view: 'list_content',
-                    edit: 'edit_list_content',
+                    edit: 'list_content.edit',
                 },
             },
         };
@@ -75,6 +75,17 @@ define([
             contexts_which_require_assets_loaded: [
                 'main_content',
             ],
+            child_assets_editing: function(editing) { 
+                var content_attributes = this.model.get('attributes');
+                for (var attribute in content_attributes) {
+                    var attributeView = this.model.get(attribute);
+                    attributeView.model.set('editing', editing);
+                }
+                var member_views = this.model.get('member_views');
+                for (var i = 0; i < member_views.length; i++) {
+                    member_views[i].model.set('editing', editing);
+                }
+            },
             post_load: function() {
                 this.possible_templates = spec_to_templates[this.model.get('spec')]
                 this.template = this.possible_templates
@@ -86,6 +97,7 @@ define([
                         content_attributes[attribute]
                     );
                     this.model.set(attribute, attributeView);
+                    console.log(attributeView);
                 }
 
                 var content_members = this.model.get('members');

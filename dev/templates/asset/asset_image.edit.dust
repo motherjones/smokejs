@@ -1,0 +1,10 @@
+{keyword}
+{media_base}
+<img class="asset preview" id="slug_{attribute.slug}" src="{media_base}/{attribute.data_url}">
+</img>
+<form>
+    <label for="file_upload_{slug}">
+    <input type="file" name="file_upload_{slug}" accept="image/*" />
+    <input type="submit" />
+</form>
+

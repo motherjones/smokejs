@@ -16,7 +16,8 @@ define([
         var APIObjectModel = Backbone.Model.extend({
             initialize: function() {
                 this.url = env_config.DATA_STORE +
-                    this.id;
+                    this.object_type +
+                    '/' + arguments[0].id;
             },
             object_type: 'object',
             defaults : {
@@ -39,7 +40,7 @@ define([
             },
             auth_check: function() {
                             //FIXME check against object type maybe?
-                if (!Auth.is_editor()) {
+                if (!Auth.model.get('can_edit')) {
                     this.model.set('editing', false);
                 }
             },
@@ -110,8 +111,10 @@ define([
                         $.when( self.post_load() )
                             .done( self.loaded.resolve );
                     },
-                    error : function() {
+                    error : function(err) {
                         env_config.ERROR_HANDLER(err);
+                        $.when( self.post_load() )
+                            .done( self.loaded.resolve );
                     },
                 });
                 return this.loaded;

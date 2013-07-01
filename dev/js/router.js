@@ -27,7 +27,7 @@ define([
             display_main_content : function(slug) {
                 var self = this;
                 var content = new Content.ContentModel({
-                    resource_uri : '/api/v1/content/' + slug,
+                    id :  slug,
                 })
                 var content_view = new Content.ContentView({ model: content });
                 self.site_state.set({
@@ -38,7 +38,7 @@ define([
             display_asset : function(slug) {
                 var that = this;
                 var assetModel = new Asset.Asset({
-                    'slug': slug,
+                    'id': slug,
                 })
 
                 var assetView = new Asset.AssetView({
@@ -47,19 +47,21 @@ define([
 
                 assetView.render();
             },
-            //FIXME move edit elsewhere
             edit_content : function(slug) {
                 var self = this;
-                var content = new Content.Content({
-                    slug: slug,
+                var content = new Content.ContentModel({
+                    id : slug,
                 })
-                content.fetch()
-                .success(function(model, response, options) {
-                    self.site_state.set({spec : 'page'});
-                    self.site_state.set({
-                        content_view : Content.ContentViewConstructor('edit_content', content)
+                var content_view = new Content.ContentView({model : content});
+                $.when( content_view.load() )
+                    .done(function() {
+                        content.set('editing', true);
+                        content_view.child_assets_editing(true);
+                        self.site_state.set({spec : 'page'});
+                        self.site_state.set({
+                                content_view : content_view
+                        });
                     });
-                });
             },
 
         });
