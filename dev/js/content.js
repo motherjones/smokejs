@@ -13,11 +13,12 @@ define([
         'jquery',
         'api_object',
         'assets',
+        'env_config',
     ], 
-    function($, APIObject, Asset) {
+    function($, APIObject, Asset, EnvConfig) {
 
         var ContentModel = APIObject.APIObjectModel.extend({
-            object_type: 'content',
+            urlRoot: EnvConfig.DATA_STORE + 'content',
             defaults : {
                 context: 'main',
                 editing: false,
@@ -76,16 +77,17 @@ define([
                 'main_content',
             ],
             child_assets_editing: function(editing) { 
-                var content_attributes = this.model.get('attributes');
-                for (var attribute in content_attributes) {
-                    var attributeView = this.model.get(attribute);
+                for (var attribute in this.attribute_views) {
+                    var attributeView = this.attribute_views[attribute];
                     attributeView.model.set('editing', editing);
                 }
                 var member_views = this.model.get('member_views');
-                for (var i = 0; i < member_views.length; i++) {
-                    member_views[i].model.set('editing', editing);
+                for (var i = 0; i < this.member_views.length; i++) {
+                    this.member_views[i].model.set('editing', editing);
                 }
             },
+            member_views : [],
+            attribute_views: {},
             post_load: function() {
                 this.possible_templates = spec_to_templates[this.model.get('spec')]
                 this.template = this.possible_templates
@@ -94,22 +96,29 @@ define([
                 var content_attributes = this.model.get('attributes');
                 for ( var attribute in content_attributes) {
                     var attributeView = this.create_asset_view(
-                        content_attributes[attribute]
+                        content_attributes[attribute].attribute
                     );
-                    this.model.set(attribute, attributeView);
-                    console.log(attributeView);
+                    this.attribute_views[attribute] = attributeView;
                 }
 
                 var content_members = this.model.get('members');
-                var member_views = [];
                 for ( var i = 0; i < content_members.length; i++) {
-                    member_views.push(
+                    this.member_views.push(
                         this.create_asset_view(content_members[i].member)
                     );
                 }
-                this.model.set('member_views', member_views);
+            },
+            process_form: function() {
+                this.model.set('things', 'stuff');
+                return;
+                console.log('fixme, serialize and return form vals');
+            },
+            set_form: function() {
+                this.form = $('form', this.$el);
             },
             create_asset_view: function(asset_data) {
+               //FIXME ask real nice if we cna not have resource uri on here
+               delete asset_data.resource_uri;
                 var assetModel = new Asset.AssetModel( asset_data );
                 var assetView = new Asset.AssetView({ model: assetModel });
                 if ( _.contains(

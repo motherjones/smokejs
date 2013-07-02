@@ -1,5 +1,6 @@
 /*global define */
 'use strict';
+//FIXME make asset views return a subclass depending on if is text or image
 
 (function(define) {
 
@@ -13,7 +14,7 @@ define([
     function(_, Backbone, $, APIObject, EnvConfig) {
         
         var AssetModel = APIObject.APIObjectModel.extend({
-            object_type: 'asset',
+            urlRoot: EnvConfig.DATA_STORE + 'asset',
             defaults : {
                 context: 'main_content',
                 editing: false,
@@ -46,6 +47,21 @@ define([
                     edit: 'asset_image.edit',
                 },
             },
+            process_form: function() {
+                return { metadata: {'things': 'stuff'} };
+                /* ugh file stuff
+                if (this.model.get('context') === 'text') {
+                    var text = $('.editable', this.$el).html();
+                    return { data: text };
+                } else if (this.model.get('context') === 'image') {
+                    var image = $(':file', this.$el)[0].files[0];
+                    return { data: image };
+                }
+                */
+            },
+            set_form: function() {
+                this.form = $('form', this.$el);
+            },
             post_load: function() {
                 var self = this;
                 var promise = $.Deferred();
@@ -64,11 +80,10 @@ define([
                     //FIXME probably doesn'/t point to realy data store right now
                     jQuery.get(EnvConfig.MEDIA_STORE + this.model.get('data_url'))
                         .success(function(data) {
-                            self.model.set('content', data);
+                            self.model.set('data', data);
                             promise.resolve()
                         });
                 } else {
-                    console.log(this.model);
                     promise.resolve()
                 }
                 return promise;

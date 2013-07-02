@@ -14,12 +14,6 @@ define([
     function(_, $, Backbone, Tastypie, env_config, Auth) {
 
         var APIObjectModel = Backbone.Model.extend({
-            initialize: function() {
-                this.url = env_config.DATA_STORE +
-                    this.object_type +
-                    '/' + arguments[0].id;
-            },
-            object_type: 'object',
             defaults : {
                 context: '*',
                 editing: false,
@@ -44,6 +38,16 @@ define([
                     this.model.set('editing', false);
                 }
             },
+            get_$el: function() {
+                if (!this.$el) {
+                    this.$el = $(
+                        '#' + 
+                        this.model.get('object_type') +
+                        this.model.get('slug')
+                    );
+                }
+                return this.$el;
+            },
             setup_template_change: function() {
                 this.template = this.possible_templates
                     [this.model.get('context')]
@@ -64,11 +68,29 @@ define([
                     media_base : env_config.MEDIA_STORE,
                     load_asset: function(chunk, context, bodies, params) {
                         var asset = context.stack.head;
+                        var asset_view;
+                        if (asset.member) {
+                            for (var i = 0; i < self.member_views.length; i++) {
+                                if (self.member_views[i].model.get('slug') === asset.member.slug) {
+                                    asset_view = self.member_views[i];
+                                    console.log('found it');
+                                    break;
+                                }
+                            }
+                        } else {
+                            asset_view = self.attribute_views[asset.keyword];
+
+                        }
                         return chunk.map(function(chunk) {
                             $.when(
-                                asset.render()
+                                asset_view.render()
                             ).done(function() {
-                                chunk.end(asset.el);
+                                var asset_id = 'asset_' + asset_view.model.get('slug');
+                                $.when(promise).done(function() {
+                                    $('#' + asset_id, self.$el).append(asset_view.$el);
+                                });
+                                chunk.end('<div id="asset_' + asset_view.model.get('slug') + '"></div>');
+                                //chunk.end(asset_view.el);
                             });
                         });
                     },
@@ -84,12 +106,23 @@ define([
                                 //throw error
                                 env_config.ERROR_HANDLER(err);
                             } else {
-                                self.$el = self.el = out;
+
+                                self.el = out;
+                                self.$el = $('<div></div>');
+                                self.$el.html(self.el);
+                                if (self.model.get('editing')) {
+                                    self.set_form();
+                                }
                                 promise.resolve();
                             }
                         }
                     );
                 });
+                if (this.model.get('editing')) { 
+                    $.when(promise).done(function() {
+                        self.set_editing_events();
+                    })
+                }
                 return promise;
             },
             load: function() {
@@ -108,6 +141,8 @@ define([
                 }
                 this.model.fetch({
                     success : function() {
+                       //FIXME ask real nice if we cna not have resource uri on here
+                       self.model.unset('resource_uri');
                         $.when( self.post_load() )
                             .done( self.loaded.resolve );
                     },
@@ -120,6 +155,57 @@ define([
                 return this.loaded;
             },
             post_load: function() { return new $.Deferred.resolve(); },
+            post_to_mirrors: function() {
+                var self = this;
+                var promise = $.Deferred();
+                this.$el.addClass('disabled');
+                $.when( promise ).done(function() {
+                    self.$el.removeClass('disabled');
+                })
+
+                this.process_form();
+                this.model.save(
+                    //this.process_form(),
+                    {
+                        //patch: true,
+                        success: function() {
+                            promise.resolve();
+                        },
+                        error: function() {
+                            env_config.ERROR_HANDLER(arguments);
+                            promise.resolve();
+                        },
+                    }
+                );
+
+            },
+            set_editing_events: function() {
+                var self = this;
+                if (!this.model.get('editing')) { 
+                    return; 
+                };
+                $('input[type="submit"]', this.form).attr('disabled', 'disabled');
+                var submit_enabled = false;
+                $('.editable', this.form).change(function() {
+                    if (!submit_enabled) {
+                        submit_enabled = true;
+                        $('input[type="submit"]', self.form).attr('disabled', false);
+                    }
+                    //this is the element here, fyi
+                    //self.model.set('content', this.val());
+                    // save to local storage at this point too maybe
+                });
+                this.form.submit(function() {
+                    self.post_to_mirrors();
+                    return false;
+                });
+                /*
+                $('input[type="submit"]', this.form).click(function() {
+                    self.form.submit
+                });
+                */
+            },
+                        
         });
 
         return {

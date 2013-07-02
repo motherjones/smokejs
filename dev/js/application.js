@@ -65,8 +65,8 @@ define([
             updateContent: function() {
                var self = this;
                $.when(self.model.get('content_view').render()).done(function() {
-                   $('#main-content', self.el).html( 
-                       self.model.get('content_view').el 
+                   $('#main-content', self.el).append( 
+                       self.model.get('content_view').$el 
                    );
                });
                //do some logic to show/notshow third/second colums depending on view type

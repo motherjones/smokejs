@@ -21,13 +21,13 @@ define([
                 "article/:slug" : "display_main_content",
                 "asset/:slug" : "display_asset",
                 //FIXME move edit elsewhere
-                "edit/:slug" : "edit_content",
+                "edit/article/:slug" : "edit_content",
             },
 
             display_main_content : function(slug) {
                 var self = this;
                 var content = new Content.ContentModel({
-                    id :  slug,
+                    id: slug,
                 })
                 var content_view = new Content.ContentView({ model: content });
                 self.site_state.set({
@@ -38,7 +38,7 @@ define([
             display_asset : function(slug) {
                 var that = this;
                 var assetModel = new Asset.Asset({
-                    'id': slug,
+                    id: slug,
                 })
 
                 var assetView = new Asset.AssetView({
@@ -50,12 +50,13 @@ define([
             edit_content : function(slug) {
                 var self = this;
                 var content = new Content.ContentModel({
-                    id : slug,
+                    id: slug,
+                    editing: true,
                 })
                 var content_view = new Content.ContentView({model : content});
                 $.when( content_view.load() )
                     .done(function() {
-                        content.set('editing', true);
+                        content_view.model.set('editing', true);
                         content_view.child_assets_editing(true);
                         self.site_state.set({spec : 'page'});
                         self.site_state.set({

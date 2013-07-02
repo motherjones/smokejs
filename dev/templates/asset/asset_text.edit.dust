@@ -1,6 +1,6 @@
 <form>
-    <textarea name="text_edit_{slug}">
-        {content|s}
+    <textarea  class="editable" name="text_edit_{slug}">
+        {data|s}
     </textarea>
     <input type="submit" />
 </form>
