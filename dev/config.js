@@ -4,6 +4,10 @@ require.config({
         underscore: 'libs/underscore-min',
         backbone: 'libs/backbone-min',
         dust: 'libs/dust-full-1.2.3.min',
+/*
+        hallo: 'libs/hallo',
+        rangy: 'libs/rangy-core-1.2.3',
+        */
         application: 'application',
         templates: 'templates',
         backbone_tastypie: 'libs/backbone-tastypie',
@@ -22,9 +26,12 @@ require.config({
                 require(['backbone_tastypie']);
             },
         },
-        'blowfish' : {
-            exports: "Blowfish",
+        /*
+        'hallo': {
+            deps: ['jquery', 'rangy',],
+            attach: 'jQuery',
         },
+        */
         'underscore': {
             exports: '_',
         },
