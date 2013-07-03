@@ -164,7 +164,9 @@ define([
                 })
 
                 this.process_form();
-                this.model.save(
+                //Backbone.emulateJSON = true;
+                this.model.url = this.model.urlRoot + '/';
+                this.model.save({ 'test': 'testing' },
                     //this.process_form(),
                     {
                         //patch: true,
