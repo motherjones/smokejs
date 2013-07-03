@@ -22,6 +22,7 @@ define([
                 "asset/:slug" : "display_asset",
                 //FIXME move edit elsewhere
                 "edit/article/:slug" : "edit_content",
+                "new/:spec" : "create_content",
             },
 
             display_main_content : function(slug) {
@@ -46,6 +47,27 @@ define([
                 });
 
                 assetView.render();
+            },
+            create_content: function(spec) {
+                var content = new Content.ContentModel({
+                    id: '',
+                    editing: true,
+                    spec: spec,
+                    attributes: {
+                        master: {
+                            attribute: {
+                                data_url : '',// FIXME point this at a mj image
+                                id: '',
+                                editing: true,
+                            },
+                            keyword: 'master',
+                        },
+                    },
+                })
+                var content_view = new Content.ContentView({model : content});
+                this.site_state.set({
+                    content_view : content_view,
+                });
             },
             edit_content : function(slug) {
                 var self = this;

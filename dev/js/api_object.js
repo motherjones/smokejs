@@ -67,6 +67,7 @@ define([
                 var dustbase = dust.makeBase({
                     media_base : env_config.MEDIA_STORE,
                     load_asset: function(chunk, context, bodies, params) {
+                        console.log('here');
                         var asset = context.stack.head;
                         var asset_view;
                         if (asset.member) {
@@ -78,8 +79,9 @@ define([
                                 }
                             }
                         } else {
+                            console.log(self.attribute_views)
+                            console.log(asset)
                             asset_view = self.attribute_views[asset.keyword];
-
                         }
                         return chunk.map(function(chunk) {
                             $.when(
@@ -126,6 +128,11 @@ define([
                 return promise;
             },
             load: function() {
+                if (!this.model.get('id')) { //no id, must be new
+                    $.when( this.post_load() )
+                        .done( this.loaded.resolve );
+                    return;
+                }
                 //FIXME WHY IS THIS BEING CALLED W/O A MODEL?
                 if (!this.model) { 
                     return;
@@ -165,20 +172,7 @@ define([
 
                 this.process_form();
                 //Backbone.emulateJSON = true;
-                this.model.url = this.model.urlRoot + '/';
-                this.model.save({ 'test': 'testing' },
-                    //this.process_form(),
-                    {
-                        //patch: true,
-                        success: function() {
-                            promise.resolve();
-                        },
-                        error: function() {
-                            env_config.ERROR_HANDLER(arguments);
-                            promise.resolve();
-                        },
-                    }
-                );
+                this.model.save(                );
 
             },
             set_editing_events: function() {

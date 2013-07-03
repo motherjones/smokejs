@@ -101,7 +101,7 @@ define([
                     this.attribute_views[attribute] = attributeView;
                 }
 
-                var content_members = this.model.get('members');
+                var content_members = this.model.get('members') || [];
                 for ( var i = 0; i < content_members.length; i++) {
                     this.member_views.push(
                         this.create_asset_view(content_members[i].member)
@@ -118,7 +118,9 @@ define([
             },
             create_asset_view: function(asset_data) {
                //FIXME ask real nice if we cna not have resource uri on here
-               delete asset_data.resource_uri;
+               if (asset_data.resource_uri) {
+                   delete asset_data.resource_uri;
+               }
                 var assetModel = new Asset.AssetModel( asset_data );
                 var assetView = new Asset.AssetView({ model: assetModel });
                 if ( _.contains(
