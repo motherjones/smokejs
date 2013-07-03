@@ -11,11 +11,13 @@
 
 define([
         'jquery',
+        'underscore',
+        'backbone',
         'api_object',
         'assets',
         'env_config',
     ], 
-    function($, APIObject, Asset, EnvConfig) {
+    function($, _, Backbone, APIObject, Asset, EnvConfig) {
 
         var ContentModel = APIObject.APIObjectModel.extend({
             urlRoot: EnvConfig.DATA_STORE + 'content',
@@ -81,7 +83,6 @@ define([
                     var attributeView = this.attribute_views[attribute];
                     attributeView.model.set('editing', editing);
                 }
-                var member_views = this.model.get('member_views');
                 for (var i = 0; i < this.member_views.length; i++) {
                     this.member_views[i].model.set('editing', editing);
                 }
@@ -89,7 +90,9 @@ define([
             member_views : [],
             attribute_views: {},
             post_load: function() {
-                this.possible_templates = spec_to_templates[this.model.get('spec')]
+                this.possible_templates = spec_to_templates[
+                    this.model.get('spec')
+                ];
                 this.template = this.possible_templates
                     [this.model.get('context')]
                     [this.model.get('editing') ? 'edit' : 'view' ];
@@ -109,9 +112,8 @@ define([
                 }
             },
             process_form: function() {
-                this.model.set('things', 'stuff');
-                return;
                 console.log('fixme, serialize and return form vals');
+                return;
             },
             set_form: function() {
                 this.form = $('form', this.$el);
@@ -142,11 +144,11 @@ define([
 
         var ContentListView = Backbone.View.extend({
             //FIXME this is awful
-            render: function(container) {
-                var that = this;
-                this.collection.each(function() {
+            //render: function(container) {
+                //var that = this;
+                //this.collection.each(function() {
                     //make model, put in view, render, append to that.$el
-                })
+                //})
                 /*
                 dust.render(
                     'content_list',
@@ -160,9 +162,9 @@ define([
                         }
                     }
                 );
-                */
                 return this;
             },
+                */
 
         });
 

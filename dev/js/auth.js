@@ -37,7 +37,7 @@ define([
                  // make login form
             }
         });
-        var auth_model = new AuthModel;
+        var auth_model = new AuthModel();
         var auth_view = new AuthView({ model: auth_model });
 
         return auth_view;

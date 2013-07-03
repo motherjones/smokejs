@@ -8,10 +8,11 @@ define([
         'jquery',
         'backbone',
         'backbone_tastypie',
+        'dust',
         'env_config',
         'auth',
     ], 
-    function(_, $, Backbone, Tastypie, env_config, Auth) {
+    function(_, $, Backbone, Tastypie, dust, env_config, Auth) {
 
         var APIObjectModel = Backbone.Model.extend({
             defaults : {
@@ -67,20 +68,16 @@ define([
                 var dustbase = dust.makeBase({
                     media_base : env_config.MEDIA_STORE,
                     load_asset: function(chunk, context, bodies, params) {
-                        console.log('here');
                         var asset = context.stack.head;
                         var asset_view;
                         if (asset.member) {
                             for (var i = 0; i < self.member_views.length; i++) {
                                 if (self.member_views[i].model.get('slug') === asset.member.slug) {
                                     asset_view = self.member_views[i];
-                                    console.log('found it');
                                     break;
                                 }
                             }
                         } else {
-                            console.log(self.attribute_views)
-                            console.log(asset)
                             asset_view = self.attribute_views[asset.keyword];
                         }
                         return chunk.map(function(chunk) {
@@ -123,7 +120,7 @@ define([
                 if (this.model.get('editing')) { 
                     $.when(promise).done(function() {
                         self.set_editing_events();
-                    })
+                    });
                 }
                 return promise;
             },
@@ -168,18 +165,18 @@ define([
                 this.$el.addClass('disabled');
                 $.when( promise ).done(function() {
                     self.$el.removeClass('disabled');
-                })
+                });
 
                 this.process_form();
                 //Backbone.emulateJSON = true;
-                this.model.save(                );
+                this.model.save();
 
             },
             set_editing_events: function() {
                 var self = this;
                 if (!this.model.get('editing')) { 
                     return; 
-                };
+                }
                 $('input[type="submit"]', this.form).attr('disabled', 'disabled');
                 var submit_enabled = false;
                 $('.editable', this.form).change(function() {

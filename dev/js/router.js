@@ -8,9 +8,8 @@ define([
         'backbone',
         'content',
         'assets',
-        'env_config',
     ], 
-    function(_, Backbone, Content, Asset, env_config) {
+    function(_, Backbone, Content, Asset) {
         var Router = Backbone.Router.extend({
 
             initialize: function(options) {
@@ -29,7 +28,7 @@ define([
                 var self = this;
                 var content = new Content.ContentModel({
                     id: slug,
-                })
+                });
                 var content_view = new Content.ContentView({ model: content });
                 self.site_state.set({
                     content_view : content_view,
@@ -37,10 +36,9 @@ define([
             },
 
             display_asset : function(slug) {
-                var that = this;
                 var assetModel = new Asset.Asset({
                     id: slug,
-                })
+                });
 
                 var assetView = new Asset.AssetView({
                     model: assetModel
@@ -63,7 +61,7 @@ define([
                             keyword: 'master',
                         },
                     },
-                })
+                });
                 var content_view = new Content.ContentView({model : content});
                 this.site_state.set({
                     content_view : content_view,
@@ -74,7 +72,7 @@ define([
                 var content = new Content.ContentModel({
                     id: slug,
                     editing: true,
-                })
+                });
                 var content_view = new Content.ContentView({model : content});
                 $.when( content_view.load() )
                     .done(function() {

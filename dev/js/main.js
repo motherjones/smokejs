@@ -10,8 +10,9 @@
 require([
         'router',
         'application',
+        'backbone'
     ], 
-    function(Router, Application) {
+    function(Router, Application, Backbone) {
 
         //FIXME do some figuring here, see what initial site state should be
         var site_state = new Application.SiteState();

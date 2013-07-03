@@ -24,7 +24,7 @@ define([
         var AssetCollection = Backbone.Collection.extend({
             model: AssetModel,
             //urlroot: util.DATA_STORE + 'asset/',
-        })
+        });
 
         var AssetView = APIObject.APIObjectView.extend({
             is_text_type : [
@@ -68,10 +68,7 @@ define([
                 var context = _.contains(
                     this.is_text_type,
                     this.model.get('encoding')
-                )
-                    ? 'text'
-                    : 'image'
-                ;
+                ) ? 'text' : 'image';
                 this.model.set('context', context);
                 this.template = this.possible_templates
                     [this.model.get('context')]
@@ -81,10 +78,10 @@ define([
                     jQuery.get(EnvConfig.MEDIA_STORE + this.model.get('data_url'))
                         .success(function(data) {
                             self.model.set('data', data);
-                            promise.resolve()
+                            promise.resolve();
                         });
                 } else {
-                    promise.resolve()
+                    promise.resolve();
                 }
                 return promise;
 

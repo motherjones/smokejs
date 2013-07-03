@@ -60,7 +60,7 @@ define([
                             $('#content', self.el).html( out );
                         }
                     }
-                )
+                );
             },
             updateContent: function() {
                var self = this;
@@ -79,7 +79,7 @@ define([
         var auth = function(role) {
             //FIXME do some auth here
             return true;
-        }
+        };
 
         return {
             'SiteView': SiteView,
