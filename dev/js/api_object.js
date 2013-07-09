@@ -16,7 +16,7 @@ define([
 
         var APIObjectModel = Backbone.Model.extend({
             defaults : {
-                context: '*',
+                context: '*', // This needs to be overwritten by asset/content
                 editing: false,
             },
         });
@@ -111,8 +111,8 @@ define([
                                 if (self.model.get('editing')) {
                                     self.set_form();
                                 }
-                                promise.resolve();
                             }
+                            promise.resolve();
                         }
                     );
                 });
@@ -129,19 +129,16 @@ define([
                         .done( this.loaded.resolve );
                     return;
                 }
-                //FIXME WHY IS THIS BEING CALLED W/O A MODEL?
-                if (!this.model) { 
-                    return;
-                }
-                var self = this;
-                //FIXME maybe not assume?
-                if (this.loaded.state()) { //already has a promise, is being loaded
+
+                if (this.loaded && this.loaded.state()) { //already has a promise, is being loaded
                     return this.loaded;
                 }
                 if (false) { //FIXME test if local storage of this exists
                     //fill model from local storage
                     return this.loaded;
                 }
+
+                var self = this;
                 this.loaded = new $.Deferred();
                 this.model.fetch({
                     success : function() {
