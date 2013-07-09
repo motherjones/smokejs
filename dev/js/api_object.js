@@ -19,6 +19,10 @@ define([
                 context: '*', // This needs to be overwritten by asset/content
                 editing: false,
             },
+            blacklist: [],
+            toJSON: function(options) {
+                return _.omit(this.attributes, this.blacklist);
+            }
         });
 
         var APIObjectView = Backbone.View.extend({
@@ -156,7 +160,7 @@ define([
                 return this.loaded;
             },
             post_load: function() { return new $.Deferred.resolve(); },
-            post_to_mirrors: function() {
+            post_to_mirrors: function(e) {
                 var self = this;
                 var promise = $.Deferred();
                 this.$el.addClass('disabled');
@@ -167,7 +171,6 @@ define([
                 this.process_form();
                 //Backbone.emulateJSON = true;
                 this.model.save();
-
             },
             set_editing_events: function() {
                 var self = this;
@@ -185,7 +188,8 @@ define([
                     //self.model.set('content', this.val());
                     // save to local storage at this point too maybe
                 });
-                this.form.submit(function() {
+                this.form.submit(function(e) {
+                    e.preventDefault();
                     self.post_to_mirrors();
                     return false;
                 });

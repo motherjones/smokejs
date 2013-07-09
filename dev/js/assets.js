@@ -19,6 +19,7 @@ define([
                 context: 'main_content',
                 editing: false,
             },
+            blacklist: ['data_url', 'created', 'updated', 'id', 'context', 'editing']
         });
 
         var AssetCollection = Backbone.Collection.extend({
@@ -48,16 +49,14 @@ define([
                 },
             },
             process_form: function() {
-                return { metadata: {'things': 'stuff'} };
-                /* ugh file stuff
                 if (this.model.get('context') === 'text') {
                     var text = $('.editable', this.$el).html();
                     return { data: text };
                 } else if (this.model.get('context') === 'image') {
                     var image = $(':file', this.$el)[0].files[0];
-                    return { data: image };
+                    console.log(image);
+                    this.model.set('data', image.getAsDataURL())
                 }
-                */
             },
             set_form: function() {
                 this.form = $('form', this.$el);
