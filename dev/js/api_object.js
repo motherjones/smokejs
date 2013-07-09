@@ -30,7 +30,6 @@ define([
                 },
             },
             initialize: function() {
-                this.loaded = new $.Deferred();
                 this.model.on('change:editing', this.auth_check);
             },
             auth_check: function() {
@@ -136,13 +135,14 @@ define([
                 }
                 var self = this;
                 //FIXME maybe not assume?
-                if (this.loaded.state() === 'resolved') {
+                if (this.loaded.state()) { //already has a promise, is being loaded
                     return this.loaded;
                 }
                 if (false) { //FIXME test if local storage of this exists
                     //fill model from local storage
                     return this.loaded;
                 }
+                this.loaded = new $.Deferred();
                 this.model.fetch({
                     success : function() {
                        //FIXME ask real nice if we cna not have resource uri on here
