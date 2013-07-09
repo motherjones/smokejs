@@ -15,7 +15,7 @@ define([
 
         var APIObjectModel = Backbone.Model.extend({
             defaults : {
-                context: '*',
+                context: '*', // This needs to be overwritten by asset/content
                 editing: false,
             },
         });
@@ -113,8 +113,8 @@ define([
                                 if (self.model.get('editing')) {
                                     self.set_form();
                                 }
-                                promise.resolve();
                             }
+                            promise.resolve();
                         }
                     );
                 });
@@ -126,10 +126,6 @@ define([
                 return promise;
             },
             load: function() {
-                //FIXME WHY IS THIS BEING CALLED W/O A MODEL?
-                if (!this.model) { 
-                    return;
-                }
                 var self = this;
                 //FIXME maybe not assume?
                 if (this.loaded.state() === 'resolved') {
