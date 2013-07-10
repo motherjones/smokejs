@@ -147,7 +147,7 @@ define([
                 this.model.fetch({
                     success : function() {
                        //FIXME ask real nice if we cna not have resource uri on here
-                       self.model.unset('resource_uri');
+                       self.model.set('resource_uri',  env_config.DATA_STORE + self.model.get('resource_uri').replace('/api/v1/', ''));
                         $.when( self.post_load() )
                             .done( self.loaded.resolve );
                     },
@@ -162,15 +162,22 @@ define([
             post_load: function() { return new $.Deferred.resolve(); },
             post_to_mirrors: function(e) {
                 var self = this;
+                // make asset look like it's doing something till it's done
                 var promise = $.Deferred();
                 this.$el.addClass('disabled');
+
+                $.when( this.process_form() )
+                    .done( function() {
+                        self.model.save();
+                        //FIXME put this resolve in the save callback
+                        promise.resolve();
+                    });
+
                 $.when( promise ).done(function() {
                     self.$el.removeClass('disabled');
                 });
 
-                this.process_form();
                 //Backbone.emulateJSON = true;
-                this.model.save();
             },
             set_editing_events: function() {
                 var self = this;

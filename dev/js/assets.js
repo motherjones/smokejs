@@ -49,14 +49,24 @@ define([
                 },
             },
             process_form: function() {
+                var promise = $.Deferred();
                 if (this.model.get('context') === 'text') {
                     var text = $('.editable', this.$el).html();
                     return { data: text };
                 } else if (this.model.get('context') === 'image') {
                     var image = $(':file', this.$el)[0].files[0];
-                    console.log(image);
-                    this.model.set('data', image.getAsDataURL())
+                    var reader = new FileReader();
+                    reader.onload = (function(theFile,model) {
+                        return function(e) {
+                            //set model
+                            model.set('data', e.target.result);
+                            promise.resolve();
+
+                        };
+                    })(image,this.model);
+                    reader.readAsDataURL(image);
                 }
+                return promise;
             },
             set_form: function() {
                 this.form = $('form', this.$el);
