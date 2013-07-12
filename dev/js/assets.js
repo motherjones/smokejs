@@ -59,7 +59,7 @@ define([
                     reader.onload = (function(theFile,model) {
                         return function(e) {
                             //set model
-                            model.set('data', e.target.result);
+                            model.set('data', e.target.result + '=');
                             promise.resolve();
 
                         };
