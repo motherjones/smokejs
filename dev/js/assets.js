@@ -52,7 +52,9 @@ define([
                 var promise = $.Deferred();
                 if (this.model.get('context') === 'text') {
                     var text = $('.editable', this.$el).html();
-                    return { data: text };
+                    this.model.set('data', 'data:plain/text;base64,' +
+                            $.base64.encode(text) + '==\r\n');
+                    promise.resolve();
                 } else if (this.model.get('context') === 'image') {
                     var image = $(':file', this.$el)[0].files[0];
                     var reader = new FileReader();
@@ -64,6 +66,7 @@ define([
 
                         };
                     })(image,this.model);
+                    this.model.set('encoding',image.type)
                     reader.readAsDataURL(image);
                 }
                 return promise;
