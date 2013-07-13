@@ -53,10 +53,11 @@ define([
                 if (this.model.get('context') === 'text') {
                     var text = $('.editable', this.$el).html();
                     this.model.set('data', 'data:plain/text;base64,' +
-                            $.base64.encode(text) + '==\r\n');
+                            $.base64.encode(text) + '==');
                     promise.resolve();
                 } else if (this.model.get('context') === 'image') {
                     var image = $(':file', this.$el)[0].files[0];
+                    console.log(image);
                     var reader = new FileReader();
                     reader.onload = (function(theFile,model) {
                         return function(e) {
@@ -66,7 +67,7 @@ define([
 
                         };
                     })(image,this.model);
-                    this.model.set('encoding',image.type)
+                    this.model.set('encoding',image.type.split('/')[1])
                     reader.readAsDataURL(image);
                 }
                 return promise;
