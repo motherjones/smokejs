@@ -112,11 +112,11 @@ define([
                 }
             },
             process_form: function() {
-                console.log('fixme, serialize and return form vals');
+                console.log('test');
                 return;
             },
             set_form: function() {
-                this.form = $('form', this.$el);
+                this.form = $('form[name="metadata"]', this.$el);
             },
             create_asset_view: function(asset_data) {
                //FIXME ask real nice if we cna not have resource uri on here
