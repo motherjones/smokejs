@@ -7,12 +7,11 @@ define([
         'underscore',
         'jquery',
         'backbone',
-        'backbone_tastypie',
         'dust',
         'env_config',
         'auth',
     ], 
-    function(_, $, Backbone, Tastypie, dust, env_config, Auth) {
+    function(_, $, Backbone, dust, env_config, Auth) {
 
         var APIObjectModel = Backbone.Model.extend({
             defaults : {
