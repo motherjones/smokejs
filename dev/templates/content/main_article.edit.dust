@@ -1,26 +1,25 @@
-    <formfield name="metadata">
-        <form>
-            
+<form name="article" id="content_{id}">
+    <label for="slug">Slug:</label>
+    <input class="editable" name="slug" value="{slug}"></input>
+    <formset name="metadata">
             <label for="title">Title:</label>
             <input class="editable" name="metadata.title" value="{metadata.title}"></input>
 
             <label for="dek">Dek:</label>
             <input class="editable" name="metadata.dek" value="{metadata.dek}"></input>
 
-            <label for="slug">Slug:</label>
-            <input class="editable" name="slug" value="{slug}"></input>
-
-            <input type="submit"></input>
-        </form>
-
+    </formset>
+    <input type="submit"></input>
+</form>
+<form>
         <label for="master_image">Master Image</label>
-        {#attributes.master}
+        {#attributes.master_image}
             {load_asset}
-        {/attributes.master}
-    </formfield>
+        {/attributes.master_image}
     <formfield name="members">
         {#members}
             <label>page {order} </label>
                 {load_asset}
         {/members}
     </formfield>
+</form>
