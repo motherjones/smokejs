@@ -29,14 +29,14 @@ define([
 
         var AssetView = APIObject.APIObjectView.extend({
             is_text_type : [
-                '.text',
-                '.html',
-                '.md',
+                'text',
+                'html',
+                'md',
             ],
             requires_content_load : [
-                '.text',
-                '.html',
-                '.md',
+                'text',
+                'html',
+                'md',
             ],
             possible_templates: {
                 text: {
@@ -53,10 +53,11 @@ define([
                 if (this.model.get('context') === 'text') {
                     var text = $('.editable', this.$el).html();
                     this.model.set('data', 'data:plain/text;base64,' +
-                            $.base64.encode(text) + '==\r\n');
+                            $.base64.encode(text) + '==');
                     promise.resolve();
                 } else if (this.model.get('context') === 'image') {
                     var image = $(':file', this.$el)[0].files[0];
+                    console.log(image);
                     var reader = new FileReader();
                     reader.onload = (function(theFile,model) {
                         return function(e) {
@@ -66,7 +67,10 @@ define([
 
                         };
                     })(image,this.model);
-                    this.model.set('encoding',image.type)
+                    this.model.set({
+                        'media_type': image.type.split('/')[0],
+                        'encoding': image.type.split('/')[1]
+                    })
                     reader.readAsDataURL(image);
                 }
                 return promise;
@@ -77,10 +81,7 @@ define([
             post_load: function() {
                 var self = this;
                 var promise = $.Deferred();
-                var context = _.contains(
-                    this.is_text_type,
-                    this.model.get('encoding')
-                ) ? 'text' : 'image';
+                var context = this.model.get('media_type');
                 this.model.set('context', context);
                 this.template = this.possible_templates
                     [this.model.get('context')]

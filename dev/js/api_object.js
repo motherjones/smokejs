@@ -33,7 +33,9 @@ define([
                 },
             },
             initialize: function() {
+                console.log(Backbone.sync);
                 this.model.on('change:editing', this.auth_check);
+                this.listenTo(this.model, 'change', this.render);
             },
             auth_check: function() {
                             //FIXME check against object type maybe?
@@ -99,6 +101,7 @@ define([
 
                 $.when(this.load()).done(function() {
                     var context = dustbase.push(self.model.attributes);
+                    console.log(context);
                     dust.render(
                         self.template,  //name of the template
                         context, //variables to be passed to the template
@@ -107,10 +110,12 @@ define([
                                 //throw error
                                 env_config.ERROR_HANDLER(err);
                             } else {
-
                                 self.el = out;
-                                self.$el = $('<div></div>');
-                                self.$el.html(self.el);
+                                if(self.$el == undefined){
+                                    self.$el = $('<div></div>');
+                                }
+                                console.log(self.$el.html());
+                                self.$el.html(self.el).hide(0, function(){$(this).show();});
                                 if (self.model.get('editing')) {
                                     self.set_form();
                                 }
@@ -127,7 +132,9 @@ define([
                 return promise;
             },
             load: function() {
-                if (!this.model.get('id')) { //no id, must be new
+                var changed = this.model.changedAttributes();
+                console.log('changed=' + changed);
+                if (changed.length==false) { //no id, must be new
                     $.when( this.post_load() )
                         .done( this.loaded.resolve );
                     return;
@@ -164,18 +171,24 @@ define([
                 // make asset look like it's doing something till it's done
                 var promise = $.Deferred();
                 this.$el.addClass('disabled');
-
+                console.log('post_to_mirrors');
                 $.when( this.process_form() )
                     .done( function() {
-                        self.model.save();
-                        //FIXME put this resolve in the save callback
-                        promise.resolve();
+                        console.log('test presave');
+                        console.log(Backbone.Tastypie);
+                        self.model.save(null, {
+                            'success': function(){
+                               //FIXME change this to redraw
+                               self.model.set('data_url', self.model.get('data_url') + '?q=' +  Math.floor((Math.random()*10)+1));
+                               promise.resolve();     
+                            }
+                        });
                     });
 
                 $.when( promise ).done(function() {
                     self.$el.removeClass('disabled');
                 });
-
+                return promise;
                 //Backbone.emulateJSON = true;
             },
             set_editing_events: function() {
@@ -196,7 +209,11 @@ define([
                 });
                 this.form.submit(function(e) {
                     e.preventDefault();
-                    self.post_to_mirrors();
+                    $.when(self.post_to_mirrors()).done(function() {
+                        console.log('done submitting');
+                        console.log(self.$el);
+                        self.render();
+                    });
                     return false;
                 });
                 /*
