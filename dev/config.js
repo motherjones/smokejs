@@ -14,9 +14,8 @@ require.config({
         config: '../prod_config',
     },
     shim: {
-        },
         'backbone': {
-            deps: ['underscore', 'jquery', ],
+            deps: ['underscore', 'jquery' ],
             exports: "Backbone",
         },
         /*
