@@ -14,7 +14,7 @@ content type:
 </p>
 
 {#attributes.master}
-    <div class="master_image" id="asset_{slug}">
+    <div class="master" id="asset_{slug}">
         {load_asset}
     </div>
 {/attributes.master}
