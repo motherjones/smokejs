@@ -12,10 +12,10 @@
     <input type="submit"></input>
 </form>
 <form>
-        <label for="master_image">Master Image</label>
-        {#attributes.master_image}
+        <label for="master">Master Image</label>
+        {#attributes.master}
             {load_asset}
-        {/attributes.master_image}
+        {/attributes.master}
     <formfield name="members">
         {#members}
             <label>page {order} </label>

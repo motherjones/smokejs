@@ -52,7 +52,8 @@
 		headers = _.extend( headers, options.headers );
 		options.headers = headers;
 
-		if (true) {
+		if ( ( method === 'create' && Backbone.Tastypie.doGetOnEmptyPostResponse ) ||
+            ( method === 'update' && Backbone.Tastypie.doGetOnEmptyPutResponse ) ) {
 			var dfd = new $.Deferred();
 
 			// Set up 'success' handling
