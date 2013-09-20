@@ -1,33 +1,24 @@
 # oh sweet jesus don't use me i'm very much in a state of development
 
+**Smoke** is a new front end for MotherJones.com.
 
+## Installation
 
+To work on this locally, you'll need:
 
-# smoke
+* Node - The package manager installation instructions on [here](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) managed to work for us.
+* [npm](https://npmjs.org/) - Again, package manager version should be fine.
+* grunt-cli installed globally
 
-A new front end for MotherJones
+    sudo npm install grunt-cli -g
 
 ## Getting Started
-Download the [production version][min] or the [development version][max].
 
-[min]: https://raw.github.com/motherjones/smoke/master/prod/js/smoke.min.js
-[max]: https://raw.github.com/motherjones/smoke/master/dev/js/smoke.js
-
-In your web page:
-
-```html
-<script src="jquery.js"></script>
-<script src="demo/smoke.min.js"></script>
-<script>
-jQuery(function($) {
-  $.awesome(); // "awesome"
-});
-</script>
-```
-
-## Documentation
-_(Coming soon)_
-
+    git clone git@github.com:benbreedlove/smokejs.git
+    cd smokejs/
+    npm install
+    grunt serve
+     
 ## Examples
 _(Coming soon)_
 

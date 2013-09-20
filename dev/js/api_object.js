@@ -134,7 +134,6 @@ define([
             },
             load: function() {
                 var changed = this.model.changedAttributes();
-                console.log('changed=' + changed);
                 if (changed.length==false) { //no id, must be new
                     $.when( this.post_load() )
                         .done( this.loaded.resolve );
