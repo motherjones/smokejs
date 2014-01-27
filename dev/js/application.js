@@ -9,7 +9,7 @@ define([
         'site_nav',
         'templates'
     ], 
-    function(_, Backbone, dust, nameplate, site_nav) {
+    function(_, Backbone, dust, nameplate) {
         var SiteState = Backbone.Model.extend({
             defaults: {
               spec: 'homepage',
@@ -38,10 +38,12 @@ define([
                     var nameplateView = new nameplate.NameplateView();
                     $('#nameplate', this.el).html( nameplateView.render().el );
 
+                    /*
                     var navModel = new site_nav.NavModel();  
                     var navView = new site_nav.NavView({
                         model : navModel
                     });
+                    */
                     //$('#site-nav', this.el).html( navView.render().el );
 
                     self.updateLayout();
@@ -78,7 +80,9 @@ define([
 
         var auth = function(role) {
             //FIXME do some auth here
-            return true;
+            if (role) {
+                return true;
+            }
         };
 
         return {

@@ -42,7 +42,7 @@ require.config({
             },
         },
         'templates': {
-            deps: ['dust',],
+            deps: ['dust']
         },
     }
 });

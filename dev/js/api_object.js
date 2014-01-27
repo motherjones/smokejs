@@ -20,7 +20,7 @@ define([
                 editing: false,
             },
             blacklist: [],
-            toJSON: function(options) {
+            toJSON: function() {
                 return _.omit(this.attributes, this.blacklist);
             }
         });
@@ -72,7 +72,7 @@ define([
                 var self = this;
                 var dustbase = dust.makeBase({
                     media_base : env_config.MEDIA_STORE,
-                    load_asset: function(chunk, context, bodies, params) {
+                    load_asset: function(chunk, context) {
                         var asset = context.stack.head;
                         var asset_view;
                         if (asset.member) {
@@ -112,7 +112,7 @@ define([
                                 env_config.ERROR_HANDLER(err);
                             } else {
                                 self.el = out;
-                                if(self.$el == undefined){
+                                if(self.$el === undefined){
                                     self.$el = $('<div></div>');
                                 }
                                 console.log(self.$el.html());
@@ -134,7 +134,7 @@ define([
             },
             load: function() {
                 var changed = this.model.changedAttributes();
-                if (changed.length==false) { //no id, must be new
+                if (changed.length === false) { //no id, must be new
                     $.when( this.post_load() )
                         .done( this.loaded.resolve );
                     return;
@@ -166,7 +166,7 @@ define([
                 return this.loaded;
             },
             post_load: function() { return new $.Deferred.resolve(); },
-            post_to_mirrors: function(e) {
+            post_to_mirrors: function() {
                 var self = this;
                 // make asset look like it's doing something till it's done
                 var promise = $.Deferred();

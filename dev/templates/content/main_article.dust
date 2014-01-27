@@ -20,6 +20,6 @@ content type:
 {/attributes.master}
 {#members}
     <div class="asset" id="asset_{slug}">
-            {load_asset}
+        {load_asset}
     </div>
 {/members}

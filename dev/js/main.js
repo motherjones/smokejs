@@ -35,5 +35,7 @@ require([
         site_view.render();
 
         Backbone.history.start();
+
+        return router;
     }
 );

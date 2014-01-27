@@ -1,4 +1,4 @@
-/*global define */
+/*global define FileReader */
 'use strict';
 //FIXME make asset views return a subclass depending on if is text or image
 
@@ -70,7 +70,7 @@ define([
                     this.model.set({
                         'media_type': image.type.split('/')[0],
                         'encoding': image.type.split('/')[1]
-                    })
+                    });
                     reader.readAsDataURL(image);
                 }
                 return promise;

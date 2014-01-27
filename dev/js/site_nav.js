@@ -27,12 +27,12 @@ define([
             id: 'site-nav',
             tagName: 'div',
             initialize: function() {
-                /*
                 this.navCollection = new content.ContentListModel({
                     url: env_config.DATA_STORE + '/topnav/' + this.nav,
                 });
                 this.navView = new content.ContentListView(this.navCollection);
 
+                /*
                 this.tickerCollection = new content.ContentList({
                     url: env_config.DATA_STORE + '/ticker/' + this.ticker,
                 });
