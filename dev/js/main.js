@@ -7,35 +7,33 @@
  */
 'use strict';
 
-require([
-        'router',
-        'application',
-        'backbone'
-    ], 
-    function(Router, Application, Backbone) {
+(function() {
+    var Router = require('./router');
+    var Application = require('./application');
+    var Backbone = require('./libs/backbone-min');
 
-        //FIXME do some figuring here, see what initial site state should be
-        var site_state = new Application.SiteState();
 
-        var site_view = new Application.SiteView({
-            model: site_state,
-        });
+    //FIXME do some figuring here, see what initial site state should be
+    var site_state = new Application.SiteState();
 
-        site_state.on('change:content_view', function() {
-            site_view.updateContent();
-        });
-        site_state.on('change:spec', function() {
-            site_view.updateLayout();
-        });
+    var site_view = new Application.SiteView({
+        model: site_state,
+    });
 
-        var router = new Router.Router({
-            site_state: site_state,
-        });
+    site_state.on('change:content_view', function() {
+        site_view.updateContent();
+    });
+    site_state.on('change:spec', function() {
+        site_view.updateLayout();
+    });
 
-        site_view.render();
+    new Router.Router({
+        site_state: site_state,
+    });
 
-        Backbone.history.start();
+    site_view.render();
 
-        return router;
-    }
-);
+    Backbone.history.start();
+
+    return;
+})();

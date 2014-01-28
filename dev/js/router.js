@@ -1,99 +1,86 @@
-/*global define */
+/*global module */
 'use strict';
 
-(function(define) {
+module.exports = (function() {
+    var Asset = require('./asset');
+    var Backbone = require('./libs/backbone-min');
+    var Content = require('./content');
 
-define([
-        'underscore',
-        'backbone',
-        'content',
-        'assets',
-    ], 
-    function(_, Backbone, Content, Asset) {
-        var Router = Backbone.Router.extend({
 
-            initialize: function(options) {
-                this.site_state = options.site_state;
-            },
+    return Backbone.Router.extend({
 
-            routes : {
-                "article/:slug" : "display_main_content",
-                "asset/:slug" : "display_asset",
-                //FIXME move edit elsewhere
-                "edit/article/:slug" : "edit_content",
-                "new/:spec" : "create_content",
-            },
+        initialize: function(options) {
+            this.site_state = options.site_state;
+        },
 
-            display_main_content : function(slug) {
-                var self = this;
-                var content = new Content.ContentModel({
-                    id: slug,
-                });
-                var content_view = new Content.ContentView({ model: content });
-                self.site_state.set({
-                    content_view : content_view,
-                });
-            },
+        routes : {
+            "article/:slug" : "display_main_content",
+            "asset/:slug" : "display_asset",
+            //FIXME move edit elsewhere
+            "edit/article/:slug" : "edit_content",
+            "new/:spec" : "create_content",
+        },
 
-            display_asset : function(slug) {
-                var assetModel = new Asset.Asset({
-                    id: slug,
-                });
+        display_main_content : function(slug) {
+            var self = this;
+            var content = new Content.ContentModel({
+                id: slug,
+            });
+            var content_view = new Content.ContentView({ model: content });
+            self.site_state.set({
+                content_view : content_view,
+            });
+        },
 
-                var assetView = new Asset.AssetView({
-                    model: assetModel
-                });
+        display_asset : function(slug) {
+            var assetModel = new Asset.Asset({
+                id: slug,
+            });
 
-                assetView.render();
-            },
-            create_content: function(spec) {
-                var content = new Content.ContentModel({
-                    id: '',
-                    editing: true,
-                    spec: spec,
-                    attributes: {
-                        master: {
-                            attribute: {
-                                data_url : '',// FIXME point this at a mj image
-                                id: '',
-                                editing: true,
-                            },
-                            keyword: 'master',
+            var assetView = new Asset.AssetView({
+                model: assetModel
+            });
+
+            assetView.render();
+        },
+        create_content: function(spec) {
+            var content = new Content.ContentModel({
+                id: '',
+                editing: true,
+                spec: spec,
+                attributes: {
+                    master: {
+                        attribute: {
+                            data_url : '',// FIXME point this at a mj image
+                            id: '',
+                            editing: true,
                         },
+                        keyword: 'master',
                     },
-                });
-                var content_view = new Content.ContentView({model : content});
-                this.site_state.set({
-                    content_view : content_view,
-                });
-            },
-            edit_content : function(slug) {
-                var self = this;
-                var content = new Content.ContentModel({
-                    id: slug,
-                    editing: true,
-                });
-                var content_view = new Content.ContentView({model : content});
-                $.when( content_view.load() )
-                    .done(function() {
-                        content_view.model.set('editing', true);
-                        content_view.child_assets_editing(true);
-                        self.site_state.set({spec : 'page'});
-                        self.site_state.set({
-                                content_view : content_view
-                        });
+                },
+            });
+            var content_view = new Content.ContentView({model : content});
+            this.site_state.set({
+                content_view : content_view,
+            });
+        },
+        edit_content : function(slug) {
+            var self = this;
+            var content = new Content.ContentModel({
+                id: slug,
+                editing: true,
+            });
+            var content_view = new Content.ContentView({model : content});
+            $.when( content_view.load() )
+                .done(function() {
+                    content_view.model.set('editing', true);
+                    content_view.child_assets_editing(true);
+                    self.site_state.set({spec : 'page'});
+                    self.site_state.set({
+                            content_view : content_view
                     });
-            },
+                });
+        },
+    });
 
-        });
-
-
-
-        return {
-            'Router': Router
-        };
-
-    }
-);
-
-})(define);
+})();
