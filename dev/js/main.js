@@ -1,5 +1,5 @@
 /*
- * smoke
+ * smoke main
  * https://github.com/motherjones/smoke
  *
  * Copyright (c) 2013 Mother Jones Tech Team
@@ -28,7 +28,7 @@
         site_view.updateLayout();
     });
 
-    new Router.Router({
+    new Router({
         site_state: site_state,
     });
 

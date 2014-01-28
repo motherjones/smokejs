@@ -147,7 +147,7 @@ module.exports = function(grunt) {
       },
       src: {
         files: '<%= jshint.src.src %>',
-        tasks: ['jshint:src', 'qunit', 'browserify']
+        tasks: ['jshint:src', 'browserify', 'qunit']
       },
       templates: {
         files: 'dev/templates/**/*.dust',

@@ -7,7 +7,8 @@ module.exports = (function() {
     var Auth = require('./auth');
     var Backbone = require('backbone');
     Backbone.$ = require('jquery-browserify');
-    var dust = require('./libs/dust/dust');
+    var dust = require('dustjs-linkedin');
+    require('./templates.js');
     var Env_config = require('./config');
 
 

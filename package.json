@@ -50,7 +50,8 @@
     "grunt-browserify": "~1.3.0",
     "underscore": "~1.5.2",
     "backbone": "~1.1.0",
-    "jquery-browserify": "~1.8.1"
+    "jquery-browserify": "~1.8.1",
+    "dustjs-linkedin": "~2.3.2"
   },
   "keywords": []
 }
