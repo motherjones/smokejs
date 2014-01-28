@@ -10,7 +10,8 @@
 (function() {
     var Router = require('./router');
     var Application = require('./application');
-    var Backbone = require('./libs/backbone-min');
+    var Backbone = require('backbone');
+    Backbone.$ = require('jquery-browserify');
 
 
     //FIXME do some figuring here, see what initial site state should be

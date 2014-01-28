@@ -2,7 +2,8 @@
 'use strict';
 
 module.exports = (function() {
-    var Backbone = require('./libs/backbone-min');
+    var Backbone = require('backbone');
+    Backbone.$ = require('jquery-browserify');
     var Content = require('./content');
     var dust = require('./libs/dust/dust');
     var Env_config = require('./config');

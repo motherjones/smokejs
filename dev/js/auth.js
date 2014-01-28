@@ -2,7 +2,8 @@
 'use strict';
 
 module.exports = (function() {
-    var Backbone = require('./libs/backbone-min');
+    var Backbone = require('backbone');
+    Backbone.$ = require('jquery-browserify');
 
 
     var AuthModel = Backbone.Model.extend({

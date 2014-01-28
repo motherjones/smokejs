@@ -3,10 +3,11 @@
 //FIXME make asset views return a subclass depending on if is text or image
 
 module.exports = (function() {
-    var $ = require('./libs/jquery');
-    var _ = require('./libs/underscore-min');
+    var $ = require('jquery-browserify');
+    var _ = require('underscore');
     var APIObject = require('./api_object');
-    var Backbone = require('./libs/backbone-min');
+    var Backbone = require('backbone');
+    Backbone.$ = require('jquery-browserify');
     var EnvConfig = require('./config');
     var FileReader = require('./libs/filereader.min');
     

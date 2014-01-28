@@ -3,7 +3,8 @@
 
 module.exports = (function() {
     var Asset = require('./asset');
-    var Backbone = require('./libs/backbone-min');
+    var Backbone = require('backbone');
+    Backbone.$ = require('jquery-browserify');
     var Content = require('./content');
 
 

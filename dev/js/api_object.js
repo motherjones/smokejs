@@ -2,10 +2,11 @@
 'use strict';
 
 module.exports = (function() {
-    var $ = require('./libs/jquery');
-    var _ = require('./libs/underscore-min');
+    var $ = require('jquery-browserify');
+    var _ = require('underscore');
     var Auth = require('./auth');
-    var Backbone = require('./libs/backbone-min');
+    var Backbone = require('backbone');
+    Backbone.$ = require('jquery-browserify');
     var dust = require('./libs/dust/dust');
     var Env_config = require('./config');
 
