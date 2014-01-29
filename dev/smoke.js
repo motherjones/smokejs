@@ -8,8 +8,7 @@ module.exports = (function() {
     var Auth = require('./auth');
     var Backbone = require('backbone');
     Backbone.$ = require('jquery-browserify');
-    var dust = require('dustjs-linkedin');
-    require('./templates.js');
+    var dust = require('./dust_templates.js')();
     var Env_config = require('./config');
 
 
@@ -231,15 +230,14 @@ module.exports = (function() {
 
 })();
 
-},{"./auth":4,"./config":5,"./templates.js":11,"backbone":12,"dustjs-linkedin":16,"jquery-browserify":21,"underscore":22}],2:[function(require,module,exports){
+},{"./auth":4,"./config":5,"./dust_templates.js":7,"backbone":12,"jquery-browserify":21,"underscore":22}],2:[function(require,module,exports){
 /*global module */
 'use strict';
 
 module.exports = (function() {
     var Backbone = require('backbone');
     Backbone.$ = require('jquery-browserify');
-    var dust = require('dustjs-linkedin');
-    require('./templates.js');
+    var dust = require('./dust_templates.js')();
     var Nameplate = require('./nameplate');
 
 
@@ -270,14 +268,6 @@ module.exports = (function() {
                 }
                 var nameplateView = new Nameplate.NameplateView();
                 $('#nameplate', this.el).html( nameplateView.render().el );
-
-                /*
-                var navModel = new site_nav.NavModel();  
-                var navView = new site_nav.NavView({
-                    model : navModel
-                });
-                */
-                //$('#site-nav', this.el).html( navView.render().el );
 
                 self.updateLayout();
             });
@@ -325,7 +315,7 @@ module.exports = (function() {
     };
 })();
 
-},{"./nameplate":9,"./templates.js":11,"backbone":12,"dustjs-linkedin":16,"jquery-browserify":21}],3:[function(require,module,exports){
+},{"./dust_templates.js":7,"./nameplate":10,"backbone":12,"jquery-browserify":21}],3:[function(require,module,exports){
 /*global module */
 'use strict';
 //FIXME make asset views return a subclass depending on if is text or image
@@ -435,7 +425,7 @@ module.exports = (function() {
     };
 })();
 
-},{"./api_object":1,"./config":5,"./libs/filereader.min":7,"backbone":12,"jquery-browserify":21,"underscore":22}],4:[function(require,module,exports){
+},{"./api_object":1,"./config":5,"./libs/filereader.min":8,"backbone":12,"jquery-browserify":21,"underscore":22}],4:[function(require,module,exports){
 /*global module */
 'use strict';
 
@@ -671,6 +661,153 @@ module.exports = (function() {
 })();
 
 },{"./api_object":1,"./asset":3,"./config":5,"backbone":12,"jquery-browserify":21,"underscore":22}],7:[function(require,module,exports){
+module.exports = function() {
+  var dust = require("dustjs-linkedin");
+  // asset/asset_image.dust
+  (function() {
+    dust.register("asset/asset_image", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.reference(ctx._get(false, ["keyword"]), ctx, "h").write("<img class=\"asset\" id=\"slug_").reference(ctx._get(false, ["slug"]), ctx, "h").write("\" src=\"").reference(ctx._get(false, ["media_base"]), ctx, "h").reference(ctx._get(false, ["data_url"]), ctx, "h").write("\"></img>");
+    }
+    return body_0;
+  })();
+  // asset/asset_image.edit.dust
+  (function() {
+    dust.register("asset/asset_image.edit", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.write("<form><img class=\"asset preview\" id=\"slug_").reference(ctx._get(false, ["slug"]), ctx, "h").write("\" src=\"").reference(ctx._get(false, ["media_base"]), ctx, "h").reference(ctx._get(false, ["data_url"]), ctx, "h").write("\"></img><label for=\"file_upload_").reference(ctx._get(false, ["slug"]), ctx, "h").write("\"><input class=\"editable\" type=\"file\" name=\"file_upload_").reference(ctx._get(false, ["slug"]), ctx, "h").write("\" accept=\"image/*\" /><input type=\"submit\" /></form>");
+    }
+    return body_0;
+  })();
+  // asset/asset_text.dust
+  (function() {
+    dust.register("asset/asset_text", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.write("    ").reference(ctx._get(false, ["data"]), ctx, "h", ["s"]);
+    }
+    return body_0;
+  })();
+  // asset/asset_text.edit.dust
+  (function() {
+    dust.register("asset/asset_text.edit", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.write("<form><textarea  class=\"editable\" name=\"text_edit_").reference(ctx._get(false, ["slug"]), ctx, "h").write("\">").reference(ctx._get(false, ["data"]), ctx, "h", ["s"]).write("</textarea><input type=\"submit\" /></form>");
+    }
+    return body_0;
+  })();
+  // content/full_page.dust
+  (function() {
+    dust.register("content/full_page", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.write("<div class=\"row full_page_content\" id=\"main_content\">").reference(ctx._get(false, ["content"]), ctx, "h").write("</div>");
+    }
+    return body_0;
+  })();
+  // content/main_article.dust
+  (function() {
+    dust.register("content/main_article", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.write("<p>slug: ").reference(ctx._get(false, ["slug"]), ctx, "h").write("</p><p> url: ").reference(ctx._get(false, ["resource_uri"]), ctx, "h").write("</p><p>content type:").reference(ctx._get(false, ["spec"]), ctx, "h").write("</p>").section(ctx._get(false, ["attributes", "master"]), ctx, {
+        "block": body_1
+      }, null).section(ctx._get(false, ["members"]), ctx, {
+        "block": body_2
+      }, null);
+    }
+
+    function body_1(chk, ctx) {
+      return chk.write("<div class=\"master\" id=\"asset_").reference(ctx._get(false, ["slug"]), ctx, "h").write("\">").reference(ctx._get(false, ["load_asset"]), ctx, "h").write("</div>");
+    }
+
+    function body_2(chk, ctx) {
+      return chk.write("<div class=\"asset\" id=\"asset_").reference(ctx._get(false, ["slug"]), ctx, "h").write("\">").reference(ctx._get(false, ["load_asset"]), ctx, "h").write("</div>");
+    }
+    return body_0;
+  })();
+  // content/main_article.edit.dust
+  (function() {
+    dust.register("content/main_article.edit", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.write("<form name=\"article\" id=\"content_").reference(ctx._get(false, ["id"]), ctx, "h").write("\"><label for=\"slug\">Slug:</label><input class=\"editable\" name=\"slug\" value=\"").reference(ctx._get(false, ["slug"]), ctx, "h").write("\"></input><formset name=\"metadata\"><label for=\"title\">Title:</label><input class=\"editable\" name=\"metadata.title\" value=\"").reference(ctx._get(false, ["metadata", "title"]), ctx, "h").write("\"></input><label for=\"dek\">Dek:</label><input class=\"editable\" name=\"metadata.dek\" value=\"").reference(ctx._get(false, ["metadata", "dek"]), ctx, "h").write("\"></input></formset><input type=\"submit\"></input></form><form><label for=\"master\">Master Image</label>").section(ctx._get(false, ["attributes", "master"]), ctx, {
+        "block": body_1
+      }, null).write("<formfield name=\"members\">").section(ctx._get(false, ["members"]), ctx, {
+        "block": body_2
+      }, null).write("</formfield></form>");
+    }
+
+    function body_1(chk, ctx) {
+      return chk.reference(ctx._get(false, ["load_asset"]), ctx, "h");
+    }
+
+    function body_2(chk, ctx) {
+      return chk.write("<label>page ").reference(ctx._get(false, ["order"]), ctx, "h").write(" </label>").reference(ctx._get(false, ["load_asset"]), ctx, "h");
+    }
+    return body_0;
+  })();
+  // list/site_nav.dust
+  (function() {
+    dust.register("list/site_nav", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.write("<nav id=\"nav\" class=\"row\"></nav><ul id=\"ticker\" class=\"row\">//ticker goes here</ul>");
+    }
+    return body_0;
+  })();
+  // nameplate.dust
+  (function() {
+    dust.register("nameplate", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.write("<a class=\"eight columns\" id=\"site-name\" title=\"Home\" rel=\"home\">Mother Jones</a><div class=\"eight columns\">Ad or subscription or whatever stuff here</div>");
+    }
+    return body_0;
+  })();
+  // single_column_layout.dust
+  (function() {
+    dust.register("single_column_layout", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.write("<div id=\"main-content\" class=\"sixteen columns one-column-layout mojo-column-layout\">I am within a full width layout</div>");
+    }
+    return body_0;
+  })();
+  // site_structure.dust
+  (function() {
+    dust.register("site_structure", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.write("<div class=\"container\"><header id=\"main-header\"><div id=\"nameplate\" class=\"row\"></div><div id=\"site-nav\"></div></header><div id=\"content\" class=\"row\"><a href=\"#/asset/fakeidgoeshere\">CLICK ME I GO OT FAKEASSETA</a></div><footer id=\"main-footer\" class=\"row\"></footer></div>");
+    }
+    return body_0;
+  })();
+  // three_column_layout.dust
+  (function() {
+    dust.register("three_column_layout", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.write("<div id=\"main-content\" class=\"eight columns three-column-layout mojo-column-layout\">left column ihn a three column layouteventually this will be a homepage, but for now,<a href=\"http://localhost:9001/#/article/3\">check this out</a></div><div id=\"middle-column\" class=\"three columns three-column-layout mojo-column-layout\">middle column in a three column layout</div><div id=\"right-column\" class=\"five columns three-column-layout mojo-column-layout\">right column in  athre column layout</div>");
+    }
+    return body_0;
+  })();
+  // two_column_layout.dust
+  (function() {
+    dust.register("two_column_layout", body_0);
+
+    function body_0(chk, ctx) {
+      return chk.write("<div id=\"main-content\" class=\"eleven columns two-column-layout mojo-column-layout\">left column in a two column layout</div><div id=\"right-column\" class=\"five columns two-column-layout mojo-column-layout\">right column in a two column layout</div>");
+    }
+    return body_0;
+  })();
+  // Returning object for nodejs
+  return dust;
+};
+},{"dustjs-linkedin":16}],8:[function(require,module,exports){
 /*!
     FileReader.js - a lightweight wrapper for common FileReader usage.
     Copyright 2012 Brian Grinstead - MIT License.
@@ -679,7 +816,7 @@ module.exports = (function() {
 */
 
 (function(e,t){function f(e,t){function r(e){var t=[],r=e.clipboardData||{},i=r.items||[];for(var s=0;s<i.length;s++){var o=i[s].getAsFile();if(o){var u=(new RegExp("/(.*)")).exec(o.type);if(!o.name&&u){var a=u[1];o.name="clipboard"+s+"."+a}t.push(o)}}t.length&&(d(e,t,n),e.preventDefault(),e.stopPropagation())}if(!u.enabled)return;var n=g(g({},u.opts),t);e.addEventListener("paste",r,!1)}function l(e,t){function r(t){d(t,e.files,n)}function i(e){e.stopPropagation(),e.preventDefault(),d(e,e.dataTransfer.files,n)}if(!u.enabled)return;var n=g(g({},u.opts),t);e.addEventListener("change",r,!1),e.addEventListener("drop",i,!1)}function c(e,n){function o(e){s=!1}function a(e){s=!0}function f(e){e.dataTransfer.files&&e.dataTransfer.files.length&&(e.stopPropagation(),e.preventDefault())}function l(e){return function(){s||e.apply(this,arguments)}}function c(t){t.stopPropagation(),t.preventDefault(),i&&w(e,i),d(t,t.dataTransfer.files,r)}function h(t){t.stopPropagation(),t.preventDefault(),i&&b(e,i)}function p(t){i&&w(e,i)}function v(t){t.stopPropagation(),t.preventDefault(),i&&b(e,i)}if(!u.enabled)return;var r=g(g({},u.opts),n),i=r.dragClass,s=!1;e.addEventListener("dragenter",l(h),!1),e.addEventListener("dragleave",l(p),!1),e.addEventListener("dragover",l(v),!1),e.addEventListener("drop",l(c),!1),t.body.addEventListener("dragstart",a,!0),t.body.addEventListener("dragend",o,!0),t.body.addEventListener("drop",f,!1)}function h(e,t){for(var n=0;n<e.length;n++){var r=e[n];r.extra={nameNoExtension:r.name.substring(0,r.name.lastIndexOf(".")),extension:r.name.substring(r.name.lastIndexOf(".")+1),fileID:n,uniqueID:x(),groupID:t,prettySize:E(r.size)}}}function p(e,t,n){for(var r in t)if(e.match(new RegExp(r)))return"readAs"+t[r];return"readAs"+n}function d(e,t,s){function c(){l.ended=new Date,s.on.groupend(l)}function d(){--f===0&&c()}var f=t.length,l={groupID:S(),files:t,started:new Date};u.output.push(l),h(t,l.groupID),s.on.groupstart(l);if(!t.length){c();return}var v=u.sync&&r,m;v&&(m=a.getWorker(i,function(e){var t=e.data.file,n=e.data.result;t.extra||(t.extra=e.data.extra),t.extra.ended=new Date,s.on[n==="error"?"error":"load"]({target:{result:n}},t),d()})),Array.prototype.forEach.call(t,function(t){t.extra.started=new Date;if(s.accept&&!t.type.match(new RegExp(s.accept))){s.on.skip(t),d();return}if(s.on.beforestart(t)===!1){s.on.skip(t),d();return}var r=p(t.type,s.readAsMap,s.readAsDefault);if(v&&m)m.postMessage({file:t,extra:t.extra,readAs:r});else{var i=new n;i.originalEvent=e,o.forEach(function(e){i["on"+e]=function(n){if(e=="load"||e=="error")t.extra.ended=new Date;s.on[e](n,t),e=="loadend"&&d()}}),i[r](t)}})}function v(){var e=a.getWorker(s,function(e){r=e.data});e&&e.postMessage({})}function m(){}function g(e,t){for(var n in t)t[n]&&t[n].constructor&&t[n].constructor===Object?(e[n]=e[n]||{},arguments.callee(e[n],t[n])):e[n]=t[n];return e}function y(e,t){return(new RegExp("(?:^|\\s+)"+t+"(?:\\s+|$)")).test(e.className)}function b(e,t){y(e,t)||(e.className=e.className?[e.className,t].join(" "):t)}function w(e,t){if(y(e,t)){var n=e.className;e.className=n.replace(new RegExp("(?:^|\\s+)"+t+"(?:\\s+|$)","g")," ").replace(/^\s\s*/,"").replace(/\s\s*$/,"")}}function E(e){var t=["bytes","kb","MB","GB","TB","PB"],n=Math.floor(Math.log(e)/Math.log(1024));return(e/Math.pow(1024,Math.floor(n))).toFixed(2)+" "+t[n]}var n=e.FileReader,r=!1,i="self.addEventListener('message', function(e) { var data=e.data; try { var reader = new FileReaderSync; postMessage({ result: reader[data.readAs](data.file), extra: data.extra, file: data.file})} catch(e){ postMessage({ result:'error', extra:data.extra, file:data.file}); } }, false);",s="self.addEventListener('message', function(e) { postMessage(!!FileReaderSync); }, false);",o=["loadstart","progress","load","abort","error","loadend"],u=e.FileReaderJS={enabled:!1,setupInput:l,setupDrop:c,setupClipboard:f,sync:!1,output:[],opts:{dragClass:"drag",accept:!1,readAsDefault:"BinaryString",readAsMap:{"image/*":"DataURL","text/*":"Text"},on:{loadstart:m,progress:m,load:m,abort:m,error:m,loadend:m,skip:m,groupstart:m,groupend:m,beforestart:m}}};typeof jQuery!="undefined"&&(jQuery.fn.fileReaderJS=function(e){return this.each(function(){$(this).is("input")?l(this,e):c(this,e)})},jQuery.fn.fileClipboard=function(e){return this.each(function(){f(this,e)})});if(!n)return;var a=function(){function r(r){if(e.Worker&&n&&t){var i=new n;return i.append(r),t.createObjectURL(i.getBlob())}return null}function i(e,t){var n=r(e);if(n){var i=new Worker(n);return i.onmessage=t,i}return null}var t=e.URL||e.webkitURL,n=e.BlobBuilder||e.WebKitBlobBuilder||e.MozBlobBuilder;return{getURL:r,getWorker:i}}(),S=function(e){return function(){return e++}}(0),x=function(e){return function(){return e++}}(0);u.enabled=!0})(this,document);
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*
  * smoke main
  * https://github.com/motherjones/smoke
@@ -721,15 +858,14 @@ module.exports = (function() {
     return;
 })();
 
-},{"./application":2,"./router":10,"backbone":12,"jquery-browserify":21}],9:[function(require,module,exports){
+},{"./application":2,"./router":11,"backbone":12,"jquery-browserify":21}],10:[function(require,module,exports){
 /*global module */
 'use strict';
 
 module.exports = (function() {
     var Backbone = require('backbone');
     Backbone.$ = require('jquery-browserify');
-    var dust = require('dustjs-linkedin');
-    require('./templates.js');
+    var dust = require('./dust_templates')();
 
 
     var NameplateModel = Backbone.Model.extend({
@@ -764,7 +900,7 @@ module.exports = (function() {
 })();
 
 
-},{"./templates.js":11,"backbone":12,"dustjs-linkedin":16,"jquery-browserify":21}],10:[function(require,module,exports){
+},{"./dust_templates":7,"backbone":12,"jquery-browserify":21}],11:[function(require,module,exports){
 /*global module */
 'use strict';
 
@@ -853,24 +989,7 @@ module.exports = (function() {
 
 })();
 
-},{"./asset":3,"./content":6,"backbone":12,"jquery-browserify":21}],11:[function(require,module,exports){
-var dust = require('dustjs-linkedin');
-
-(function(){dust.register("asset_image",body_0);function body_0(chk,ctx){return chk.reference(ctx._get(false, ["keyword"]),ctx,"h").write("<img class=\"asset\" id=\"slug_").reference(ctx._get(false, ["slug"]),ctx,"h").write("\" src=\"").reference(ctx._get(false, ["media_base"]),ctx,"h").reference(ctx._get(false, ["data_url"]),ctx,"h").write("\"></img>");}return body_0;})();
-(function(){dust.register("asset_image.edit",body_0);function body_0(chk,ctx){return chk.write("<form><img class=\"asset preview\" id=\"slug_").reference(ctx._get(false, ["slug"]),ctx,"h").write("\" src=\"").reference(ctx._get(false, ["media_base"]),ctx,"h").reference(ctx._get(false, ["data_url"]),ctx,"h").write("\"></img><label for=\"file_upload_").reference(ctx._get(false, ["slug"]),ctx,"h").write("\"><input class=\"editable\" type=\"file\" name=\"file_upload_").reference(ctx._get(false, ["slug"]),ctx,"h").write("\" accept=\"image/*\" /><input type=\"submit\" /></form>");}return body_0;})();
-(function(){dust.register("asset_text",body_0);function body_0(chk,ctx){return chk.write("    ").reference(ctx._get(false, ["data"]),ctx,"h",["s"]);}return body_0;})();
-(function(){dust.register("asset_text.edit",body_0);function body_0(chk,ctx){return chk.write("<form><textarea  class=\"editable\" name=\"text_edit_").reference(ctx._get(false, ["slug"]),ctx,"h").write("\">").reference(ctx._get(false, ["data"]),ctx,"h",["s"]).write("</textarea><input type=\"submit\" /></form>");}return body_0;})();
-(function(){dust.register("full_page",body_0);function body_0(chk,ctx){return chk.write("<div class=\"row full_page_content\" id=\"main_content\">").reference(ctx._get(false, ["content"]),ctx,"h").write("</div>");}return body_0;})();
-(function(){dust.register("main_article",body_0);function body_0(chk,ctx){return chk.write("<p>slug: ").reference(ctx._get(false, ["slug"]),ctx,"h").write("</p><p> url: ").reference(ctx._get(false, ["resource_uri"]),ctx,"h").write("</p><p>content type:").reference(ctx._get(false, ["spec"]),ctx,"h").write("</p>").section(ctx._get(false,["attributes","master"]),ctx,{"block":body_1},null).section(ctx._get(false, ["members"]),ctx,{"block":body_2},null);}function body_1(chk,ctx){return chk.write("<div class=\"master\" id=\"asset_").reference(ctx._get(false, ["slug"]),ctx,"h").write("\">").reference(ctx._get(false, ["load_asset"]),ctx,"h").write("</div>");}function body_2(chk,ctx){return chk.write("<div class=\"asset\" id=\"asset_").reference(ctx._get(false, ["slug"]),ctx,"h").write("\">").reference(ctx._get(false, ["load_asset"]),ctx,"h").write("</div>");}return body_0;})();
-(function(){dust.register("main_article.edit",body_0);function body_0(chk,ctx){return chk.write("<form name=\"article\" id=\"content_").reference(ctx._get(false, ["id"]),ctx,"h").write("\"><label for=\"slug\">Slug:</label><input class=\"editable\" name=\"slug\" value=\"").reference(ctx._get(false, ["slug"]),ctx,"h").write("\"></input><formset name=\"metadata\"><label for=\"title\">Title:</label><input class=\"editable\" name=\"metadata.title\" value=\"").reference(ctx._get(false,["metadata","title"]),ctx,"h").write("\"></input><label for=\"dek\">Dek:</label><input class=\"editable\" name=\"metadata.dek\" value=\"").reference(ctx._get(false,["metadata","dek"]),ctx,"h").write("\"></input></formset><input type=\"submit\"></input></form><form><label for=\"master\">Master Image</label>").section(ctx._get(false,["attributes","master"]),ctx,{"block":body_1},null).write("<formfield name=\"members\">").section(ctx._get(false, ["members"]),ctx,{"block":body_2},null).write("</formfield></form>");}function body_1(chk,ctx){return chk.reference(ctx._get(false, ["load_asset"]),ctx,"h");}function body_2(chk,ctx){return chk.write("<label>page ").reference(ctx._get(false, ["order"]),ctx,"h").write(" </label>").reference(ctx._get(false, ["load_asset"]),ctx,"h");}return body_0;})();
-(function(){dust.register("site_nav",body_0);function body_0(chk,ctx){return chk.write("<nav id=\"nav\" class=\"row\"></nav><ul id=\"ticker\" class=\"row\">//ticker goes here</ul>");}return body_0;})();
-(function(){dust.register("nameplate",body_0);function body_0(chk,ctx){return chk.write("<a class=\"eight columns\" id=\"site-name\" title=\"Home\" rel=\"home\">Mother Jones</a><div class=\"eight columns\">Ad or subscription or whatever stuff here</div>");}return body_0;})();
-(function(){dust.register("single_column_layout",body_0);function body_0(chk,ctx){return chk.write("<div id=\"main-content\" class=\"sixteen columns one-column-layout mojo-column-layout\">I am within a full width layout</div>");}return body_0;})();
-(function(){dust.register("site_structure",body_0);function body_0(chk,ctx){return chk.write("<div class=\"container\"><header id=\"main-header\"><div id=\"nameplate\" class=\"row\"></div><div id=\"site-nav\"></div></header><div id=\"content\" class=\"row\"><a href=\"#/asset/fakeidgoeshere\">CLICK ME I GO OT FAKEASSETA</a></div><footer id=\"main-footer\" class=\"row\"></footer></div>");}return body_0;})();
-(function(){dust.register("three_column_layout",body_0);function body_0(chk,ctx){return chk.write("<div id=\"main-content\" class=\"eight columns three-column-layout mojo-column-layout\">left column ihn a three column layouteventually this will be a homepage, but for now,<a href=\"http://localhost:9001/#/article/3\">check this out</a></div><div id=\"middle-column\" class=\"three columns three-column-layout mojo-column-layout\">middle column in a three column layout</div><div id=\"right-column\" class=\"five columns three-column-layout mojo-column-layout\">right column in  athre column layout</div>");}return body_0;})();
-(function(){dust.register("two_column_layout",body_0);function body_0(chk,ctx){return chk.write("<div id=\"main-content\" class=\"eleven columns two-column-layout mojo-column-layout\">left column in a two column layout</div><div id=\"right-column\" class=\"five columns two-column-layout mojo-column-layout\">right column in a two column layout</div>");}return body_0;})();
-
-},{"dustjs-linkedin":16}],12:[function(require,module,exports){
+},{"./asset":3,"./content":6,"backbone":12,"jquery-browserify":21}],12:[function(require,module,exports){
 //     Backbone.js 1.1.0
 
 //     (c) 2010-2011 Jeremy Ashkenas, DocumentCloud Inc.
@@ -17557,4 +17676,4 @@ return jQuery;
 
 }).call(this);
 
-},{}]},{},[8])
+},{}]},{},[9])

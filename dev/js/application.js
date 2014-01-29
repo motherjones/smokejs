@@ -4,8 +4,7 @@
 module.exports = (function() {
     var Backbone = require('backbone');
     Backbone.$ = require('jquery-browserify');
-    var dust = require('dustjs-linkedin');
-    require('./templates.js');
+    var dust = require('./dust_templates.js')();
     var Nameplate = require('./nameplate');
 
 
@@ -36,14 +35,6 @@ module.exports = (function() {
                 }
                 var nameplateView = new Nameplate.NameplateView();
                 $('#nameplate', this.el).html( nameplateView.render().el );
-
-                /*
-                var navModel = new site_nav.NavModel();  
-                var navView = new site_nav.NavView({
-                    model : navModel
-                });
-                */
-                //$('#site-nav', this.el).html( navView.render().el );
 
                 self.updateLayout();
             });

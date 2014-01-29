@@ -76,7 +76,7 @@ module.exports = function(grunt) {
         options: {
           jshintrc: 'dev/js/.jshintrc'
         },
-        src: ['dev/js/**/*.js', '!dev/js/libs/**/*.js', '!dev/js/templates.js']
+        src: ['dev/js/**/*.js', '!dev/js/libs/**/*.js', '!dev/js/dust_templates.js']
       },
       test: {
         options: {
@@ -133,12 +133,31 @@ module.exports = function(grunt) {
             }
         }
     },
-    dustjs: {
-      compile: {
-        files: {
-          'dev/js/templates.js': ["dev/templates/**/*.dust"]
+//    dustjs: {
+//      compile: {
+//        files: {
+//          'dev/js/templates.js': ["dev/templates/**/*.dust"]
+//        }
+//      }
+//    },
+    dust: {
+        defaults: {
+            files: {
+                'dev/js/dust_templates.js': ["dev/templates/**/*.dust"]
+            },
+            options: {
+                runtime: false,
+                basePath: 'dev/templates',
+                wrapper: 'commonjs',
+                  wrapperOptions: {
+                    returning: "dust",
+                    deps: {
+                      dust: "dustjs-linkedin"
+                    }
+                  }
+
+            }
         }
-      }
     },
     watch: {
       gruntfile: {
@@ -151,7 +170,7 @@ module.exports = function(grunt) {
       },
       templates: {
         files: 'dev/templates/**/*.dust',
-        tasks: ['dustjs', 'qunit']
+        tasks: ['dust', 'browserify', 'qunit']
       },
       css: {
         files: 'dev/css/**/*.less',
@@ -175,17 +194,18 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.loadNpmTasks('grunt-html-smoosher');
-  grunt.loadNpmTasks('grunt-dustjs');
+//grunt.loadNpmTasks('grunt-dustjs');
+  grunt.loadNpmTasks('grunt-dust');
   grunt.loadNpmTasks('grunt-browserify');
 
   // Default task.
-  grunt.registerTask('default', ['dustjs', 'jshint', 'qunit', 'browserify', 'concat', 'uglify', 'less', 'smoosher', 'htmlmin']);
-  grunt.registerTask('min', ['dustjs', 'browserify', 'concat', 'uglify', 'cssmin', 'htmlmin']);
+  grunt.registerTask('default', ['dust', 'jshint', 'qunit', 'browserify', 'concat', 'uglify', 'less', 'smoosher', 'htmlmin']);
+  grunt.registerTask('min', ['dust', 'browserify', 'concat', 'uglify', 'cssmin', 'htmlmin']);
   grunt.registerTask('test', ['connect', 'qunit']);
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('css', ['less', 'cssmin']);
-  grunt.registerTask('dust', ['dustjs']);
-  grunt.registerTask('fab', ['dustjs', 'browserify', 'concat', 'uglify', 'less', 'cssmin', 'smoosher', 'htmlmin']);
-  grunt.registerTask('serve', ['dustjs', 'browserify', 'less', 'connect', 'watch']);
+//  grunt.registerTask('dust', ['dustjs']);
+  grunt.registerTask('fab', ['dust', 'browserify', 'concat', 'uglify', 'less', 'cssmin', 'smoosher', 'htmlmin']);
+  grunt.registerTask('serve', ['dust', 'browserify', 'less:development', 'connect', 'watch']);
 
 };
