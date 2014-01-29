@@ -53,9 +53,6 @@ module.exports = function(grunt) {
         dest: 'dist/js/<%= pkg.name %>.min.js'
       },
     },
-//    qunit: {
-//      all: ['dev/test/**/*.html']
-//    },
     qunit: {
         all: {
           options: {
@@ -133,13 +130,6 @@ module.exports = function(grunt) {
             }
         }
     },
-//    dustjs: {
-//      compile: {
-//        files: {
-//          'dev/js/templates.js': ["dev/templates/**/*.dust"]
-//        }
-//      }
-//    },
     dust: {
         defaults: {
             files: {
@@ -194,7 +184,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.loadNpmTasks('grunt-html-smoosher');
-//grunt.loadNpmTasks('grunt-dustjs');
   grunt.loadNpmTasks('grunt-dust');
   grunt.loadNpmTasks('grunt-browserify');
 
@@ -204,7 +193,6 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['connect', 'qunit']);
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('css', ['less', 'cssmin']);
-//  grunt.registerTask('dust', ['dustjs']);
   grunt.registerTask('fab', ['dust', 'browserify', 'concat', 'uglify', 'less', 'cssmin', 'smoosher', 'htmlmin']);
   grunt.registerTask('serve', ['dust', 'browserify', 'less:development', 'connect', 'watch']);
 
