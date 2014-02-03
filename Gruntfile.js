@@ -27,7 +27,12 @@ module.exports = function(grunt) {
             files: {
                 'dev/smoke.js': ['dev/js/main.js']
             }
-        }
+        },
+        test: {
+            files: {
+                'dev/test/smoke_test.js': ['dev/test/js/all.js']
+            }
+        },
     },
     less: {
       development: {
@@ -79,7 +84,7 @@ module.exports = function(grunt) {
         options: {
           jshintrc: 'dev/test/.jshintrc'
         },
-        src: ['dev/test/*.js']
+        src: ['dev/test/js/*.js']
       },
     },
     cssmin: {
@@ -168,7 +173,7 @@ module.exports = function(grunt) {
       },
       test: {
         files: '<%= jshint.test.src %>',
-        tasks: ['jshint:test', 'qunit']
+        tasks: ['jshint:test', 'browserify:test', 'qunit']
       },
     },
   });
@@ -190,7 +195,7 @@ module.exports = function(grunt) {
   // Default task.
   grunt.registerTask('default', ['dust', 'jshint', 'qunit', 'browserify', 'concat', 'uglify', 'less', 'smoosher', 'htmlmin']);
   grunt.registerTask('min', ['dust', 'browserify', 'concat', 'uglify', 'cssmin', 'htmlmin']);
-  grunt.registerTask('test', ['connect', 'qunit']);
+  grunt.registerTask('test', ['browserify:test', 'connect', 'qunit']);
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('css', ['less', 'cssmin']);
   grunt.registerTask('fab', ['dust', 'browserify', 'concat', 'uglify', 'less', 'cssmin', 'smoosher', 'htmlmin']);
