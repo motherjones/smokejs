@@ -68,13 +68,6 @@ module.exports = (function() {
 
     });
 
-    var auth = function(role) {
-        //FIXME do some auth here
-        if (role) {
-            return true;
-        }
-    };
-
     return {
         'SiteView': SiteView,
         'SiteState': SiteState,

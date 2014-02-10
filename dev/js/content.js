@@ -21,7 +21,6 @@ module.exports = (function() {
         urlRoot: EnvConfig.DATA_STORE + 'content',
         defaults : {
             context: 'main',
-            editing: false,
         },
     });
 
@@ -31,43 +30,34 @@ module.exports = (function() {
         article : {
             main : {
                 view: 'main_article',
-                edit: 'main_article.edit',
             },
             sidebar : {
                 view: 'sidebar_content',
-                edit: 'sidebar_content.edit',
             },
             list :  {
                 view: 'list_content',
-                edit: 'list_content.edit',
             },
         },
         photoessay : {
             main : {
                 view: 'main_photoessay',
-                edit: 'main_photoessay.edit',
             },
             sidebar : {
                 view: 'sidebar_content',
-                edit: 'sidebar_content.edit',
             },
             list :  {
                 view: 'list_content',
-                edit: 'list_content.edit',
             },
         },
         blog : {
             main : {
                 view: 'main_blog',
-                edit: 'main_blog.edit',
             },
             sidebar : {
                 view: 'sidebar_content',
-                edit: 'sidebar_content.edit',
             },
             list :  {
                 view: 'list_content',
-                edit: 'list_content.edit',
             },
         },
     };
@@ -76,15 +66,6 @@ module.exports = (function() {
         contexts_which_require_assets_loaded: [
             'main_content',
         ],
-        child_assets_editing: function(editing) { 
-            for (var attribute in this.attribute_views) {
-                var attributeView = this.attribute_views[attribute];
-                attributeView.model.set('editing', editing);
-            }
-            for (var i = 0; i < this.member_views.length; i++) {
-                this.member_views[i].model.set('editing', editing);
-            }
-        },
         member_views : [],
         attribute_views: {},
         post_load: function() {
@@ -92,8 +73,7 @@ module.exports = (function() {
                 this.model.get('spec')
             ];
             this.template = this.possible_templates
-                [this.model.get('context')]
-                [this.model.get('editing') ? 'edit' : 'view' ];
+                [this.model.get('context')];
             var content_attributes = this.model.get('attributes');
             for ( var attribute in content_attributes) {
                 var attributeView = this.create_asset_view(
@@ -108,13 +88,6 @@ module.exports = (function() {
                     this.create_asset_view(content_members[i].member)
                 );
             }
-        },
-        process_form: function() {
-            console.log('test');
-            return;
-        },
-        set_form: function() {
-            this.form = $('form[name="metadata"]', this.$el);
         },
         create_asset_view: function(asset_data) {
            //FIXME ask real nice if we cna not have resource uri on here
