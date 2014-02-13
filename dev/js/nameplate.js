@@ -4,7 +4,7 @@
 module.exports = (function() {
     var Backbone = require('backbone');
     Backbone.$ = require('jquery-browserify');
-    var dust = require('./dust_templates')();
+    var dust = require('../../build/js/dust_templates.js')();
 
 
     var NameplateModel = Backbone.Model.extend({

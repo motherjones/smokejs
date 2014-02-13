@@ -5,7 +5,7 @@ module.exports = (function() {
     var Backbone = require('backbone');
     Backbone.$ = require('jquery-browserify');
     var Content = require('./content');
-    var dust = require('dust_templates.js')();
+    var dust = require('../../build/js/dust_templates.js')();
     var Env_config = require('./config');
 
 

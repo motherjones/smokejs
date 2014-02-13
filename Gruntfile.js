@@ -16,28 +16,23 @@ module.exports = function(grunt) {
       options: {
         banner: '<%= banner %>',
         stripBanners: true
-      },
-      dist: {
-        src: ['dev/js/*.js'],
-        dest: 'dist/js/<%= pkg.name %>.js'
-      },
-    },
+      }    },
     browserify: {
         dist: {
             files: {
-                'dev/smoke.js': ['dev/js/main.js']
+                'build/js/smoke.js': ['dev/js/main.js']
             }
         },
         test: {
             files: {
-                'dev/test/smoke_test.js': ['dev/test/js/all.js']
+                'build/test/smoke_test.js': ['dev/test/all.js']
             }
         },
     },
     less: {
       development: {
         files: {
-          "dev/css/<%= pkg.name %>.css": "dev/css/**/*.less"
+          "build/css/<%= pkg.name %>.css": "dev/css/**/*.less"
         }
       },
       production: {
@@ -45,7 +40,7 @@ module.exports = function(grunt) {
           yuicompress: true
         },
         files: {
-          "dist/css/<%= pkg.name %>.css": "dev/css/*.less"
+          "build/css/<%= pkg.name %>.min.css": "dev/css/*.less"
         }
       }
     },
@@ -54,15 +49,15 @@ module.exports = function(grunt) {
         banner: '<%= banner %>'
       },
       dist: {
-        src: '<%= concat.dist.dest %>',
-        dest: 'dist/js/<%= pkg.name %>.min.js'
+        src: 'build/js/smoke.js',
+        dest: 'build/js/smoke.min.js'
       },
     },
     qunit: {
         all: {
           options: {
             urls: [
-              'http://localhost:9001/test/smoke_test.html'
+              'http://localhost:9001/smoke_test.html'
             ]
           }
         }
@@ -78,52 +73,29 @@ module.exports = function(grunt) {
         options: {
           jshintrc: 'dev/js/.jshintrc'
         },
-        src: ['dev/js/**/*.js', '!dev/js/libs/**/*.js', '!dev/js/dust_templates.js']
+        src: ['dev/js/**/*.js', '!dev/js/libs/**/*.js']
       },
       test: {
         options: {
           jshintrc: 'dev/test/.jshintrc'
         },
-        src: ['dev/test/js/*.js']
+        src: ['dev/test/*.js']
       },
     },
     cssmin: {
       minify: {
         expand: true,
-        cwd: 'dev/css/',
+        cwd: 'build/css/',
         src: ['/*.css',],
-        dest: 'dist/css',
+        dest: 'build/css',
         ext: '.css'
       },
-    },
-    smoosher : {
-        dev : {
-            files : {
-                'dist/inline.html' : ['dev/index.html']
-            }
-        },
-        dist : {
-            files: {
-                'dist/inline.min.html' : ['dist/index.html']
-            }
-        }
-    },
-    htmlmin: {
-        dist: {
-          options: {
-            removeComments: true,
-            collapseWhitespace: true,
-          },
-          files: { 
-              'dist/smallest.html': 'dist/inline.min.html'
-          },
-        },
     },
     connect: {
         server: {
             options: {
                 port: 9001,
-                base: 'dev',
+                base: 'build',
                 middleware: function(connect, options) {
                     var less = require('less-middleware');
                     return [
@@ -135,10 +107,22 @@ module.exports = function(grunt) {
             }
         }
     },
+    htmlmin: { 
+        build: {
+            options: {                                 // Target options
+                removeComments: true,
+                collapseWhitespace: true
+            },
+            files: {
+                'build/index.html': 'dev/index.html',     // 'destination': 'source'
+                'build/smoke_test.html': 'dev/test/smoke_test.html',     // 'destination': 'source'
+            }
+        }
+    },
     dust: {
         defaults: {
             files: {
-                'dev/js/dust_templates.js': ["dev/templates/**/*.dust"]
+                'build/js/dust_templates.js': ["dev/templates/**/*.dust"]
             },
             options: {
                 runtime: false,
@@ -171,6 +155,10 @@ module.exports = function(grunt) {
         files: 'dev/css/**/*.less',
         tasks: ['less:development']
       },
+      html: {
+        files: 'dev/**/*.html',
+        tasks: ['htmlmin']
+      },
       test: {
         files: '<%= jshint.test.src %>',
         tasks: ['jshint:test', 'browserify:test', 'qunit']
@@ -188,17 +176,16 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
-  grunt.loadNpmTasks('grunt-html-smoosher');
   grunt.loadNpmTasks('grunt-dust');
   grunt.loadNpmTasks('grunt-browserify');
 
   // Default task.
-  grunt.registerTask('default', ['dust', 'jshint', 'qunit', 'browserify', 'concat', 'uglify', 'less', 'smoosher', 'htmlmin']);
+  grunt.registerTask('default', ['dust', 'jshint', 'qunit', 'browserify', 'concat', 'uglify', 'less', 'htmlmin']);
   grunt.registerTask('min', ['dust', 'browserify', 'concat', 'uglify', 'cssmin', 'htmlmin']);
-  grunt.registerTask('test', ['browserify:test', 'connect', 'qunit']);
+  grunt.registerTask('test', ['browserify:test', 'connect', 'qunit', 'htmlmin']);
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('css', ['less', 'cssmin']);
-  grunt.registerTask('fab', ['dust', 'browserify', 'concat', 'uglify', 'less', 'cssmin', 'smoosher', 'htmlmin']);
-  grunt.registerTask('serve', ['dust', 'browserify', 'less:development', 'connect', 'watch']);
+  grunt.registerTask('fab', ['dust', 'browserify', 'concat', 'uglify', 'less', 'cssmin', 'htmlmin' ]);
+  grunt.registerTask('serve', ['dust', 'browserify', 'less:development', 'htmlmin', 'connect', 'watch']);
 
 };

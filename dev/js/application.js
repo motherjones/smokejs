@@ -4,7 +4,7 @@
 module.exports = (function() {
     var Backbone = require('backbone');
     Backbone.$ = require('jquery-browserify');
-    var dust = require('./dust_templates.js')();
+    var dust = require('../../build/js/dust_templates.js')();
     var Nameplate = require('./nameplate');
 
 
@@ -71,6 +71,5 @@ module.exports = (function() {
     return {
         'SiteView': SiteView,
         'SiteState': SiteState,
-        'auth' : auth,
     };
 })();

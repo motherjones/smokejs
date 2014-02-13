@@ -6,7 +6,7 @@ module.exports = (function() {
     var _ = require('underscore');
     var Backbone = require('backbone');
     Backbone.$ = require('jquery-browserify');
-    var dust = require('./dust_templates.js')();
+    var dust = require('../../build/js/dust_templates.js')();
     var Env_config = require('./config');
 
 

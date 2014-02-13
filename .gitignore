@@ -1,5 +1,4 @@
 .DS_Store
-dev/js/templates.js
 *.swp
 dist/
 
