@@ -1,3 +1,4 @@
+/*global require */
 
 module.exports = (function() {
     var unit_tests = {};

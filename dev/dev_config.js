@@ -11,23 +11,21 @@ module.exports = (function() {
             var asset = context.stack.head;
             var asset_view;
             if (asset.member) {
-                for (var i = 0; i < self.member_views.length; i++) {
-                    if (self.member_views[i].model.get('slug') === asset.member.slug) {
-                        asset_view = self.member_views[i];
+                for (var i = 0; i < this.member_views.length; i++) {
+                    if (this.member_views[i].model.get('slug') === asset.member.slug) {
+                        asset_view = this.member_views[i];
                         break;
                     }
                 }
             } else {
-                asset_view = self.attribute_views[asset.keyword];
+                asset_view = this.attribute_views[asset.keyword];
             }
             return chunk.map(function(chunk) {
                 $.when(
                     asset_view.render()
                 ).done(function() {
                     var asset_id = 'asset_' + asset_view.model.get('slug');
-                    $.when(promise).done(function() {
-                        $('#' + asset_id, self.$el).append(asset_view.$el);
-                    });
+                    $('#' + asset_id, this.$el).append(asset_view.$el);
                     chunk.end('<div id="asset_' + asset_view.model.get('slug') + '"></div>');
                     //chunk.end(asset_view.el);
                 });

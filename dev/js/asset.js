@@ -9,7 +9,7 @@ module.exports = (function() {
     var Backbone = require('backbone');
     Backbone.$ = require('jquery-browserify');
     var EnvConfig = require('./config');
-    var FileReader = require('./libs/filereader.min');
+    //var FileReader = require('./libs/filereader.min');
     
 
     var AssetModel = APIObject.APIObjectModel.extend({

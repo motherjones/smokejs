@@ -21,13 +21,13 @@ module.exports = (function() {
     var self = {};
     self.tests = [];
 
-    self.tests.push(["truthy", function(t) {
+    self.tests.push(["truthy", function() {
       expect(3);
       ok(true, "true is truthy");
       equal(1, true, "1 is truthy and so equal");
       notEqual(0, true, "0 is NOT truthy");
     }]);
-    self.tests.push(["deeptruth", function(t) {
+    self.tests.push(["deeptruth", function() {
         expect(1);
         deepEqual(1, 1, 'wow');
     }]);

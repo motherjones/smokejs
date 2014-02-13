@@ -8,7 +8,6 @@
 'use strict';
 
 module.exports = (function() {
-    var $ = require('jquery-browserify');
     var _ = require('underscore');
     var APIObject = require('./api_object');
     var Asset = require('./asset');
