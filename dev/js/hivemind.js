@@ -9,6 +9,7 @@ module.exports = (function() {
 
 
     var Model = new Backbone.Model.extend({
+        urlRoot: EnvConfig.DATA_STORE + 'content',
     });
 
     var Collection = new Backbone.Model.extend({
