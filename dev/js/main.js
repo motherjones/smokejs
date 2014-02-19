@@ -8,10 +8,9 @@
 'use strict';
 
 (function() {
-    var Router = require('./router');
     var Application = require('./application');
     var Backbone = require('backbone');
-    Backbone.$ = require('jquery-browserify');
+    var Router = require('./router');
 
 
     //FIXME do some figuring here, see what initial site state should be
@@ -21,20 +20,15 @@
         model: site_state,
     });
 
-    site_state.on('change:content_view', function() {
-        site_view.updateContent();
-    });
-    site_state.on('change:spec', function() {
-        site_view.updateLayout();
-    });
-
     new Router({
         site_state: site_state,
+        main_content: site_state,
     });
 
-    site_view.render();
 
     Backbone.history.start();
+
+    site_view.render();
 
     return;
 })();

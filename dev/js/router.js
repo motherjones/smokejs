@@ -2,86 +2,41 @@
 'use strict';
 
 module.exports = (function() {
-    var Asset = require('./asset');
     var Backbone = require('backbone');
-    Backbone.$ = require('jquery-browserify');
-    var Content = require('./content');
-
+    var $ = require('jquery-browserify');
 
     return Backbone.Router.extend({
-
-        initialize: function(options) {
-            this.site_state = options.site_state;
-        },
-
         routes : {
+            "/" : "display_homepage",
             "article/:slug" : "display_main_content",
-            "asset/:slug" : "display_asset",
             //FIXME move edit elsewhere
-            "edit/article/:slug" : "edit_content",
-            "new/:spec" : "create_content",
+            "/topic/:slug" : "display_topic",
+            "/:slug" : "display_section",
         },
 
         display_main_content : function(slug) {
-            var self = this;
-            var content = new Content.ContentModel({
-                id: slug,
-            });
-            var content_view = new Content.ContentView({ model: content });
-            self.site_state.set({
-                content_view : content_view,
+            this.main_content.model.set('id', slug);
+            $.when( this.main_content.loaded ).done(function() {
+                this.site_state.model.set('template',
+                    this.main_content.model.get('template')
+                );
             });
         },
 
-        display_asset : function(slug) {
-            var assetModel = new Asset.Asset({
-                id: slug,
-            });
+        display_homepage : function() {
+            this.site_state.model.set('template', 'homepage');
+        },
 
-            var assetView = new Asset.AssetView({
-                model: assetModel
-            });
+        display_topic : function(slug) {
+            this.site_state.model.set('topic', slug);
+            this.site_state.model.set('template', 'topic');
+        },
 
-            assetView.render();
+        display_section : function(slug) {
+            this.site_state.model.set('section', slug);
+            this.site_state.model.set('template', 'section');
         },
-        create_content: function(spec) {
-            var content = new Content.ContentModel({
-                id: '',
-                editing: true,
-                spec: spec,
-                attributes: {
-                    master: {
-                        attribute: {
-                            data_url : '',// FIXME point this at a mj image
-                            id: '',
-                            editing: true,
-                        },
-                        keyword: 'master',
-                    },
-                },
-            });
-            var content_view = new Content.ContentView({model : content});
-            this.site_state.set({
-                content_view : content_view,
-            });
-        },
-        edit_content : function(slug) {
-            var self = this;
-            var content = new Content.ContentModel({
-                id: slug,
-                editing: true,
-            });
-            var content_view = new Content.ContentView({model : content});
-            $.when( content_view.load() )
-                .done(function() {
-                    content_view.model.set('editing', true);
-                    content_view.child_assets_editing(true);
-                    self.site_state.set({spec : 'page'});
-                    self.site_state.set({
-                            content_view : content_view
-                    });
-                });
-        },
+
     });
 
 })();

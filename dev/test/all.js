@@ -1,8 +1,8 @@
 /*global require */
 
 var test_collections = [
-    require('./application_tests'),
-    require('./basic_tests')
+    require('./basic_tests'),
+    require('./application_tests')
 ];
 
 for (var i = 0; i < test_collections.length; i++){
