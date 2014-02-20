@@ -3,7 +3,7 @@
 
 module.exports = (function() {
     var Backbone = require('backbone');
-    var $ = require('jquery-browserify');
+    var $ = require('jquery');
 
     return Backbone.Router.extend({
         routes : {
