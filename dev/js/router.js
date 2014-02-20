@@ -9,7 +9,6 @@ module.exports = (function() {
         routes : {
             "/" : "display_homepage",
             "article/:slug" : "display_main_content",
-            //FIXME move edit elsewhere
             "/topic/:slug" : "display_topic",
             "/:slug" : "display_section",
         },

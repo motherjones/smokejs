@@ -9,7 +9,7 @@ module.exports = (function() {
 
 
     var Model = new Backbone.Model.extend({
-        urlRoot: EnvConfig.DATA_STORE + 'content',
+        urlRoot: Env_config.DATA_STORE + 'content',
     });
 
     var Collection = new Backbone.Model.extend({
@@ -45,8 +45,11 @@ module.exports = (function() {
                 var asset = context.stack.head;
                 var asset_model = new Model(asset);
                 var asset_view = new View(asset_model);
-                if (params && params.template) {
-                    asset_view.model.set('template', params.template);
+                if (asset.force_template) {
+                    asset_view.model.set('template', asset.force_template);
+                } else if (params && params.template) {
+                    asset_view.model.set('template', 
+                        asset.media_type + params.context);
                 }
                 return chunk.map(function(chunk) {
                     chunk.end('<div id="asset_' + asset.slug + '"></div>');

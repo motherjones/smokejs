@@ -1,0 +1,7 @@
+<div id="main-content" class="eleven columns two-column-layout mojo-column-layout">
+    left column in a two column layout
+</div>
+<div id="right-column" class="five columns two-column-layout mojo-column-layout">
+    right column in a two column layout
+</div>
+

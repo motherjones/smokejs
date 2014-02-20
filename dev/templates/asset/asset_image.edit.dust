@@ -1,8 +1,0 @@
-<form>
-    <img class="asset preview" id="slug_{slug}" src="{media_base}{data_url}">
-    </img>
-    <label for="file_upload_{slug}">
-    <input class="editable" type="file" name="file_upload_{slug}" accept="image/*" />
-    <input type="submit" />
-</form>
-
