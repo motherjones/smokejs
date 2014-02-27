@@ -12,7 +12,7 @@ module.exports = (function() {
         urlRoot: Env_config.DATA_STORE + 'content',
     });
 
-    var Collection = new Backbone.Model.extend({
+    var Collection = new Backbone.Collection.extend({
     });
 
     var View = Backbone.View.extend({
@@ -63,10 +63,10 @@ module.exports = (function() {
         render: function() {
             this.before_render();
             var promise = $.Deferred();
-            var context = this.dustbase().push(context);
+            var context = this.dustbase().push(this.model.attributes);
             var self = this;
             self.$el.hide();
-            Dust.render( this.model.template,  this.model.attributes, 
+            Dust.render( this.model.template,  context, 
                 function(err, out) {  //callback
                     if (err) {
                         Env_config.ERROR_HANDLER(err, self);
