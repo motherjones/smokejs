@@ -1,0 +1,10 @@
+{
+  "article": {
+    "text/x-markdown": "article"
+  },
+  "master_image": {
+    "image/jpeg": "master_image",
+    "image/png": "master_image",
+    "image/gif": "master_image"
+  }
+}
