@@ -16,7 +16,8 @@
      
      Decision: there will be a JSON blob
 
-**** STARTED Write tests for the template chooser
+**** DONE Write tests for the template chooser
+     CLOSED: [2014-03-03 Mon 16:42]
 **** TODO Implement context-awareness for the templates
      Specifically we want chooseTemplate to give us a different template for an
      (e.g.) image if it's the master image for an article or if it's the master
