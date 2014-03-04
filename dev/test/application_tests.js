@@ -1,28 +1,28 @@
 /*global require */
 
 module.exports = (function() {
-    var unit_tests = {};
-    unit_tests.tests = [];
-    unit_tests.HiveMind = require('../js/hivemind');
+  var unit_tests = {};
+  unit_tests.tests = [];
+  unit_tests.HiveMind = require('../js/hivemind');
 
-    unit_tests.tests.push(["pulled hivemind", function() {
-      expect(1);
+  unit_tests.tests.push(["pulled hivemind", function() {
+    expect(1);
       ok(unit_tests.HiveMind, "it's here");
-    }]);
+  }]);
 
   unit_tests.tests.push(
     ["test template chooser with a good component",
      function() {
        expect(1);
        var article_component = {
-	 schema_name: 'article',
-	 content_type: 'text/x-markdown'
+         schema_name: 'article',         
+         content_type: 'text/x-markdown'
        };
 
        strictEqual(unit_tests.HiveMind.chooseTemplate(article_component),
-	 	   'article',
-		   'template chooser returns correct template name for a'
-		   + ' correct schema and content type pair');
+                   'article',
+                   'template chooser returns correct template name for a' +
+                   ' correct schema and content type pair');
      }
     ]
   );
@@ -32,14 +32,14 @@ module.exports = (function() {
      function() {
        expect(1);
        var article_component = {
-	 schema_name: 'srticle',
-	 content_type: 'text/x-markdown'
+         schema_name: 'srticle',
+         content_type: 'text/x-markdown'
        };
 
        strictEqual(unit_tests.HiveMind.chooseTemplate(article_component),
-		   null,
-		   'template chooser returns null for an unknown schema/content'
-		   + ' type pair');
+                   null,
+                   'template chooser returns null for an unknown schema/content' +
+                   ' type pair');
      }
     ]
   );
@@ -49,14 +49,14 @@ module.exports = (function() {
      function() {
        expect(1);
        var article_component = {
-	 schema_name: 'article',
-	 content_type: 'image/jpeg'
+         schema_name: 'article',
+         content_type: 'image/jpeg'
        };
 
        strictEqual(unit_tests.HiveMind.chooseTemplate(article_component),
-	   	   null,
-		   'template chooser returns null for an unknown schema/content'
-		   + ' type pair');
+                   null,
+                   'template chooser returns null for an unknown schema/content' +
+                   ' type pair');
      }
     ]
   );
@@ -67,5 +67,5 @@ module.exports = (function() {
   }]);
 
 
-    return unit_tests;
+  return unit_tests;
 })();
