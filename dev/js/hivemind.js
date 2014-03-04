@@ -2,7 +2,6 @@
 'use strict';
 
 module.exports = (function() {
-  var _ = require('underscore');
   var Backbone = require('backbone');
   var $ = Backbone.$ = require('jquery');
   var Dust = require('../../build/js/dust_templates.js')();
@@ -36,14 +35,14 @@ module.exports = (function() {
     return templateMap[parentTemplate][schemaName][contentType];
   };
 
-  var Model = _.extend(Backbone.Model.prototype, {
-    urlRoot: Env_config.DATA_STORE + 'content',
+  var Model = Backbone.Model.extend({
+    urlRoot: Env_config.DATA_STORE,
   });
 
-  var Collection = _.extend(Backbone.Collection.prototype, {
+  var Collection = Backbone.Collection.extend({
   });
 
-  var View = _.extend(Backbone.View.prototype, {
+  var View = Backbone.View.extend({
     model_type: Model,
       self: this,
 
