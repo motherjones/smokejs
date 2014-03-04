@@ -2,7 +2,8 @@
 ** Tasks for RC1
 *** DONE Create a testing template for articles
     CLOSED: [2014-02-27 Thu 10:18]
-*** STARTED Make a function to choose the correct template
+*** DONE Make a function to choose the correct template
+    CLOSED: [2014-03-04 Tue 11:30]
     Given the component type (article, author, etc) and the content type
     (application/x-markdown, image/png, etc), return the appropriate template.
     
@@ -17,7 +18,8 @@
 **** DONE Write tests for the template chooser
      CLOSED: [2014-03-03 Mon 16:42]
 
-**** TODO Implement context-awareness for the templates
+**** DONE Implement context-awareness for the templates
+     CLOSED: [2014-03-04 Tue 11:29]
      Specifically we want chooseTemplate to give us a different template for an
      (e.g.) image if it's the master image for an article or if it's the master
      image for a quize.
