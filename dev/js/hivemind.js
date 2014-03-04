@@ -7,6 +7,25 @@ module.exports = (function() {
     var Dust = require('../../build/js/dust_templates.js')();
     var Env_config = require('./config');
 
+  var chooseTemplate = function(component, parent) {
+    var parent = (typeof parent === 'undefined') ? null : parent;
+
+    var templateMap = require('./templateMap');
+    var schemaName = component.schema_name;
+    var contentType = component.content_type;
+
+    var hasSchemaName = schemaName in templateMap;
+    if ( !hasSchemaName ) {
+      return null;
+    }
+
+    var hasContentType = contentType in templateMap[schemaName];
+    if ( !hasContentType ) {
+      return null;
+    }
+
+    return templateMap[schemaName][contentType];
+  };
 
     var Model = new Backbone.Model.extend({
         urlRoot: Env_config.DATA_STORE + 'content',
@@ -107,12 +126,12 @@ module.exports = (function() {
             });
             return this.loaded;
         },
-
     });
 
     return {
         View: View,
         Model: Model,
         Collection: Collection,
+      chooseTemplate: chooseTemplate,
     };
 })();

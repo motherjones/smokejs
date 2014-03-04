@@ -1,6 +1,23 @@
-<div id="main-content" class="eleven columns two-column-layout mojo-column-layout">
-    left column in a two column layout
-</div>
-<div id="right-column" class="five columns two-column-layout mojo-column-layout">
-    right column in a two column layout
-</div>
+<h1>{ metadata.title }</h1>
+
+&lt;img src="{uri}"&gt;<br>
+{master_image.metadata.caption} <i>{master_image.metadata.attribution}</i>
+
+<h2>Authors</h2>
+<ul>
+  {#byline}
+    <li><a href="{uri}">{metadata.first_name} {metadata.last_name}</a></li>
+  {/byline}
+</ul>
+
+
+
+<b>Data url</b>: {data_uri}
+
+<h2>Tags</h2>
+<ul>
+  {#metadata.tags}
+    <li>{tag}</li>{~n}
+  {/metadata.tags}
+</ul>
+
