@@ -180,7 +180,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-browserify');
 
   // Default task.
-  grunt.registerTask('default', ['dust', 'jshint', 'qunit', 'browserify', 'concat', 'uglify', 'less', 'htmlmin']);
+  grunt.registerTask('default', ['dust', 'jshint', 'browserify', 'concat', 'uglify', 'less', 'htmlmin', 'connect', 'qunit']);
   grunt.registerTask('min', ['dust', 'browserify', 'concat', 'uglify', 'cssmin', 'htmlmin']);
   grunt.registerTask('test', ['browserify:test', 'connect', 'qunit', 'htmlmin']);
   grunt.registerTask('lint', ['jshint']);
