@@ -6,8 +6,6 @@
     Given the component type (article, author, etc) and the content type
     (application/x-markdown, image/png, etc), return the appropriate template.
     
-    +This should be overrideable by the component itself using the use_template
-    metadata attribute.+ (Maybe later)
 **** DONE Decide how the component/content type/template mapping will be stored
      CLOSED: [2014-03-03 Mon 16:07]
      Will this be a JSON blob served up by Mirrors? Will this be built directly
@@ -18,14 +16,16 @@
 
 **** DONE Write tests for the template chooser
      CLOSED: [2014-03-03 Mon 16:42]
+
 **** TODO Implement context-awareness for the templates
      Specifically we want chooseTemplate to give us a different template for an
      (e.g.) image if it's the master image for an article or if it's the master
      image for a quize.
+
 *** TODO Make a dust filter to turn markdown into html
-    This may already exist! Search for it
 **** TODO Write tests for the markdown->html filter
      (if it doesn't exist already)
+
 *** TODO Hook the markdown filter into our existing render function
 
 (This is just a markdown of the org-mode file I'm currently using to organize
