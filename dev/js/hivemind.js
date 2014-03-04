@@ -7,8 +7,8 @@ module.exports = (function() {
     var Dust = require('../../build/js/dust_templates.js')();
     var Env_config = require('./config');
 
-  var chooseTemplate = function(component, parent) {
-    var parent = (typeof parent === 'undefined') ? null : parent;
+  var chooseTemplate = function(component, component_parent) {
+    var parent = (typeof component_parent === 'undefined') ? null : parent;
 
     var templateMap = require('./templateMap');
     var schemaName = component.schema_name;
