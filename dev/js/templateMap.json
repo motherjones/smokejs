@@ -1,10 +1,22 @@
 {
-  "article": {
-    "text/x-markdown": "article"
+  "undefined": {
+    "article": {
+      "text/x-markdown": "article"
+    },
+    "master_image": {
+      "image/jpeg": "master_image",
+      "image/png": "master_image",
+      "image/gif": "master_image"
+    }
   },
-  "master_image": {
-    "image/jpeg": "master_image",
-    "image/png": "master_image",
-    "image/gif": "master_image"
+  "article": {
+    "master_image": {
+      "image/jpeg": "article_master_image",
+      "image/png": "article_master_image",
+      "image/gif": "article_master_image"
+    },
+    "author": {
+      "application/json": "author_byline"
+    }
   }
 }

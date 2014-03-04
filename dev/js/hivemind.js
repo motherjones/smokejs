@@ -6,25 +6,33 @@ module.exports = (function() {
     var $ = Backbone.$ = require('jquery');
     var Dust = require('../../build/js/dust_templates.js')();
     var Env_config = require('./config');
+    var templateMap = require('./templateMap');
 
   var chooseTemplate = function(component, component_parent) {
-    var parent = (typeof component_parent === 'undefined') ? null : parent;
+    var parentTemplate = 'undefined';
 
-    var templateMap = require('./templateMap');
     var schemaName = component.schema_name;
     var contentType = component.content_type;
 
-    var hasSchemaName = schemaName in templateMap;
+    var parentDefined = (typeof component_parent !== 'undefined');
+    if ( parentDefined ) {
+      parentTemplate = chooseTemplate(component_parent);
+      if ( parentTemplate === null ) {
+        return null;
+      }
+    }
+
+    var hasSchemaName = schemaName in templateMap[parentTemplate];
     if ( !hasSchemaName ) {
       return null;
     }
 
-    var hasContentType = contentType in templateMap[schemaName];
+    var hasContentType = contentType in templateMap[parentTemplate][schemaName];
     if ( !hasContentType ) {
       return null;
     }
 
-    return templateMap[schemaName][contentType];
+    return templateMap[parentTemplate][schemaName][contentType];
   };
 
     var Model = new Backbone.Model.extend({

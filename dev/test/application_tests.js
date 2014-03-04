@@ -61,6 +61,82 @@ module.exports = (function() {
     ]
   );
 
+  unit_tests.tests.push(
+    ["test context aware templates work",
+     function() {
+       expect(1);
+       var parent_component = {
+         schema_name: 'article',
+         content_type: 'text/x-markdown'
+       };
+       var component = {
+         schema_name: 'master_image',
+         content_type: 'image/png'
+       };
+
+       var template = unit_tests.HiveMind.chooseTemplate(component,
+                                                         parent_component);
+
+       strictEqual(
+         template,
+         'article_master_image',
+         'template chooser returns article_master_image for a master_image'+
+           ' with an article parent'
+       );
+     }
+    ]
+  );
+
+  unit_tests.tests.push(
+    ["test context aware templates fail with bad parents",
+     function() {
+       expect(1);
+       var parent_component = {
+         schema_name: 'srticle',
+         content_type: 'text/x-markdown'
+       };
+       var component = {
+         schema_name: 'master_image',
+         content_type: 'image/png'
+       };
+
+       var template = unit_tests.HiveMind.chooseTemplate(component,
+                                                         parent_component);
+
+       strictEqual(
+         template,
+         null,
+         'template chooser returns null for a component with an invalid parent'
+       );
+     }
+    ]
+  );
+
+  unit_tests.tests.push(
+    ["test context aware templates fail with bad children",
+     function() {
+       expect(1);
+       var parent_component = {
+         schema_name: 'article',
+         content_type: 'text/x-markdown'
+       };
+       var component = {
+         schema_name: '-master_image',
+         content_type: 'image/png'
+       };
+
+       var template = unit_tests.HiveMind.chooseTemplate(component,
+                                                         parent_component);
+
+       strictEqual(
+         template,
+         null,
+         'template chooser returns null for an invalid component with a parent'
+       );
+     }
+    ]
+  );
+
   unit_tests.tests.push(["test dust html filter", function() {
     expect(1);
     ok(false, "test not implemented yet");
