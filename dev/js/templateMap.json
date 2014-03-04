@@ -1,7 +1,8 @@
 {
   "undefined": {
     "article": {
-      "text/x-markdown": "article"
+      "text/x-markdown": "article",
+      "text/html": "legacy"
     },
     "master_image": {
       "image/jpeg": "master_image",
