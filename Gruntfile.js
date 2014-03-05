@@ -32,7 +32,7 @@ module.exports = function(grunt) {
     less: {
       development: {
         files: {
-          "build/css/<%= pkg.name %>.css": "dev/css/**/*.less"
+          "build/css/<%= pkg.name %>.css": ["dev/css/**/*.less", "dev/css/**/*.css"]
         }
       },
       production: {
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
           yuicompress: true
         },
         files: {
-          "build/css/<%= pkg.name %>.min.css": "dev/css/*.less"
+          "build/css/<%= pkg.name %>.min.css": ["dev/css/*.less", "dev/css/*.css"]
         }
       }
     },
