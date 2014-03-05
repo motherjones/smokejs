@@ -4,6 +4,7 @@
 module.exports = (function() {
     var Backbone = require('backbone');
     var $ = require('jquery');
+    var Article = require('./article');
 
     return Backbone.Router.extend({
         routes : {
@@ -14,12 +15,13 @@ module.exports = (function() {
         },
 
         display_main_content : function(slug) {
-            this.main_content.model.set('id', slug);
-            $.when( this.main_content.loaded ).done(function() {
-                this.site_state.model.set('template',
-                    this.main_content.model.get('template')
-                );
-            });
+          var articleModel = new Article.Model({ id: slug });
+          var articleView = new Article.View({ model: articleModel });
+          $.when( articleView.load() ).done(function() {
+              this.siteModel.set('template',
+                  articleModel.get('template')
+              );
+          });
         },
 
         display_homepage : function() {

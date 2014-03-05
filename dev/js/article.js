@@ -6,8 +6,7 @@ module.exports = (function() {
 
     var Model = HiveMind.Model.extend({
         defaults: {
-          template: 'homepage',
-          content: null,
+          template: 'article',
         }
     });
 
@@ -19,3 +18,4 @@ module.exports = (function() {
         'Model': Model,
     };
 })();
+

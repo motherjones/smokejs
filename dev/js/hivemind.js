@@ -55,11 +55,10 @@ module.exports = (function() {
       },
 
       initialize: function() {
-        this.listenTo(this.model.id, 'change', function() {
+        this.listenTo(this.model, 'change:id', function() {
           this.loaded = null;
           this.load();
         });
-        this.listenTo(this.model, 'change', this.render);
       },
 
       when: function(promises) {
@@ -90,19 +89,22 @@ module.exports = (function() {
       render: function() {
         this.before_render();
         var promise = $.Deferred();
-        var context = this.dustbase().push(this.model.attributes);
-        var self = this;
-        self.$el.hide();
 
-        Dust.render( this.model.template,  context, 
-          function(err, out) {  //callback
-            if (err) {
-              Env_config.ERROR_HANDLER(err, self);
-            } else {
-              self.el = out;
-            }
-            self.$el.html(self.el).show();
-            self.after_render();
+        $.when( this.load() ).done(function() {
+          var context = this.dustbase.push(this.model.attributes);
+          var self = this;
+          self.$el.hide();
+
+          Dust.render( this.model.template,  context, 
+            function(err, out) {  //callback
+              if (err) {
+                Env_config.ERROR_HANDLER(err, self);
+              } else {
+                self.el = out;
+              }
+              self.$el.html(self.el).show();
+              self.after_render();
+          });
         });
         return promise;
       },
@@ -124,7 +126,7 @@ module.exports = (function() {
               'resource_uri',
               Env_config.DATA_STORE + 
               self.model.get('resource_uri')
-              );
+            );
             self.loaded.resolve();
           },
           error : function(err) {

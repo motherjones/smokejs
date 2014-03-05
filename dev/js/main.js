@@ -14,21 +14,21 @@
 
 
     //FIXME do some figuring here, see what initial site state should be
-    var site_state = new Application.SiteState();
+    var siteModel = new Application.Model({ template: 'homepage' });
 
-    var site_view = new Application.SiteView({
-        model: site_state,
+    var siteView = new Application.View({
+        model: siteModel,
     });
 
     new Router({
-        site_state: site_state,
-        main_content: site_state,
+        siteModel: siteModel,
+        siteView: siteView,
     });
 
 
     Backbone.history.start();
 
-    site_view.render();
+    siteView.render();
 
     return;
 })();
