@@ -24,11 +24,18 @@ module.exports = (function() {
       var self = this;
       var articleModel = new Article.Model({ id: slug });
       var articleView = new Article.View({ model: articleModel });
-      console.log(self);
+
       $.when( articleView.load() ).done(function() {
-        self.siteModel.set('template',
-          articleModel.get('template')
-        );
+        var template = articleModel.get('template_override') ?
+          articleModel.get('template_override') :
+          'two_column_layout';
+        self.siteModel.set('template', template);
+
+        $.when(self.siteView.render()).done(function() {
+          console.log('site rendered');
+          articleView.attach('main_content');
+        });
+
       });
     },
 

@@ -5,12 +5,14 @@
  * Copyright (c) 2013 Mother Jones Tech Team
  * Licensed under the MIT license.
  */
+/*global document */
 'use strict';
 
 (function() {
   var Application = require('./application');
   var Backbone = require('backbone');
   var Router = require('./router');
+  var $ = require('jquery');
 
 
   //FIXME do some figuring here, see what initial site state should be
@@ -19,6 +21,7 @@
   var siteView = new Application.View({
     model: siteModel,
   });
+
 
   new Router({
     siteModel: siteModel,
@@ -29,6 +32,10 @@
   Backbone.history.start();
 
   siteView.render();
+
+  $(document).ready(function() {
+    siteView.attach('body');
+  });
 
   return;
 })();

@@ -34,6 +34,11 @@
 
 *** TODO find a reasonable way to get fixtures into build till we have a dev
     version of mirrors
+    currently dev_config is pointing at build/fixtures/
+    http://localhost:9001/#/article/1 in particular points at 
+    build/fixtures/article/1
+
+**** TODO make collections work
 
 (This is just a markdown of the org-mode file I'm currently using to organize
 this stuff. A fancier, cleaner list will be forthcoming.)

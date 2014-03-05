@@ -12,6 +12,16 @@ module.exports = (function() {
   });
 
   var View = HiveMind.View.extend({
+    initialize: function() {
+      this.listenTo(this.model, 'change:id', function() {
+        this.loaded = null;
+        this.load();
+      });
+      this.listenTo(this.model, 'change:template', function() {
+        console.log('template change');
+        this.render();
+      });
+    },
   });
 
   return {
