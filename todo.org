@@ -30,5 +30,10 @@
 
 *** TODO Hook the markdown filter into our existing render function
 
+*** TODO examine https://github.com/rendrjs/rendr , work it in if appropriate
+
+*** TODO find a reasonable way to get fixtures into build till we have a dev
+    version of mirrors
+
 (This is just a markdown of the org-mode file I'm currently using to organize
 this stuff. A fancier, cleaner list will be forthcoming.)

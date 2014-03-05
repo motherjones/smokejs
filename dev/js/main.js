@@ -8,27 +8,27 @@
 'use strict';
 
 (function() {
-    var Application = require('./application');
-    var Backbone = require('backbone');
-    var Router = require('./router');
+  var Application = require('./application');
+  var Backbone = require('backbone');
+  var Router = require('./router');
 
 
-    //FIXME do some figuring here, see what initial site state should be
-    var siteModel = new Application.Model({ template: 'homepage' });
+  //FIXME do some figuring here, see what initial site state should be
+  var siteModel = new Application.Model({ template: 'homepage' });
 
-    var siteView = new Application.View({
-        model: siteModel,
-    });
+  var siteView = new Application.View({
+    model: siteModel,
+  });
 
-    new Router({
-        siteModel: siteModel,
-        siteView: siteView,
-    });
+  new Router({
+    siteModel: siteModel,
+    siteView: siteView,
+  });
 
 
-    Backbone.history.start();
+  Backbone.history.start();
 
-    siteView.render();
+  siteView.render();
 
-    return;
+  return;
 })();

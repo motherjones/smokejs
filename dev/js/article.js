@@ -18,8 +18,8 @@ module.exports = (function() {
   });
 
   return {
-      'View': View,
-      'Model': Model,
+    'View': View,
+    'Model': Model,
   };
 })();
 
