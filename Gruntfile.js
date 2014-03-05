@@ -107,7 +107,7 @@ module.exports = function(grunt) {
             }
         }
     },
-    htmlmin: { 
+    htmlmin: {
         build: {
             options: {                                 // Target options
                 removeComments: true,
