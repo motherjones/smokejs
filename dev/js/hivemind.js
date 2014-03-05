@@ -95,7 +95,7 @@ module.exports = (function() {
         var context = self.dustbase.push(self.model.attributes);
         self.$el.hide();
 
-        Dust.render( self.model.template,  context, 
+        Dust.render( self.model.attributes.template,  context, 
           function(err, out) {  //callback
             if (err) {
               Env_config.ERROR_HANDLER(err, self);
