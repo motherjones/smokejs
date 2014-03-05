@@ -14,5 +14,6 @@
   "es5": true,
   "strict": true,
   "trailing": true,
-  "maxdepth": 4
+  "maxdepth": 4,
+  "indent": 2
 }
