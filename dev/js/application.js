@@ -2,20 +2,20 @@
 'use strict';
 
 module.exports = (function() {
-    var HiveMind = require('./hivemind');
+  var HiveMind = require('./hivemind');
 
-    var Model = HiveMind.Model.extend({
-        defaults: {
-          template: 'homepage',
-          content: null,
-        }
-    });
+  var Model = HiveMind.Model.extend({
+    defaults: {
+      template: 'homepage',
+      content: null,
+    }
+  });
 
-    var View = HiveMind.View.extend({
-    });
+  var View = HiveMind.View.extend({
+  });
 
-    return {
-        'View': View,
-        'Model': Model,
-    };
+  return {
+    'View': View,
+    'Model': Model,
+  };
 })();
