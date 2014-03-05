@@ -10,7 +10,6 @@ module.exports = (function() {
 
   var chooseTemplate = function(component, component_parent) {
     var parentTemplate = 'undefined';
-
     var schemaName = component.schema_name;
     var contentType = component.content_type;
 
@@ -37,6 +36,7 @@ module.exports = (function() {
 
   var Model = Backbone.Model.extend({
     urlRoot: Env_config.DATA_STORE,
+    resource_uri: 'basemodel',
   });
 
   var Collection = Backbone.Collection.extend({
@@ -44,98 +44,92 @@ module.exports = (function() {
 
   var View = Backbone.View.extend({
     model_type: Model,
-      self: this,
+    self: this,
 
-      before_render: function(){},
-      after_render: function(){},
+    before_render: function(){},
+    after_render: function(){},
 
-      attach: function(selector) {
-        this.$el = $(selector);
-        this.render();
-      },
+    attach: function(selector) {
+      this.$el = $(selector);
+      this.render();
+    },
 
-      initialize: function() {
-        this.listenTo(this.model, 'change:id', function() {
-          this.loaded = null;
-          this.load();
-        });
-      },
+    initialize: function() {
+      this.listenTo(this.model, 'change:id', function() {
+        this.loaded = null;
+        this.load();
+      });
+    },
 
-      when: function(promises) {
-        return $.when.apply(null, promises);
-      },
+    when: function(promises) {
+      return $.when.apply(null, promises);
+    },
 
-      dustbase: Dust.makeBase({
-        media_base : Env_config.MEDIA_STORE,
-        load_asset:  function(chunk, context, bodies, params) {
-          var asset = context.stack.head;
-          var asset_model = new Model(asset);
-          var asset_view = new View(asset_model);
-          if (asset.force_template) {
-            asset_view.model.set('template', asset.force_template);
-          } else if (params && params.template) {
-            asset_view.model.set('template', 
-              asset.media_type + params.context);
-          }
-          return chunk.map(function(chunk) {
-            chunk.end('<div id="asset_' + asset.slug + '"></div>');
-            asset_view.attach('#asset_' + asset.slug);
-          });
-        },
-      }),
-
-      $el: $('<div></div>'),
-
-      render: function() {
-        this.before_render();
-        var promise = $.Deferred();
-
-        $.when( this.load() ).done(function() {
-          var context = this.dustbase.push(this.model.attributes);
-          var self = this;
-          self.$el.hide();
-
-          Dust.render( this.model.template,  context, 
-            function(err, out) {  //callback
-              if (err) {
-                Env_config.ERROR_HANDLER(err, self);
-              } else {
-                self.el = out;
-              }
-              self.$el.html(self.el).show();
-              self.after_render();
-          });
-        });
-        return promise;
-      },
-      load: function() {
-        if (this.loaded && this.loaded.state()) { //already has a promise, is being loaded
-          return this.loaded;
+    dustbase: Dust.makeBase({
+      media_base : Env_config.MEDIA_STORE,
+      load_asset:  function(chunk, context, bodies, params) {
+        var asset = context.stack.head;
+        var asset_model = new Model(asset);
+        var asset_view = new View(asset_model);
+        if (asset.force_template) {
+          asset_view.model.set('template', asset.force_template);
+        } else if (params && params.template) {
+          asset_view.model.set('template', 
+            asset.media_type + params.context);
         }
-        if (false) { //FIXME test if local storage of this exists
-          //fill model from local storage
-          return this.loaded;
-        }
-        var self = this;
-        this.loaded = new $.Deferred();
-
-        this.model.fetch({
-          success : function() {
-            //FIXME ask real nice if we cna not have resource uri on here
-            self.model.set(
-              'resource_uri',
-              Env_config.DATA_STORE + 
-              self.model.get('resource_uri')
-            );
-            self.loaded.resolve();
-          },
-          error : function(err) {
-            Env_config.ERROR_HANDLER(err);
-            self.loaded.resolve();
-          },
+        return chunk.map(function(chunk) {
+          chunk.end('<div id="asset_' + asset.slug + '"></div>');
+          asset_view.attach('#asset_' + asset.slug);
         });
+      },
+    }),
+
+    $el: $('<div></div>'),
+
+    render: function() {
+      var self = this;
+      this.before_render();
+      var promise = $.Deferred();
+
+      $.when( this.load() ).done(function() {
+        var context = self.dustbase.push(self.model.attributes);
+        self.$el.hide();
+
+        Dust.render( self.model.template,  context, 
+          function(err, out) {  //callback
+            if (err) {
+              Env_config.ERROR_HANDLER(err, self);
+            } else {
+              self.el = out;
+            }
+            self.$el.html(self.el).show();
+            self.after_render();
+        });
+      });
+      return promise;
+    },
+    load: function() {
+      if (this.loaded && this.loaded.state()) { //already has a promise, is being loaded
         return this.loaded;
-      },
+      }
+      if (false) { //FIXME test if local storage of this exists
+        //fill model from local storage
+        return this.loaded;
+      }
+      var self = this;
+      this.loaded = new $.Deferred();
+
+      this.model.fetch({
+        success : function() {
+          self.loaded.resolve();
+        },
+        error : function(err) {
+          Env_config.ERROR_HANDLER(err);
+          self.loaded.resolve();
+        },
+      });
+      return this.loaded;
+    },
   });
 
   return {

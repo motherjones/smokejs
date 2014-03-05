@@ -7,10 +7,10 @@ module.exports = (function() {
 
   var Model = HiveMind.Model.extend({
     urlRoot: function() {
-      return EnvConfig.DATA_STORE + 'article/';
+      return EnvConfig.DATA_STORE + 'splashpage/';
     },
     defaults: {
-      template: 'article',
+      template: 'homepage',
     }
   });
 
@@ -22,4 +22,5 @@ module.exports = (function() {
       'Model': Model,
   };
 })();
+
 
