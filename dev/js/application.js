@@ -18,7 +18,6 @@ module.exports = (function() {
         this.load();
       });
       this.listenTo(this.model, 'change:template', function() {
-        console.log('template change');
         this.render();
       });
     },

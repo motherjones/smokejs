@@ -28,13 +28,9 @@
     siteView: siteView,
   });
 
-
-  Backbone.history.start();
-
-  siteView.render();
-
   $(document).ready(function() {
     siteView.attach('body');
+    Backbone.history.start();
   });
 
   return;

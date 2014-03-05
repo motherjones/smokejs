@@ -32,8 +32,7 @@ module.exports = (function() {
         self.siteModel.set('template', template);
 
         $.when(self.siteView.render()).done(function() {
-          console.log('site rendered');
-          articleView.attach('main_content');
+          articleView.attach('#main_content');
         });
 
       });

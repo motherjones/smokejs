@@ -51,7 +51,6 @@ module.exports = (function() {
 
     attach: function(selector) {
       this.$el = $(selector);
-      console.log(this.$el);
       this.render();
     },
 
@@ -103,14 +102,14 @@ module.exports = (function() {
         Dust.render( self.model.attributes.template,  context, 
           function(err, out) {  //callback
             if (err) {
-              console.log('errored');
               Env_config.ERROR_HANDLER(err, self);
             } else {
               self.el = out;
             }
-            console.log(out);
             self.$el.html(self.el).show();
             self.after_render();
+
+            promise.resolve();
         });
       });
       return promise;
@@ -128,12 +127,9 @@ module.exports = (function() {
 
       this.model.fetch({
         success : function() {
-          console.log('model fetched');
-          console.log(self.model);
           self.loaded.resolve();
         },
         error : function(err) {
-          console.log('load error');
           Env_config.ERROR_HANDLER(err);
           self.loaded.resolve();
         },
