@@ -42,8 +42,11 @@
     We need to be able to turn the contents into markdown and extend
     it to allow any of the extensions we'll end up wanting.
 
-    - https://github.com/bergie/hallo
     - https://github.com/daviferreira/medium-editor
+    
+    - https://github.com/bergie/hallo
     - https://github.com/sofish/pen
-    - http://github.com/OscarGodson/EpicEditor
 
+    - http://md-wysiwyg.sourceforge.net/
+
+    - http://github.com/OscarGodson/EpicEditor <- no; not wysiwyg
