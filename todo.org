@@ -37,8 +37,13 @@
     currently dev_config is pointing at build/fixtures/
     http://localhost:9001/#/article/1 in particular points at 
     build/fixtures/article/1
+*** TODO make collections work
+*** TODO Identify a decent editor that we can maybe use
+    We need to be able to turn the contents into markdown and extend
+    it to allow any of the extensions we'll end up wanting.
 
-**** TODO make collections work
+    - https://github.com/bergie/hallo
+    - https://github.com/daviferreira/medium-editor
+    - https://github.com/sofish/pen
+    - http://github.com/OscarGodson/EpicEditor
 
-(This is just a markdown of the org-mode file I'm currently using to organize
-this stuff. A fancier, cleaner list will be forthcoming.)
