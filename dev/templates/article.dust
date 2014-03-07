@@ -1,29 +1,33 @@
 <header>
-	<h1>{ metadata.title }</h1>
-	<h2>{ metadata.dek }</h2>
+	{#metadata}
+	<h1>{title}</h1>
+	<h2>{dek}</h2>
+	{/metadata}
 
-	<h2>Authors</h2>
-	<ul>
-	  {#byline}
-		<li><a href="{uri}">{metadata.first_name} {metadata.last_name}</a></li>
-	  {/byline}
-	</ul>
+	<section id="component_author">
+		<h3>Authors</h3>
+		<ul>
+		{#byline}
+			<li><a href="{uri}">{metadata.first_name} {metadata.last_name}</a></li>
+		{/byline}
+		</ul>
+	</section>
+
+	<section id="component_tags">
+		<h3>Tags</h3>
+		<ul>
+		  {#metadata.tags}
+			<li>{tag}</li>{~n}
+		  {/metadata.tags}
+		</ul>
+	</section>
 
 	<figure>
 	<img src="{uri}" /><br>
 	{master_image.metadata.caption} <i>{master_image.metadata.attribution}</i>
 	</figure>
 
-
-	<b>Data url</b>: {data_uri}
-
-	<h2>Tags</h2>
-	<ul>
-	  {#metadata.tags}
-		<li>{tag}</li>{~n}
-	  {/metadata.tags}
-	</ul>
-
 </header>
 
 <!-- Content goes here -->
+<b>Data url</b>: {data_uri}
