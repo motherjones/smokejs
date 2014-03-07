@@ -1,23 +1,29 @@
-<h1>{ metadata.title }</h1>
+<header>
+	<h1>{ metadata.title }</h1>
+	<h2>{ metadata.dek }</h2>
 
-&lt;img src="{uri}"&gt;<br>
-{master_image.metadata.caption} <i>{master_image.metadata.attribution}</i>
+	<h2>Authors</h2>
+	<ul>
+	  {#byline}
+		<li><a href="{uri}">{metadata.first_name} {metadata.last_name}</a></li>
+	  {/byline}
+	</ul>
 
-<h2>Authors</h2>
-<ul>
-  {#byline}
-    <li><a href="{uri}">{metadata.first_name} {metadata.last_name}</a></li>
-  {/byline}
-</ul>
+	<figure>
+	<img src="{uri}" /><br>
+	{master_image.metadata.caption} <i>{master_image.metadata.attribution}</i>
+	</figure>
 
 
+	<b>Data url</b>: {data_uri}
 
-<b>Data url</b>: {data_uri}
+	<h2>Tags</h2>
+	<ul>
+	  {#metadata.tags}
+		<li>{tag}</li>{~n}
+	  {/metadata.tags}
+	</ul>
 
-<h2>Tags</h2>
-<ul>
-  {#metadata.tags}
-    <li>{tag}</li>{~n}
-  {/metadata.tags}
-</ul>
+</header>
 
+<!-- Content goes here -->
