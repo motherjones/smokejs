@@ -1,7 +1,4 @@
 <div id="two_column_layout_container">
 	<article id="main_content">
 	</article>
-	<aside id="right_sidebar">
-		<h2>right sidebar</h2>
-	</aside>
 </div>

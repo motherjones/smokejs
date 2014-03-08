@@ -17,17 +17,23 @@
 		<h3>Tags</h3>
 		<ul>
 		  {#metadata.tags}
-			<li>{tag}</li>{~n}
+			<li>{.}</li>{~n}
 		  {/metadata.tags}
 		</ul>
 	</section>
 
 	<figure>
-	<img src="{uri}" /><br>
-	{master_image.metadata.caption} <i>{master_image.metadata.attribution}</i>
+		<img src="{uri}" /><br>
+		<figcaption>{master_image.metadata.caption} <i>{master_image.metadata.attribution}</figcaption>
 	</figure>
 
 </header>
 
+	<section id="component_body">
 <!-- Content goes here -->
 <b>Data url</b>: {data_uri}
+	</section>
+
+	<aside id="right_sidebar">
+		<h2>right sidebar</h2>
+	</aside>
