@@ -26,12 +26,6 @@ div#two_column_layout_container{
 	margin: 0 10%;
 }
 
-#component_body{
-	.column(8);
-}
-aside {
-	.column(4);
-}
 
 
 /* #Media Queries
@@ -52,9 +46,15 @@ aside {
 	/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 	@media only screen and (max-width: 479px) {}
 
-	/* Desktop?
+	/* Desktop? */
 	@media only screen and (min-width: 960px) {
-	} */ 
+		#component_body{
+			.column(8);
+		}
+		aside {
+			.column(4);
+		}
+	}  
 
 
 /* #Font-Face
