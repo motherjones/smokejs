@@ -22,10 +22,12 @@
 		</ul>
 	</section>
 
-	<figure>
-		<img src="{uri}" /><br>
-		<figcaption>{master_image.metadata.caption} <i>{master_image.metadata.attribution}</figcaption>
-	</figure>
+	{#master_image}
+		<figure>
+			<img src="{uri}" alt="{.metadata.alt_text}" /><br />
+			<figcaption>{.metadata.caption} <cite>{.metadata.attribution}</cite></figcaption>
+		</figure>
+	{/master_image}
 
 </header>
 
