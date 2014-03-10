@@ -1,35 +1,36 @@
-<header>
-	{#metadata}
-	<h1>{title}</h1>
-	<h2>{dek}</h2>
-	{/metadata}
+<article id="main_content">
+	<header>
+		{#metadata}
+		<h1>{title}</h1>
+		<h2>{dek}</h2>
+		{/metadata}
 
-	<section id="component_author">
-		<h3>Authors</h3>
-		<ul>
-		{#byline}
-			<li><a href="{uri}">{metadata.first_name} {metadata.last_name}</a></li>
-		{/byline}
-		</ul>
-	</section>
+		<section id="component_author">
+			<h3>Authors</h3>
+			<ul>
+			{#byline}
+				<li><a href="{uri}">{metadata.first_name} {metadata.last_name}</a></li>
+			{/byline}
+			</ul>
+		</section>
 
-	<section id="component_tags">
-		<h3>Tags</h3>
-		<ul>
-		  {#metadata.tags}
-			<li>{.}</li>{~n}
-		  {/metadata.tags}
-		</ul>
-	</section>
+		<section id="component_tags">
+			<h3>Tags</h3>
+			<ul>
+			  {#metadata.tags}
+				<li>{.}</li>{~n}
+			  {/metadata.tags}
+			</ul>
+		</section>
 
-	{#master_image}
-		<figure>
-			<img src="{uri}" alt="{.metadata.alt_text}" /><br />
-			<figcaption>{.metadata.caption} <cite>{.metadata.attribution}</cite></figcaption>
-		</figure>
-	{/master_image}
+		{#master_image}
+			<figure>
+				<img src="{uri}" alt="{.metadata.alt_text}" /><br />
+				<figcaption>{.metadata.caption} <cite>{.metadata.attribution}</cite></figcaption>
+			</figure>
+		{/master_image}
 
-</header>
+	</header>
 
 	<section id="component_body">
 <!-- Content goes here -->
@@ -39,3 +40,4 @@
 	<aside id="right_sidebar">
 		<h2>right sidebar</h2>
 	</aside>
+</article>
