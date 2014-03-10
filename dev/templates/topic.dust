@@ -1,7 +1,15 @@
-<div id="main-content" class="eleven columns two-column-layout mojo-column-layout">
-    left column in a two column layout
-</div>
-<div id="right-column" class="five columns two-column-layout mojo-column-layout">
-    right column in a two column layout
-</div>
-
+<article>
+	<header>
+		<h1>MoJo on <em>{title}</em></h1>
+	</header>
+	{#members}
+		<ol>
+			<li>
+				<a href="{article.uri}"><img src="{master_image.uri}" alt="" title="" width="150" height="84" /></a>
+				<div class="section-item">
+					<h3><a href="{article.uri}">{article.metadata.title}</a></h3>
+					<p class="byline">&mdash;<a href="" rel="author">{article.byline.first_name} {article.byline.last_name}</a></p>
+				</div>
+		</ol>
+	{/members}
+</article>
