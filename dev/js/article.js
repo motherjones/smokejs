@@ -17,9 +17,23 @@ module.exports = (function() {
   var View = HiveMind.View.extend({
   });
 
+  var Collection = HiveMind.Collection.extend({
+    urlRoot: function() {
+      return EnvConfig.DATA_STORE + 'article_list/';
+    },
+    defaults: {
+      template: 'topic',
+    }
+  });
+
+  var CollectionView = HiveMind.CollectionView.extend({
+  });
+
   return {
     'View': View,
     'Model': Model,
+    'Collection': Collection,
+    'CollectionView': CollectionView,
   };
 })();
 

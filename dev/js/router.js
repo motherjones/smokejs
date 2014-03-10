@@ -15,8 +15,9 @@ module.exports = (function() {
 
     routes : {
         "/" : "display_homepage",
-        "article/:slug" : "display_main_content",
+        "/article/:slug" : "display_main_content",
         "/topic/:slug" : "display_topic",
+        "/section/:slug" : "display_topic",
         "/:slug" : "display_section",
     },
 
@@ -43,13 +44,22 @@ module.exports = (function() {
     },
 
     display_topic : function(slug) {
+      var self = this;
+      var articleCollection = new Article.Collection({ id: slug });
       this.site_state.model.set('topic', slug);
-      this.site_state.model.set('template', 'topic');
-    },
 
-    display_section : function(slug) {
-      this.site_state.model.set('section', slug);
-      this.site_state.model.set('template', 'section');
+      $.when( articleCollection.load() ).done(function() {
+
+        var template = articleCollection.get('template_override') ?
+          articleCollection.get('template_override') :
+          'two_column_layout';
+        self.siteModel.set('template', template);
+
+        $.when(self.siteView.render()).done(function() {
+          articleCollection.attach('#main_content');
+        });
+
+      });
     },
 
   });

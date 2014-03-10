@@ -40,6 +40,29 @@ module.exports = (function() {
   });
 
   var Collection = Backbone.Collection.extend({
+    model: Model,
+    load: function() {
+      if (this.loaded && this.loaded.state()) { //already has a promise, is being loaded
+        return this.loaded;
+      }
+      if (false) { //FIXME test if local storage of this exists
+        //fill model from local storage
+        return this.loaded;
+      }
+      var self = this;
+      this.loaded = new $.Deferred();
+
+      this.fetch({
+        success : function() {
+          self.loaded.resolve();
+        },
+        error : function(err) {
+          Env_config.ERROR_HANDLER(err);
+          self.loaded.resolve();
+        },
+      });
+      return this.loaded;
+    },
   });
 
   var View = Backbone.View.extend({
@@ -50,7 +73,11 @@ module.exports = (function() {
     after_render: function(){},
 
     attach: function(selector) {
-      this.$el = $(selector);
+      if (typeof(selector) === 'String') {
+        this.$el = $(selector);
+      } else {
+        this.$el = selector;
+      }
       this.render();
     },
 
@@ -138,10 +165,52 @@ module.exports = (function() {
     },
   });
 
+  var CollectionView = View.extend({
+    load: function() {
+      return this.collection.load();
+    },
+    render: function() {
+      var self = this;
+      this.before_render();
+      var promise = $.Deferred();
+
+      $.when( this.load() ).done(function() {
+        var context = self.dustbase.push(self.collection.attributes);
+        self.$el.hide();
+
+        Dust.render( self.model.attributes.template,  context, 
+          function(err, out) {  //callback
+            if (err) {
+              Env_config.ERROR_HANDLER(err, self);
+            } else {
+              self.el = out;
+            }
+            self.$el.html(self.el).show();
+            self.after_render();
+
+            promise.resolve();
+        });
+      });
+
+      $.when( promise ).done(function() {
+        self.collection.each(function(model){
+          var view = new View({ model: model});
+          if (self.collection.get('child_template') {
+            model.set('template', self.collection.get('child_template')); 
+          }
+          view.attach(self.$el.find('.collection_content'));
+        });
+      });
+
+      return promise;
+    },
+  });
+
   return {
     View: View,
     Model: Model,
     Collection: Collection,
+    CollectionView: CollectionView,
     chooseTemplate: chooseTemplate,
   };
 
