@@ -73,7 +73,7 @@ module.exports = (function() {
     after_render: function(){},
 
     attach: function(selector) {
-      if (typeof(selector) === 'String') {
+      if (typeof(selector) === 'string') {
         this.$el = $(selector);
       } else {
         this.$el = selector;
@@ -195,7 +195,7 @@ module.exports = (function() {
       $.when( promise ).done(function() {
         self.collection.each(function(model){
           var view = new View({ model: model});
-          if (self.collection.get('child_template') {
+          if (self.collection.get('child_template')) {
             model.set('template', self.collection.get('child_template')); 
           }
           view.attach(self.$el.find('.collection_content'));
