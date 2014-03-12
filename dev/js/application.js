@@ -19,12 +19,6 @@ module.exports = (function() {
       return this.loaded;
     },
     initialize: function() {
-                  /*
-      this.listenTo(this.model, 'change:id', function() {
-        this.loaded = null;
-        this.load();
-      });
-      */
       this.listenTo(this.model, 'change:template', function() {
         this.render();
       });

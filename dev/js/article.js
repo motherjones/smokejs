@@ -24,9 +24,7 @@ module.exports = (function() {
     urlRoot: function() {
       return EnvConfig.DATA_STORE + 'article_list/';
     },
-    defaults: {
-      template: 'topic',
-    }
+    template: 'topic',
   });
 
   var CollectionView = HiveMind.CollectionView.extend({
