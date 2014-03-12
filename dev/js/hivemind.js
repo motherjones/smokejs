@@ -52,11 +52,15 @@ module.exports = (function() {
       var self = this;
       this.loaded = new $.Deferred();
 
+      console.log(this);
+      console.log(this.urlRoot);
+      console.log(this.url);
       this.fetch({
         success : function() {
           self.loaded.resolve();
         },
         error : function(err) {
+        console.log(err);
           Env_config.ERROR_HANDLER(err);
           self.loaded.resolve();
         },
@@ -152,6 +156,8 @@ module.exports = (function() {
       var self = this;
       this.loaded = new $.Deferred();
 
+      console.log(this);
+      console.log('model fetch');
       this.model.fetch({
         success : function() {
           self.loaded.resolve();
@@ -166,6 +172,16 @@ module.exports = (function() {
   });
 
   var CollectionView = View.extend({
+    initialize: function() {
+      var self = this;
+      this.listenTo(this.collection, 'change:id', function() {
+        self.loaded = null;
+        self.render();
+      });
+      this.listenTo(this.collection, 'change:template', function() {
+        self.render();
+      });
+    },
     load: function() {
       return this.collection.load();
     },
@@ -178,7 +194,9 @@ module.exports = (function() {
         var context = self.dustbase.push(self.collection.attributes);
         self.$el.hide();
 
-        Dust.render( self.model.attributes.template,  context, 
+        console.log(self.collection);
+        console.log(self.collection.attributes);
+        Dust.render( self.collection.attributes.template,  context, 
           function(err, out) {  //callback
             if (err) {
               Env_config.ERROR_HANDLER(err, self);

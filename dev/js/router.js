@@ -14,14 +14,14 @@ module.exports = (function() {
     },
 
     routes : {
-        "/" : "display_homepage",
-        "/article/:slug" : "display_main_content",
-        "/topic/:slug" : "display_topic",
-        "/section/:slug" : "display_topic",
-        "/:slug" : "display_section",
+        "article/:slug" : "display_main_content",
+        "topic/:slug" : "display_topic",
+        "section/:slug" : "display_topic",
+        "" : "display_homepage",
     },
 
     display_main_content : function(slug) {
+       console.log('display main');
       var self = this;
       var articleModel = new Article.Model({ id: slug });
       var articleView = new Article.View({ model: articleModel });
@@ -40,15 +40,22 @@ module.exports = (function() {
     },
 
     display_homepage : function() {
-      this.site_state.model.set('template', 'homepage');
+      console.log('homepage');
+      this.siteModel.set('template', 'homepage');
     },
 
     display_topic : function(slug) {
       var self = this;
+      console.log('in topic');
       var articleCollection = new Article.Collection({ id: slug });
-      this.site_state.model.set('topic', slug);
+      console.log('about to break making article collection view');
+      var articleCollectionView 
+        = new Article.CollectionView({ collection: articleCollection });
+      console.log('article collection view created');
+      this.siteModel.set('topic', slug);
 
       $.when( articleCollection.load() ).done(function() {
+        console.log('collection loaded');
 
         var template = articleCollection.get('template_override') ?
           articleCollection.get('template_override') :
@@ -56,7 +63,7 @@ module.exports = (function() {
         self.siteModel.set('template', template);
 
         $.when(self.siteView.render()).done(function() {
-          articleCollection.attach('#main_content');
+          articleCollectionView.attach('#main_content');
         });
 
       });

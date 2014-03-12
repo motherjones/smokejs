@@ -29,8 +29,11 @@
   });
 
   $(document).ready(function() {
+    console.log('document ready');
     siteView.attach('body');
     Backbone.history.start();
+    console.log('history started');
+    console.log(Backbone.history);
   });
 
   return;
