@@ -147,10 +147,24 @@ module.exports = (function() {
     dustbase: Dust.makeBase({
       media_base : Env_config.MEDIA_STORE,
       load_asset:  function(chunk, context, bodies, params) {
-        console.log(context.stack.head.schema_name);
         var asset = possibleAssets[context.stack.head.schema_name];
         var assetModel = new asset.Model(asset);
         var assetView = new asset.View(assetModel);
+        if (asset.force_template) {
+          assetView.model.set('template', asset.force_template);
+        } else if (params && params.template) {
+          assetView.model.set('template', 
+            asset.media_type + params.context);
+        }
+        return chunk.map(function(chunk) {
+          chunk.end('<div id="asset_' + asset.slug + '"></div>');
+          assetView.attach('#asset_' + asset.slug);
+        });
+      },
+      load_collection:  function(chunk, context, bodies, params) {
+        var asset = possibleAssets[context.stack.head.schema_name];
+        var assetCollection = new asset.Collection(asset);
+        var assetView = new asset.CollectionView(assetCollection);
         if (asset.force_template) {
           assetView.model.set('template', asset.force_template);
         } else if (params && params.template) {
