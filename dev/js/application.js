@@ -25,8 +25,13 @@ module.exports = (function() {
     },
   });
 
-  return {
+  var Application = {
     'View': View,
     'Model': Model,
   };
+
+  HiveMind.possibleAssets['application'] = Application;
+
+  return Application;
+
 })();

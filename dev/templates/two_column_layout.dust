@@ -1,2 +1,4 @@
 <div id="two_column_layout_container">
+  <div id="main_content"></div>
+  <div id="right_sidebar"></div>
 </div>

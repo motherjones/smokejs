@@ -9,6 +9,9 @@ module.exports = (function() {
   var Env_config = require('./config');
   var templateMap = require('./templateMap');
 
+  // All hivemind subclasses should push to this
+  var possibleAssets = [];
+
   var chooseTemplate = function(component, component_parent) {
     var parentTemplate = 'undefined';
     var schemaName = component.schema_name;
@@ -98,7 +101,7 @@ module.exports = (function() {
       } else {
         this.$el = selector;
       }
-      this.render();
+      return this.render();
     },
 
     initialize: function() {
@@ -119,18 +122,19 @@ module.exports = (function() {
     dustbase: Dust.makeBase({
       media_base : Env_config.MEDIA_STORE,
       load_asset:  function(chunk, context, bodies, params) {
-        var asset = context.stack.head;
-        var asset_model = new Model(asset);
-        var asset_view = new View(asset_model);
+        console.log(context.stack.head.schema_name);
+        var asset = possibleAssets[context.stack.head.schema_name];
+        var assetModel = new asset.Model(asset);
+        var assetView = new asset.View(assetModel);
         if (asset.force_template) {
-          asset_view.model.set('template', asset.force_template);
+          assetView.model.set('template', asset.force_template);
         } else if (params && params.template) {
-          asset_view.model.set('template', 
+          assetView.model.set('template', 
             asset.media_type + params.context);
         }
         return chunk.map(function(chunk) {
           chunk.end('<div id="asset_' + asset.slug + '"></div>');
-          asset_view.attach('#asset_' + asset.slug);
+          assetView.attach('#asset_' + asset.slug);
         });
       },
     }),
@@ -226,7 +230,10 @@ module.exports = (function() {
 
       $.when( promise ).done(function() {
         self.collection.each(function(model){
-          var view = new View({ model: model});
+          console.log(model);
+          var asset = possibleAssets[model.get('schema_name')];
+          var view = new asset.View({ model: model});
+          console.log(view);
           if (self.collection.get('child_template')) {
             model.set('template', self.collection.get('child_template')); 
           }
@@ -244,6 +251,7 @@ module.exports = (function() {
     Collection: Collection,
     CollectionView: CollectionView,
     chooseTemplate: chooseTemplate,
+    possibleAssets: possibleAssets,
   };
 
 })();

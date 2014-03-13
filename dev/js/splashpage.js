@@ -17,10 +17,14 @@ module.exports = (function() {
   var View = HiveMind.View.extend({
   });
 
-  return {
+  var SplashPage = {
       'View': View,
       'Model': Model,
   };
+
+  HiveMind.possibleAssets['splashpage'] = SplashPage;
+
+  return SplashPage;
 })();
 
 

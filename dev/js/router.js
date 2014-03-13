@@ -57,6 +57,7 @@ module.exports = (function() {
         self.siteModel.set('template', template);
 
         $.when(self.siteView.render()).done(function() {
+          console.log('site is rendered');
           articleCollectionView.attach('#main_content');
         });
 

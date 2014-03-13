@@ -25,16 +25,22 @@ module.exports = (function() {
       return EnvConfig.DATA_STORE + 'article_list/';
     },
     template: 'topic',
+    model: Model,
   });
 
   var CollectionView = HiveMind.CollectionView.extend({
   });
 
-  return {
+  var Article = {
     'View': View,
     'Model': Model,
     'Collection': Collection,
     'CollectionView': CollectionView,
   };
+
+  HiveMind.possibleAssets['article'] = Article;
+
+  return Article;
+
 })();
 
