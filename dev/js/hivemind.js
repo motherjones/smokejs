@@ -87,7 +87,26 @@ module.exports = (function() {
     },
     model: Model,
     load: function() {
-      return this.model.load();
+      if (this.loaded && this.loaded.state()) { //already has a promise, is being loaded
+        return this.loaded;
+      }
+      if (false) { //FIXME test if local storage of this exists
+        //fill model from local storage
+        return this.loaded;
+      }
+      var self = this;
+      this.loaded = new $.Deferred();
+
+      this.fetch({
+        success : function() {
+          self.loaded.resolve();
+        },
+        error : function(xhr, err) {
+          Env_config.ERROR_HANDLER(err);
+          self.loaded.resolve();
+        },
+      });
+      return this.loaded;
     },
   });
 
