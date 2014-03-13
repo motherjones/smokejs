@@ -54,9 +54,12 @@
 
     - http://github.com/OscarGodson/EpicEditor <- no; not wysiwyg
 *** TODO Implement a save-as-markdown function for medium-editor
+*** TODO Make ad iframe view
+*** TODO make localstorage, make hivemind model loading check localstorage
 
 ** Tasks for RC???
 *** TODO Improve the insert image mechanism in medium-editor
 **** TODO Make it allow for editing image URLs without the delete/re-add
+
 
 

@@ -41,29 +41,6 @@ module.exports = (function() {
   var Model = Backbone.Model.extend({
     urlRoot: Env_config.DATA_STORE,
     resource_uri: 'basemodel',
-  });
-
-  var Collection = Backbone.Collection.extend({
-    fetch: function(options) {
-      options = options ? _.clone(options) : {};
-      if (options.parse === void 0) { options.parse = true; }
-      var success = options.success;
-      var collection = this;
-      options.success = function(resp) {
-        for (var i in resp) {
-          collection[i] = resp[i];
-        }
-        var method = options.reset ? 'reset' : 'set';
-        collection[method](resp.members, options);
-        if (success) { 
-          success(collection, resp, options);
-        }
-        collection.trigger('sync', collection, resp, options);
-      };
-
-      return this.sync('read', this, options);
-    },
-    model: Model,
     load: function() {
       if (this.loaded && this.loaded.state()) { //already has a promise, is being loaded
         return this.loaded;
@@ -88,6 +65,32 @@ module.exports = (function() {
     },
   });
 
+  var Collection = Backbone.Collection.extend({
+    fetch: function(options) {
+      options = options ? _.clone(options) : {};
+      if (options.parse === void 0) { options.parse = true; }
+      var success = options.success;
+      var collection = this;
+      options.success = function(resp) {
+        for (var i in resp) {
+          collection[i] = resp[i];
+        }
+        var method = options.reset ? 'reset' : 'set';
+        collection[method](resp.members, options);
+        if (success) { 
+          success(collection, resp, options);
+        }
+        collection.trigger('sync', collection, resp, options);
+      };
+
+      return this.sync('read', this, options);
+    },
+    model: Model,
+    load: function() {
+      return this.model.load();
+    },
+  });
+
   var View = Backbone.View.extend({
     model_type: Model,
     self: this,
@@ -109,6 +112,9 @@ module.exports = (function() {
       this.listenTo(this.model, 'change:id', function() {
         self.loaded = null;
         self.render();
+      });
+      this.listenTo(this.model, 'change:slug', function() {
+        self.model.set('id', this.model.slug);
       });
       this.listenTo(this.model, 'change:template', function() {
         self.render();
