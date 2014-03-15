@@ -1,0 +1,56 @@
+{
+    "uri": "/mixed-media/2014/02/speedy-ortiz-real-hair-ep-review",
+    "data_uri": "/files/speedy-ortiz-real-hair-ep-review/content.md",
+    "content_type": "text/x-markdown",
+    "schema_name": "article",
+    "slug": "speedy-ortiz-real-hair-ep-review",
+    "metadata": {
+	"title": "Speedy Ortiz's \"Real Hair\" Melds Brains With Brawn",
+	"description": "The Massachusetts rockers' new EP transcends its smart-but-rowdy roots.",
+	"social_title": "Speedy Ortiz's \"Real Hair\" melds brains with brawn",
+	"section": "mixed-media",
+	"tags": ["music"]
+    },
+    "byline": [
+	{ "slug": "jon-young",
+	  "schema_name": "author",
+	  "content_type": "application_json",
+	  "uri": "authors/jon-young",
+	  "metadata": {
+	      "first_name": "Jon",
+	      "last_name": "Young",
+	      "title": "Contributing Writer",
+	      "short_bio": "Jon Young is a contributing writer for _Mother Jones_.",
+	      "end_of_article_bio": "Jon Young is a contributing writer for <span style=\"font-style:normal;\">Mother Jones</span>. For more of his stories, <a href=\"http://www.motherjones.com/authors/jon-young\">click here</a>.",
+	      "email": "jyoung@motherjones.com"
+	  }
+	}
+    ],
+    "master_image": {
+	"slug": "speedy-ortiz-real-hair-ep-review-speedyortiz630x354-jpg",
+	"uri": "/mixed-media/2014/02/speedy-ortiz-real-hair-ep-review/speedyortiz630x354.jpg",
+	"schema_name": "image",
+	"content_type": "image/jpeg",
+	"metadata": {
+	    "alt_text": "Speedy Ortiz",
+	    "caption": null,
+	    "license": "??",
+	    "attribution": "Courtesy of Carpark Records",
+	    "data_uri": "files/speedy-ortiz-real-hair-ep-review/speedyortiz630x354.jpg"
+	}
+    },
+    "photos": [
+	{ "schema_name": "canon-image",
+	  "slug": "speedy-ortiz-real-hair-300",
+	  "content_type": "image/jpeg",
+	  "uri": "/mixed-media/2014/02/speedy-ortiz-real-hair-ep-review/SpeedyOrtizRealHair300.jpg",
+	  "metadata": {
+	      "alt_text": "Cover of Real Hair",
+	      "caption": null,
+	      "attribution": null,
+	      "data_uri": "files/speedy-ortiz-real-hair-ep-review/SpeedyOrtizRealHair300.jpg",
+	      "license": "??"
+	  }
+	}
+    ]
+}

@@ -17,6 +17,7 @@ pids
 logs
 results
 build
+!build/fixtures
 .grunt
 
 node_modules

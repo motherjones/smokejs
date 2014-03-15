@@ -37,8 +37,9 @@
     currently dev_config is pointing at build/fixtures/
     http://localhost:9001/#/article/1 in particular points at 
     build/fixtures/article/1
-*** TODO make collections work
+*** DONE make collections work
     Added a collection in mirrors-schemas/payload_examples/queue_payload1.json
+    Still need a reasonable way of getting test fixtures into build, though
 *** DONE Identify a decent editor that we can maybe use
     CLOSED: [2014-03-06 Thu 15:21]
     (it's going to be medium-editor)

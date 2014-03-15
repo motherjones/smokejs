@@ -1,0 +1,68 @@
+{
+    "slug": "photos-ice-storm-atlanta",
+    "uri": "/blue-marble/2014/02/photos-ice-storm-atlanta",
+    "content_type": "text/x-markdown",
+    "schema_name": "article",
+    "metadata": {
+	"title": "PHOTOS: A \"Catastrophic...Crippling...Paralyzing\" Ice Storm",
+	"dek": "More than 100,000 homes and businesses are without power as the storm rolls on.",
+	"social_title": "Photos: A \"catastrophic...crippling...paralyzing\" ice storm",
+	"section": "blue_marble",
+	"tags": ["Climate Desk", "Infrastructure"]
+    },
+    "byline": [
+	{ "schema_name": "author",
+	  "content_type": "application/json",
+	  "slug": "matt-connolly",
+	  "uri": "/authors/matt-connolly",
+	  "metadata": {
+	      "first_name": "Matt",
+	      "last_name": "Connolly",
+	      "title": "DC Senior Editorial Fellow",
+	      "twitter": "http://twitter.com/HeyMattConnolly",
+	      "email": "mconnolly@motherjones.com",
+	      "short_bio": "<p>Before joining <em>Mother Jones</em>, Matt was a local reporter for the dearly departed <em>Washington Examiner</em>. He has also written for the <em>New York Times</em>, the <em>Washington Pos</em>t, <em>Chicago Public Radio,</em> and the <em>Times of Trenton</em>.</p>",
+	      "end_of_article_bio": "<p class=\"author-bio-text\">Matt Connolly is the senior editorial fellow in <em>Mother Jones</em>' Washington, DC, bureau. For more of his stories, click <a href=\"/authors/matt-connolly\">here</a>."
+	  }
+	}
+    ],
+    "master_image": {
+	"slug": "photos-ice-storm-atlanta-icestormstreet630x354-jpg",
+	"uri": "/blue-marble/2014/02/photos-ice-storm-atlanta/icestormstreet630x354.jpg",
+	"schema_name": "image",
+	"content_type": "image/jpeg",
+	"metadata": {
+	    "attribution": "Chris Seward/Raleigh News & Observer/ZUMA",
+	    "caption": "A pedestrian battles the snow and cold wind as he crosses Wicker Street in Sanford, N.C.",
+	    "alt_text": "Man crosses street in storm",
+	    "data_uri": "files/photos-ice-storm-atlanta/icestormstreet630x354.jpg",
+	    "license": "??"
+	}
+    },
+    "photos": [
+	{ "schema_name": "canon-image",
+	  "slug": "ice-storm-street",
+	  "content_type": "image/jpeg",
+	  "uri": "/blue-marble/2014/02/photos-ice-storm-atlanta/IceStormCar630.jpg",
+	  "metadata": {
+	      "alt_text": "Car in snowstorm",
+	      "caption": "A vehicle drives through the rapidly falling snow on the US 421 Bypass in Sanford, N.C.",
+	      "attribution": "Chris Seward/Raleigh News & Observer/ZUMA",
+	      "data_uri": "files/photos-ice-storm-atlanta/IceStormCar630.jpg",
+	      "license": "??"
+	  }
+	},
+	{ "schema_name": "canon-image",
+	  "slug": "ice-storm-woman",
+	  "content_type": "image/jpeg",
+	  "uri": "/blue-marble/2014/02/photos-ice-storm-atlanta/IceStormWoman630.jpg",
+	  "metadata": {
+	      "alt_text": "Woman in snow",
+	      "caption": "LORETTA CANTRELL, 75, says \"I feel like a child again playing in the snow,\" during a walk on Popular Stump Road in Helen, Ga.",
+	      "attribution": "Chris Seward/Raleigh News & Observer/ZUMA",
+	      "data_uri": "files/photos-ice-storm-atlanta/IceStormWoman630.jpg",
+	      "license": "??"
+	  }
+	}
+    ]
+}
