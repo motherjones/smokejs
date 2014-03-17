@@ -41,6 +41,7 @@ module.exports = (function() {
   var Model = Backbone.Model.extend({
     urlRoot: Env_config.DATA_STORE,
     resource_uri: 'basemodel',
+    loaded: null,
     load: function() {
       if (this.loaded && this.loaded.state()) { //already has a promise, is being loaded
         return this.loaded;
@@ -50,7 +51,7 @@ module.exports = (function() {
         return this.loaded;
       }
       var self = this;
-      this.loaded = new $.Deferred();
+      self.loaded = new $.Deferred();
 
       this.fetch({
         success : function() {
@@ -61,7 +62,7 @@ module.exports = (function() {
           self.loaded.resolve();
         },
       });
-      return this.loaded;
+      return self.loaded;
     },
   });
 
@@ -189,7 +190,6 @@ module.exports = (function() {
         var context = self.dustbase.push(self.model.attributes);
         self.$el.hide();
 
-        console.log(self.model.attributes.template);
         Dust.render( self.model.attributes.template,  context, 
           function(err, out) {  //callback
             if (err) {
@@ -206,26 +206,7 @@ module.exports = (function() {
       return promise;
     },
     load: function() {
-      if (this.loaded && this.loaded.state()) { //already has a promise, is being loaded
-        return this.loaded;
-      }
-      if (false) { //FIXME test if local storage of this exists
-        //fill model from local storage
-        return this.loaded;
-      }
-      var self = this;
-      this.loaded = new $.Deferred();
-
-      this.model.fetch({
-        success : function() {
-          self.loaded.resolve();
-        },
-        error : function(err) {
-          Env_config.ERROR_HANDLER(err);
-          self.loaded.resolve();
-        },
-      });
-      return this.loaded;
+      return this.model.load();
     },
   });
 
@@ -252,7 +233,6 @@ module.exports = (function() {
         var context = self.dustbase.push(self.collection);
         self.$el.hide();
 
-        console.log(self.collection.template);
         Dust.render( self.collection.template,  context, 
           function(err, out) {  //callback
             if (err) {
@@ -269,10 +249,8 @@ module.exports = (function() {
 
       $.when( promise ).done(function() {
         self.collection.each(function(model){
-          console.log(model);
           var asset = possibleAssets[model.get('schema_name')];
           var view = new asset.View({ model: model});
-          console.log(view);
           if (self.collection.get('child_template')) {
             model.set('template', self.collection.get('child_template')); 
           }
