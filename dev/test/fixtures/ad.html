@@ -1,0 +1,76 @@
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <title>MotherJones.com | Advertisement</title>
+    <style>
+        #advertisment * { margin-right: auto; margin-left: auto; text-align: center;}
+    </style>
+</head>
+<body style="margin: 0px;">
+    <div id="redirect_block" style="display:none;">
+        <img src="http://assets.motherjones.com/development/2012/MJ-logo_Regent.png" width="150" height="29" alt="Mother Jones" border="0">
+        <a id="redirect_link" onclick="history.back(); return false;" href="" style="float: right; padding-right: 2em;">SKIP THIS MESSAGE</a>
+    </div>
+    <div id="advertisment">
+        <script>
+            var pergatory = function(success, error) {
+                if (error == undefined) {
+                    return null;
+                } else {
+                    return error({
+                        'code': 1,
+                        'message': 'bad'
+                    });
+                }
+            };
+            navigator.geolocation.getCurrentPosition = pergatory;
+            window.onhashchange = function(){
+                window.location.reload();
+            }
+            var param_array = document.location.hash.replace('#', '').split('&');
+            var param_obj = {};
+            for (var i = 0; i < param_array.length; i++ ) {
+                var param = param_array[i].split('=');
+                param_obj[param[0]] = escape(param[1].replace('<SCRIPT>','').replace('<script>','').replace('-->', '').replace('<\/SCRIPT>','').replace('<\/script>',''));
+            }
+            var resize = function(event){
+                var pM = {
+                    'height': window.document.getElementById('advertisment').offsetHeight,
+	                'iframe': param_obj['placement'],
+        	        'ready': document.readyState
+                };
+                window.parent.postMessage(pM,"*");
+            }
+            var set_continue_link = function(redirect_url) {
+                block = document.getElementById('redirect_block');
+                block.style.display = 'block';
+            }
+            var mj_inter_redirect = function() {
+                history.back();
+            }
+        
+            window.document.body.onload = resize;
+	        if (window.document.body.addEventListener) {
+		        window.document.body.addEventListener("DOMNodeInserted", resize);
+	        } else {
+                window.document.body.attachEvent("onreadystatechange", resize);
+                setTimeout(resize, 5000);
+                setTimeout(resize, 10000);
+                setTimeout(resize, 30000);
+            }
+            window.onresize = resize;
+            if ( param_obj.interstitial ) {
+                set_continue_link(param_obj.redirect_url);
+                window.setTimeout("mj_inter_redirect()",15000);
+            }
+            var curDateTime = new Date(); 
+            var offset = -(curDateTime.getTimezoneOffset()); 
+            if (offset > 0) { offset = "+" + offset; }
+            if (!param_obj.groupid) { param_obj.groupid = Math.floor(Math.random()*100000000);} 
+            document.write(
+            '<scr'+'ipt language="javascript1.1" src="http://adserver.adtechus.com/addyn/3.0/5443.1/0/0/'+param_obj.height+'/ADTECH;loc=100;target=_blank;alias='+param_obj.placement+';key='+param_obj.key+';grp='+param_obj.groupid+';kvuri='+param_obj.uri+';misc='+new Date().getTime()+';aduho='+offset+'"></scri'+'pt>'
+            ); 
+        </script>
+    </div>
+
+
+</body></html>

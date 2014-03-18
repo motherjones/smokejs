@@ -5,6 +5,17 @@ module.exports = (function() {
   var Backbone = require('backbone');
   var $ = require('jquery');
   var Article = require('./article');
+  var Ad = require('./ad');
+
+  var refreshAds = function(keywords) {
+    var groupId = Math.floor(Math.random()*100000000);
+    for (var placement in Ad.CurrentAds) {
+      var ad = Ad.CurrentAds[placement];
+      ad.model.set('key', keywords ? keywords : '');
+      ad.model.set('groupid', groupId);
+      ad.trigger('pagechange');
+    }
+  };
 
   return Backbone.Router.extend({
     initialize: function(options) {
@@ -32,9 +43,10 @@ module.exports = (function() {
         self.siteModel.set('template', template);
 
         $.when(self.siteView.render()).done(function() {
-          articleView.attach('#main_content');
+          articleView.attach('#main_content').then(function() {
+            refreshAds(articleModel.get('keywords'));
+          });
         });
-
       });
     },
 
@@ -55,6 +67,8 @@ module.exports = (function() {
           articleCollection.get('template_override') :
           'two_column_layout';
         self.siteModel.set('template', template);
+
+        refreshAds(articleCollection.get('keywords'));
 
         $.when(self.siteView.render()).done(function() {
           articleCollectionView.attach('#main_content');

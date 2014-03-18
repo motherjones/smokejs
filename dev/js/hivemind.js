@@ -115,8 +115,8 @@ module.exports = (function() {
     model_type: Model,
     self: this,
 
-    before_render: function(){},
-    after_render: function(){},
+    beforeRender: function(){},
+    afterRender: function(){},
 
     attach: function(selector) {
       if (typeof(selector) === 'string') {
@@ -148,33 +148,49 @@ module.exports = (function() {
     dustbase: Dust.makeBase({
       media_base : Env_config.MEDIA_STORE,
       load_asset:  function(chunk, context, bodies, params) {
-        var asset = possibleAssets[context.stack.head.schema_name];
-        var assetModel = new asset.Model(asset);
-        var assetView = new asset.View(assetModel);
+        var schema = context.stack.head.schema_name ?
+          context.stack.head.schema_name :
+          params.schema;
+        var asset = possibleAssets[schema];
+        var assetModel = new asset.Model();
+        for (var param in params) {
+          assetModel.set(param, params[param]);
+        } //This setting must be done before initing the model
+        var assetView = new asset.View({ model: assetModel });
+
         if (asset.force_template) {
-          assetView.model.set('template', asset.force_template);
-        } else if (params && params.template) {
+          assetModel.set('template', asset.force_template);
+        } else if (params.template) {
           assetView.model.set('template', 
             asset.media_type + params.context);
         }
+
         return chunk.map(function(chunk) {
-          chunk.end('<div id="asset_' + asset.slug + '"></div>');
-          assetView.attach('#asset_' + asset.slug);
+          chunk.end('<div id="asset_' + assetModel.get('slug') + '"></div>');
+          assetView.attach('#asset_' + assetModel.get('slug'));
         });
       },
       load_collection:  function(chunk, context, bodies, params) {
-        var asset = possibleAssets[context.stack.head.schema_name];
+        var schema = context.stack.head.schema_name ?
+          context.stack.head.schema_name :
+          params.schema;
+        var asset = possibleAssets[schema];
         var assetCollection = new asset.Collection(asset);
-        var assetView = new asset.CollectionView(assetCollection);
+        var assetView = 
+          new asset.CollectionView({ collection: assetCollection });
+
+        for (var param in params) {
+          assetCollection.set(param, params[param]);
+        }
         if (asset.force_template) {
-          assetView.model.set('template', asset.force_template);
-        } else if (params && params.template) {
-          assetView.model.set('template', 
+          assetView.collection.set('template', asset.force_template);
+        } else if (params.template) {
+          assetView.collection.set('template', 
             asset.media_type + params.context);
         }
         return chunk.map(function(chunk) {
-          chunk.end('<div id="asset_' + asset.slug + '"></div>');
-          assetView.attach('#asset_' + asset.slug);
+          chunk.end('<div id="asset_' + assetCollection.get('slug') + '"></div>');
+          assetView.attach('#asset_' + assetCollection.get('slug'));
         });
       },
     }),
@@ -183,7 +199,7 @@ module.exports = (function() {
 
     render: function() {
       var self = this;
-      this.before_render();
+      this.beforeRender();
       var promise = $.Deferred();
 
       $.when( this.load() ).done(function() {
@@ -198,7 +214,7 @@ module.exports = (function() {
               self.el = out;
             }
             self.$el.html(self.el).show();
-            self.after_render();
+            self.afterRender();
 
             promise.resolve();
         });
@@ -226,7 +242,7 @@ module.exports = (function() {
     },
     render: function() {
       var self = this;
-      this.before_render();
+      this.beforeRender();
       var promise = $.Deferred();
 
       $.when( this.load() ).done(function() {
@@ -241,7 +257,7 @@ module.exports = (function() {
               self.el = out;
             }
             self.$el.html(self.el).show();
-            self.after_render();
+            self.afterRender();
 
             promise.resolve();
         });

@@ -39,5 +39,8 @@
 
 	<aside id="right_sidebar">
 		<h2>right sidebar</h2>
+    {#load_asset schema="ad" placement="right-middle"}
+    {/load_asset}
+    should be an ad above me
 	</aside>
 </article>
