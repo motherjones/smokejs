@@ -11,6 +11,7 @@ module.exports = (function() {
   var Model = HiveMind.Model.extend({
     defaults: {
       template: 'ad_iframe',
+      resizable: 'resizable',
     },
     load: function() { 
       this.loaded = new $.Deferred();
@@ -48,13 +49,10 @@ module.exports = (function() {
   });
   
   var listener = function(event){
-    if (event.origin.match(EnvConfig.AD_LOCATION) ||
-        event.origin.match(EnvConfig.AD_LOCATION)) {
-      var ad = CurrentAds[event.data.iframe];
-      if(ad && 
-          event.data.height > parseInt(ad.$el.attr('height'), 10) &&
-          ad.$el.getAttribute("data-nresizable") === "false"){
-        ad.$el.style('height', event.data.height + 'px');
+    if (EnvConfig.AD_LOCATION.match(event.origin)) {
+      var ad = CurrentAds[event.data.iframe].$el.find('iframe');
+      if (ad.attr("data-resizable") === "resizable") {
+        ad.css('height', event.data.height + 'px');
       }
     }
   };

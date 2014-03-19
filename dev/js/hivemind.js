@@ -161,10 +161,9 @@ module.exports = (function() {
         if (asset.force_template) {
           assetModel.set('template', asset.force_template);
         } else if (params.template) {
-          assetView.model.set('template', 
+          assetModel.set('template', 
             asset.media_type + params.context);
         }
-
         return chunk.map(function(chunk) {
           chunk.end('<div id="asset_' + assetModel.get('slug') + '"></div>');
           assetView.attach('#asset_' + assetModel.get('slug'));

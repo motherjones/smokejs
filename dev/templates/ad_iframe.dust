@@ -1,8 +1,9 @@
 <iframe class="ads" 
   data-placement="{placement}" 
   id="ad_{placement}"
+  data-resizable="{resizable}"
   scrolling="no" frameborder="0"
-  sandbox=""
+  sandbox="allow-scripts allow-same-origin"
   src="{src}"
   seamless>
 </iframe>
