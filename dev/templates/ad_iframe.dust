@@ -2,5 +2,7 @@
   data-placement="{placement}" 
   id="ad_{placement}"
   scrolling="no" frameborder="0"
-  src="{src}">
+  sandbox=""
+  src="{src}"
+  seamless>
 </iframe>

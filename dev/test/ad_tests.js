@@ -28,10 +28,9 @@ module.exports = (function() {
           'Default ad template is "ad_iframe"'
         );
         strictEqual(
-          model.base, 
-          unit_tests.EnvConfig.DATA_STORE + 'ad.html',
-          'model points at ad html, ' + 
-            unit_tests.EnvConfig.DATA_STORE + 'ad.html'
+          model.load().state(), 
+          'resolved',
+          'ads are always say they\'re loaded, as there\'s nothing to load'
         );
       }
     ]
@@ -52,7 +51,7 @@ module.exports = (function() {
         );
         strictEqual(
           model.get('src'),
-          unit_tests.EnvConfig.DATA_STORE + 'ad.html' +
+          unit_tests.EnvConfig.AD_LOCATION +
             '#placement=test_pos&groupid=&key=&height=&uri=' +
             window.location.pathname,
           'making an ad sets the model\'s src'
@@ -68,7 +67,7 @@ module.exports = (function() {
         view.trigger('pagechange');
         strictEqual(
           model.get('src'),
-          unit_tests.EnvConfig.DATA_STORE + 'ad.html' +
+          unit_tests.EnvConfig.AD_LOCATION +
             '#placement=test_pos&groupid=0101&key=testKeyword&height=&uri=' +
             window.location.pathname,
           'triggering the pagechange event recalculates the iframe src'

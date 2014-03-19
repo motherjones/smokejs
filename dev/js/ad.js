@@ -9,7 +9,6 @@ module.exports = (function() {
   var CurrentAds = {};
 
   var Model = HiveMind.Model.extend({
-    base:  EnvConfig.DATA_STORE + 'ad.html',
     defaults: {
       template: 'ad_iframe',
     },
@@ -38,7 +37,7 @@ module.exports = (function() {
         'height': this.model.get('data-height'),
         'uri': window.location.pathname,
       })));
-      this.model.set('src', this.model.base + '#' + this.model.get('params'));
+      this.model.set('src', EnvConfig.AD_LOCATION + '#' + this.model.get('params'));
     },
     reload: function() {
       this.setParams();
@@ -49,8 +48,8 @@ module.exports = (function() {
   });
   
   var listener = function(event){
-    if (event.origin.match(EnvConfig.DATA_STORE) ||
-        event.origin.match(EnvConfig.DATA_STORE)) {
+    if (event.origin.match(EnvConfig.AD_LOCATION) ||
+        event.origin.match(EnvConfig.AD_LOCATION)) {
       var ad = CurrentAds[event.data.iframe];
       if(ad && 
           event.data.height > parseInt(ad.$el.attr('height'), 10) &&
