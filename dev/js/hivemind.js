@@ -192,6 +192,25 @@ module.exports = (function() {
           assetView.attach('#asset_' + assetCollection.get('slug'));
         });
       },
+      load_content:  function(chunk, context, bodies, params) {
+        var contentPromise = new $.Deferred();
+        var content = '';
+        $.get(
+          Env_config.DATA_STORE + params.data_uri,
+          function(data) {
+            console.log('data fetched');
+            content = data;
+            contentPromise.resolve();
+          }
+        );
+        return chunk.map(function(chunk) {
+          $.when(
+            contentPromise
+          ).done(function() {
+            chunk.end(content);
+          });
+        });
+      },
     }),
 
     $el: $('<div></div>'),
@@ -213,6 +232,14 @@ module.exports = (function() {
               self.el = out;
             }
             self.$el.html(self.el).show();
+
+            self.$el.find('load_asset').each(function() {
+              console.log(this);
+            });
+            self.$el.find('load_collection').each(function() {
+              console.log(this);
+            });
+
             self.afterRender();
 
             promise.resolve();

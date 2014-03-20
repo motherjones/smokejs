@@ -33,7 +33,8 @@
 	</header>
 
 	<section id="component_body">
-<!-- Content goes here -->
+    {#load_content data_uri=data_uri}
+    {/load_content}
 <b>Data url</b>: {data_uri}
 	</section>
 
