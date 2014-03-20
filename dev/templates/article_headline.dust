@@ -1,0 +1,20 @@
+<header>
+  {#metadata}
+  <h3>{title}</h3>
+  <h4>{dek}</h4>
+  {/metadata}
+</header>
+<section id="component_author">
+  <h5>Authors</h5>
+  <ul>
+  {#byline}
+    <li><a href="{uri}">{metadata.first_name} {metadata.last_name}</a></li>
+  {/byline}
+  </ul>
+</section>
+{#master_image}
+  <figure>
+    <img src="{uri}" alt="{.metadata.alt_text}" /><br />
+    <figcaption>{.metadata.caption} <cite>{.metadata.attribution}</cite></figcaption>
+  </figure>
+{/master_image}

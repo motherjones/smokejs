@@ -131,13 +131,9 @@ module.exports = (function() {
       var self = this;
       this.listenTo(this.model, 'change:id', function() {
         self.loaded = null;
-        self.render();
       });
       this.listenTo(this.model, 'change:slug', function() {
         self.model.set('id', this.model.slug);
-      });
-      this.listenTo(this.model, 'change:template', function() {
-        self.render();
       });
     },
 
@@ -198,7 +194,6 @@ module.exports = (function() {
         $.get(
           Env_config.DATA_STORE + params.data_uri,
           function(data) {
-            console.log('data fetched');
             content = data;
             contentPromise.resolve();
           }
@@ -233,16 +228,32 @@ module.exports = (function() {
             }
             self.$el.html(self.el).show();
 
-            self.$el.find('load_asset').each(function() {
-              console.log(this);
-            });
-            self.$el.find('load_collection').each(function() {
-              console.log(this);
-            });
 
             self.afterRender();
 
             promise.resolve();
+        });
+      });
+      $.when(promise).done(function() {
+        self.$el.find('load_asset').each(function() {
+          var $this = $(this);
+          var asset = possibleAssets[$this.attr('schema_name')];
+          var assetModel = new asset.Model({ id : $this.attr('slug') });
+          if ($this.attr('template')) { 
+            assetModel.set('template', $this.attr('template'));
+          }
+          var assetView = new asset.View({ model: assetModel });
+          assetView.attach($this);
+        });
+        self.$el.find('load_collection').each(function() {
+          var $this = $(this);
+          var asset = possibleAssets[$this.attr('schema_name')];
+          var assetCollection = new asset.Collection({ id : $this.attr('slug') });
+          var assetCollectionView = new asset.CollectionView({ collection: assetCollection });
+          if ($this.attr('template')) { 
+            assetCollection.template = $this.attr('template');
+          }
+          assetCollectionView.attach($this);
         });
       });
       return promise;
@@ -257,10 +268,6 @@ module.exports = (function() {
       var self = this;
       this.listenTo(this.collection, 'change:id', function() {
         self.loaded = null;
-        self.render();
-      });
-      this.listenTo(this.collection, 'change:template', function() {
-        self.render();
       });
     },
     load: function() {
