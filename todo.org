@@ -7,27 +7,30 @@
      (if it doesn't exist already)
 *** TODO Hook the markdown filter into our existing render function
 
-*** Make splash pages like the homepage and special reports pages work
-**** Figure out and implement the best way to get a list of lists out of mirrors to see what arrays need to be on homepage
-**** Figure out and implement the best way of loading a lot of lists at a time.
-**** Figure out if we must allow arbitrary HTML elements or if we can put that in a template
+*** Splash Pages
+**** TODO Create a schema for splash page components
+     Make splash pages like the homepage and special reports pages work
+**** TODO Write up a spec for what you want lists of lists from mirrors to look like
+***** TODO Submit a ticket or something with the spec to the mirrors project
+**** TODO Figure out and implement the best way of loading a lot of lists at a time.
+**** TODO Figure out if we must allow arbitrary HTML elements or if we can put that in a template
 
-*** Make a list of all the different media types for our content, and make hivemind subclasses and templates for them
-**** known media type photoessay, needs subclass and template
-**** known media type blog post, needs subclass and template
-**** known media type article, needs template
-
-*** Make templates for asssets showing up not on a dedicated page
-**** Mininav list is needed for inside article content
-**** Article list for front page
-**** Author featured based article list for front page
-**** Way more. Find them and make them
-
+*** TODO Make a list of all the different media types for our content
+**** Known media types
+***** photoessay, needs subclass and template
+***** blog post, needs subclass and template
+***** article, needs template
+*** TODO Make hivemind subclasses and templates for all the media types
+*** TODO Make templates for asssets showing up not on a dedicated page
+    - [ ] Mininav list is needed for inside article content
+    - [ ] Article list for front page
+    - [ ] Author featured based article list for front page
+    - Way more. Find them and make them
 *** Make the article list pages
-**** Make the politics section page
-**** Make the environment section page
-**** Make the culture section page
-**** Make a topics page
+**** TODO Make the politics section page
+**** TODO Make the environment section page
+**** TODO Make the culture section page
+**** TODO Make a topics page
 
 *** Make splash pages
 **** Make homepage
@@ -41,8 +44,9 @@
 **** TODO Make it allow for editing image URLs without the delete/re-add
 
 *** Make asset editor form
-**** Needs to either use the schema from mirrors-schema to make a form, or make a form for each media type
-**** Needs to incorporate content editor
+**** TODO Decide how to generate forms in the content editor
+     Needs to either use the schema from mirrors-schema to make a form, or make
+     a form for each media type
 
 *** Make curation interface
 **** Edit wants the ability to put what they think is important at the top of our lists of content. When they don't curate it should have sane defaults
