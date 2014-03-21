@@ -47,6 +47,7 @@
 **** TODO Decide how to generate forms in the content editor
      Needs to either use the schema from mirrors-schema to make a form, or make
      a form for each media type
+**** Needs to incorporate content editor
 
 *** Make curation interface
 **** Edit wants the ability to put what they think is important at the top of our lists of content. When they don't curate it should have sane defaults
