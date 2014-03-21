@@ -8,9 +8,11 @@
 *** TODO Hook the markdown filter into our existing render function
 
 *** Make splash pages like the homepage and special reports pages work
+**** Figure out if we must allow arbitrary HTML elements or if we can put that in a template
+**** Make a collection of collections and a view in hivemind to handle splash pages
 **** Figure out and implement the best way to get a list of lists out of mirrors to see what arrays need to be on homepage
 **** Figure out and implement the best way of loading a lot of lists at a time.
-**** Figure out if we must allow arbitrary HTML elements or if we can put that in a template
+**** Make a proof of concept
 
 *** Make a list of all the different media types for our content, and make hivemind subclasses and templates for them
 **** known media type photoessay, needs subclass and template
