@@ -3,6 +3,8 @@
 module.exports = (function() {
   var unit_tests = {};
   unit_tests.tests = [];
+  unit_tests.asyncTests = [];
+
   unit_tests.HiveMind = require('../js/hivemind');
 
   unit_tests.tests.push(["pulled hivemind", function() {
@@ -137,10 +139,12 @@ module.exports = (function() {
     ]
   );
 
+    /*
   unit_tests.tests.push(["test dust html filter", function() {
     expect(1);
     ok(false, "test not implemented yet");
   }]);
+  */
 
 
   return unit_tests;

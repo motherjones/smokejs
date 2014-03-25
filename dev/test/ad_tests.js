@@ -3,6 +3,7 @@
 module.exports = (function() {
   var unit_tests = {};
   unit_tests.tests = [];
+  unit_tests.asyncTests = [];
 
   unit_tests.Ad = require('../js/ad');
   unit_tests.EnvConfig = require('../js/config');
