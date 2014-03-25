@@ -7,6 +7,7 @@ module.exports = (function() {
   var _ = require('underscore');
   var Dust = require('../../build/js/dust_templates.js')();
   var Env_config = require('./config');
+  var Markdown = require('./markdown');
   var templateMap = require('./templateMap');
 
   // All hivemind subclasses should push to this
@@ -189,12 +190,15 @@ module.exports = (function() {
         });
       },
       load_content:  function(chunk, context, bodies, params) {
+                       console.log('loading content');
         var contentPromise = new $.Deferred();
         var content = '';
         $.get(
           Env_config.DATA_STORE + params.data_uri,
           function(data) {
-            content = data;
+            // convert to markdown here
+            console.log(Markdown);
+            content = Markdown.marked(data);
             contentPromise.resolve();
           }
         );
@@ -231,32 +235,42 @@ module.exports = (function() {
 
             self.afterRender();
 
+            console.log('lol here');
             promise.resolve();
         });
       });
       $.when(promise).done(function() {
-        self.$el.find('load_asset').each(function() {
-          var $this = $(this);
-          var asset = possibleAssets[$this.attr('schema_name')];
-          var assetModel = new asset.Model({ id : $this.attr('slug') });
-          if ($this.attr('template')) { 
-            assetModel.set('template', $this.attr('template'));
-          }
-          var assetView = new asset.View({ model: assetModel });
-          assetView.attach($this);
-        });
-        self.$el.find('load_collection').each(function() {
-          var $this = $(this);
-          var asset = possibleAssets[$this.attr('schema_name')];
-          var assetCollection = new asset.Collection({ id : $this.attr('slug') });
-          var assetCollectionView = new asset.CollectionView({ collection: assetCollection });
-          if ($this.attr('template')) { 
-            assetCollection.template = $this.attr('template');
-          }
-          assetCollectionView.attach($this);
-        });
+        console.log('promise resolved');
+        self.render_assets_from_content();
+        self.render_collections_from_content();
       });
       return promise;
+    },
+    render_collections_from_content: function() {
+                                       console.log('rendering collections from content');
+      this.$el.find('load_collection').each(function() {
+        var $this = $(this);
+        var asset = possibleAssets[$this.attr('schema_name')];
+        var assetCollection = new asset.Collection({ id : $this.attr('slug') });
+        var assetCollectionView = new asset.CollectionView({ collection: assetCollection });
+        if ($this.attr('template')) { 
+          assetCollection.template = $this.attr('template');
+        }
+        assetCollectionView.attach($this);
+      });
+    },
+    render_assets_from_content: function() {
+                                       console.log('rendering assets from content');
+      this.$el.find('load_asset').each(function() {
+        var $this = $(this);
+        var asset = possibleAssets[$this.attr('schema_name')];
+        var assetModel = new asset.Model({ id : $this.attr('slug') });
+        if ($this.attr('template')) { 
+          assetModel.set('template', $this.attr('template'));
+        }
+        var assetView = new asset.View({ model: assetModel });
+        assetView.attach($this);
+      });
     },
     load: function() {
       return this.model.load();

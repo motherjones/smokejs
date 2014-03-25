@@ -52,9 +52,9 @@
   },
   "keywords": [],
   "dependencies": {
-      "jquery": "~2.1.0",
-      "underscore": "~1.5.2",
-      "backbone": "~1.1.0",
-      "markdown": "~0.5.0"
+    "jquery": "~2.1.0",
+    "underscore": "~1.5.2",
+    "backbone": "~1.1.0",
+    "marked": "~0.3.2"
   }
 }
