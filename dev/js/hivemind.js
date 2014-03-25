@@ -196,7 +196,7 @@ module.exports = (function() {
           Env_config.DATA_STORE + params.data_uri,
           function(data) {
             // convert to markdown here
-            content = Markdown.marked(data);
+            content = Markdown.toHTML(data);
             contentPromise.resolve();
           }
         );

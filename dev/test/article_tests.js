@@ -9,8 +9,7 @@ module.exports = (function() {
   unit_tests.$ = require('jquery');
 
   unit_tests.asyncTests.push(["test article creation", function() {
-    //expect(7);
-    expect(3); //sad. see commentary below
+    expect(8);
 
     unit_tests.$('#qunit-fixture').html('');
 
@@ -36,12 +35,18 @@ module.exports = (function() {
        * i should make an array of all things needed to be loaded and only resolve prime
        * deferred once they're all done, but I can't even know when my array is actually
        * done being filled
+      */
       ok( content.find('load_asset'), 'asset tag found');
-      ok( content.find('load_asset').html(), 'asset loaded from content');
+      //ok( content.find('load_asset').html(), 'asset loaded from content');
 
       ok( content.find('load_collection'), 'collection tag found');
-      ok( content.find('load_collection').html(), 'collection loaded from content');
-      */
+      //ok( content.find('load_collection').html(), 'collection loaded from content');
+
+      ok( content.find('h1'), 'markdown title created');
+
+      ok( content.find('em'), 'markdown em tag created');
+
+      ok( content.find('blockquote'), 'markdown blockquote tag created');
 
       start();
     });
