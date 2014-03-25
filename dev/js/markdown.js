@@ -5,6 +5,10 @@ module.exports = (function() {
   var marked = require('marked');
   /* Prototype on top of marked here, please */
 
-  return { marked: marked };
+  return {
+    toHTML: marked,
+    lexer: marked.lexer,
+    parser: marked.parser
+  };
 
 })();

@@ -190,14 +190,12 @@ module.exports = (function() {
         });
       },
       load_content:  function(chunk, context, bodies, params) {
-                       console.log('loading content');
         var contentPromise = new $.Deferred();
         var content = '';
         $.get(
           Env_config.DATA_STORE + params.data_uri,
           function(data) {
             // convert to markdown here
-            console.log(Markdown);
             content = Markdown.marked(data);
             contentPromise.resolve();
           }
@@ -235,19 +233,16 @@ module.exports = (function() {
 
             self.afterRender();
 
-            console.log('lol here');
             promise.resolve();
         });
       });
       $.when(promise).done(function() {
-        console.log('promise resolved');
         self.render_assets_from_content();
         self.render_collections_from_content();
       });
       return promise;
     },
     render_collections_from_content: function() {
-                                       console.log('rendering collections from content');
       this.$el.find('load_collection').each(function() {
         var $this = $(this);
         var asset = possibleAssets[$this.attr('schema_name')];
@@ -260,7 +255,6 @@ module.exports = (function() {
       });
     },
     render_assets_from_content: function() {
-                                       console.log('rendering assets from content');
       this.$el.find('load_asset').each(function() {
         var $this = $(this);
         var asset = possibleAssets[$this.attr('schema_name')];
