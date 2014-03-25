@@ -3,9 +3,9 @@
 ** RC1 reader facing requirements
 
 *** Make markdown content work
-**** TODO Make a dust filter to turn markdown into html
-**** TODO Write tests for the markdown->html filter (if it doesn't exist already)
-**** TODO Hook the markdown filter into our existing render function
+**** done Make a dust filter to turn markdown into html
+**** done Write tests for the markdown->html filter (if it doesn't exist already)
+**** done Hook the markdown filter into our existing render function
 
 *** Splash Pages
 **** TODO Create a schema for splash page components
