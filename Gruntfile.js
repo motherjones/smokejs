@@ -12,6 +12,7 @@ module.exports = function (grunt) {
     },
     browserify: {
       dist: { files: { 'build/js/smoke.js': ['dev/js/main.js'] } },
+      edit: { files: { 'build/js/smoke_edit.js': ['dev/js/main_edit.js'] } },
       test: { files: { 'build/test/smoke_test.js': ['dev/test/all.js'] } }
     },
     less: {
@@ -38,6 +39,10 @@ module.exports = function (grunt) {
       dist: {
         src: 'build/js/smoke.js',
         dest: 'build/js/smoke.min.js'
+      },
+      edit: {
+        src: 'build/js/smoke_edit.js',
+        dest: 'build/js/smoke_edit.min.js'
       }
     },
     qunit: { all: { options: { urls: ['http://localhost:9001/smoke_test.html'] } } },
@@ -91,13 +96,19 @@ module.exports = function (grunt) {
         },
         files: {
           'build/index.html': 'dev/index.html',
+          'build/edit.html': 'dev/edit.html',
           'build/smoke_test.html': 'dev/test/smoke_test.html'
         }
       }
     },
     dust: {
       defaults: {
-        files: { 'build/js/dust_templates.js': ['dev/templates/**/*.dust'] },
+        files: {
+          'build/js/dust_templates.js': [
+            'dev/templates/**/*.dust',
+            '!dev/templates/edit/**/*.dust'
+          ]
+        },
         options: {
           runtime: false,
           basePath: 'dev/templates',
@@ -107,6 +118,10 @@ module.exports = function (grunt) {
             deps: { dust: 'dustjs-linkedin' }
           }
         }
+      },
+      edit: {
+        files: { 'build/js/edit_templates.js': [ 'dev/templates/edit/**/*.dust' ]
+        },
       }
     },
     watch: {
