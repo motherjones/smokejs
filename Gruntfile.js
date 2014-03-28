@@ -120,7 +120,7 @@ module.exports = function (grunt) {
         }
       },
       edit: {
-        files: { 'build/js/edit_templates.js': [ 'dev/templates/edit/**/*.dust' ]
+        files: { 'build/js/edit_templates.js': [ 'dev/templates/**/*.dust' ]
         },
       }
     },

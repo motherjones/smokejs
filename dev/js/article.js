@@ -18,9 +18,6 @@ module.exports = (function() {
   });
 
   var Collection = HiveMind.Collection.extend({
-    initialize: function(options) {
-      this.url = this.urlRoot() + options.id;
-    },
     urlRoot: function() {
       return EnvConfig.DATA_STORE + 'article_list/';
     },

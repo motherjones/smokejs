@@ -6,7 +6,7 @@ module.exports = (function() {
   var $ = Backbone.$ = require('jquery');
   var _ = require('underscore');
   var Dust = require('../../build/js/dust_templates.js')();
-  var Env_config = require('./config');
+  var EnvConfig = require('./config');
   var Markdown = require('./markdown');
   var templateMap = require('./templateMap');
 
@@ -40,7 +40,7 @@ module.exports = (function() {
   };
 
   var Model = Backbone.Model.extend({
-    urlRoot: Env_config.DATA_STORE,
+    urlRoot: EnvConfig.DATA_STORE,
     resource_uri: 'basemodel',
     loaded: null,
     load: function() {
@@ -59,7 +59,7 @@ module.exports = (function() {
           self.loaded.resolve();
         },
         error : function(xhr, err) {
-          Env_config.ERROR_HANDLER(err);
+          EnvConfig.ERROR_HANDLER(err);
           self.loaded.resolve();
         },
       });
@@ -68,6 +68,12 @@ module.exports = (function() {
   });
 
   var Collection = Backbone.Collection.extend({
+    initialize: function(options) {
+      this.url = this.urlRoot() + options.id;
+    },
+    urlRoot: function() {
+      return EnvConfig.DATA_STORE + 'list/';
+    },
     fetch: function(options) {
       options = options ? _.clone(options) : {};
       if (options.parse === void 0) { options.parse = true; }
@@ -104,7 +110,7 @@ module.exports = (function() {
           self.loaded.resolve();
         },
         error : function(xhr, err) {
-          Env_config.ERROR_HANDLER(err);
+          EnvConfig.ERROR_HANDLER(err);
           self.loaded.resolve();
         },
       });
@@ -115,6 +121,8 @@ module.exports = (function() {
   var View = Backbone.View.extend({
     model_type: Model,
     self: this,
+
+    dust: Dust,
 
     beforeRender: function(){},
     afterRender: function(){},
@@ -142,73 +150,79 @@ module.exports = (function() {
       return $.when.apply(null, promises);
     },
 
-    dustbase: Dust.makeBase({
-      media_base : Env_config.MEDIA_STORE,
-      load_asset:  function(chunk, context, bodies, params) {
-        var schema = context.stack.head.schema_name ?
-          context.stack.head.schema_name :
-          params.schema;
-        var asset = possibleAssets[schema];
-        var assetModel = new asset.Model();
-        for (var param in params) {
-          assetModel.set(param, params[param]);
-        } //This setting must be done before initing the model
-        var assetView = new asset.View({ model: assetModel });
+    dustbase: function() {
+      if (this._dustbase) {
+        return this._dustbase;
+      }
+      this._dustbase = this.dust.makeBase({
+        media_base : EnvConfig.MEDIA_STORE,
+        load_asset:  function(chunk, context, bodies, params) {
+          var schema = context.stack.head.schema_name ?
+            context.stack.head.schema_name :
+            params.schema;
+          var asset = possibleAssets[schema];
+          var assetModel = new asset.Model();
+          for (var param in params) {
+            assetModel.set(param, params[param]);
+          } //This setting must be done before initing the model
+          var assetView = new asset.View({ model: assetModel });
 
-        if (asset.force_template) {
-          assetModel.set('template', asset.force_template);
-        } else if (params.template) {
-          assetModel.set('template', 
-            asset.media_type + params.context);
-        }
-        return chunk.map(function(chunk) {
-          chunk.end('<div id="asset_' + assetModel.get('slug') + '"></div>');
-          assetView.attach('#asset_' + assetModel.get('slug'));
-        });
-      },
-      load_collection:  function(chunk, context, bodies, params) {
-        var schema = context.stack.head.schema_name ?
-          context.stack.head.schema_name :
-          params.schema;
-        var asset = possibleAssets[schema];
-        var assetCollection = new asset.Collection(asset);
-        var assetView = 
-          new asset.CollectionView({ collection: assetCollection });
-
-        for (var param in params) {
-          assetCollection.set(param, params[param]);
-        }
-        if (asset.force_template) {
-          assetView.collection.set('template', asset.force_template);
-        } else if (params.template) {
-          assetView.collection.set('template', 
-            asset.media_type + params.context);
-        }
-        return chunk.map(function(chunk) {
-          chunk.end('<div id="asset_' + assetCollection.get('slug') + '"></div>');
-          assetView.attach('#asset_' + assetCollection.get('slug'));
-        });
-      },
-      load_content:  function(chunk, context, bodies, params) {
-        var contentPromise = new $.Deferred();
-        var content = '';
-        $.get(
-          Env_config.DATA_STORE + params.data_uri,
-          function(data) {
-            // convert to markdown here
-            content = Markdown.toHTML(data);
-            contentPromise.resolve();
+          if (asset.force_template) {
+            assetModel.set('template', asset.force_template);
+          } else if (params.template) {
+            assetModel.set('template', 
+              asset.media_type + params.context);
           }
-        );
-        return chunk.map(function(chunk) {
-          $.when(
-            contentPromise
-          ).done(function() {
-            chunk.end(content);
+          return chunk.map(function(chunk) {
+            chunk.end('<div id="asset_' + assetModel.get('slug') + '"></div>');
+            assetView.attach('#asset_' + assetModel.get('slug'));
           });
-        });
-      },
-    }),
+        },
+        load_collection:  function(chunk, context, bodies, params) {
+          var schema = context.stack.head.schema_name ?
+            context.stack.head.schema_name :
+            params.schema;
+          var asset = possibleAssets[schema];
+          var assetCollection = new asset.Collection(asset);
+          var assetView = 
+            new asset.CollectionView({ collection: assetCollection });
+
+          for (var param in params) {
+            assetCollection.set(param, params[param]);
+          }
+          if (asset.force_template) {
+            assetView.collection.set('template', asset.force_template);
+          } else if (params.template) {
+            assetView.collection.set('template', 
+              asset.media_type + params.context);
+          }
+          return chunk.map(function(chunk) {
+            chunk.end('<div id="asset_' + assetCollection.get('slug') + '"></div>');
+            assetView.attach('#asset_' + assetCollection.get('slug'));
+          });
+        },
+        load_content:  function(chunk, context, bodies, params) {
+          var contentPromise = new $.Deferred();
+          var content = '';
+          $.get(
+            EnvConfig.DATA_STORE + params.data_uri,
+            function(data) {
+              // convert to markdown here
+              content = Markdown.toHTML(data);
+              contentPromise.resolve();
+            }
+          );
+          return chunk.map(function(chunk) {
+            $.when(
+              contentPromise
+            ).done(function() {
+              chunk.end(content);
+            });
+          });
+        },
+      });
+      return this._dustbase;
+    },
 
     $el: $('<div></div>'),
 
@@ -218,13 +232,13 @@ module.exports = (function() {
       var promise = $.Deferred();
 
       $.when( this.load() ).done(function() {
-        var context = self.dustbase.push(self.model.attributes);
+        var context = self.dustbase().push(self.model.attributes);
         self.$el.hide();
 
-        Dust.render( self.model.attributes.template,  context, 
+        self.dust.render( self.model.attributes.template,  context, 
           function(err, out) {  //callback
             if (err) {
-              Env_config.ERROR_HANDLER(err, self);
+              EnvConfig.ERROR_HANDLER(err, self);
             } else {
               self.el = out;
             }
@@ -237,12 +251,12 @@ module.exports = (function() {
         });
       });
       $.when(promise).done(function() {
-        self.render_assets_from_content();
-        self.render_collections_from_content();
+        self.renderAssetsFromContent();
+        self.renderCollectionsFromContent();
       });
       return promise;
     },
-    render_collections_from_content: function() {
+    renderCollectionsFromContent: function() {
       this.$el.find('load_collection').each(function() {
         var $this = $(this);
         var asset = possibleAssets[$this.attr('schema_name')];
@@ -254,7 +268,7 @@ module.exports = (function() {
         assetCollectionView.attach($this);
       });
     },
-    render_assets_from_content: function() {
+    renderAssetsFromContent: function() {
       this.$el.find('load_asset').each(function() {
         var $this = $(this);
         var asset = possibleAssets[$this.attr('schema_name')];
@@ -287,13 +301,13 @@ module.exports = (function() {
       var promise = $.Deferred();
 
       $.when( this.load() ).done(function() {
-        var context = self.dustbase.push(self.collection);
+        var context = self.dustbase().push(self.collection);
         self.$el.hide();
 
-        Dust.render( self.collection.template,  context, 
+        self.dust.render( self.collection.template,  context, 
           function(err, out) {  //callback
             if (err) {
-              Env_config.ERROR_HANDLER(err, self);
+              EnvConfig.ERROR_HANDLER(err, self);
             } else {
               self.el = out;
             }
