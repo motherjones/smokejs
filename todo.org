@@ -27,6 +27,12 @@
 ***** BLOCKED Make homepage
 ***** BLOCKED Have a plan for how to make something like http://www.motherjones.com/special-reports/2012/12/guns-in-america-mass-shootings
 
+*** TODO Make hivemind subclasses and templates for all pieces of an article we'd like to edit separately
+**** If we want to add magic when you click on (for instance) a headline, it needs it's own view
+**** TODO have a brief discussion (probably w/ cam) about how to break down the different parts of an article/blogpost/photoessay/whatever
+**** TODO make subclasses and templates based on product of this discussion
+**** TODO update article and topic templates based on new subclasses
+
 *** TODO Make hivemind subclasses and templates for all the media types
 **** TODO Make a list of all the different media types for our content
 ***** Known media types:
