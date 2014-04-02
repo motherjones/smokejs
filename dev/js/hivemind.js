@@ -201,7 +201,11 @@ module.exports = (function() {
             assetView.attach('#asset_' + assetCollection.get('slug'));
           });
         },
+        //MAKE ME A REAL MODEL AND VIEW CUZ EDIT IS GONNA NEED TO DO FANCY THINGS W/ CONTENT
         load_content:  function(chunk, context, bodies, params) {
+         // OH SHIT IF I WAS A REAL VIEW I COULD CONVERT FROM MARKDOWN W/ BEFORERENDER,
+         // AND THEN I WOULDN'T HAVE TO RELY ON <load_whatever> BULLSHIT BECAUSE I COULD JUST HTROW IT
+         // THROUGH DUST AGAIN
           var contentPromise = new $.Deferred();
           var content = '';
           $.get(
@@ -233,6 +237,7 @@ module.exports = (function() {
 
       $.when( this.load() ).done(function() {
         var context = self.dustbase().push(self.model.attributes);
+        //This is unnecessary, but maybe should be a cool transition
         self.$el.hide();
 
         self.dust.render( self.model.attributes.template,  context, 
@@ -242,8 +247,8 @@ module.exports = (function() {
             } else {
               self.el = out;
             }
+        //This is unnecessary, but maybe should be a cool transition
             self.$el.html(self.el).show();
-
 
             self.afterRender();
 
@@ -300,6 +305,7 @@ module.exports = (function() {
       this.beforeRender();
       var promise = $.Deferred();
 
+      // I WISH YOU WERE SMARTER DON'T LOAD EVERY TIME WTF
       $.when( this.load() ).done(function() {
         var context = self.dustbase().push(self.collection);
         self.$el.hide();

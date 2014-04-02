@@ -6,6 +6,13 @@
 **** done Make a dust filter to turn markdown into html
 **** done Write tests for the markdown->html filter (if it doesn't exist already)
 **** done Hook the markdown filter into our existing render function
+*** THIS WAS DONE POORLY
+**** So right now we call out to a special dust function to drag in content
+**** NO!
+**** TODO Make markdown content a model and a view like everthing else
+**** TODO Make that view convert from markdown to html in beforeRender
+**** TODO make that model look for it's content in the way mirrors provides
+**** TODO Axe all the stuff that requires picking through the DOM looking for stuff to render afterwards
 
 *** Splash Pages
 **** TODO Create a schema for splash page components

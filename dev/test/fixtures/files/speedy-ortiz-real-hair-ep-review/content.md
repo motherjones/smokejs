@@ -1,3 +1,5 @@
+ I am a pretend article body
+
 # Mirrors Schemas
 To run tests do
 nodeunit tests.js
@@ -17,4 +19,7 @@ TODO:
 - Update Docs
 
 <load_asset schema_name="article" slug="2" template="article_headline" />
+
+There is an inline list of articles where I kevn drum talk aobut how the democrats are pretty alright
+and how i love centrism.
 <load_collection schema_name="article" slug="1" template="mini_article_collection" />
