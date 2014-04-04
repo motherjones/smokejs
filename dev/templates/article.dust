@@ -1,4 +1,4 @@
-<article id="main_content">
+<article>
 	<header>
 		{#metadata}
 		<h1>{title}</h1>
@@ -33,15 +33,13 @@
 	</header>
 
 	<section id="component_body">
-    {#load_content data_uri=data_uri}
-    {/load_content}
-<b>Data url</b>: {data_uri}
+    {#load_asset schema="content" data_uri=data_uri /}
+    <b>Data url</b>: {data_uri}
 	</section>
 
-	<aside id="right_sidebar">
-		<h2>right sidebar</h2>
-    {#load_asset schema="ad" placement="bottommob"}
-    {/load_asset}
+	<aside id="bottom_ad">
+		<h2>bottom ad</h2>
+    {#load_asset schema="ad" placement="bottommob" /}
     should be an ad above me
 	</aside>
 </article>

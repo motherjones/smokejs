@@ -6,6 +6,7 @@ module.exports = (function() {
   var $ = require('jquery');
 
   var Model = HiveMind.Model.extend({
+    schema: 'applicationModel',
     defaults: {
       template: 'homepage',
       content: null,
@@ -17,11 +18,6 @@ module.exports = (function() {
       this.loaded = new $.Deferred();
       this.loaded.resolve();
       return this.loaded;
-    },
-    initialize: function() {
-      this.listenTo(this.model, 'change:template', function() {
-        this.render();
-      });
     },
   });
 

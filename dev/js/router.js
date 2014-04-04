@@ -44,8 +44,8 @@ module.exports = (function() {
           'two_column_layout';
         self.siteModel.set('template', template);
 
-        $.when(self.siteView.render()).done(function() {
-          view.attach('#main_content').then(function() {
+        $.when(self.siteView.attach('body')).done(function() {
+          view.attach('#main_content').done(function() {
             refreshAds(model.get('keywords'));
           });
         });

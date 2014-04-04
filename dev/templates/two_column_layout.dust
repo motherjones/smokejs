@@ -1,7 +1,8 @@
 <div id="two_column_layout_container">
-  <div id="main_content"></div>
+  <div id="main_content">
+  </div>
   <div id="right_sidebar">
-    {#load_asset schema="ad" placement="bottommob"}
-    {/load_asset}
+    this is a right column ad
+    {#load_asset schema="ad" placement="bottommob" /}
   </div>
 </div>

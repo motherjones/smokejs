@@ -7,7 +7,6 @@ module.exports = (function() {
   var _ = require('underscore');
   var Dust = require('../../build/js/dust_templates.js')();
   var EnvConfig = require('./config');
-  var Markdown = require('./markdown');
   var templateMap = require('./templateMap');
 
   // All hivemind subclasses should push to this
@@ -42,9 +41,10 @@ module.exports = (function() {
   var Model = Backbone.Model.extend({
     urlRoot: EnvConfig.DATA_STORE,
     resource_uri: 'basemodel',
+    schema: 'baseModel',
     loaded: null,
     load: function() {
-      if (this.loaded && this.loaded.state()) { //already has a promise, is being loaded
+      if (this.loaded) { //already has a promise
         return this.loaded;
       }
       if (false) { //FIXME test if local storage of this exists
@@ -52,15 +52,15 @@ module.exports = (function() {
         return this.loaded;
       }
       var self = this;
-      self.loaded = new $.Deferred();
+      var promise = self.loaded = new $.Deferred();
 
       this.fetch({
         success : function() {
-          self.loaded.resolve();
+          promise.resolve();
         },
         error : function(xhr, err) {
           EnvConfig.ERROR_HANDLER(err);
-          self.loaded.resolve();
+          promise.resolve();
         },
       });
       return self.loaded;
@@ -95,7 +95,7 @@ module.exports = (function() {
     },
     model: Model,
     load: function() {
-      if (this.loaded && this.loaded.state()) { //already has a promise, is being loaded
+      if (this.loaded) { //already has a promise, is being loaded
         return this.loaded;
       }
       if (false) { //FIXME test if local storage of this exists
@@ -128,21 +128,30 @@ module.exports = (function() {
     afterRender: function(){},
 
     attach: function(selector) {
+      var self = this;
       if (typeof(selector) === 'string') {
         this.$el = $(selector);
       } else {
         this.$el = selector;
       }
-      return this.render();
+      $.when( this.render() ).done(function() {
+        if (self.$el.length) {
+          self.$el.html(self.el);
+        }
+      });
+      return this.rendered;
     },
 
     initialize: function() {
       var self = this;
       this.listenTo(this.model, 'change:id', function() {
         self.loaded = null;
+        self.rendered = null;
+        self.attach(self.$el);
       });
-      this.listenTo(this.model, 'change:slug', function() {
-        self.model.set('id', this.model.slug);
+      this.listenTo(this.model, 'change:template', function() {
+        self.rendered = null;
+        self.attach(self.$el);
       });
     },
 
@@ -157,15 +166,15 @@ module.exports = (function() {
       this._dustbase = this.dust.makeBase({
         media_base : EnvConfig.MEDIA_STORE,
         load_asset:  function(chunk, context, bodies, params) {
-          var schema = context.stack.head.schema_name ?
-            context.stack.head.schema_name :
-            params.schema;
+          var schema = params.schema ?
+            params.schema :
+            context.stack.head.schema_name;
           var asset = possibleAssets[schema];
           var assetModel = new asset.Model();
+          var assetView = new asset.View({ model: assetModel });
           for (var param in params) {
             assetModel.set(param, params[param]);
-          } //This setting must be done before initing the model
-          var assetView = new asset.View({ model: assetModel });
+          } 
 
           if (asset.force_template) {
             assetModel.set('template', asset.force_template);
@@ -174,8 +183,9 @@ module.exports = (function() {
               asset.media_type + params.context);
           }
           return chunk.map(function(chunk) {
-            chunk.end('<div id="asset_' + assetModel.get('slug') + '"></div>');
-            assetView.attach('#asset_' + assetModel.get('slug'));
+            $.when( assetView.render() ).done(function() {
+              chunk.end(assetView.el);
+            });
           });
         },
         load_collection:  function(chunk, context, bodies, params) {
@@ -197,30 +207,8 @@ module.exports = (function() {
               asset.media_type + params.context);
           }
           return chunk.map(function(chunk) {
-            chunk.end('<div id="asset_' + assetCollection.get('slug') + '"></div>');
-            assetView.attach('#asset_' + assetCollection.get('slug'));
-          });
-        },
-        //MAKE ME A REAL MODEL AND VIEW CUZ EDIT IS GONNA NEED TO DO FANCY THINGS W/ CONTENT
-        load_content:  function(chunk, context, bodies, params) {
-         // OH SHIT IF I WAS A REAL VIEW I COULD CONVERT FROM MARKDOWN W/ BEFORERENDER,
-         // AND THEN I WOULDN'T HAVE TO RELY ON <load_whatever> BULLSHIT BECAUSE I COULD JUST HTROW IT
-         // THROUGH DUST AGAIN
-          var contentPromise = new $.Deferred();
-          var content = '';
-          $.get(
-            EnvConfig.DATA_STORE + params.data_uri,
-            function(data) {
-              // convert to markdown here
-              content = Markdown.toHTML(data);
-              contentPromise.resolve();
-            }
-          );
-          return chunk.map(function(chunk) {
-            $.when(
-              contentPromise
-            ).done(function() {
-              chunk.end(content);
+            $.when( assetView.render() ).done(function() {
+              chunk.end(assetView.el);
             });
           });
         },
@@ -230,60 +218,40 @@ module.exports = (function() {
 
     $el: $('<div></div>'),
 
+    rerender: function() {
+      this.rendered = null;
+      this.render();
+    },
+
     render: function() {
+      if (this.rendered) {
+        return this.rendered;
+      }
       var self = this;
       this.beforeRender();
-      var promise = $.Deferred();
+      var promise = this.rendered = new $.Deferred();
 
       $.when( this.load() ).done(function() {
         var context = self.dustbase().push(self.model.attributes);
-        //This is unnecessary, but maybe should be a cool transition
-        self.$el.hide();
 
-        self.dust.render( self.model.attributes.template,  context, 
+        self.dust.render( self.model.get('template'),  context, 
           function(err, out) {  //callback
             if (err) {
               EnvConfig.ERROR_HANDLER(err, self);
             } else {
               self.el = out;
             }
-        //This is unnecessary, but maybe should be a cool transition
-            self.$el.html(self.el).show();
 
             self.afterRender();
+
+            if (self.$el.length) {
+              self.$el.html(self.el);
+            }
 
             promise.resolve();
         });
       });
-      $.when(promise).done(function() {
-        self.renderAssetsFromContent();
-        self.renderCollectionsFromContent();
-      });
-      return promise;
-    },
-    renderCollectionsFromContent: function() {
-      this.$el.find('load_collection').each(function() {
-        var $this = $(this);
-        var asset = possibleAssets[$this.attr('schema_name')];
-        var assetCollection = new asset.Collection({ id : $this.attr('slug') });
-        var assetCollectionView = new asset.CollectionView({ collection: assetCollection });
-        if ($this.attr('template')) { 
-          assetCollection.template = $this.attr('template');
-        }
-        assetCollectionView.attach($this);
-      });
-    },
-    renderAssetsFromContent: function() {
-      this.$el.find('load_asset').each(function() {
-        var $this = $(this);
-        var asset = possibleAssets[$this.attr('schema_name')];
-        var assetModel = new asset.Model({ id : $this.attr('slug') });
-        if ($this.attr('template')) { 
-          assetModel.set('template', $this.attr('template'));
-        }
-        var assetView = new asset.View({ model: assetModel });
-        assetView.attach($this);
-      });
+      return self.rendered;
     },
     load: function() {
       return this.model.load();
@@ -292,23 +260,31 @@ module.exports = (function() {
 
   var CollectionView = View.extend({
     initialize: function() {
+                  /*
       var self = this;
       this.listenTo(this.collection, 'change:id', function() {
         self.loaded = null;
       });
+      */
     },
     load: function() {
       return this.collection.load();
     },
+    rerender: function() {
+      this.rendered = null;
+      this.render();
+    },
+
     render: function() {
+      if (this.rendered) {
+        return this.rendered;
+      }
       var self = this;
       this.beforeRender();
-      var promise = $.Deferred();
+      var promise = this.rendered = $.Deferred();
 
-      // I WISH YOU WERE SMARTER DON'T LOAD EVERY TIME WTF
       $.when( this.load() ).done(function() {
         var context = self.dustbase().push(self.collection);
-        self.$el.hide();
 
         self.dust.render( self.collection.template,  context, 
           function(err, out) {  //callback
@@ -317,13 +293,13 @@ module.exports = (function() {
             } else {
               self.el = out;
             }
-            self.$el.html(self.el).show();
             self.afterRender();
 
             promise.resolve();
         });
       });
 
+      /* do this w/ templating this is dumb
       $.when( promise ).done(function() {
         self.collection.each(function(model){
           var asset = possibleAssets[model.get('schema_name')];
@@ -334,6 +310,7 @@ module.exports = (function() {
           view.attach(self.$el.find('.collection_content'));
         });
       });
+      */
 
       return promise;
     },
@@ -346,6 +323,7 @@ module.exports = (function() {
     CollectionView: CollectionView,
     chooseTemplate: chooseTemplate,
     possibleAssets: possibleAssets,
+    Dust: Dust,
   };
 
 })();

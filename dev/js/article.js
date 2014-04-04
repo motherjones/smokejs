@@ -4,11 +4,13 @@
 module.exports = (function() {
   var HiveMind = require('./hivemind');
   var EnvConfig = require('./config');
+  require('./content');
 
   var Model = HiveMind.Model.extend({
     urlRoot: function() {
       return EnvConfig.DATA_STORE + 'article/';
     },
+    schema: 'articleModel',
     defaults: {
       template: 'article',
     }

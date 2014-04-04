@@ -18,8 +18,8 @@ TODO:
 - Add ids to schemas
 - Update Docs
 
-<load_asset schema_name="article" slug="2" template="article_headline" />
+    <!--{#load_asset schema="article" slug="2" template="article_headline" /}-->
 
 There is an inline list of articles where I kevn drum talk aobut how the democrats are pretty alright
 and how i love centrism.
-<load_collection schema_name="article" slug="1" template="mini_article_collection" />
+ <!--   {#load_collection schema="article" slug="1" template="mini_article_collection" /} -->
