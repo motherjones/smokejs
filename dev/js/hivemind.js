@@ -39,6 +39,15 @@ module.exports = (function() {
   };
 
   var Model = Backbone.Model.extend({
+    initialize: function(options) {
+      if (!options) {return;}
+      if (options.slug && !options.id) {
+        options.id = options.slug;
+      }
+      for (var option in options) {
+        this.set(option, options[option]);
+      }
+    },
     urlRoot: EnvConfig.DATA_STORE,
     resource_uri: 'basemodel',
     schema: 'baseModel',
@@ -69,7 +78,18 @@ module.exports = (function() {
 
   var Collection = Backbone.Collection.extend({
     initialize: function(options) {
+      if (!options) {return;}
+      if (options.slug && !options.id) {
+        options.id = options.slug;
+      }
+      for (var option in options) {
+        this[option] = options[option];
+      }
       this.url = this.urlRoot() + options.id;
+      console.log('collection inited');
+      console.log(options);
+      console.log(this.id);
+      console.log(this.url);
     },
     urlRoot: function() {
       return EnvConfig.DATA_STORE + 'list/';
@@ -170,18 +190,14 @@ module.exports = (function() {
             params.schema :
             context.stack.head.schema_name;
           var asset = possibleAssets[schema];
-          var assetModel = new asset.Model();
+          var assetModel = new asset.Model(params);
           var assetView = new asset.View({ model: assetModel });
+          /*
           for (var param in params) {
             assetModel.set(param, params[param]);
           } 
+          */
 
-          if (asset.force_template) {
-            assetModel.set('template', asset.force_template);
-          } else if (params.template) {
-            assetModel.set('template', 
-              asset.media_type + params.context);
-          }
           return chunk.map(function(chunk) {
             $.when( assetView.render() ).done(function() {
               chunk.end(assetView.el);
@@ -189,23 +205,16 @@ module.exports = (function() {
           });
         },
         load_collection:  function(chunk, context, bodies, params) {
-          var schema = context.stack.head.schema_name ?
-            context.stack.head.schema_name :
-            params.schema;
+          var schema = params.schema ?
+            params.schema :
+            context.stack.head.schema_name;
           var asset = possibleAssets[schema];
-          var assetCollection = new asset.Collection(asset);
+          console.log('load_collection');
+          console.log(params);
+          var assetCollection = new asset.Collection(params);
           var assetView = 
             new asset.CollectionView({ collection: assetCollection });
 
-          for (var param in params) {
-            assetCollection.set(param, params[param]);
-          }
-          if (asset.force_template) {
-            assetView.collection.set('template', asset.force_template);
-          } else if (params.template) {
-            assetView.collection.set('template', 
-              asset.media_type + params.context);
-          }
           return chunk.map(function(chunk) {
             $.when( assetView.render() ).done(function() {
               chunk.end(assetView.el);
@@ -259,20 +268,22 @@ module.exports = (function() {
   });
 
   var CollectionView = View.extend({
-    initialize: function() {
-                  /*
+    initialize: function() { //needs to be here to overwrite base view
+      /* can't listen to collections like this apparently
       var self = this;
       this.listenTo(this.collection, 'change:id', function() {
         self.loaded = null;
+        self.rendered = null;
+        self.attach(self.$el);
+      });
+      this.listenTo(this.model, 'change:template', function() {
+        self.rendered = null;
+        self.attach(self.$el);
       });
       */
     },
     load: function() {
       return this.collection.load();
-    },
-    rerender: function() {
-      this.rendered = null;
-      this.render();
     },
 
     render: function() {
