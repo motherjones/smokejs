@@ -9,27 +9,14 @@
 'use strict';
 
 (function() {
-  var Application = require('./application');
   var Backbone = require('backbone');
   var Router = require('./router');
   var $ = require('jquery');
 
-
-  //FIXME do some figuring here, see what initial site state should be
-  var siteModel = new Application.Model({ template: 'homepage' });
-
-  var siteView = new Application.View({
-    model: siteModel,
-  });
-
-
   new Router({
-    siteModel: siteModel,
-    siteView: siteView,
   });
 
   $(document).ready(function() {
-    siteView.attach('body');
     Backbone.history.start();
   });
 

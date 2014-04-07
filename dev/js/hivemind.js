@@ -86,10 +86,6 @@ module.exports = (function() {
         this[option] = options[option];
       }
       this.url = this.urlRoot() + options.id;
-      console.log('collection inited');
-      console.log(options);
-      console.log(this.id);
-      console.log(this.url);
     },
     urlRoot: function() {
       return EnvConfig.DATA_STORE + 'list/';

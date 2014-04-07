@@ -33,27 +33,18 @@ module.exports = (function() {
     },
 
     display_main_content : function(schema, slug) {
-      var self = this;
       var asset = HiveMind.possibleAssets[schema];
       var model = new asset.Model({ id: slug });
       var view = new asset.View({ model: model });
 
       $.when( view.load() ).done(function() {
-        var template = model.get('template_override') ?
-          model.get('template_override') :
-          'two_column_layout';
-        self.siteModel.set('template', template);
-
-        $.when(self.siteView.attach('body')).done(function() {
-          view.attach('#main_content').done(function() {
-            refreshAds(model.get('keywords'));
-          });
+        view.attach('body').done(function() {
+          refreshAds(model.get('keywords'));
         });
       });
     },
 
     display_homepage : function() {
-      this.siteModel.set('template', 'homepage');
     },
 
     display_topic : function(slug) {
@@ -63,26 +54,13 @@ module.exports = (function() {
       this.display_collection(slug, 'section');
     },
     display_collection : function(slug, template) {
-      var self = this;
       var collection = new HiveMind.Collection({ id: slug });
-      collection.set('template', template);
+      collection.template = template;
       var collectionView 
         = new HiveMind.CollectionView({ collection: collection });
-      this.siteModel.set('topic', slug);
 
-      $.when( collection.load() ).done(function() {
-
-        var template = collection.get('template_override') ?
-          collection.get('template_override') :
-          'two_column_layout';
-        self.siteModel.set('template', template);
-
+      $.when( collectionView.attach('body') ).done(function() {
         refreshAds(collection.get('keywords'));
-
-        $.when(self.siteView.render()).done(function() {
-          collectionView.attach('#main_content');
-        });
-
       });
     },
 
