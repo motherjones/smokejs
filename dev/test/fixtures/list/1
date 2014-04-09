@@ -3,7 +3,7 @@
   "title": "Health",
   "uri": "/compontnets/health-queue",
   "schema": "node-queue",
-  "attributes": { "main": "[
+  "attributes": { "main": [
     {
       "schema_name": "article",
       "uri": "/environment/2014/03/tritan-certichem-eastman-bpa-free-plastic-safe",
