@@ -99,8 +99,10 @@ module.exports = (function() {
         for (var i in resp) {
           collection[i] = resp[i];
         }
+        console.log(resp);
         var method = options.reset ? 'reset' : 'set';
-        collection[method](resp.members, options);
+        //collection[method](resp.members, options);
+        collection[method](resp.attributes.main, options);
         if (success) { 
           success(collection, resp, options);
         }
@@ -123,6 +125,7 @@ module.exports = (function() {
 
       this.fetch({
         success : function() {
+                    console.log(self);
           self.loaded.resolve();
         },
         error : function(xhr, err) {
@@ -200,8 +203,6 @@ module.exports = (function() {
             params.schema :
             context.stack.head.schema_name;
           var asset = possibleAssets[schema];
-          console.log('load_collection');
-          console.log(params);
           var assetCollection = new asset.Collection(params);
           var assetView = 
             new asset.CollectionView({ collection: assetCollection });

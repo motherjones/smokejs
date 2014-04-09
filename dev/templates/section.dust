@@ -4,13 +4,14 @@
     <h5>this is a section page for {id}</h5>
 	</header>
   <ol>
-    {#members}
+    {#models}
 			<li>
-				<a href="{article.uri}"><img src="{master_image.uri}" alt="" title="" width="150" height="84" /></a>
+				<a href="{attributes.uri}"><img src="{attributes.master_image.uri}" alt="" title="" width="150" height="84" /></a>
 				<div class="section-item">
-					<h3><a href="{article.uri}">{article.metadata.title}</a></h3>
-					<p class="byline">&mdash;<a href="" rel="author">{article.byline.first_name} {article.byline.last_name}</a></p>
+					<h3><a href="{attributes.uri}">{attributes.metadata.title}</a></h3>
+					<p class="byline">&mdash;<a href="" rel="author">{attributes.byline.first_name} {attributes.byline.last_name}</a></p>
 				</div>
-    {/members}
+      </li>
+    {/models}
   </ol>
 </article>

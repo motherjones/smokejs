@@ -51,8 +51,6 @@ module.exports = (function() {
   
   var listener = function(event){
     if (EnvConfig.AD_LOCATION.match(event.origin)) {
-      console.log(CurrentAds);
-      console.log(event.data.iframe);
       var ad = CurrentAds[event.data.iframe].$el.find('iframe');
       if (ad.attr("data-resizable") === "resizable") {
         ad.css('height', event.data.height + 'px');
