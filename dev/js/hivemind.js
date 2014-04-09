@@ -188,11 +188,6 @@ module.exports = (function() {
           var asset = possibleAssets[schema];
           var assetModel = new asset.Model(params);
           var assetView = new asset.View({ model: assetModel });
-          /*
-          for (var param in params) {
-            assetModel.set(param, params[param]);
-          } 
-          */
 
           return chunk.map(function(chunk) {
             $.when( assetView.render() ).done(function() {
@@ -265,18 +260,6 @@ module.exports = (function() {
 
   var CollectionView = View.extend({
     initialize: function() { //needs to be here to overwrite base view
-      /* can't listen to collections like this apparently
-      var self = this;
-      this.listenTo(this.collection, 'change:id', function() {
-        self.loaded = null;
-        self.rendered = null;
-        self.attach(self.$el);
-      });
-      this.listenTo(this.model, 'change:template', function() {
-        self.rendered = null;
-        self.attach(self.$el);
-      });
-      */
     },
     load: function() {
       return this.collection.load();
@@ -305,19 +288,6 @@ module.exports = (function() {
             promise.resolve();
         });
       });
-
-      /* do this w/ templating this is dumb
-      $.when( promise ).done(function() {
-        self.collection.each(function(model){
-          var asset = possibleAssets[model.get('schema_name')];
-          var view = new asset.View({ model: model});
-          if (self.collection.get('child_template')) {
-            model.set('template', self.collection.get('child_template')); 
-          }
-          view.attach(self.$el.find('.collection_content'));
-        });
-      });
-      */
 
       return promise;
     },
