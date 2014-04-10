@@ -16,17 +16,17 @@
 **** TODO our markdown renderer is stupid and does not allow dust tags. Tell it to stop fucking w/ quote marks
 
 *** Splash Pages
-**** TODO Create a schema for splash page components
+**** done Create a schema for splash page components
 **** TODO Write up a spec for what you want lists of lists from mirrors to look like
 ***** TODO Submit a ticket or something with the spec to the mirrors project
-**** TODO Make a collection of collections and a view in hivemind to handle splash pages
+**** done Make a collection of collections and a view in hivemind to handle splash pages
 **** TODO Figure out and implement the best way of loading a lot of lists at a time.
 **** TODO Figure out if we must allow arbitrary HTML elements or if we can put that in a template
 ***** If we have to, make a view for arbitrary HTML 
-**** BLOCKED Make a proof of concept splash page (perhaps the homepage or a special report page)
-**** BLOCKED Make the templates for splash pages
-***** BLOCKED Make homepage
-***** BLOCKED Have a plan for how to make something like http://www.motherjones.com/special-reports/2012/12/guns-in-america-mass-shootings
+**** done Make a proof of concept splash page (perhaps the homepage or a special report page)
+**** done Make the templates for splash pages
+***** done Make homepage
+***** done Have a plan for how to make something like http://www.motherjones.com/special-reports/2012/12/guns-in-america-mass-shootings
 
 *** TODO Make hivemind subclasses and templates for all pieces of an article we'd like to edit separately
 **** If we want to add magic when you click on (for instance) a headline, it needs it's own view
