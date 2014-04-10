@@ -9,10 +9,11 @@
 *** THIS WAS DONE POORLY
 **** So right now we call out to a special dust function to drag in content
 **** NO!
-**** TODO Make markdown content a model and a view like everthing else
-**** TODO Make that view convert from markdown to html in beforeRender
-**** TODO make that model look for it's content in the way mirrors provides
-**** TODO Axe all the stuff that requires picking through the DOM looking for stuff to render afterwards
+**** done Make markdown content a model and a view like everthing else
+**** done Make that view convert from markdown to html in beforeRender
+**** done make that model look for it's content in the way mirrors provides
+**** TODO Axe all the stuff that requires picking through the DOM looking for stuff to render afterwards. This means meta tags, now.
+**** TODO our markdown renderer is stupid and does not allow dust tags. Tell it to stop fucking w/ quote marks
 
 *** Splash Pages
 **** TODO Create a schema for splash page components
