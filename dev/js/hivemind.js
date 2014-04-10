@@ -201,6 +201,8 @@ module.exports = (function() {
           var schema = params.schema ?
             params.schema :
             context.stack.head.schema_name;
+      console.log(params);
+      console.log(schema);
           var asset = possibleAssets[schema];
           var assetCollection = new asset.Collection(params);
           var assetView = 

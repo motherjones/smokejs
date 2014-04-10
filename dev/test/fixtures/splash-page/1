@@ -6,7 +6,7 @@
     "first_list": {
 		"slug": "health-queue",
 		"uri": "/compontnets/health-queue",
-		"schema": "node-queue",
+		"schema": "article",
 		"attributes": { "main": [
 		{
 		"schema_name": "article",
@@ -142,10 +142,10 @@
 		}
 		]}
 		},
-		"second-list": {
+		"second_list": {
 		"slug": "health-queue",
 		"uri": "/compontnets/health-queue",
-		"schema": "node-queue",
+		"schema": "article",
 		"attributes": { "main": [
 		{
 		"schema_name": "article",

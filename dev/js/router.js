@@ -47,14 +47,14 @@ module.exports = (function() {
 
     display_homepage : function() {
       var slug = '1'; //FIXME get a better way of getting the homepage slug here
-      var collection = new HiveMind.possibleAssets['splashpage']
-          .Collection({ id: slug });
+      var model = new HiveMind.possibleAssets['splashpage']
+          .Model({ id: slug });
       var view = new HiveMind.possibleAssets['splashpage']
-          .CollectionView({collection: collection});
+          .View({model: model});
       view.load().done(function() {
-console.log(collection);
         view.attach('body').done(function() {
-            refreshAds(collection.get('keywords'));
+            refreshAds(model.get('keywords'));
+            console.log(model);
         });
       });
 

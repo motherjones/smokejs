@@ -1,11 +1,10 @@
 <div id="main-content" class="eight columns three-column-layout mojo-column-layout">
-    left column ihn a three column layout
     eventually this will be a homepage, but for now,
     <a href="http://localhost:9001/#/article/3">check this out</a>
 </div>
 <div id="middle-column" class="three columns three-column-layout mojo-column-layout">
-    middle column in a three column layout
+  {#load_collection log="first" schema=attributes.first_list.schema slug=attributes.first_list.slug template="mini_article_collection" /}
 </div>
 <div id="right-column" class="five columns three-column-layout mojo-column-layout">
-    right column in  athre column layout
+  {#load_collection log="second" schema=attributes.second_list.schema slug=attributes.second_list.slug template="mini_article_collection" /}
 </div>
