@@ -54,7 +54,6 @@ module.exports = (function() {
       view.load().done(function() {
         view.attach('body').done(function() {
             refreshAds(model.get('keywords'));
-            console.log(model);
         });
       });
 

@@ -124,7 +124,6 @@ module.exports = (function() {
 
       this.fetch({
         success : function() {
-                    console.log(self);
           self.loaded.resolve();
         },
         error : function(xhr, err) {
@@ -201,8 +200,6 @@ module.exports = (function() {
           var schema = params.schema ?
             params.schema :
             context.stack.head.schema_name;
-      console.log(params);
-      console.log(schema);
           var asset = possibleAssets[schema];
           var assetCollection = new asset.Collection(params);
           var assetView = 
