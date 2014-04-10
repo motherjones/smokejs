@@ -7,6 +7,7 @@ module.exports = (function() {
   var HiveMind = require('./hivemind');
   var Ad = require('./ad');
   require('./article'); // must load up all media types at some point, probably not here
+  require('./splashpage');
 
   var refreshAds = function(keywords) {
     var groupId = Math.floor(Math.random()*100000000);
@@ -45,6 +46,19 @@ module.exports = (function() {
     },
 
     display_homepage : function() {
+      var slug = '1'; //FIXME get a better way of getting the homepage slug here
+      var collection = new HiveMind.possibleAssets['splashpage']
+          .Collection({ id: slug });
+      var view = new HiveMind.possibleAssets['splashpage']
+          .CollectionView({collection: collection});
+      view.load().done(function() {
+console.log(collection);
+        view.attach('body').done(function() {
+            refreshAds(collection.get('keywords'));
+        });
+      });
+
+
     },
 
     display_topic : function(slug) {

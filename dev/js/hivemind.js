@@ -99,7 +99,6 @@ module.exports = (function() {
         for (var i in resp) {
           collection[i] = resp[i];
         }
-        console.log(resp);
         var method = options.reset ? 'reset' : 'set';
         //collection[method](resp.members, options);
         collection[method](resp.attributes.main, options);

@@ -1,12 +1,13 @@
 {
 	"slug": "homepage",
-	"uri":
+	"uri": "/",
 	"schema": "splash-page",
-	"attributes": "first_list": {
+	"attributes": {
+    "first_list": {
 		"slug": "health-queue",
 		"uri": "/compontnets/health-queue",
 		"schema": "node-queue",
-		"attributes": { "main": "[
+		"attributes": { "main": [
 		{
 		"schema_name": "article",
 		"uri": "/environment/2014/03/tritan-certichem-eastman-bpa-free-plastic-safe",
@@ -140,13 +141,12 @@
 		}
 		}
 		]}
-		}
-		,
+		},
 		"second-list": {
 		"slug": "health-queue",
 		"uri": "/compontnets/health-queue",
 		"schema": "node-queue",
-		"attributes": { "main": "[
+		"attributes": { "main": [
 		{
 		"schema_name": "article",
 		"uri": "/environment/2014/03/tritan-certichem-eastman-bpa-free-plastic-safe",
@@ -280,10 +280,9 @@
 		}
 		}
 		]}
-		}},
-		"metadata": {
-			"title": "Mother Jones Home Page",
-			.....
 		}
-	}
+  },
+  "metadata": {
+    "title": "Mother Jones Home Page"
+  }
 }
