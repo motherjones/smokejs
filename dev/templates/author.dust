@@ -1,0 +1,10 @@
+<div class="author">
+<h1>{metadata.first_name} {metadata.last_name}</h1>
+{metadata.twitter_user}
+</div>
+
+<section id="component_body">
+  {#load_asset schema="content" data_uri=data_uri /}
+  <b>Data url</b>: {data_uri}
+</section>
+

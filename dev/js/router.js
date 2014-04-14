@@ -8,6 +8,7 @@ module.exports = (function() {
   var Ad = require('./ad');
   require('./article'); // must load up all media types at some point, probably not here
   require('./splashpage');
+  var Author = require('./author');
 
   var refreshAds = function(keywords) {
     var groupId = Math.floor(Math.random()*100000000);
@@ -28,7 +29,8 @@ module.exports = (function() {
 
     routes : {
         "topic/:slug" : "display_topic",
-        "section/:slug" : "display_section",
+        "section/:slug": "display_section",
+        "author/:slug": "display_author",
         ":schema/:slug" : "display_main_content",
         "" : "display_homepage",
     },
@@ -56,8 +58,16 @@ module.exports = (function() {
             refreshAds(model.get('keywords'));
         });
       });
-
-
+    },
+    
+    display_author: function(slug) {
+      var model = new Author.Model({slug: slug});
+      var view = new Author.View({model: model});
+      view.load().done(function() {
+          $.when(view.attach('body')).done(function() { 
+            refreshAds(model.get('keywords'));
+          });
+      });
     },
 
     display_topic : function(slug) {
