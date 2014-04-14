@@ -7,7 +7,7 @@ module.exports = (function() {
 
   var Model = HiveMind.Model.extend({
     urlRoot: function() {
-      return EnvConfig.DATA_STORE + 'splash-page/';
+      return EnvConfig.DATA_STORE;
     },
     defaults: {
       template: 'homepage',

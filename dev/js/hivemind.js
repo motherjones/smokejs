@@ -88,7 +88,7 @@ module.exports = (function() {
       this.url = this.urlRoot() + options.id;
     },
     urlRoot: function() {
-      return EnvConfig.DATA_STORE + 'list/';
+      return EnvConfig.DATA_STORE;
     },
     fetch: function(options) {
       options = options ? _.clone(options) : {};

@@ -8,7 +8,7 @@ module.exports = (function() {
 
   var Model = HiveMind.Model.extend({
     urlRoot: function() {
-      return EnvConfig.DATA_STORE + 'article/';
+      return EnvConfig.DATA_STORE;
     },
     schema: 'articleModel',
     defaults: {
@@ -21,7 +21,7 @@ module.exports = (function() {
 
   var Collection = HiveMind.Collection.extend({
     urlRoot: function() {
-      return EnvConfig.DATA_STORE + 'list/';
+      return EnvConfig.DATA_STORE;
     },
     template: 'topic',
     model: Model,
