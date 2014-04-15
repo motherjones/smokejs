@@ -20,11 +20,12 @@
 
 
   var editArticle = function(slug) {
-    console.log('lolhere');
-    var articleModel = new Article.Model({ id: slug });
-    var articleView = new Article.View({ model: articleModel });
-    console.log(articleView);
-    // write what to do when editing an article here
+    var model = new Article.Model({ id: slug });
+    var view = new Article.View({ model: model });
+    model.set('template', 'article_edit');
+    $.when( view.load() ).done(function() {
+      view.attach('body');
+    });
   };
   router.route("edit/article/:slug", editArticle); 
 
