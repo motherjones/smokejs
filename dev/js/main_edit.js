@@ -18,33 +18,33 @@
   var router = new Router({
   });
 
-  router.routes["edit/article/:slug"] = "editArticle";
 
-  router.editArticle = function(slug) {
+  var editArticle = function(slug) {
+    console.log('lolhere');
     var articleModel = new Article.Model({ id: slug });
     var articleView = new Article.View({ model: articleModel });
     console.log(articleView);
     // write what to do when editing an article here
   };
+  router.route("edit/article/:slug", editArticle); 
 
-  router.routes["edit/topic/:slug"] = "curateTopic";
-  router.routes["edit/section/:slug"] = "curateTopic";
-  router.routes["edit/list/:slug"] = "curateTopic";
-
-  router.curateTopic = function(slug) {
+  var curateTopic = function(slug) {
     var articleCollection = new Article.Collection({ id: slug });
     var articleCollectionView 
       = new Article.CollectionView({ collection: articleCollection });
     // write what to do when curating a single list here
     console.log(articleCollectionView);
   };
+  router.route("edit/topic/:slug", curateTopic);
+  router.route("edit/section/:slug", curateTopic);
+  router.route("edit/list/:slug", curateTopic);
 
-  router.routes["edit/splashpage/:slug"] = "curateSplashpage";
 
-  router.curateSplashPage = function(slug) {
+  var curateSplashPage = function(slug) {
     console.log(slug);
     // write what to do when curating a list of lists here
   };
+  router.route("edit/splashpage/:slug", curateSplashPage);
 
 
   $(document).ready(function() {
