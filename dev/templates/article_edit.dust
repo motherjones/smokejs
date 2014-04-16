@@ -1,8 +1,8 @@
 	<header>
 		{#metadata}
     <form name="metadata">
-        <h1><input type="text" name="title" value="{title}"></input></h1>
-        <h2><input type="text" name="dek" value="{dek}"></input></h2>
+        <h1><input class="title" type="text" name="title" value="{title}"></input></h1>
+        <h2><input class="dek" type="text" name="dek" value="{dek}"></input></h2>
     </form>
 		{/metadata}
 
@@ -41,7 +41,7 @@
 
 	<section id="component_body">
     <form name="component_body">
-      <textarea>
+      <textarea class="component_body">
         {#load_asset schema="content" data_uri=data_uri /}
       </textarea>
       <b>Data url</b>: {data_uri}

@@ -11,7 +11,8 @@
 (function() {
   var Backbone = require('backbone');
   var Router = require('./router');
-  var Article = require('./article_edit');
+  var EditArticle = require('./article_edit');
+  var Article = require('./article');
   var $ = require('jquery');
 
 
@@ -20,8 +21,8 @@
 
 
   var editArticle = function(slug) {
-    var model = new Article.Model({ id: slug });
-    var view = new Article.View({ model: model });
+    var model = new EditArticle.Model({ id: slug });
+    var view = new EditArticle.View({ model: model });
     model.set('template', 'article_edit');
     $.when( view.load() ).done(function() {
       view.attach('body');

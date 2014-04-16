@@ -142,7 +142,8 @@ module.exports = (function() {
     dust: Dust,
 
     beforeRender: function(){},
-    afterRender: function(){},
+    afterRender: function(){
+    },
 
     attach: function(selector) {
       var self = this;
@@ -241,12 +242,12 @@ module.exports = (function() {
               self.el = out;
             }
 
-            self.afterRender();
 
             if (self.$el.length) {
               self.$el.html(self.el);
             }
 
+            self.afterRender();
             promise.resolve();
         });
       });
