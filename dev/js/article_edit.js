@@ -22,18 +22,15 @@ module.exports = (function() {
       console.log('FIXME comp change');
     },
     titleChanged : function() {
-      console.log('setting new title');
       this.model.set('title', this.$('input.title').val());
       this.modelChanged({title: this.$('input.title').val()});
     },
     dekChanged : function() {
-      console.log('setting new dek');
       this.model.set('dek', this.$('input.dek').val());
       this.modelChanged({dek: this.$('input.dek').val()});
     },
     modelChanged: function(changes) {
       //BE MORE SMART
-      console.log('model has been changed and should save now');
       this.model.save(changes, { patch: true });
       
     },

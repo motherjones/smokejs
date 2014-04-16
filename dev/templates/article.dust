@@ -8,6 +8,7 @@
 		<section id="component_author">
 			<h3>Authors</h3>
 			<ul>
+      {#load_collection schema="author" models=attributes.byline /}
 			{#byline}
 				<li><a href="{uri}">{metadata.first_name} {metadata.last_name}</a></li>
 			{/byline}

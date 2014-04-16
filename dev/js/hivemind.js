@@ -202,7 +202,8 @@ module.exports = (function() {
             params.schema :
             context.stack.head.schema_name;
           var asset = possibleAssets[schema];
-          var assetCollection = new asset.Collection(params);
+          params.models = params.models ? params.models : [];
+          var assetCollection = new asset.Collection(params.models, params);
           var assetView = 
             new asset.CollectionView({ collection: assetCollection });
 
