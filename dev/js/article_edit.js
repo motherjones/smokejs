@@ -19,22 +19,22 @@ module.exports = (function() {
       this.delegateEvents();
     },
     componentChanged : function() {
-      console.log('comp change');
+      console.log('FIXME comp change');
     },
     titleChanged : function() {
       console.log('setting new title');
       this.model.set('title', this.$('input.title').val());
-      this.modelChanged();
+      this.modelChanged({title: this.$('input.title').val()});
     },
     dekChanged : function() {
       console.log('setting new dek');
       this.model.set('dek', this.$('input.dek').val());
-      this.modelChanged();
+      this.modelChanged({dek: this.$('input.dek').val()});
     },
-    modelChanged: function() {
+    modelChanged: function(changes) {
       //BE MORE SMART
       console.log('model has been changed and should save now');
-      this.model.sync();
+      this.model.save(changes, { patch: true });
       
     },
   });
