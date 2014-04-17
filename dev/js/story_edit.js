@@ -22,17 +22,18 @@ module.exports = (function() {
       console.log('FIXME comp change');
     },
     titleChanged : function() {
-      this.model.set('title', this.$('input.title').val());
-      this.modelChanged({title: this.$('input.title').val()});
+      var metadata = this.model.get('metadata');
+      metadata.title = this.$('input.title').val();
+      this.modelChanged({metadata :metadata});
     },
     dekChanged : function() {
-      this.model.set('dek', this.$('input.dek').val());
-      this.modelChanged({dek: this.$('input.dek').val()});
+      var metadata = this.model.get('metadata');
+      metadata.dek = this.$('input.dek').val();
+      this.modelChanged({metadata :metadata});
     },
     modelChanged: function(changes) {
       //BE MORE SMART
       this.model.save(changes, { patch: true });
-      
     },
   });
 
