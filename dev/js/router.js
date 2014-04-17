@@ -6,7 +6,7 @@ module.exports = (function() {
   var $ = require('jquery');
   var HiveMind = require('./hivemind');
   var Ad = require('./ad');
-  require('./article'); // must load up all media types at some point, probably not here
+  require('./story'); // must load up all media types at some point, probably not here
   require('./splashpage');
   var Author = require('./author');
 

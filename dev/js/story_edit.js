@@ -2,13 +2,13 @@
 'use strict';
 
 module.exports = (function() {
-  var Article = require('./article');
+  var Story = require('./story');
   var HiveMind = require('./hivemind');
 
-  var Model = Article.Model.extend({
+  var Model = Story.Model.extend({
   });
 
-  var View = Article.View.extend({
+  var View = Story.View.extend({
     model: Model,
       events: {
         "change input.title":  "titleChanged",
@@ -36,21 +36,21 @@ module.exports = (function() {
     },
   });
 
-  var Collection = Article.Collection.extend({
+  var Collection = Story.Collection.extend({
   });
 
-  var CollectionView = Article.CollectionView.extend({
+  var CollectionView = Story.CollectionView.extend({
   });
 
-  var EditArticle = {
+  var EditStory = {
     'View': View,
     'Model': Model,
     'Collection': Collection,
     'CollectionView': CollectionView,
   };
 
-  HiveMind.possibleAssets['article'] = EditArticle;
+  HiveMind.possibleAssets['story'] = EditStory;
 
-  return EditArticle;
+  return EditStory;
 
 })();

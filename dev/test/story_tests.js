@@ -5,21 +5,21 @@ module.exports = (function() {
   unit_tests.tests = [];
   unit_tests.asyncTests = [];
 
-  unit_tests.Article = require('../js/article');
+  unit_tests.Story = require('../js/story');
   unit_tests.$ = require('jquery');
 
-  unit_tests.asyncTests.push(["test article creation", function() {
+  unit_tests.asyncTests.push(["test story creation", function() {
     expect(8);
 
     unit_tests.$('#qunit-fixture').html('');
 
-    var model = new unit_tests.Article.Model({id: 3});
-    var view = new unit_tests.Article.View({ model: model });
+    var model = new unit_tests.Story.Model({id: 3});
+    var view = new unit_tests.Story.View({ model: model });
     var attached = view.attach('#qunit-fixture');
 
     unit_tests.$.when(attached).done(function() {
       var fixture = unit_tests.$('#qunit-fixture');
-      ok( fixture.html(), 'article created at all');
+      ok( fixture.html(), 'story created at all');
 
       strictEqual(
         unit_tests.$('#component_author li a').html(),
@@ -28,7 +28,7 @@ module.exports = (function() {
       );
 
       var content = fixture.find('#component_body'); 
-      ok( content.html(), 'article content loaded');
+      ok( content.html(), 'story content loaded');
 
       /*THESE DON'T WORK secondary content render works async to primary content render 
        * and i don't have any promises returnd from them because they're in a weird spot
