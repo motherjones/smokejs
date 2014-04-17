@@ -12,7 +12,7 @@ module.exports = (function() {
     model: Model,
       events: {
         "change input.title":  "titleChanged",
-        "change input.dek":  "dekChanged",
+        "change input.description":  "descriptionChanged",
         "change textarea.component_body":  "componentChanged",
       },
     afterRender: function() {
@@ -26,9 +26,9 @@ module.exports = (function() {
       metadata.title = this.$('input.title').val();
       this.modelChanged({metadata :metadata});
     },
-    dekChanged : function() {
+    descriptionChanged : function() {
       var metadata = this.model.get('metadata');
-      metadata.dek = this.$('input.dek').val();
+      metadata.description = this.$('input.description').val();
       this.modelChanged({metadata :metadata});
     },
     modelChanged: function(changes) {
