@@ -1,5 +1,5 @@
 <ul class="byline">
     {#models}
-      <li><a href="{uri}">{attributes.metadata.first_name} {attributes.metadata.last_name}</a></li>
+      <li><a href="#/author/{attributes.slug}">{attributes.metadata.first_name} {attributes.metadata.last_name}</a></li>
     {/models}
 </ul>

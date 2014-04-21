@@ -8,9 +8,7 @@ module.exports = (function() {
   var Dust = require('../../build/js/dust_templates.js')();
   var EnvConfig = require('./config');
   var templateMap = require('./templateMap');
-
-  // All hivemind subclasses should push to this
-  var possibleAssets = [];
+  var HiveMind = {}; // to be extended
 
   var chooseTemplate = function(component, component_parent) {
     var parentTemplate = 'undefined';
@@ -44,13 +42,14 @@ module.exports = (function() {
       if (options.slug && !options.id) {
         options.id = options.slug;
       }
+      if (options.schema_name && !options.template) {
+        options.template = options.schema_name;
+      }
       for (var option in options) {
         this.set(option, options[option]);
       }
     },
-    urlRoot: EnvConfig.DATA_STORE,
-    resource_uri: 'basemodel',
-    schema: 'baseModel',
+    urlRoot: EnvConfig.DATA_STORE + '/mirrors/component',
     loaded: null,
     load: function() {
       if (this.loaded) { //already has a promise
@@ -77,19 +76,22 @@ module.exports = (function() {
   });
 
   var Collection = Backbone.Collection.extend({
-    initialize: function(options) {
+    initialize: function(models, options) {
+      this.models = models;
       if (!options) {return;}
       if (options.slug && !options.id) {
         options.id = options.slug;
       }
+      if (options.schema_name && !options.template) {
+        options.template = options.schema_name;
+      }
+
       for (var option in options) {
         this[option] = options[option];
       }
-      this.url = this.urlRoot() + options.id;
+      this.url = this.urlRoot + '/' + options.id;
     },
-    urlRoot: function() {
-      return EnvConfig.DATA_STORE;
-    },
+    urlRoot: EnvConfig.DATA_STORE + '/mirrors/component',
     fetch: function(options) {
       options = options ? _.clone(options) : {};
       if (options.parse === void 0) { options.parse = true; }
@@ -121,6 +123,11 @@ module.exports = (function() {
       }
       var self = this;
       this.loaded = new $.Deferred();
+
+      if (!this.id) {
+        this.loaded.resolve();
+        return;
+      }
 
       this.fetch({
         success : function() {
@@ -184,12 +191,8 @@ module.exports = (function() {
       this._dustbase = this.dust.makeBase({
         media_base : EnvConfig.MEDIA_STORE,
         load_asset:  function(chunk, context, bodies, params) {
-          var schema = params.schema ?
-            params.schema :
-            context.stack.head.schema_name;
-          var asset = possibleAssets[schema];
-          var assetModel = new asset.Model(params);
-          var assetView = new asset.View({ model: assetModel });
+          var assetModel = new Model(params);
+          var assetView = new View({ model: assetModel });
 
           return chunk.map(function(chunk) {
             $.when( assetView.render() ).done(function() {
@@ -198,18 +201,36 @@ module.exports = (function() {
           });
         },
         load_collection:  function(chunk, context, bodies, params) {
-          var schema = params.schema ?
-            params.schema :
-            context.stack.head.schema_name;
-          var asset = possibleAssets[schema];
-          params.models = params.models ? params.models : [];
-          var assetCollection = new asset.Collection(params.models, params);
-          var assetView = 
-            new asset.CollectionView({ collection: assetCollection });
+          var models = params.models ? params.models : [];
+          for (var i = 0; i < models.length; i++) {
+            models[i] = new Model(models[i]);
+          }
+          var collection = new Collection(models, params);
+          var view = new CollectionView({ collection: collection });
+
+          return chunk.map(function(chunk) {
+            $.when( view.render() ).done(function() {
+              chunk.end(view.el);
+            });
+          });
+        },
+        load_ad:  function(chunk, context, bodies, params) {
+          var assetModel = new HiveMind.Ad.Model(params);
+          var assetView = new HiveMind.Ad.View({ model: assetModel });
 
           return chunk.map(function(chunk) {
             $.when( assetView.render() ).done(function() {
               chunk.end(assetView.el);
+            });
+          });
+        },
+        load_markdown:  function(chunk, context, bodies, params) {
+          var model = new HiveMind.Markdown.Model(params);
+          var view = new HiveMind.Markdown.View({ model: model });
+
+          return chunk.map(function(chunk) {
+            $.when( view.render() ).done(function() {
+              chunk.end(view.el);
             });
           });
         },
@@ -234,8 +255,11 @@ module.exports = (function() {
 
       $.when( this.load() ).done(function() {
         var context = self.dustbase().push(self.model.attributes);
+        var template = self.model.get('template') ?
+          self.model.get('template') :
+          self.model.get('schema_name');
 
-        self.dust.render( self.model.get('template'),  context, 
+        self.dust.render( template, context, 
           function(err, out) {  //callback
             if (err) {
               EnvConfig.ERROR_HANDLER(err, self);
@@ -276,8 +300,11 @@ module.exports = (function() {
 
       $.when( this.load() ).done(function() {
         var context = self.dustbase().push(self.collection);
+        var template = self.collection.template ?
+          self.collection.template :
+          self.collection.schema_name;
 
-        self.dust.render( self.collection.template,  context, 
+        self.dust.render( template,  context, 
           function(err, out) {  //callback
             if (err) {
               EnvConfig.ERROR_HANDLER(err, self);
@@ -294,14 +321,13 @@ module.exports = (function() {
     },
   });
 
-  return {
-    View: View,
-    Model: Model,
-    Collection: Collection,
-    CollectionView: CollectionView,
-    chooseTemplate: chooseTemplate,
-    possibleAssets: possibleAssets,
-    Dust: Dust,
-  };
+  HiveMind.View = View;
+  HiveMind.Model = Model;
+  HiveMind.Collection = Collection;
+  HiveMind.CollectionView = CollectionView;
+  HiveMind.chooseTemplate = chooseTemplate;
+  HiveMind.Dust = Dust;
+  
+  return HiveMind;
 
 })();

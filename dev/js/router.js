@@ -6,9 +6,7 @@ module.exports = (function() {
   var $ = require('jquery');
   var HiveMind = require('./hivemind');
   var Ad = require('./ad');
-  require('./story'); // must load up all media types at some point, probably not here
-  require('./splashpage');
-  var Author = require('./author');
+  require('./markdown');
 
   var refreshAds = function(keywords) {
     var groupId = Math.floor(Math.random()*100000000);
@@ -30,15 +28,13 @@ module.exports = (function() {
     routes : {
         "topic/:slug" : "display_topic",
         "section/:slug": "display_section",
-        "author/:slug": "display_author",
         ":schema/:slug" : "display_main_content",
         "" : "display_homepage",
     },
 
     display_main_content : function(schema, slug) {
-      var asset = HiveMind.possibleAssets[schema];
-      var model = new asset.Model({ id: slug });
-      var view = new asset.View({ model: model });
+      var model = new HiveMind.Model({ id: slug, template: schema });
+      var view = new HiveMind.View({ model: model });
 
       $.when( view.load() ).done(function() {
         view.attach('body').done(function() {
@@ -60,16 +56,6 @@ module.exports = (function() {
       });
     },
     
-    display_author: function(slug) {
-      var model = new Author.Model({slug: slug});
-      var view = new Author.View({model: model});
-      view.load().done(function() {
-          $.when(view.attach('body')).done(function() { 
-            refreshAds(model.get('keywords'));
-          });
-      });
-    },
-
     display_topic : function(slug) {
       this.display_collection(slug, 'topic');
     },

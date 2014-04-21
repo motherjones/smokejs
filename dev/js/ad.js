@@ -70,7 +70,7 @@ module.exports = (function() {
     'CurrentAds': CurrentAds,
   };
 
-  HiveMind.possibleAssets['ad'] = Ad;
+  HiveMind.Ad = Ad;
 
   return Ad;
 
