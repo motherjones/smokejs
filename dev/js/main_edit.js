@@ -11,8 +11,7 @@
 (function() {
   var Backbone = require('backbone');
   var Router = require('./router');
-  var EditStory = require('./story_edit');
-  var Story = require('./story');
+  var HiveMind = require('./hivemind_edit');
   var $ = require('jquery');
 
 
@@ -21,8 +20,8 @@
 
 
   var editStory = function(slug) {
-    var model = new EditStory.Model({ id: slug });
-    var view = new EditStory.View({ model: model });
+    var model = new HiveMind.Model({ id: slug });
+    var view = new HiveMind.View({ model: model });
     model.set('template', 'story_edit');
     $.when( view.load() ).done(function() {
       view.attach('body');
@@ -31,9 +30,9 @@
   router.route("edit/story/:slug", editStory); 
 
   var curateTopic = function(slug) {
-    var storyCollection = new Story.Collection({ id: slug });
+    var storyCollection = new HiveMind.Collection({ id: slug });
     var storyCollectionView 
-      = new Story.CollectionView({ collection: storyCollection });
+      = new HiveMind.CollectionView({ collection: storyCollection });
     // write what to do when curating a single list here
     console.log(storyCollectionView);
   };

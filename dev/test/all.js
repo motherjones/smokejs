@@ -3,7 +3,7 @@
 var testCollections = [
   require('./basic_tests'),
   require('./hivemind_tests'),
-  require('./story_tests'),
+//  require('./story_tests'),
   require('./ad_tests')
 ];
 
