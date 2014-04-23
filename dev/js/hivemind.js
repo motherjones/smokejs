@@ -225,6 +225,9 @@ module.exports = (function() {
           });
         },
         load_markdown:  function(chunk, context, bodies, params) {
+          if (!HiveMind.Markdown) {
+            HiveMind.Markdown = require('./markdown');
+          }
           var model = new HiveMind.Markdown.Model(params);
           var view = new HiveMind.Markdown.View({ model: model });
 
@@ -274,7 +277,8 @@ module.exports = (function() {
 
             self.afterRender();
             promise.resolve();
-        });
+          }
+        );
       });
       return self.rendered;
     },

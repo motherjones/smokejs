@@ -6,7 +6,6 @@ module.exports = (function() {
   var $ = require('jquery');
   var HiveMind = require('./hivemind');
   var Ad = require('./ad');
-  require('./markdown');
 
   var refreshAds = function(keywords) {
     var groupId = Math.floor(Math.random()*100000000);

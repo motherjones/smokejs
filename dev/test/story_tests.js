@@ -5,7 +5,7 @@ module.exports = (function() {
   unit_tests.tests = [];
   unit_tests.asyncTests = [];
 
-  unit_tests.Story = require('../js/story');
+  unit_tests.Story = require('../js/hivemind');
   unit_tests.$ = require('jquery');
 
   unit_tests.asyncTests.push(["test story creation", function() {
@@ -13,7 +13,7 @@ module.exports = (function() {
 
     unit_tests.$('#qunit-fixture').html('');
 
-    var model = new unit_tests.Story.Model({id: 3});
+    var model = new unit_tests.Story.Model({id: 'obama-drone-pakistan-us-citizen-leak-killing'});
     var view = new unit_tests.Story.View({ model: model });
     var attached = view.attach('#qunit-fixture');
 
@@ -23,7 +23,7 @@ module.exports = (function() {
 
       strictEqual(
         unit_tests.$('#component_author li a').html(),
-        'Jon Young',
+        'Peter Van Buren',
         'asset rendered appropriately'
       );
 
