@@ -43,11 +43,9 @@ module.exports = (function() {
     },
 
     display_homepage : function() {
-      var slug = '1'; //FIXME get a better way of getting the homepage slug here
-      var model = new HiveMind.possibleAssets['splashpage']
-          .Model({ id: slug });
-      var view = new HiveMind.possibleAssets['splashpage']
-          .View({model: model});
+      var slug = 'homepage'; //FIXME get a better way of getting the homepage slug here
+      var model = new HiveMind.Model({ id: slug, template: 'homepage' });
+      var view = new HiveMind.View({model: model});
       view.load().done(function() {
         view.attach('body').done(function() {
             refreshAds(model.get('keywords'));

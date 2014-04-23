@@ -5,7 +5,7 @@ module.exports = (function() {
   var Backbone = require('backbone');
   var $ = Backbone.$ = require('jquery');
   var _ = require('underscore');
-  var Dust = require('../../build/js/dust_templates.js')();
+  var Dust = require('../../build/js/dust_templates')();
   var EnvConfig = require('./config');
   var templateMap = require('./templateMap');
   var HiveMind = {}; // to be extended

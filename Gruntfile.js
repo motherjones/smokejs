@@ -60,7 +60,10 @@ module.exports = function (grunt) {
       },
       test: {
         options: { jshintrc: 'dev/test/.jshintrc' },
-        src: ['dev/test/*.js']
+        src: [
+          'dev/test/*.js',
+          '!dev/test/libs/**/*.js'
+        ]
       }
     },
     cssmin: {
@@ -124,6 +127,15 @@ module.exports = function (grunt) {
         },
       }
     },
+    blanket_qunit: {
+      all: {
+        options: {
+          urls: ['http://localhost:9001/smoke_test.html?coverage=true&gruntReport=true'],
+          threshold: 20
+        }
+      }
+    },
+
     watch: {
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
@@ -175,6 +187,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.loadNpmTasks('grunt-dust');
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-blanket-qunit');
+
   // Default task.
   grunt.registerTask('default', [
     'dust',
