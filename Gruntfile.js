@@ -13,7 +13,12 @@ module.exports = function (grunt) {
     browserify: {
       dist: { files: { 'build/js/smoke.js': ['dev/js/main.js'] } },
       edit: { files: { 'build/js/smoke_edit.js': ['dev/js/main_edit.js'] } },
-      test: { files: { 'build/test/smoke_test.js': ['dev/test/all.js'] } }
+      test: {
+        files: { 'build/test/smoke_test.js': ['dev/test/all.js'] },
+        bundleOptions: {
+          debug: true
+        }
+      }
     },
     less: {
       development: {
