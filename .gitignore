@@ -18,6 +18,7 @@ logs
 results
 build
 !build/fixtures
+!build/uncompiled_js
 .grunt
 
 node_modules
