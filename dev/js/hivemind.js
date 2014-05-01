@@ -37,20 +37,28 @@ module.exports = (function() {
   };
 
   var Model = Backbone.Model.extend({
+    //TODO add cooment about expected and optional options
     initialize: function(options) {
       if (!options) {return;}
       if (options.slug && !options.id) {
         options.id = options.slug;
       }
+      //We just get the schema name off of the object once 
+      //we have called it.
+      //Our usage of inline_components should mean its already
+      //in local storage once we get it working but once we
+      //have the inline components data we don't need these options
+      //unless we are overriding them.
       if (options.schema_name && !options.template) {
         options.template = options.schema_name;
       }
+      //TODO CONVERT THIS TO MERGE OR CLONE
       for (var option in options) {
         this.set(option, options[option]);
       }
     },
-    urlRoot: EnvConfig.DATA_STORE + '/mirrors/component',
-    loaded: null,
+    urlRoot: EnvConfig.DATA_STORE + '/mirrors/component', //Why is this line repeated so much this will be same for everything.
+    loaded: null, 
     load: function() {
       if (this.loaded) { //already has a promise
         return this.loaded;
@@ -64,6 +72,7 @@ module.exports = (function() {
 
       this.fetch({
         success : function() {
+          //Where do we stick the component info?
           promise.resolve();
         },
         error : function(xhr, err) {
@@ -104,7 +113,7 @@ module.exports = (function() {
         var method = options.reset ? 'reset' : 'set';
         //collection[method](resp.members, options);
         collection[method](resp.attributes.main, options);
-        if (success) { 
+        if (success) {
           success(collection, resp, options);
         }
         collection.trigger('sync', collection, resp, options);
@@ -183,7 +192,10 @@ module.exports = (function() {
     when: function(promises) {
       return $.when.apply(null, promises);
     },
-
+    //Should dustbase maybe be happening somewhere else?
+    //Like this looks like where we add all of the dust filters
+    //would doing something similar as with marked should we add dust
+    //as a helper function.
     dustbase: function() {
       if (this._dustbase) {
         return this._dustbase;
@@ -262,7 +274,7 @@ module.exports = (function() {
           self.model.get('template') :
           self.model.get('schema_name');
 
-        self.dust.render( template, context, 
+        self.dust.render( template, context,
           function(err, out) {  //callback
             if (err) {
               EnvConfig.ERROR_HANDLER(err, self);
@@ -308,7 +320,7 @@ module.exports = (function() {
           self.collection.template :
           self.collection.schema_name;
 
-        self.dust.render( template,  context, 
+        self.dust.render( template,  context,
           function(err, out) {  //callback
             if (err) {
               EnvConfig.ERROR_HANDLER(err, self);
@@ -331,7 +343,7 @@ module.exports = (function() {
   HiveMind.CollectionView = CollectionView;
   HiveMind.chooseTemplate = chooseTemplate;
   HiveMind.Dust = Dust;
-  
+
   return HiveMind;
 
 })();

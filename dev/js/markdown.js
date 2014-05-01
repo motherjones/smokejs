@@ -7,13 +7,11 @@ module.exports = (function() {
   var $ = require('jquery');
 
   var marked = require('marked');
-   
+
   var renderer = new marked.Renderer();
   renderer.component_block = function (that) {
-    //Return component html here
-    // that.token.slug is the slug of the content
-    // If we need more info we can pass it down.
-    return that.token.slug;
+    var str = '{#load_asset  slug="' + that.token.slug + '" }';
+    return str;
   };
   var options = {
     'renderer': renderer,
@@ -64,7 +62,7 @@ module.exports = (function() {
           self.set('template', self.get('data_uri'));
         self.loaded.resolve();
       });
-      return self.loaded; 
+      return self.loaded;
     },
     init: function() {
     },
