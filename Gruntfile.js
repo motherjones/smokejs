@@ -14,7 +14,7 @@ module.exports = function (grunt) {
       dist: {
         files: { 'build/js/smoke.js': ['dev/js/main.js'] },
         options: {
-          bundleoOptions: {
+          bundleOptions: {
             debug: true
           }
         }
