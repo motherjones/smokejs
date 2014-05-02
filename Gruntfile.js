@@ -11,12 +11,28 @@ module.exports = function (grunt) {
       }
     },
     browserify: {
-      dist: { files: { 'build/js/smoke.js': ['dev/js/main.js'] } },
-      edit: { files: { 'build/js/smoke_edit.js': ['dev/js/main_edit.js'] } },
+      dist: {
+        files: { 'build/js/smoke.js': ['dev/js/main.js'] },
+        options: {
+          bundleoOptions: {
+            debug: true
+          }
+        }
+      },
+      edit: {
+        files: { 'build/js/smoke_edit.js': ['dev/js/main_edit.js'] },
+        options: {
+          bundleOptions: {
+            debug: true
+          }
+        }
+      },
       test: {
         files: { 'build/test/smoke_test.js': ['dev/test/all.js'] },
-        bundleOptions: {
-          debug: true
+        options: {
+          bundleOptions: {
+            debug: true
+          }
         }
       }
     },
