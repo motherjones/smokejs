@@ -26,39 +26,6 @@
     <span>normal test markup</span>
     <span>awesome test markup</span>
   </div>
-  <script>
-    var require = function(lib) {
-      return window[lib]
-    }
-  </script>
-  <!--script src="js/smoke.js"></script-->
-  
-  <!-- libs -->
-  <script src="uncompiled_js/libs/jquery-1.11.0.js"></script>
-  <script>window['jquery'] = $;</script>
-  <script src="uncompiled_js/libs/underscore.js"></script>
-  <script>window['underscore'] = _;</script>
-  <script src="uncompiled_js/libs/backbone.js"></script>
-  <script>window['backbone'] = Backbone;</script>
-  <script src="uncompiled_js/libs/dust-full.js"></script>
-  <script>window['dustjs-linkedin'] = dust;</script>
-  <script src="uncompiled_js/libs/marked.js"></script>
-  <script>window['marked'] = marked;</script>
-
-  <!-- our code -->
-  <script src="uncompiled_js/config.js" data-cover></script>
-  <script>window['./config'] = module.exports;</script>
-  <script src="js/dust_templates.js" data-cover></script>
-  <script>window['../../build/js/dust_templates'] = module.exports;</script>
-  <script src="uncompiled_js/hivemind.js" data-cover></script>
-  <script>window['./hivemind'] = module.exports;</script>
-  <script src="uncompiled_js/router.js" data-cover></script>
-  <script>window['./router'] = module.exports;</script>
-  <script src="uncompiled_js/ad.js" data-cover></script>
-  <script>window['./ad'] = module.exports;</script>
-  <script src="uncompiled_js/markdown.js" data-cover></script>
-  <script>window['./markdown'] = module.exports;</script>
-
   <script src="test/smoke_test.js"></script>
 </body>
 </html>
