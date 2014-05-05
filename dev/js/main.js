@@ -9,15 +9,11 @@
 'use strict';
 
 (function() {
-  var Backbone = require('backbone');
   var Router = require('./router');
   var $ = require('jquery');
 
-  new Router({
-  });
-
   $(document).ready(function() {
-    Backbone.history.start();
+    Router.start();
   });
 
   return;

@@ -1,75 +1,67 @@
-/*global module */
+/*global module, document, window */
 'use strict';
 
 module.exports = (function() {
-  var Backbone = require('backbone');
   var $ = require('jquery');
-  var HiveMind = require('./hivemind');
+  var API = require('./api');
+  var render = require('./render');
   var Ad = require('./ad');
+  var Riot = require('riotjs');
+  //FIX ME FFS shm this or something ugh fuck you riot, fuck you browserify
+  Riot.route = Riot.route ? Riot.route : window.riot.route;
 
-  var refreshAds = function(keywords) {
-    var groupId = Math.floor(Math.random()*100000000);
-    for (var placement in Ad.CurrentAds) {
-      var ad = Ad.CurrentAds[placement];
-      ad.model.set('key', keywords ? keywords : '');
-      ad.model.set('groupid', groupId);
-      ad.trigger('pagechange');
-    }
+  var Router = {};
+
+  Router.start = function() {
+    $('body').on("click", "[href^='#/']", function(e) {
+
+      e.preventDefault();
+
+      Riot.route($(this).attr("href"));
+
+    });
+
+    Riot.route(function(path) {
+      path = path.replace('#\/', '');
+      for (var key in Router.routes) {
+        if (path.match(key)) {
+          Router.routes[key].apply(this, path.split('/'));
+          return;
+        }
+      }
+    });
+
+    Riot.route(document.location.hash);
   };
 
-  return Backbone.Router.extend({
-    initialize: function(options) {
-      for (var i in options) {
-        this[i] = options[i];
-      }
-    },
-
-    routes : {
-        "topic/:slug" : "display_topic",
-        "section/:slug": "display_section",
-        ":schema/:slug" : "display_main_content",
-        "" : "display_homepage",
-    },
-
-    display_main_content : function(schema, slug) {
-      var model = new HiveMind.Model({ id: slug, template: schema });
-      var view = new HiveMind.View({ model: model });
-
-      $.when( view.load() ).done(function() {
-        view.attach('body').done(function() {
-          refreshAds(model.get('keywords'));
-        });
+  // "^[^/]+*/[^/]+$" : "display_main_content",
+  var display_main_content = function(schema, slug) {
+    console.log(schema, slug);
+    API.load(slug, function(data) {
+      console.log('loaded', data);
+      render(schema, data, function(html) {
+        console.log('rendered', html);
+        $('body').html(html);
+        Ad.reload(data.keywords);
       });
-    },
+    });
+  };
 
-    display_homepage : function() {
-      var slug = 'homepage'; //FIXME get a better way of getting the homepage slug here
-      var model = new HiveMind.Model({ id: slug, template: 'homepage' });
-      var view = new HiveMind.View({model: model});
-      view.load().done(function() {
-        view.attach('body').done(function() {
-            refreshAds(model.get('keywords'));
-        });
+  //"^$" : "display_homepage",
+  var display_homepage = function() {
+    API.load('homepage', function(data) {
+      render('homepage', data, function(html) {
+        $('body').html(html);
+        Ad.reload(data.keywords);
       });
-    },
-    
-    display_topic : function(slug) {
-      this.display_collection(slug, 'topic');
-    },
-    display_section : function(slug) {
-      this.display_collection(slug, 'section');
-    },
-    display_collection : function(slug, template) {
-      var collection = new HiveMind.Collection({ id: slug });
-      collection.template = template;
-      var collectionView 
-        = new HiveMind.CollectionView({ collection: collection });
+    });
+  };
 
-      $.when( collectionView.attach('body') ).done(function() {
-        refreshAds(collection.get('keywords'));
-      });
-    },
+  Router.routes = {
+      "^$" : display_homepage,
+      "^[^\/]+/[^\/]+$" : display_main_content,
+  };
 
-  });
+  return Router;
 
 })();
