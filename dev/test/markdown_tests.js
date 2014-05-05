@@ -13,6 +13,7 @@ test("verify inline component blocks make it into lexer",
       tokens[0]['slug'], 'foobar',
       'the correct slug gets into the lexer'
     );
+    t.end();
   }
 );
 test("verify parser handles component type in lexer",
@@ -24,6 +25,7 @@ test("verify parser handles component type in lexer",
       html, 'barfoo',
       'the proper component is rendered' 
     );
+    t.end();
   }
 );
 
