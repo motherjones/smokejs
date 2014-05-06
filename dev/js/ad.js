@@ -1,4 +1,4 @@
-/*global module, window */
+/*global window */
 'use strict';
 
 module.exports = (function() {

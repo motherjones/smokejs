@@ -11,6 +11,9 @@
   "boss": true,
   "eqnull": true,
   "node": true,
-  "es5": true,
-  "jquery" : true
+  "jquery" : true,
+  "predef": [
+    "require",
+    "module"
+  ]
 }
