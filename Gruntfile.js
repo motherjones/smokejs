@@ -170,7 +170,7 @@ module.exports = function (grunt) {
         tasks: [
           'jshint:src',
           'browserify',
-          'qunit'
+          'shell:testling:undefined'
         ]
       },
       templates: {
@@ -178,7 +178,7 @@ module.exports = function (grunt) {
         tasks: [
           'dust',
           'browserify',
-          'qunit'
+          'shell:testling:undefined'
         ]
       },
       css: {
@@ -194,7 +194,7 @@ module.exports = function (grunt) {
         tasks: [
           'jshint:test',
           'browserify:test',
-          'qunit'
+          'shell:testling:undefined'
         ]
       }
     }
