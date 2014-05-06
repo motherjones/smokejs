@@ -20,7 +20,7 @@
 module.exports = (function() {
     var self = {};
     self.tests = [];
-    self.asyncTests = [];
+    self.Tests = [];
 
     self.tests.push(["truthy", function() {
       expect(3);

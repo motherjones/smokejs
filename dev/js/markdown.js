@@ -3,14 +3,13 @@
 
 module.exports = (function() {
   var marked = require('marked');
-   
+
   var renderer = new marked.Renderer();
   renderer.component_block = function (that) {
-    //Return component html here
-    // that.token.slug is the slug of the content
-    // If we need more info we can pass it down.
-    return that.token.slug;
+    var str = '{#load_asset  slug="' + that.token.slug + '" }';
+    return str;
   };
+
   var options = {
     'renderer': renderer,
     'extra_block_rules': {
@@ -27,6 +26,7 @@ module.exports = (function() {
     }
   };
   marked.setOptions(options);
+
   var markdown = {
     toHTML: marked,
     lexer: function (md) {

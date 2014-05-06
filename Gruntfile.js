@@ -11,12 +11,28 @@ module.exports = function (grunt) {
       }
     },
     browserify: {
-      dist: { files: { 'build/js/smoke.js': ['dev/js/main.js'] } },
-      edit: { files: { 'build/js/smoke_edit.js': ['dev/js/main_edit.js'] } },
+      dist: {
+        files: { 'build/js/smoke.js': ['dev/js/main.js'] },
+        options: {
+          bundleOptions: {
+            debug: true
+          }
+        }
+      },
+      edit: {
+        files: { 'build/js/smoke_edit.js': ['dev/js/main_edit.js'] },
+        options: {
+          bundleOptions: {
+            debug: true
+          }
+        }
+      },
       test: {
         files: { 'build/test/smoke_test.js': ['dev/test/all.js'] },
-        bundleOptions: {
-          debug: true
+        options: {
+          bundleOptions: {
+            debug: true
+          }
         }
       }
     },
@@ -50,7 +66,13 @@ module.exports = function (grunt) {
         dest: 'build/js/smoke_edit.min.js'
       }
     },
-    qunit: { all: { options: { urls: ['http://localhost:9001/smoke_test.html'] } } },
+    shell: {
+      testling: {
+        command: function (browser) {
+          return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling -x "' + browser + '" | node_modules/.bin/coverify';
+        }
+      }
+    },
     jshint: {
       gruntfile: {
         options: { jshintrc: '.jshintrc' },
@@ -132,15 +154,6 @@ module.exports = function (grunt) {
         },
       }
     },
-    blanket_qunit: {
-      all: {
-        options: {
-          urls: ['http://localhost:9001/smoke_test.html?coverage=true&gruntReport=true'],
-          threshold: 20
-        }
-      }
-    },
-
     watch: {
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
@@ -182,7 +195,6 @@ module.exports = function (grunt) {
   });
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-less');
@@ -190,9 +202,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
+  grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-dust');
   grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-blanket-qunit');
 
   // Default task.
   grunt.registerTask('default', [
@@ -203,8 +215,7 @@ module.exports = function (grunt) {
     'uglify',
     'less',
     'htmlmin',
-    'connect',
-    'qunit'
+    'connect'
   ]);
   grunt.registerTask('min', [
     'dust',
@@ -214,12 +225,9 @@ module.exports = function (grunt) {
     'cssmin',
     'htmlmin'
   ]);
-  grunt.registerTask('test', [
-    'browserify:test',
-    'connect',
-    'qunit',
-    'htmlmin'
-  ]);
+  grunt.registerTask('test', function (browser) {
+    grunt.task.run('dust', 'shell:testling:' + browser);
+  });
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('css', [
     'less',
