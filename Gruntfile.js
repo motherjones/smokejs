@@ -66,7 +66,13 @@ module.exports = function (grunt) {
         dest: 'build/js/smoke_edit.min.js'
       }
     },
-    qunit: { all: { options: { urls: ['http://localhost:9001/smoke_test.html'] } } },
+    shell: {
+      testling: {
+        command: function(browser) {
+          return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling -x "' + browser + '" | node_modules/.bin/coverify';
+        }
+      }
+    },
     jshint: {
       gruntfile: {
         options: { jshintrc: '.jshintrc' },
@@ -206,6 +212,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
+  grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-dust');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-blanket-qunit');
@@ -230,12 +237,9 @@ module.exports = function (grunt) {
     'cssmin',
     'htmlmin'
   ]);
-  grunt.registerTask('test', [
-    'browserify:test',
-    'connect',
-    'qunit',
-    'htmlmin'
-  ]);
+  grunt.registerTask('test', function(browser) {
+    grunt.task.run('dust', 'shell:testling:'+browser);
+  });
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('css', [
     'less',
