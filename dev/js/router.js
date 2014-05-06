@@ -46,7 +46,7 @@ module.exports = (function() {
 
   //"^$" : "display_homepage",
   var display_homepage = function() {
-    API.load('homepage', function(data) {
+    API.load('/homepage', function(data) {
       render('homepage', data, function(html) {
         $('body').html(html);
         Ad.reload(data.keywords);

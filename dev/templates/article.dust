@@ -7,7 +7,11 @@
 
 		<section id="component_author">
 			<h3>Authors</h3>
-      {#load_collection models=attributes.byline template="byline" /}
+        <ul class="byline">
+          {#attributes.byline}
+            {#render template="byline" /}
+          {/attributes.byline}
+        </ul>
 		</section>
 
 		<section id="component_tags">
@@ -29,13 +33,13 @@
 	</header>
 
 	<section id="component_body">
-    {#load_markdown data_uri=data_uri /}
+    {#markdown data_uri=data_uri /}
     <b>Data url</b>: {data_uri}
 	</section>
 
 	<aside id="bottom_ad">
 		<h2>bottom ad</h2>
-    {#load_ad placement="bottommob" /}
+    {#ad placement="bottommob" /}
     should be an ad above me
 	</aside>
 </article>

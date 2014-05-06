@@ -17,7 +17,7 @@ module.exports = (function() {
         return chunk.map(function(chunk) {
           API.load(slug, function(data) {
             var template = params.template ? params.template : data.template;
-            render(data, template, function(html) {
+            render(template, data, function(html) {
               chunk.end(html);
             });
           });
@@ -26,22 +26,25 @@ module.exports = (function() {
       ad:  function(chunk, context, bodies, params) {
         Ad.CurrentAds[params.placement] = true;
         params.src = Ad.getSrc(params);
-        render(params, 'ad_iframe', function(html) {
+        render('ad_iframe', params, function(html) {
           chunk.end(html);
         });
       },
+           /* IMPORTANT! THIS USES CONTEXT, YOU PROBABLY WANT LOAD */
       render:  function(chunk, context, bodies, params) {
         return chunk.map(function(chunk) {
-          render(params, params.template, function(html) {
+          render(params.template, context.stack.head, function(html) {
             chunk.end(html);
           });
         });
       },
       markdown:  function(chunk, context, bodies, params) {
-                   console.log(context,bodies);
+                   console.log(context,bodies,params);
+                   console.log(Markdown);
         return chunk.map(function(chunk) {
-          var slug = params.slug ? params.slug : params.id;
-          API.load(slug, function(data) {
+              chunk.end('we need to fix the fixture server');
+          /*
+          API.load(params.data_uri, function(data) {
             var html = Markdown.toHTML(data);
             // do we need a better way of making a random name?
             var templateName = 'markdown_' + Math.random();
@@ -51,6 +54,7 @@ module.exports = (function() {
               chunk.end(html);
             });
           });
+          */
         });
       },
     });
