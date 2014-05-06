@@ -9,7 +9,7 @@ module.exports = (function() {
 
   API.load = function(slug, callback) {
     var promise = new $.Deferred();
-    $.getJSON(EnvConfig.DATA_STORE + '/mirrors/component/' + slug,
+    $.getJSON(EnvConfig.DATA_STORE + slug,
       function(data) {
         console.log(callback);
         callback(data);

@@ -36,11 +36,8 @@ module.exports = (function() {
 
   // "^[^/]+*/[^/]+$" : "display_main_content",
   var display_main_content = function(schema, slug) {
-    console.log(schema, slug);
-    API.load(slug, function(data) {
-      console.log('loaded', data);
+    API.load('/mirrors/component/' + slug, function(data) {
       render(schema, data, function(html) {
-        console.log('rendered', html);
         $('body').html(html);
         Ad.reload(data.keywords);
       });
