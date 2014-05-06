@@ -69,7 +69,13 @@ module.exports = function (grunt) {
     shell: {
       testling: {
         command: function (browser) {
-          return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling -x "' + browser + '" | node_modules/.bin/coverify';
+          if(browser=='') {
+            return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling | node_modules/.bin/coverify';
+          } else if (browser=='url') {
+            return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling -u';
+          } else {
+            return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling -x "' + browser + '" | node_modules/.bin/coverify';
+          }
         }
       }
     },
