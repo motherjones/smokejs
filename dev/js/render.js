@@ -7,8 +7,27 @@ module.exports = (function() {
   var $ = require('jquery');
   var Markdown = require('./markdown');
   var Ad = require('./ad');
+  
+  var render = function(template, data, callback) {
+    var promise = new $.Deferred();
 
-  var dustBase = function() { 
+    var context = dustBase().push(data);
+
+    Dust.render(template, context, 
+      function(err, out) {  //callback
+        if (err) {
+          EnvConfig.ERROR_HANDLER(err, this);
+        }
+
+        callback(out);
+
+        promise.resolve();
+      }
+    );
+    return promise;
+  };
+
+  var dustBase = render.dustBase = function() { 
     return Dust.makeBase({
       mediaBase : EnvConfig.MEDIA_STORE,
       load:  function(chunk, context, bodies, params) {
@@ -23,10 +42,12 @@ module.exports = (function() {
         });
       },
       ad:  function(chunk, context, bodies, params) {
-        Ad.CurrentAds[params.placement] = true;
-        params.src = Ad.getSrc(params);
-        render('ad_iframe', params, function(html) {
-          chunk.end(html);
+        return chunk.map(function(chunk) {
+          Ad.CurrentAds[params.placement] = true;
+          params.src = Ad.getSrc(params);
+          render('ad_iframe', params, function(html) {
+            chunk.end(html);
+          });
         });
       },
            /* IMPORTANT! THIS USES CONTEXT, YOU PROBABLY WANT LOAD */
@@ -57,25 +78,6 @@ module.exports = (function() {
         });
       },
     });
-  };
-  
-  var render = function(template, data, callback) {
-    var promise = new $.Deferred();
-
-    var context = dustBase().push(data);
-
-    Dust.render(template, context, 
-      function(err, out) {  //callback
-        if (err) {
-          EnvConfig.ERROR_HANDLER(err, this);
-        }
-
-        callback(out);
-
-        promise.resolve();
-      }
-    );
-    return promise;
   };
 
   return render;

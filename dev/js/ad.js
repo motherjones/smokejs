@@ -20,7 +20,7 @@ module.exports = (function() {
   Ad.getSrc = function(placement) {
     return EnvConfig.AD_LOCATION + '#' +
       window.unescape($.param({
-        'placement': placement ? placement : 'unplaced',
+        'placement': (placement ? placement : 'unplaced'),
         'groupid': Ad.groupId,
         'key':  Ad.key,
         //'height': Ad.placementToHeight[placement],
