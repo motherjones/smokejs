@@ -154,15 +154,6 @@ module.exports = function (grunt) {
         },
       }
     },
-    blanket_qunit: {
-      all: {
-        options: {
-          urls: ['http://localhost:9001/smoke_test.html?coverage=true&gruntReport=true'],
-          threshold: 20
-        }
-      }
-    },
-
     watch: {
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
@@ -204,7 +195,6 @@ module.exports = function (grunt) {
   });
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-less');
@@ -215,7 +205,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-dust');
   grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-blanket-qunit');
 
   // Default task.
   grunt.registerTask('default', [
@@ -226,8 +215,7 @@ module.exports = function (grunt) {
     'uglify',
     'less',
     'htmlmin',
-    'connect',
-    'qunit'
+    'connect'
   ]);
   grunt.registerTask('min', [
     'dust',
