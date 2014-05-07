@@ -20,7 +20,7 @@ module.exports = (function() {
     });
   };
 
-  router.addRoute('^[^/]+*/[^/]+$', views.display_homepage
+  router.addRoute('^[^/]+*/[^/]+$', views.display_homepage);
   router.addRoute('^$', views.display_homepage);
 
   return router;
