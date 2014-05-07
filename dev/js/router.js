@@ -11,26 +11,16 @@ module.exports = (function() {
 
   var router = new Router();
 
-  var start = function() {
+  router.browserStart = function() {
     $('body').on("click", "[href^='#/']", function(e) {
-
       e.preventDefault();
 
-      Riot.route($(this).attr("href"));
+      var path = document.location.hash.replace('#\/', '');
+      var match = router.match(path);
+
+      match.fn.apply(this, match);
 
     });
-
-    Riot.route(function(path) {
-      path = path.replace('#\/', '');
-      for (var key in Router.routes) {
-        if (path.match(key)) {
-          Router.routes[key].apply(this, path.split('/'));
-          return;
-        }
-      }
-    });
-
-    Riot.route(document.location.hash);
   };
 
   router.addRoute('^[^/]+*/[^/]+$', views.display_homepage
