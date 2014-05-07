@@ -18,7 +18,7 @@ module.exports = (function() {
       var path = document.location.hash.replace('#\/', '');
       var match = router.match(path);
 
-      match.fn.apply(this, match);
+      match.fn(match, callback);
 
     });
   };
