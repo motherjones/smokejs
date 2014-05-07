@@ -15,8 +15,7 @@ module.exports = (function() {
       var path = document.location.hash.replace('#\/', '');
       var match = router.match(path);
 
-      var callback = function() {};
-      match.fn(match, callback);
+      match.fn(match);
 
       history.pushState(0, 0, path);
     });

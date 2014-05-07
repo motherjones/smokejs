@@ -19,13 +19,12 @@ exports.display_main_content = function(match) {
   return promise;
 };
 
-exports.display_homepage = function(match, callback) {
+exports.display_homepage = function(match) {
   var promise = new $.Deferred();
   API.load('/home-page', function(data) {
     render('homepage', data, function(html) {
       $('body').html(html);
       Ad.reload(data.keywords);
-      callback();
       promise.resolve();
     });
   });
