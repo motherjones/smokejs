@@ -21,13 +21,14 @@ module.exports = (function() {
       history.pushState(0, 0, path);
     });
     var path = document.location.hash.replace('#\/', '');
+    console.log(path);
     var match = router.match(path);
 
     var callback = function() {};
     match.fn(match, callback);
   };
 
-  router.addRoute('^[^/]+*/[^/]+$', views.display_homepage);
+  router.addRoute('^[^/]+*/[^/]+$', views.display_main_content);
   router.addRoute('^$', views.display_homepage);
 
   return router;
