@@ -3,10 +3,7 @@
 
 module.exports = (function() {
   var $ = require('jquery');
-  var API = require('./api');
-  var render = require('./render');
   var views = require('./views');
-  var Ad = require('./ad');
   var Router = require('routes');
 
   var router = new Router();
