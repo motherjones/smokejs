@@ -5,6 +5,7 @@ module.exports = (function() {
   var $ = require('jquery');
   var API = require('./api');
   var render = require('./render');
+  var views = require('./views');
   var Ad = require('./ad');
   var Router = require('routes');
 
@@ -32,32 +33,9 @@ module.exports = (function() {
     Riot.route(document.location.hash);
   };
 
-  router.addRoute('^[^/]+*/[^/]+$', display_homepage, callback);
-  var display_main_content = function(schema, slug) {
-    API.load('/mirrors/component/' + slug, function(data) {
-      render(schema, data, function(html) {
-        $('body').html(html);
-        Ad.reload(data.keywords);
-        callback();
-      });
-    });
-  };
+  router.addRoute('^[^/]+*/[^/]+$', views.display_homepage
+  router.addRoute('^$', views.display_homepage);
 
-  router.addRoute('^$', display_homepage);
-  var display_homepage = function(callback) {
-    API.load('/homepage', function(data) {
-      render('homepage', data, function(html) {
-        $('body').html(html);
-        Ad.reload(data.keywords);
-        callback();
-      });
-    });
-  };
-
-  var routes = {
-      "^$" : display_homepage,
-      "^[^\/]+/[^\/]+$" : display_main_content,
-  };
   return router;
 
 })();
