@@ -1,4 +1,4 @@
-export.display_main_content = function(match, callback) {
+exports.display_main_content = function(match, callback) {
   var promise = new $.Deferred();
   API.load('/mirrors/component/' + match.params.slug, function(data) {
     render(match.params.schema, data, function(html) {
@@ -11,7 +11,7 @@ export.display_main_content = function(match, callback) {
   return promise;
 };
 
-export.display_homepage = function(match, callback) {
+exports.display_homepage = function(match, callback) {
   var promise = new $.Deferred();
   API.load('/homepage', function(data) {
     render('homepage', data, function(html) {

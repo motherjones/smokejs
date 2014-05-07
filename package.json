@@ -58,7 +58,8 @@
     "riotjs": "git+https://github.com/muut/riotjs.git",
     "grunt-contrib-htmlmin": "~0.2.0",
     "grunt-shell": "~0.7.0",
-    "tape": "~2.12.3"
+    "tape": "~2.12.3",
+    "routes": "~1.1.0"
   },
   "keywords": [],
   "dependencies": {
