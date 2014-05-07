@@ -1,4 +1,4 @@
-/*global document, window */
+/*global document, history */
 'use strict';
 
 module.exports = (function() {
@@ -15,6 +15,7 @@ module.exports = (function() {
       var path = document.location.hash.replace('#\/', '');
       var match = router.match(path);
 
+      var callback = function() {};
       match.fn(match, callback);
 
       history.pushState(0, 0, path);
@@ -22,6 +23,7 @@ module.exports = (function() {
     var path = document.location.hash.replace('#\/', '');
     var match = router.match(path);
 
+    var callback = function() {};
     match.fn(match, callback);
   };
 
