@@ -1,14 +1,14 @@
 /*global require */
 var $ = require('jquery');
-var router = require('../router');
+var router = require('../js/router');
+var test = require('tape');
+var Riot = require('riotjs');
 
 test("test story creation", function(t) {
   t.plan(8);
-  display
-  var model = new Story.Model({id: 'obama-drone-pakistan-us-citizen-leak-killing'});
-  
-  $.when(attached).done(function() {
-    var fixture = $('#qunit-fixture');
+
+  Riot.route('article/obama-drone-pakistan-us-citizen-leak-killing', function() {
+    var fixture = $('#body');
     t.ok( fixture.html(), 'story created at all');
 
     t.equal(
