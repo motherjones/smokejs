@@ -1,59 +1,43 @@
 /*global require */
+var $ = require('jquery');
+var router = require('../router');
 
-module.exports = (function() {
-  var unit_tests = {};
-  unit_tests.tests = [];
-  unit_tests.asyncTests = [];
+test("test story creation", function(t) {
+  t.plan(8);
+  display
+  var model = new Story.Model({id: 'obama-drone-pakistan-us-citizen-leak-killing'});
+  
+  $.when(attached).done(function() {
+    var fixture = $('#qunit-fixture');
+    t.ok( fixture.html(), 'story created at all');
 
-  unit_tests.Story = require('../js/hivemind');
-  unit_tests.$ = require('jquery');
+    t.equal(
+      $('#component_author li a').html(),
+      'Peter Van Buren',
+      'asset rendered appropriately'
+    );
 
-  unit_tests.asyncTests.push(["test story creation", function() {
-    expect(8);
+    var content = fixture.find('#component_body');
+    t.ok( content.html(), 'story content loaded');
 
-    unit_tests.$('#qunit-fixture').html('');
+    /*THESE DON'T WORK secondary content render works async to primary content render
+      * and i don't have any promises returnd from them because they're in a weird spot
+      * i should make an array of all things needed to be loaded and only resolve prime
+      * deferred once they're all done, but I can't even know when my array is actually
+      * done being filled
+    */
+    t.ok( content.find('load_asset'), 'asset tag found');
+    //t.ok( content.find('load_asset').html(), 'asset loaded from content');
 
-    var model = new unit_tests.Story.Model({id: 'obama-drone-pakistan-us-citizen-leak-killing'});
-    var view = new unit_tests.Story.View({ model: model });
-    var attached = view.attach('#qunit-fixture');
+    t.ok( content.find('load_collection'), 'collection tag found');
+    //t.ok( content.find('load_collection').html(), 'collection loaded from content');
 
-    unit_tests.$.when(attached).done(function() {
-      var fixture = unit_tests.$('#qunit-fixture');
-      ok( fixture.html(), 'story created at all');
+    t.ok( content.find('h1'), 'markdown title created');
 
-      strictEqual(
-        unit_tests.$('#component_author li a').html(),
-        'Peter Van Buren',
-        'asset rendered appropriately'
-      );
+    t.ok( content.find('em'), 'markdown em tag created');
 
-      var content = fixture.find('#component_body'); 
-      ok( content.html(), 'story content loaded');
+    t.ok( content.find('blockquote'), 'markdown blockquote tag created');
 
-      /*THESE DON'T WORK secondary content render works async to primary content render 
-       * and i don't have any promises returnd from them because they're in a weird spot
-       * i should make an array of all things needed to be loaded and only resolve prime
-       * deferred once they're all done, but I can't even know when my array is actually
-       * done being filled
-      */
-      ok( content.find('load_asset'), 'asset tag found');
-      //ok( content.find('load_asset').html(), 'asset loaded from content');
-
-      ok( content.find('load_collection'), 'collection tag found');
-      //ok( content.find('load_collection').html(), 'collection loaded from content');
-
-      ok( content.find('h1'), 'markdown title created');
-
-      ok( content.find('em'), 'markdown em tag created');
-
-      ok( content.find('blockquote'), 'markdown blockquote tag created');
-
-      start();
-    });
-
-  }]);
-
-
-  return unit_tests;
-})();
-
+    start();
+  });
+});
