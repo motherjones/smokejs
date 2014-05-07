@@ -13,9 +13,9 @@ module.exports = (function() {
 
   Ad.CurrentAds = {};
 
-  Ad.groupId = 'unset';
+  Ad.groupId = '';
 
-  Ad.key = 'unset';
+  Ad.key = '';
 
   Ad.getSrc = function(placement) {
     placement = placement ? placement : 'unplaced';
@@ -31,17 +31,17 @@ module.exports = (function() {
   };
 
   Ad.reload = function(keywords) {
-    Ad.keywords = keywords ? keywords : '';
+    Ad.key = keywords ? keywords : '';
     Ad.groupId = Math.floor(Math.random()*100000000);
 
     for (var placement in Ad.CurrentAds) {
-      $("ad_" + placement).attr('src', Ad.getSrc(placement));
+      $("#ad_" + placement).attr('src', Ad.getSrc(placement));
     }
   };
   
   var listener = function(event){
     if (EnvConfig.AD_LOCATION.match(event.origin)) {
-      $("ad_" + event.data.iframe).css('height', event.data.height + 'px');
+      $("#ad_" + event.data.iframe).css('height', event.data.height + 'px');
     }
   };
 
