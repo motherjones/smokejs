@@ -44,7 +44,7 @@ module.exports = (function() {
       ad:  function(chunk, context, bodies, params) {
         return chunk.map(function(chunk) {
           Ad.CurrentAds[params.placement] = true;
-          params.src = Ad.getSrc(params);
+          params.src = Ad.getSrc(params.placement);
           render('ad_iframe', params, function(html) {
             chunk.end(html);
           });

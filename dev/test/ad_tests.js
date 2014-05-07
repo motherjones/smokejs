@@ -13,9 +13,22 @@ test( "pulled libs", function(t) {
     t.ok(Ad.CurrentAds, "ad lib has storage to retain which ads exist");
 });
 
+test("test ad url creation",
+  function(t) {
+    t.plan(1);
+    var url = Ad.getSrc('test');
+    t.equal( url,
+      EnvConfig.AD_LOCATION +
+        '#placement=test&groupid=unset&key=unset&height=0&uri=' +
+        window.location.pathname,
+      'ad iframe src set as expected'
+    );
+  }
+);
+
 test("test ad creation",
   function(t) {
-    t.plan(3);
+    t.plan(4);
 
     var dustBase = render.dustBase();
     var chunk = new Chunk();
@@ -23,10 +36,14 @@ test("test ad creation",
 
 
     $.when(dustBase.global.ad(chunk, {}, {}, {placement: 'test'}))
-      .then(function() {
+      .done(function() {
           t.equal( chunk.output, 
-            '<iframe class="ads" data-placement="test" id="ad_test"data-resizable="resizable"scrolling="no" frameborder="0"sandbox="allow-scripts allow-same-origin"src="http://mj-tech.s3.amazonaws.com/ad_w_intersitial.html#placement=test&amp;groupid=unset&amp;key=unset&amp;height=0&amp;uri=/__testling"seamless></iframe>',
-            'ads rendered correctly'
+            '<iframe class="ads" data-placement="test" id="ad_test"data-resizable="resizable"scrolling="no" frameborder="0"sandbox="allow-scripts allow-same-origin"src="' +
+              EnvConfig.AD_LOCATION +
+                '#placement=test&groupid=unset&key=unset&height=0&uri=' +
+                window.location.pathname + 
+              '"seamless></iframe>',
+            'ad iframe html rendered correctly'
           );
       });
 
@@ -34,43 +51,9 @@ test("test ad creation",
       'chunk properly sets promise'
     );
 
-  }
-);
-
-
-    /*
-    strictEqual(
-      view,
-      unit_tests.Ad.CurrentAds['test_pos'],
-      'making an ad puts it in the list of current ads'
-    );
-    strictEqual(
-      model.get('src'),
-      unit_tests.EnvConfig.AD_LOCATION +
-        '#placement=test_pos&groupid=&key=&height=&uri=' +
-        window.location.pathname,
-      'making an ad sets the model\'s src'
-    );
-    strictEqual(
-      model.get('slug'),
-      'ad_test_pos',
-      'ads have slugs as long as they have placements'
-    );
-
-    model.set('key', 'testKeyword');
-    model.set('groupid', '0101');
-    view.trigger('pagechange');
-    strictEqual(
-      model.get('src'),
-      unit_tests.EnvConfig.AD_LOCATION +
-        '#placement=test_pos&groupid=0101&key=testKeyword&height=&uri=' +
-        window.location.pathname,
-      'triggering the pagechange event recalculates the iframe src'
+    t.ok(Ad.CurrentAds['test'],
+      'ad creation puts its placement in the list of ads'
     );
 
   }
 );
-
-
-
-*/

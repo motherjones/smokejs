@@ -4,6 +4,6 @@
   data-resizable="resizable"
   scrolling="no" frameborder="0"
   sandbox="allow-scripts allow-same-origin"
-  src="{src}"
+  src="{src|s}"
   seamless>
 </iframe>
