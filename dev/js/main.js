@@ -9,11 +9,11 @@
 'use strict';
 
 (function() {
-  var Router = require('./router');
+  var router = require('./router');
   var $ = require('jquery');
 
   $(document).ready(function() {
-    Router.start();
+    router.browserStart();
   });
 
   return;
