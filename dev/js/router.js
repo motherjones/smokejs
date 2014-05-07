@@ -17,7 +17,12 @@ module.exports = (function() {
 
       match.fn(match, callback);
 
+      history.pushState(0, 0, path);
     });
+    var path = document.location.hash.replace('#\/', '');
+    var match = router.match(path);
+
+    match.fn(match, callback);
   };
 
   router.addRoute('^[^/]+*/[^/]+$', views.display_homepage
