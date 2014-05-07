@@ -70,13 +70,16 @@ module.exports = function (grunt) {
       testling: {
         command: function (browser) {
           if (browser === 'undefined') {
-            return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling | node_modules/.bin/coverify';
+            return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling | node_modules/.bin/coverify -o ./coverify.log && tail -n3 ./coverify.log || true';
           } else if (browser === 'url') {
             return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling -u';
           } else {
-            return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling -x "' + browser + '" | node_modules/.bin/coverify';
+            return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling -x "' + browser + '" | node_modules/.bin/coverify -o ./coverify.log && tail -n3 ./coverify.log || true';
           }
         }
+      },
+      tail_log: {
+        command: 'tail -n3 ./coverify.log || true'
       }
     },
     jshint: {
@@ -170,6 +173,7 @@ module.exports = function (grunt) {
         tasks: [
           'jshint:src',
           'browserify',
+          'shell:testling:undefined'
         ]
       },
       templates: {
@@ -177,6 +181,7 @@ module.exports = function (grunt) {
         tasks: [
           'dust',
           'browserify',
+          'shell:testling:undefined'
         ]
       },
       css: {
@@ -192,6 +197,7 @@ module.exports = function (grunt) {
         tasks: [
           'jshint:test',
           'browserify:test',
+          'shell:testling:undefined'
         ]
       }
     }
@@ -229,7 +235,7 @@ module.exports = function (grunt) {
     'htmlmin'
   ]);
   grunt.registerTask('test', function (browser) {
-    grunt.task.run('dust', 'shell:testling:' + browser);
+    grunt.task.run('dust', 'shell:testling:' + browser, 'shell:tail_log');
   });
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('css', [

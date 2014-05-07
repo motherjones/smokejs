@@ -1,84 +1,59 @@
 /*global require, window */
 
-module.exports = (function() {
-  var unit_tests = {};
-  unit_tests.tests = [];
-  unit_tests.Tests = [];
+var test = require('tape');
+var Ad = require('../js/ad');
+var render = require('../js/render');
+var Chunk = require('./dust_chunk_mock');
+var EnvConfig = require('../js/config');
+var $ = require('jquery');
 
-  unit_tests.Ad = require('../js/ad');
-  unit_tests.EnvConfig = require('../js/config');
-  unit_tests.$ = require('jquery');
+test( "pulled libs", function(t) {
+    t.plan(2);
+    t.ok(Ad, "ad lib is here");
+    t.ok(Ad.CurrentAds, "ad lib has storage to retain which ads exist");
+});
 
-  unit_tests.tests.push(["pulled libs", function() {
-    expect(5);
-      ok(unit_tests.Ad, "ad lib is here");
-      ok(unit_tests.Ad.Model, "ad lib has models");
-      ok(unit_tests.Ad.View, "ad lib has views");
-      ok(unit_tests.Ad.CurrentAds, "ad lib has storage to retain which ads exist");
-      ok(unit_tests.EnvConfig, "env config is here");
-  }]);
+test("test ad url creation",
+  function(t) {
+    t.plan(1);
+    var url = Ad.getSrc('test');
+    t.equal( url,
+      EnvConfig.AD_LOCATION +
+        '#placement=test&groupid=unset&key=unset&height=0&uri=' +
+        window.location.pathname,
+      'ad iframe src set as expected'
+    );
+  }
+);
 
-  unit_tests.tests.push(
-    ["test model creation",
-      function() {
-        expect(2);
-        var model = new unit_tests.Ad.Model();
-        strictEqual(
-          model.get('template'),
-          'ad_iframe',
-          'Default ad template is "ad_iframe"'
-        );
-        strictEqual(
-          model.load().state(), 
-          'resolved',
-          'ads are always say they\'re loaded, as there\'s nothing to load'
-        );
-      }
-    ]
-  );
+test("test ad creation",
+  function(t) {
+    t.plan(4);
 
-  unit_tests.tests.push(
-    ["test view creation",
-      function() {
-        expect(4);
-        var model = new unit_tests.Ad.Model();
-        model.set('placement', 'test_pos');
-        var view = new unit_tests.Ad.View({ model: model });
-
-        strictEqual(
-          view,
-          unit_tests.Ad.CurrentAds['test_pos'],
-          'making an ad puts it in the list of current ads'
-        );
-        strictEqual(
-          model.get('src'),
-          unit_tests.EnvConfig.AD_LOCATION +
-            '#placement=test_pos&groupid=&key=&height=&uri=' +
-            window.location.pathname,
-          'making an ad sets the model\'s src'
-        );
-        strictEqual(
-          model.get('slug'),
-          'ad_test_pos',
-          'ads have slugs as long as they have placements'
-        );
-
-        model.set('key', 'testKeyword');
-        model.set('groupid', '0101');
-        view.trigger('pagechange');
-        strictEqual(
-          model.get('src'),
-          unit_tests.EnvConfig.AD_LOCATION +
-            '#placement=test_pos&groupid=0101&key=testKeyword&height=&uri=' +
-            window.location.pathname,
-          'triggering the pagechange event recalculates the iframe src'
-        );
-
-      }
-    ]
-  );
+    var dustBase = render.dustBase();
+    var chunk = new Chunk();
+    t.ok(dustBase, 'dust base created');
 
 
+    $.when(dustBase.global.ad(chunk, {}, {}, {placement: 'test'}))
+      .done(function() {
+          t.equal( chunk.output, 
+            '<iframe class="ads" data-placement="test" id="ad_test"data-resizable="resizable"scrolling="no" frameborder="0"sandbox="allow-scripts allow-same-origin"src="' +
+              EnvConfig.AD_LOCATION +
+                '#placement=test&groupid=unset&key=unset&height=0&uri=' +
+                window.location.pathname + 
+              '"seamless></iframe>',
+            'ad iframe html rendered correctly'
+          );
+      });
 
-  return unit_tests;
-})();
+    t.equal( chunk.promise.state(), 'resolved',
+      'chunk properly sets promise'
+    );
+
+    t.ok(Ad.CurrentAds['test'],
+      'ad creation puts its placement in the list of ads'
+    );
+
+  }
+);
