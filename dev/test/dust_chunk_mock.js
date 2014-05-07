@@ -1,7 +1,6 @@
-/*global window */
-'use strict';
+/*global require */
 
-module.exports = (function() {
+module.exports = (function() { 'use strict';
   var $ = require('jquery');
   
   var chunk = function() {
