@@ -13,7 +13,7 @@ exports.display_main_content = function(match) {
     render(match.params.schema, data, function(html) {
       $('body').html(html);
       Ad.reload(data.keywords);
-      promise.resove();
+      promise.resolve();
     });
   });
   return promise;
@@ -21,12 +21,12 @@ exports.display_main_content = function(match) {
 
 exports.display_homepage = function(match, callback) {
   var promise = new $.Deferred();
-  API.load('/homepage', function(data) {
+  API.load('/home-page', function(data) {
     render('homepage', data, function(html) {
       $('body').html(html);
       Ad.reload(data.keywords);
       callback();
-      promise.resove();
+      promise.resolve();
     });
   });
   return promise;
