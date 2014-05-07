@@ -6,13 +6,11 @@ module.exports = (function() {
   var API = require('./api');
   var render = require('./render');
   var Ad = require('./ad');
-  var Riot = require('riotjs');
-  //FIX ME FFS shm this or something ugh fuck you riot, fuck you browserify
-  Riot.route = Riot.route ? Riot.route : window.riot.route;
+  var Router = require('routes');
 
-  var Router = {};
+  var router = new Router();
 
-  Router.start = function() {
+  var start = function() {
     $('body').on("click", "[href^='#/']", function(e) {
 
       e.preventDefault();
@@ -34,31 +32,32 @@ module.exports = (function() {
     Riot.route(document.location.hash);
   };
 
-  // "^[^/]+*/[^/]+$" : "display_main_content",
+  router.addRoute('^[^/]+*/[^/]+$', display_homepage, callback);
   var display_main_content = function(schema, slug) {
     API.load('/mirrors/component/' + slug, function(data) {
       render(schema, data, function(html) {
         $('body').html(html);
         Ad.reload(data.keywords);
+        callback();
       });
     });
   };
 
-  //"^$" : "display_homepage",
-  var display_homepage = function() {
+  router.addRoute('^$', display_homepage);
+  var display_homepage = function(callback) {
     API.load('/homepage', function(data) {
       render('homepage', data, function(html) {
         $('body').html(html);
         Ad.reload(data.keywords);
+        callback();
       });
     });
   };
 
-  Router.routes = {
+  var routes = {
       "^$" : display_homepage,
       "^[^\/]+/[^\/]+$" : display_main_content,
   };
-
-  return Router;
+  return router;
 
 })();
