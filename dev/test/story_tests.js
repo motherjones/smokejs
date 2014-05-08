@@ -7,11 +7,10 @@ test("test article page", function(t) {
   t.plan(8);
   var params = {};
   params.schema = 'article';
-  params.slug = 'article/obama-drone-pakistan-us-citizen-leak-killing';
+  params.slug = 'obama-drone-pakistan-us-citizen-leak-killing';
   var match = {'params': params};
   var rendered = views.display_main_content(match);
   $.when(rendered).done(function() {
-    console.log('test');
     var fixture = $('#body');
     t.ok( fixture.html(), 'story created at all');
 
@@ -41,9 +40,9 @@ test("test article page", function(t) {
     t.ok( content.find('em'), 'markdown em tag created');
 
     t.ok( content.find('blockquote'), 'markdown blockquote tag created');
-    t.end()
+    t.end();
   });
   setTimeout(function(){
-    t.end()
+    t.end();
   },100);
 });
