@@ -59,8 +59,6 @@ module.exports = (function() {
         });
       },
       markdown:  function(chunk, context, bodies, params) {
-                   console.log(context,bodies,params);
-                   console.log(Markdown);
         return chunk.map(function(chunk) {
               chunk.end('we need to fix the fixture server');
           /*
