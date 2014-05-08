@@ -13,17 +13,5 @@
   "browser": true,
   "predef": [
     "module",
-    "asyncTest",
-    "expect",
-    "start",
-    "stop",
-    "ok",
-    "equal",
-    "notEqual",
-    "deepEqual",
-    "notDeepEqual",
-    "strictEqual",
-    "notStrictEqual",
-    "raises"
   ]
 }

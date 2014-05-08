@@ -27,7 +27,7 @@ test( "test main render function", function(t) {
   $.when(promise).done(function() {
     t.ok(true, 'render promise resolved');
   });
-})
+});
 
 test( "test dust functions", function(t) {
   t.plan(4);

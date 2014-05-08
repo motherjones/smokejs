@@ -8,11 +8,10 @@ var API = require('./api');
 var render = require('./render');
 
 exports.display_main_content = function(match, callback) {
+  console.log('in display main content');
   var promise = new $.Deferred();
   API.load('/mirrors/component/' + match.params.slug, function(data) {
     render(match.params.schema, data, function(html) {
-      $('body').html(html);
-      Ad.reload(data.keywords);
       if (callback) { callback(data, html) };
       promise.resolve();
     });
@@ -21,11 +20,10 @@ exports.display_main_content = function(match, callback) {
 };
 
 exports.display_homepage = function(callback) {
+  console.log('in display homepage');
   var promise = new $.Deferred();
   API.load('/home-page', function(data) {
     render('homepage', data, function(html) {
-      $('body').html(html);
-      Ad.reload(data.keywords);
       if (callback) { callback(data, html) };
       promise.resolve();
     });
