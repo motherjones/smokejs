@@ -1,13 +1,17 @@
 /*global require */
 var $ = require('jquery');
-var router = require('../js/router');
+var views = require('../js/views');
 var test = require('tape');
-var Riot = require('riotjs');
 
-test("test story creation", function(t) {
+test("test article page", function(t) {
   t.plan(8);
-
-  Riot.route('article/obama-drone-pakistan-us-citizen-leak-killing', function() {
+  var params = {};
+  params.schema = 'article';
+  params.slug = 'article/obama-drone-pakistan-us-citizen-leak-killing';
+  var match = {'params': params};
+  var rendered = views.display_main_content(match);
+  $.when(rendered).done(function() {
+    console.log('test');
     var fixture = $('#body');
     t.ok( fixture.html(), 'story created at all');
 
@@ -37,7 +41,9 @@ test("test story creation", function(t) {
     t.ok( content.find('em'), 'markdown em tag created');
 
     t.ok( content.find('blockquote'), 'markdown blockquote tag created');
-
-    start();
+    t.end()
   });
+  setTimeout(function(){
+    t.end()
+  },100);
 });

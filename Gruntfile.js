@@ -171,9 +171,7 @@ module.exports = function (grunt) {
       src: {
         files: '<%= jshint.src.src %>',
         tasks: [
-          'jshint:src',
           'browserify',
-          'shell:testling:undefined'
         ]
       },
       templates: {
@@ -181,7 +179,6 @@ module.exports = function (grunt) {
         tasks: [
           'dust',
           'browserify',
-          'shell:testling:undefined'
         ]
       },
       css: {
@@ -195,9 +192,7 @@ module.exports = function (grunt) {
       test: {
         files: '<%= jshint.test.src %>',
         tasks: [
-          'jshint:test',
-          'browserify:test',
-          'shell:testling:undefined'
+          'browserify:test'
         ]
       }
     }
@@ -218,7 +213,6 @@ module.exports = function (grunt) {
   // Default task.
   grunt.registerTask('default', [
     'dust',
-    'jshint',
     'browserify',
     'concat',
     'uglify',
