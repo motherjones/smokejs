@@ -10,7 +10,7 @@ var Ad = require('../js/ad');
 test( "test main render function", function(t) {
   t.plan(3);
   var promise = render('byline', { 
-    attributes : { slug : 'lolnone' },
+    slug : 'lolnone',
     metadata : { first_name: 'test', last_name: 'render' }
   },
   function(out) {
@@ -61,7 +61,6 @@ test( "test dust functions", function(t) {
       );
   });
 
-  /* API gets don't work in test framework yet
   $.when(dustBase.global.load(chunk, {}, {}, {
     slug: 'peter-van-buren',
   }))
@@ -72,7 +71,6 @@ test( "test dust functions", function(t) {
         'load dust function rendered correctly without template specified'
       );
   });
-  */
 
   $.when(dustBase.global.render(chunk, {
     stack: {
@@ -81,7 +79,7 @@ test( "test dust functions", function(t) {
           first_name: 'Peter',
           last_name: 'Van Buren',
         },
-        attributes: { slug: 'peter-van-buren' }
+        slug: 'peter-van-buren'
       }
     }
   }, {}, {

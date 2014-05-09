@@ -5,7 +5,7 @@ module.exports = (function() {
 
   var renderer = new marked.Renderer();
   renderer.component_block = function (that) {
-    var str = '{#load_asset  slug="' + that.token.slug + '" }';
+    var str = '{#load  slug="' + that.token.slug + '" }';
     return str;
   };
 

@@ -17,6 +17,7 @@ test('router loaded', function(t) {
 
 test( "test router pop", function(t) {
   t.plan(2);
+  router.pop('/article/obama-drone-pakistan-us-citizen-leak-killing');
 
   var test_callback = function() {
     t.ok(true, 'pop called the callback function');
@@ -81,7 +82,7 @@ test( "test switching to browser mode", function(t) {
   var fakelink = $('<a href="#/loltest" id="fakelink"></a>');
   var body = $('body');
   t.ok(body, 'body found w/ jquery');
-  body.attach(fakelink);
+  body.append(fakelink);
   $('#fakelink')
     .click();
 

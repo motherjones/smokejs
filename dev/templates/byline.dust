@@ -1,7 +1,5 @@
 <li>
   <a href="#/author/{slug}">
-    {attributes}
-    {metadata}
     {metadata.first_name} {metadata.last_name}
   </a>
 </li>
