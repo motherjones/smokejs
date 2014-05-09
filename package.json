@@ -29,7 +29,6 @@
     "test": "grunt qunit"
   },
   "devDependencies": {
-    "blanket": "~1.1.6",
     "browserify": "~3.24.1",
     "coverify": "~1.0.6",
     "dustjs-linkedin": "~2.3.2",
@@ -51,12 +50,13 @@
     "jsonschema": "~0.4.0",
     "less-middleware": "~0.1.9",
     "phantomjs": "~1.9.0-3",
-    "routes": "^1.1.0",
     "tape": "~2.12.3",
-    "testling": "~1.6.1"
+    "testling": "~1.6.1",
+    "sinon": "~1.9.1"
   },
   "keywords": [],
   "dependencies": {
+    "routes": "~1.1.0",
     "jquery": "~2.1.0",
     "marked": "git+https://github.com/glassresistor/marked.git#feature/add_rules"
   }

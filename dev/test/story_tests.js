@@ -2,6 +2,8 @@
 var $ = require('jquery');
 var views = require('../js/views');
 var test = require('tape');
+var sinon = require('sinon');
+var response = require('./fixtures/article/1.json');
 
 test("test article page", function(t) {
   t.plan(8);
@@ -9,6 +11,18 @@ test("test article page", function(t) {
   params.schema = 'article';
   params.slug = 'obama-drone-pakistan-us-citizen-leak-killing';
   var match = {'params': params};
+  /*
+  var server = sinon.fakeServer.create();
+  server.respondWith('GET', '/component/'+params.slug, [200,
+    { "Content-Type": "application/json" },
+    JSON.stringify(response)
+  ]);
+  server.respondWith('GET', '/component/'+params.slug+'/data', [200,
+    { "Content-Type": "text/x-markdown" },
+    '#Markdown'
+  ]);
+  server.autoRespond = true;
+  */
   var rendered = views.display_main_content(match);
   $.when(rendered).done(function() {
     var fixture = $('#body');
@@ -41,8 +55,6 @@ test("test article page", function(t) {
 
     t.ok( content.find('blockquote'), 'markdown blockquote tag created');
     t.end();
+    server.restore();
   });
-  setTimeout(function(){
-    t.end();
-  },100);
 });
