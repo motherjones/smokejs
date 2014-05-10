@@ -1,7 +1,8 @@
-/*global require, window */
+/*global require */
 
 var test = require('tape');
 var views = require('../js/views');
+var EnvConfig = require('../js/config');
 
 var match_mock = { params: {} };
 test( "test display_main_content", function(t) {
@@ -32,7 +33,7 @@ test( "test display_homepage", function(t) {
   t.plan(2);
   var match = match_mock;
 
-  var promise = views.display_main_content(match, function(data, html) {
+  var promise = views.display_main_content(match, function(data) { //(data, html)
     /* uhhh. get the actual html offa the server
     t.equal( html, //FIXME we maybe should get twittername into our fixtures 
       '<div class="author"> <h1>Peter Van Buren</h1> @ </div> <section id="component_body"> <b>Data url</b>: ' +
