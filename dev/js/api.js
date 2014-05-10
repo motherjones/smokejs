@@ -4,8 +4,6 @@ module.exports = (function() {
   var $ = require('jquery');
   var EnvConfig = require('./config');
   var storage = require('./libs/Lawnchair');
-  
-  console.log(storage);
   var API = {};
 
   API.load = function(slug, callback) {

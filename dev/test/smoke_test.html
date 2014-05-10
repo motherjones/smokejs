@@ -4,28 +4,9 @@
   <meta charset="utf-8">
   <title>Smoke Test Suite</title>
   <link rel="stylesheet" href="css/smoke.css">
-  <script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.12.0.js"></script>
-
-  <!--script type="text/javascript" src="fixtures/blanket.js" data-cover-flags="debug"></script -->
-  <script>
-    if (location.href.match(/(\?|&)gruntReport($|&|=)/)) {
-      blanket.options("reporter", "fixtures/grunt-reporter.js");
-    }
-  </script>
-
-
+  <script src="libs/sinon.js"></script>
 </head>
 <body>
-  <h1 id="qunit-header">Smoke Test Suite</h1>
-  <h2 id="qunit-banner"></h2>
-  <div id="qunit-testrunner-toolbar"></div>
-  <h2 id="qunit-userAgent"></h2>
-  <ol id="qunit-tests"></ol>
-  <div id="qunit-fixture">
-    <span>lame test markup</span>
-    <span>normal test markup</span>
-    <span>awesome test markup</span>
-  </div>
   <script src="test/smoke_test.js" data-cover></script>
 </body>
 </html>
