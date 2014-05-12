@@ -2,11 +2,10 @@
 'use strict';
 
 module.exports = (function() {
-  var $ = require('jquery');
   var views = require('./views');
   var Router = require('routes');
   var Ad = require('./ad');
-
+  var $ = require('jquery');
   var router = new Router();
   router.addRoute("/:schema/:slug", views.display_main_content);
   router.addRoute("^/$", views.display_homepage);
@@ -14,8 +13,11 @@ module.exports = (function() {
   router.pop = function(path) {
     console.log('in router pop, looking for ', path);
     var match = router.match(path);
-    console.log('match is ', match);
-    return match.fn(match, router.callback);
+    var returned = '';
+    if(match) {
+      returned = match.fn(match, router.callback);
+    }
+    return returned;
   };
   router.callback = function() {
     //I EXIST TO OVERWRITTEN AS APPROPRIATE DEPENDING ON IF I'M IN A BROWSER OR NOT

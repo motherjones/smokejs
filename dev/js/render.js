@@ -10,7 +10,6 @@ module.exports = (function() {
   
   var render = function(template, data, callback) {
     var promise = new $.Deferred();
-
     var context = dustBase().push(data);
 
     Dust.render(template, context, 
