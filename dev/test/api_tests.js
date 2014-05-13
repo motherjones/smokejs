@@ -16,6 +16,7 @@ test("test component api", function(t) {
   var callback = function(data) {
     t.ok(data, 'data is returned');
     t.equal(data['slug'], slug, 'slug is returned');
+    server.restore();
     t.end();
   };
   var promise = API.load(slug, callback); 
