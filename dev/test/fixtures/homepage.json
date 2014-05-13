@@ -17,7 +17,7 @@
 			"title": "The Scary New Evidence on BPA-Free Plastics",
 			"dek":  ""
 		},
-		"byline": [{ 
+		"byline": [{
 			"schema_name": "author",
 			"content_type": "application/json",
 			"uri": "/authors/mariah-blake",
@@ -50,7 +50,7 @@
 			"title": "Hillary Clinton in 1993: Individual Mandate Is a \"Much Harder Sell\"",
 			"dek":  ""
 		},
-		"byline": [{ 
+		"byline": [{
 			"schema_name": "author",
 			"content_type": "application/json",
 			"uri": "/authors/patrick-caldwell",
@@ -83,7 +83,7 @@
 			"title": "",
 			"dek":  ""
 		},
-		"byline": [{ 
+		"byline": [{
 			"schema_name": "author",
 			"content_type": "application/json",
 			"uri": "/authors/katie-rose-quandt",
@@ -116,7 +116,7 @@
 			"title": "Film Review: Lunch Hour",
 			"dek":  ""
 		},
-		"byline": [{ 
+		"byline": [{
 			"schema_name": "author",
 			"content_type": "application/json",
 			"uri": "/authors/asawin-suebsaeng",
@@ -125,7 +125,7 @@
 			"first_name": "Asawin",
 			"last_name": "Suebsaeng"
 			}
-		}], 
+		}],
 		"master_image": {
 			"slug": "",
 			"uri": "http://www.motherjones.com/files/imagecache/master-image-thumb/lunch-hour-630.jpg",
@@ -156,7 +156,7 @@
 			"title": "The Scary New Evidence on BPA-Free Plastics",
 			"dek":  ""
 		},
-		"byline": [{ 
+		"byline": [{
 			"schema_name": "author",
 			"content_type": "application/json",
 			"uri": "/authors/mariah-blake",
@@ -189,7 +189,7 @@
 			"title": "Hillary Clinton in 1993: Individual Mandate Is a \"Much Harder Sell\"",
 			"dek":  ""
 		},
-		"byline": [{ 
+		"byline": [{
 			"schema_name": "author",
 			"content_type": "application/json",
 			"uri": "/authors/patrick-caldwell",
@@ -222,7 +222,7 @@
 			"title": "",
 			"dek":  ""
 		},
-		"byline": [{ 
+		"byline": [{
 			"schema_name": "author",
 			"content_type": "application/json",
 			"uri": "/authors/katie-rose-quandt",
@@ -255,7 +255,7 @@
 			"title": "Film Review: Lunch Hour",
 			"dek":  ""
 		},
-		"byline": [{ 
+		"byline": [{
 			"schema_name": "author",
 			"content_type": "application/json",
 			"uri": "/authors/asawin-suebsaeng",
@@ -264,7 +264,7 @@
 			"first_name": "Asawin",
 			"last_name": "Suebsaeng"
 			}
-		}], 
+		}],
 		"master_image": {
 			"slug": "",
 			"uri": "http://www.motherjones.com/files/imagecache/master-image-thumb/lunch-hour-630.jpg",
