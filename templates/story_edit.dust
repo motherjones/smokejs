@@ -1,0 +1,44 @@
+	<header>
+		{#metadata}
+    <form name="metadata">
+        <h1><input class="title" type="text" name="title" value="{title}"></input></h1>
+        <h2><input class="description" type="text" name="description" value="{description}"></input></h2>
+    </form>
+		{/metadata}
+		<section id="component_author">
+      <form name="component_author">
+        <h3>Authors</h3>
+        <ul>
+        {#byline}
+          <li><a href="{uri}">{metadata.first_name} {metadata.last_name}</a></li>
+        {/byline}
+        </ul>
+      </form>
+		</section>
+		<section id="component_tags">
+      <form name="tags">
+			<h3>Tags</h3>
+			<ul>
+			  {#metadata.tags}
+				<li>{.}</li>{~n}
+			  {/metadata.tags}
+			</ul>
+      </form>
+		</section>
+		{#master_image}
+      <form name="master_image">
+        <figure>
+          <img src="{uri}" alt="{.metadata.alt_text}" /><br />
+          <figcaption>{.metadata.caption} <cite>{.metadata.attribution}</cite></figcaption>
+        </figure>
+      </form>
+		{/master_image}
+	</header>
+	<section id="component_body">
+    <form name="component_body">
+      <textarea class="component_body">
+        {#load_asset schema="content" data_uri=data_uri /}
+      </textarea>
+      <b>Data url</b>: {data_uri}
+    </form>
+	</section>

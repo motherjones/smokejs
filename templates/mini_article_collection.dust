@@ -1,0 +1,16 @@
+<article>
+	<header>
+		<h3>{title}</h3>
+	</header>
+  <ol>
+    {#models}
+			<li>
+				<a href="{attributes.uri}"><img src="{attributes.master_image.uri}" alt="" title="" width="150" height="84" /></a>
+				<div class="section-item">
+					<h3><a href="{attributes.uri}">{attributes.metadata.title}</a></h3>
+					<p class="byline">&mdash;<a href="" rel="author">{attributes.byline.first_name} {attributes.byline.last_name}</a></p>
+				</div>
+      </li>
+    {/models}
+  </ol>
+</article>
