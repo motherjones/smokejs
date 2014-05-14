@@ -30,14 +30,13 @@ test("test ad creation",
     t.ok(dustBase, 'dust base created');
     $.when(dustBase.global.ad(chunk, {}, {}, {placement: 'test'}))
       .done(function() {
-          t.equal( chunk.output,
-            '<iframe class="ads" data-placement="test" id="ad_test"data-resizable="resizable"scrolling="no" frameborder="0"sandbox="allow-scripts allow-same-origin"src="' +
-              EnvConfig.AD_LOCATION +
-                '#placement=test&groupid=&key=&height=0&uri=' +
-                window.location.pathname +
-              '"seamless></iframe>',
-            'ad iframe html rendered correctly'
-          );
+        var el = $('<div/>').html(chunk.output).contents();
+        var iframeSrc = EnvConfig.AD_LOCATION +
+              '#placement=test&groupid=&key=&height=0&uri=' +
+              window.location.pathname;
+        t.equal( el.attr('src'), iframeSrc,
+          'ad iframe html rendered correctly'
+        );
       });
     t.equal( chunk.promise.state(), 'resolved',
       'chunk properly sets promise'

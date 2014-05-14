@@ -136,7 +136,8 @@ module.exports = function (grunt) {
         files: {
           'build/index.html': 'index.html',
           'build/edit.html': 'edit.html',
-          'build/test.html': 'test/test.html'
+          'build/test.html': 'test/test.html',
+          'build/ad.html': 'test/fixtures/ad.html'
         }
       }
     },
@@ -190,7 +191,7 @@ module.exports = function (grunt) {
         tasks: ['htmlmin']
       },
       test: {
-        files: '<%= jshint.test.src %>',
+        files: 'test/*',
         tasks: [
           'browserify:test'
         ]
