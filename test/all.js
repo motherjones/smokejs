@@ -1,7 +1,7 @@
 /*global require */
-require('./api_tests');
-require('./ad_tests');
-require('./markdown_tests');
+require('./api');
+require('./ad');
+require('./markdown');
 require('./render_tests');
-require('./views_tests');
-require('./router_tests');
+require('./views');
+require('./router');
