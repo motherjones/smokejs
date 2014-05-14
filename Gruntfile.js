@@ -12,7 +12,7 @@ module.exports = function (grunt) {
     },
     browserify: {
       dist: {
-        files: { 'build/js/smoke.js': ['dev/js/main.js'] },
+        files: { 'build/js/smoke.js': ['js/main.js'] },
         options: {
           bundleOptions: {
             debug: true
@@ -20,7 +20,7 @@ module.exports = function (grunt) {
         }
       },
       edit: {
-        files: { 'build/js/smoke_edit.js': ['dev/js/main_edit.js'] },
+        files: { 'build/js/smoke_edit.js': ['js/main_edit.js'] },
         options: {
           bundleOptions: {
             debug: true
@@ -28,7 +28,7 @@ module.exports = function (grunt) {
         }
       },
       test: {
-        files: { 'build/test/smoke_test.js': ['dev/test/all.js'] },
+        files: { 'build/test/smoke_test.js': ['test/all.js'] },
         options: {
           bundleOptions: {
             debug: true
@@ -40,8 +40,8 @@ module.exports = function (grunt) {
       development: {
         files: {
           'build/css/<%= pkg.name %>.css': [
-            'dev/css/**/*.less',
-            'dev/css/**/*.css'
+            'css/**/*.less',
+            'css/**/*.css'
           ]
         }
       },
@@ -49,8 +49,8 @@ module.exports = function (grunt) {
         options: { yuicompress: true },
         files: {
           'build/css/<%= pkg.name %>.min.css': [
-            'dev/css/*.less',
-            'dev/css/*.css'
+            'css/*.less',
+            'css/*.css'
           ]
         }
       }
@@ -70,11 +70,11 @@ module.exports = function (grunt) {
       testling: {
         command: function (browser) {
           if (browser === 'undefined') {
-            return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling | node_modules/.bin/coverify -o ./coverify.log && tail -n3 ./coverify.log || true';
+            return 'node_modules/.bin/browserify -t coverify test/all.js | node_modules/.bin/testling | node_modules/.bin/coverify -o ./coverify.log && tail -n3 ./coverify.log || true';
           } else if (browser === 'url') {
-            return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling -u';
+            return 'node_modules/.bin/browserify -t coverify test/all.js | node_modules/.bin/testling -u';
           } else {
-            return 'node_modules/.bin/browserify -t coverify dev/test/all.js | node_modules/.bin/testling -x "' + browser + '" | node_modules/.bin/coverify -o ./coverify.log && tail -n3 ./coverify.log || true';
+            return 'node_modules/.bin/browserify -t coverify test/all.js | node_modules/.bin/testling -x "' + browser + '" | node_modules/.bin/coverify -o ./coverify.log && tail -n3 ./coverify.log || true';
           }
         }
       },
@@ -88,17 +88,17 @@ module.exports = function (grunt) {
         src: 'Gruntfile.js'
       },
       src: {
-        options: { jshintrc: 'dev/js/.jshintrc' },
+        options: { jshintrc: 'js/.jshintrc' },
         src: [
-          'dev/js/**/*.js',
-          '!dev/js/libs/**/*.js'
+          'js/**/*.js',
+          '!js/libs/**/*.js'
         ]
       },
       test: {
-        options: { jshintrc: 'dev/test/.jshintrc' },
+        options: { jshintrc: 'test/.jshintrc' },
         src: [
-          'dev/test/*.js',
-          '!dev/test/libs/**/*.js'
+          'test/*.js',
+          '!test/libs/**/*.js'
         ]
       }
     },
@@ -134,9 +134,9 @@ module.exports = function (grunt) {
           collapseWhitespace: true
         },
         files: {
-          'build/index.html': 'dev/index.html',
-          'build/edit.html': 'dev/edit.html',
-          'build/smoke_test.html': 'dev/test/smoke_test.html'
+          'build/index.html': 'index.html',
+          'build/edit.html': 'edit.html',
+          'build/test.html': 'test/test.html'
         }
       }
     },
@@ -144,13 +144,13 @@ module.exports = function (grunt) {
       defaults: {
         files: {
           'build/js/dust_templates.js': [
-            'dev/templates/**/*.dust',
-            '!dev/templates/edit/**/*.dust'
+            'templates/**/*.dust',
+            '!templates/edit/**/*.dust'
           ]
         },
         options: {
           runtime: false,
-          basePath: 'dev/templates',
+          basePath: 'templates',
           wrapper: 'commonjs',
           wrapperOptions: {
             returning: 'dust',
@@ -159,7 +159,7 @@ module.exports = function (grunt) {
         }
       },
       edit: {
-        files: { 'build/js/edit_templates.js': [ 'dev/templates/**/*.dust' ]
+        files: { 'build/js/edit_templates.js': [ 'templates/**/*.dust' ]
         },
       }
     },
@@ -175,18 +175,18 @@ module.exports = function (grunt) {
         ]
       },
       templates: {
-        files: 'dev/templates/**/*.dust',
+        files: 'templates/**/*.dust',
         tasks: [
           'dust',
           'browserify',
         ]
       },
       css: {
-        files: 'dev/css/**/*.less',
+        files: 'css/**/*.less',
         tasks: ['less:development']
       },
       html: {
-        files: 'dev/**/*.html',
+        files: '**/*.html',
         tasks: ['htmlmin']
       },
       test: {
@@ -209,7 +209,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-dust');
   grunt.loadNpmTasks('grunt-browserify');
-
   // Default task.
   grunt.registerTask('default', [
     'dust',
