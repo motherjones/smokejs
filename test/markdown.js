@@ -23,7 +23,7 @@ test("verify parser handles component type in lexer",
     var md = '!![barfoo]';
     var html = markdown.toHTML(md);
     t.equal(
-      html, 'barfoo',
+      html, '{#load  slug="barfoo" }',
       'the proper component is rendered'
     );
     t.end();
