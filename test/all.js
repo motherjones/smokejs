@@ -2,6 +2,6 @@
 require('./api');
 require('./ad');
 require('./markdown');
-require('./render_tests');
+require('./render');
 require('./views');
 require('./router');

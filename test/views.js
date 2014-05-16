@@ -1,11 +1,11 @@
 /*global require */
 var test = require('tape');
 var views = require('../js/views');
-var EnvConfig = require('../js/config');
 var utils = require('./utils');
 var response_peter = require('./fixtures/author/peter.json');
 var response_homepage = require('./fixtures/homepage.json');
 var match_mock = { params: {} };
+
 test( "test display_main_content", function(t) {
   t.plan(2);
   var match = match_mock;

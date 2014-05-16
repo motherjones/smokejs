@@ -2,13 +2,13 @@
 var test = require('tape');
 var Ad = require('../js/ad');
 var render = require('../js/render');
-var Chunk = require('./dust_chunk_mock');
+var Chunk = require('./utils').mock_chunk;
 var EnvConfig = require('../js/config');
 var $ = require('jquery');
 test( "pulled libs", function(t) {
     t.plan(2);
     t.ok(Ad, "ad lib is here");
-    t.ok(Ad.CurrentAds, "ad lib has storage to retain which ads exist");
+    t.ok(Ad.currentAds, "ad lib has storage to retain which ads exist");
 });
 test("test ad url creation",
   function(t) {
@@ -41,7 +41,7 @@ test("test ad creation",
     t.equal( chunk.promise.state(), 'resolved',
       'chunk properly sets promise'
     );
-    t.ok(Ad.CurrentAds['test'],
+    t.ok(Ad.currentAds['test'],
       'ad creation puts its placement in the list of ads'
     );
   }

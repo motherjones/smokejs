@@ -4,6 +4,8 @@ var API = require('../js/api');
 var test = require('tape');
 var response = require('./fixtures/article/1.json');
 var utils = require('./utils');
+var sinon = require('sinon');
+
 test("test component api", function(t) {
   t.plan(2);
   var slug = 'test';
@@ -16,4 +18,7 @@ test("test component api", function(t) {
     t.end();
   };
   var promise = API.load(slug, callback);
+  $.when(promise).done(function() {
+    //maybe a test here?
+  });
 });

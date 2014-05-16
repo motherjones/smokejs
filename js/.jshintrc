@@ -11,9 +11,8 @@
   "boss": true,
   "eqnull": true,
   "node": true,
-  "jquery" : true,
   "predef": [
     "require",
-    "module"
+    "exports"
   ]
 }

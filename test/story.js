@@ -1,9 +1,12 @@
 /*global require */
+
 var $ = require('jquery');
 var views = require('../js/views');
 var test = require('tape');
 var router = require('../js/router');
 var response = require('./fixtures/article/1.json');
+var sinon = require('sinon');
+
 test("test article page", function(t) {
   t.plan(8);
   router.browserStart();
@@ -46,6 +49,6 @@ test("test article page", function(t) {
     t.ok( content.find('em'), 'markdown em tag created');
     t.ok( content.find('blockquote'), 'markdown blockquote tag created');
     t.end();
-  }
+  };
   var rendered = views.display_main_content(match, router.callback);
 });
