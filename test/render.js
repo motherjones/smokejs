@@ -69,6 +69,7 @@ test( "test dust functions", function(t) {
     t.equal(el.find('a').attr('href'), '#/author/peter-van-buren',
       'dust load pulling a byline gives us a link to the author page of the author passed in'
     );
+    console.log(el.find('a').html());
     t.equal(el.find('a').html(), 'Peter Van Buren',
       'dust load pulling a byline gives us the author\'s first and last as link text'
     );

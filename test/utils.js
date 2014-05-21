@@ -1,7 +1,6 @@
 /*global require */
 
 var $ = require('jquery');
-var sinon = require('sinon');
 
 exports.mock_component = function(slug, response) {
   var server = sinon.fakeServer.create();

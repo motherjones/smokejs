@@ -34,6 +34,7 @@ test( "test display_homepage", function(t) {
       'display homepage has a callback which provides the data of the object loaded'
     );
     t.end();
+    server.restore();
   });
   t.equal(
     promise.state(),
