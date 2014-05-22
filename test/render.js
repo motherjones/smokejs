@@ -3,6 +3,8 @@ var render = require('../js/render');
 var $ = require('jquery');
 var Chunk = require('./utils').mock_chunk;
 var Ad = require('../js/ad');
+var utils = require('./utils');
+var peter = require('./fixtures/author/peter.json');
 
 test( "test main render function", function(t) {
   t.plan(5);
@@ -32,6 +34,7 @@ test( "test main render function", function(t) {
     t.ok(true, 'render promise resolved');
   });
 });
+
 test( "test dust functions", function(t) {
   t.plan(15);
   var dustBase = render.dustBase();
@@ -57,8 +60,9 @@ test( "test dust functions", function(t) {
         'src should be set to what Ad\'s getSrc spits out'
       );
     });
+  var server = utils.mock_component('peter', peter);
   $.when(dustBase.global.load(chunk, {}, {}, {
-    slug: 'peter-van-buren',
+    slug: 'peter',
     template: 'byline'
   }))
   .done(function() {
@@ -69,7 +73,6 @@ test( "test dust functions", function(t) {
     t.equal(el.find('a').attr('href'), '#/author/peter-van-buren',
       'dust load pulling a byline gives us a link to the author page of the author passed in'
     );
-    console.log(el.find('a').html());
     t.equal(el.find('a').html(), 'Peter Van Buren',
       'dust load pulling a byline gives us the author\'s first and last as link text'
     );
