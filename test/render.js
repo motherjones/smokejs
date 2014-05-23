@@ -87,7 +87,13 @@ test( "test dust load with template", function(t) {
     t.end();
   });
 });
-/*
+
+
+test( "test dust load with template", function(t) {
+  t.plan(3);
+  var dustBase = render.dustBase();
+  var server = utils.mock_component('peter', peter);
+  var chunk = new Chunk();
   $.when(dustBase.global.load(chunk, {}, {}, {
     slug: 'peter'
   }))
@@ -96,13 +102,16 @@ test( "test dust load with template", function(t) {
     t.equal( el.attr('class'), 'author',
       'load w/o a template loads an element w/ class author'
     );
-    t.equal( el.find('h1').html(), 'Peter Van Buren',
+    t.equal( el.find('h1').html(), 'Peter Pan',
       'load w/o a template loads an author, which has an h1 w/ authorname'
     );
     t.ok( el.find('#component_body').html(),
       'load w/o a template loads an author, which has makrdown text in it'
     );
+    t.end();
   });
+});
+
   $.when(dustBase.global.render(chunk, {
     stack: {
       head: {

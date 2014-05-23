@@ -29,7 +29,8 @@ exports.dustBase = function() {
       var slug = params.slug ? params.slug : params.id;
       return chunk.map(function(chunk) {
         API.component(slug, function(data) {
-          var template = params.template ? params.template : data.template;
+          console.log(data);
+          var template = params.template ? params.template : data.schema_name;
           exports.render(template, data, function(html) {
             chunk.end(html);
           });
