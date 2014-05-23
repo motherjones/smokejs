@@ -8,7 +8,8 @@ exports.display_main_content = function(match, callback) {
   console.log('in display main content');
   var promise = new $.Deferred();
   API.component(match.params.slug, function(data) {
-    render(match.params.schema, data, function(html) {
+    console.log(render);
+    render.render(match.params.schema, data, function(html) {
       if (callback) { callback(data, html); }
       promise.resolve();
     });
@@ -20,7 +21,7 @@ exports.display_homepage = function(callback) {
   console.log('in display homepage');
   var promise = new $.Deferred();
   API.component('homepage', function(data) {
-    render('homepage', data, function(html) {
+    render.render('homepage', data, function(html) {
       if (callback) { callback(data, html); }
       promise.resolve();
     });
