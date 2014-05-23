@@ -1,5 +1,7 @@
 /*global document, history */
 'use strict';
+//In general please use exports.name for simplicity
+//unless otherwise necessary not to.
 module.exports = (function() {
   var views = require('./views');
   var Router = require('routes');
