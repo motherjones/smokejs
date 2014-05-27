@@ -73,7 +73,7 @@ test( "test dust load with template", function(t) {
     slug: 'peter',
     template: 'byline'
   })).done(function() {
-    var el = $('<div />').html(chunk.output);
+    var el = utils.el(chunk.output);
     t.equal(el.find('li').length, 1,
       'dust load pulling a byline gives us a single list item'
     );
@@ -89,7 +89,7 @@ test( "test dust load with template", function(t) {
 });
 
 
-test( "test dust load with template", function(t) {
+test( "test dust load without template", function(t) {
   t.plan(3);
   var dustBase = render.dustBase();
   var server = utils.mock_component('peter', peter);
@@ -98,8 +98,9 @@ test( "test dust load with template", function(t) {
     slug: 'peter'
   }))
   .done(function() {
-    var el = $(chunk.output);
-    t.equal( el.attr('class'), 'author',
+    var el = utils.el(chunk.output);
+    console.log(el.children());
+    t.ok( el.find('div.author'),
       'load w/o a template loads an element w/ class author'
     );
     t.equal( el.find('h1').html(), 'Peter Pan',
@@ -112,39 +113,54 @@ test( "test dust load with template", function(t) {
   });
 });
 
+test( "test dust render with template", function(t) {
+  t.plan(3);
+  var dustBase = render.dustBase();
+  var chunk = new Chunk();
   $.when(dustBase.global.render(chunk, {
     stack: {
       head: {
         metadata: {
           first_name: 'Peter',
-          last_name: 'Van Buren',
+          last_name: 'Pan',
         },
-        slug: 'peter-van-buren'
+        slug: 'peter-pan'
       }
     }
   }, {}, {
     template: 'byline'
   }))
   .done(function() {
-    var el = $('<div />').html(chunk.output);
+    var el = utils.el(chunk.output);
     t.equal(el.find('li').length, 1,
       'dust renders a byline gives us a single list item'
     );
-    t.equal(el.find('a').attr('href'), '#/author/peter-van-buren',
+    t.equal(el.find('a').attr('href'), '#/author/peter-pan',
       'dust renders a byline gives us a link to the author page of the author passed in'
     );
-    t.equal(el.find('a').html(), 'Peter Van Buren',
+    t.equal(el.find('a').html(), 'Peter Pan',
       'dust renders a byline gives us the author\'s first and last as link text'
     );
   });
+});
+
+test( "test dust load markdown", function(t) {
+  t.plan(1);
+  var dustBase = render.dustBase();
+  var chunk = new Chunk();
+  var data = {
+    'content-type': 'application/x-markdown',
+    'response': '#Test'
+  };
+  var server = utils.mock_component('peter', peter, data);
   $.when(dustBase.global.markdown(chunk, {}, {},
-    { data_uri: 'content/peter-van-buren/data' }
+    { data_uri: 'content/peter-pan/data' }
     ))
     .done(function() {
       t.equal( chunk.output,
-        'we need to fix the fixture server',
-        'markdown doenst actually load, boooooo'
+        '<h1>#Test</h1>',
+        'markdown loads'
       );
   });
 });
-*/
+

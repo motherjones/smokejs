@@ -1,6 +1,5 @@
 <div class="author">
 <h1>{metadata.first_name} {metadata.last_name}</h1>
-@{metadata.twitter_user}
 </div>
 <section id="component_body">
   {#load_content data_uri=data_uri /}
