@@ -20,4 +20,16 @@ test("test component api", function(t) {
   $.when(promise).done(function() {
     //maybe a test here?
   });
+
+});
+
+test("test component api's use of localstorage", function(t) {
+  t.plan(2);
+  var localSlug = 'localtest';
+  var localResponse = 'test local data';
+  localStorage.setItem(localSlug, localResponse);
+  var promise = api.component(localSlug, function(response) { 
+    t.equal(response, localResponse, 'component pulls from localstorage');
+  });//pulls from local are sync, thank goodness
+  t.equal( promise.state(), 'resolved', 'promise is resolved as expected');
 });
