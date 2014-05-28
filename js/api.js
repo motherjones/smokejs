@@ -4,11 +4,19 @@ var EnvConfig = require('./config');
 
 exports.component = function(slug, callback) {
   var promise = new $.Deferred();
-  $.getJSON(EnvConfig.DATA_STORE + 'component/' + slug,
-    function(data) {
-      callback(data);
-      promise.resolve();
-    }
-  );
+  if ( typeof(Storage)!=="undefined" && localStorage.getItem(slug) ) {
+    callback(localStorage.getItem(slug));
+    promise.resolve();
+  } else {
+    $.getJSON(EnvConfig.DATA_STORE + 'component/' + slug,
+      function(data) {
+        if ( typeof(Storage)!=="undefined" ) {
+          localStorage.setItem(slug, data);
+        }
+        callback(data);
+        promise.resolve();
+      }
+    );
+  }
   return promise;
 };
