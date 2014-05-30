@@ -52,7 +52,10 @@
     "phantomjs": "~1.9.0-3",
     "tape": "~2.12.3",
     "testling": "~1.6.1",
-    "sinon": "~1.9.1"
+    "sinon": "~1.9.1",
+    "jsdoc": "~3.3.0",
+    "grunt-jsdoc": "^0.5.4",
+    "ink-docstrap": "^0.4.2"
   },
   "keywords": [],
   "dependencies": {

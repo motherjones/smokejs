@@ -2,6 +2,12 @@
 'use strict';
 //In general please use exports.name for simplicity
 //unless otherwise necessary not to.
+
+/**
+ * Sets up routes and deals with click hijacking and
+ * adding content to the DOM.
+ * @module router
+ */
 module.exports = (function() {
   var views = require('./views');
   var Router = require('routes');
@@ -10,6 +16,11 @@ module.exports = (function() {
   var router = new Router();
   router.addRoute("/:schema/:slug", views.display_main_content);
   router.addRoute("^/$", views.display_homepage);
+  /*
+   * Takes path and runs view
+   * @param {string} path - Url to lookup.
+   * @return {promise} Promise returned by view.
+   */
   router.pop = function(path) {
     console.log('in router pop, looking for ', path);
     var match = router.match(path);
@@ -19,8 +30,12 @@ module.exports = (function() {
     }
     return returned;
   };
+  /*
+   * Overwrite DEPENDING ON IF I'M IN A BROWSER OR NOT
+   * @param {object} data - Data returned mostly for testing.
+   * @param {object} html - HTML to be inserted in DOM/string.
+   */
   router.callback = function() {
-    //I EXIST TO OVERWRITTEN AS APPROPRIATE DEPENDING ON IF I'M IN A BROWSER OR NOT
     return null;
   };
   // STUFF FOR BROWSER
