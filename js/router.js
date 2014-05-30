@@ -16,7 +16,7 @@ module.exports = (function() {
   var router = new Router();
   router.addRoute("/:schema/:slug", views.display_main_content);
   router.addRoute("^/$", views.display_homepage);
-  /*
+  /**
    * Takes path and runs view
    * @param {string} path - Url to lookup.
    * @return {promise} Promise returned by view.
@@ -30,8 +30,9 @@ module.exports = (function() {
     }
     return returned;
   };
-  /*
+  /**
    * Overwrite DEPENDING ON IF I'M IN A BROWSER OR NOT
+   * @method callback
    * @param {object} data - Data returned mostly for testing.
    * @param {object} html - HTML to be inserted in DOM/string.
    */
