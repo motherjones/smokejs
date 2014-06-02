@@ -196,6 +196,16 @@ module.exports = function (grunt) {
           'browserify:test'
         ]
       }
+    },
+    jsdoc : {
+      dist : {
+        src: ['README.md', 'js/*.js'],
+        options: {
+          destination: 'doc',
+          template : "node_modules/ink-docstrap/template",
+          configure : "node_modules/ink-docstrap/template/jsdoc.conf.json"
+        }
+      }
     }
   });
   // These plugins provide necessary tasks.
@@ -210,6 +220,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-dust');
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-jsdoc');
   // Default task.
   grunt.registerTask('default', [
     'dust',
