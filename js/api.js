@@ -4,7 +4,7 @@ var EnvConfig = require('./config');
 
 exports.component = function(slug, callback) {
   var promise = new $.Deferred();
-  if ( typeof(Storage)!=="undefined" && localStorage.getItem(slug) ) {
+  if ( typeof(Storage)!=="undefined" && false ) {
     callback(localStorage.getItem(slug));
     promise.resolve();
   } else {

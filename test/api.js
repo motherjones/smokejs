@@ -30,6 +30,11 @@ test("test component api's use of localstorage", function(t) {
   localStorage.setItem(localSlug, localResponse);
   var promise = api.component(localSlug, function(response) { 
     t.equal(response, localResponse, 'component pulls from localstorage');
+    t.end();
   });//pulls from local are sync, thank goodness
   t.equal( promise.state(), 'resolved', 'promise is resolved as expected');
+  setTimeout(function() {
+    t.end();
+  }, 1000);
 });
+
