@@ -1,0 +1,4 @@
+[submodule "doc"]
+	path = doc
+	url = git@github.com:motherjones/smokejs.git
+	branch = gh-pages
