@@ -4,7 +4,6 @@ var api = require('../js/api');
 var test = require('tape');
 var response = require('./fixtures/article/1.json');
 var utils = require('./utils');
-var sinon = require('sinon');
 
 test("test component api", function(t) {
   t.plan(3);
@@ -20,7 +19,6 @@ test("test component api", function(t) {
     t.ok( true, 'promise is resolved as expected');
     t.end();
   });
-
 });
 
 test("test component api's use of localstorage", function(t) {
@@ -30,9 +28,11 @@ test("test component api's use of localstorage", function(t) {
   localStorage.setItem(localSlug, localResponse);
   var promise = api.component(localSlug, function(response) { 
     t.equal(response, localResponse, 'component pulls from localstorage');
+    t.end();
   });//pulls from local are sync, thank goodness
   promise.then(function() {
     t.ok( true, 'promise is resolved as expected');
     t.end();
   });
 });
+

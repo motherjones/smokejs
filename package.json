@@ -56,7 +56,8 @@
     "promise-polyfill": "^1.1.2",
     "sinon": "~1.9.1",
     "tape": "~2.12.3",
-    "testling": "~1.6.1"
+    "testling": "~1.6.1",
+    "nock": "^0.32.3"
   },
   "keywords": [],
   "dependencies": {
