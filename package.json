@@ -45,17 +45,18 @@
     "grunt-contrib-uglify": "0.1.1rc5",
     "grunt-contrib-watch": "~0.2.0rc5",
     "grunt-dust": "~0.7.8",
+    "grunt-jsdoc": "^0.5.4",
     "grunt-lib-phantomjs": "~0.5.0",
     "grunt-shell": "~0.7.0",
+    "ink-docstrap": "^0.4.2",
+    "jsdoc": "~3.3.0",
     "jsonschema": "~0.4.0",
     "less-middleware": "~0.1.9",
     "phantomjs": "~1.9.0-3",
-    "tape": "~2.12.3",
-    "testling": "~1.6.1",
+    "promise-polyfill": "^1.1.2",
     "sinon": "~1.9.1",
-    "jsdoc": "~3.3.0",
-    "grunt-jsdoc": "^0.5.4",
-    "ink-docstrap": "^0.4.2"
+    "tape": "~2.12.3",
+    "testling": "~1.6.1"
   },
   "keywords": [],
   "dependencies": {
