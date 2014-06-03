@@ -1,22 +1,33 @@
+/* global localStorage */
 'use strict';
-var $ = require('jquery');
 var EnvConfig = require('./config');
+var request = require('browser-request');
+var $ = require('jquery');
 
 exports.component = function(slug, callback) {
   var promise = new $.Deferred();
-  if ( typeof(Storage)!=="undefined" && localStorage.getItem(slug) ) {
-    callback(localStorage.getItem(slug));
+  if (typeof(Storage)!=="undefined" &&
+      localStorage.getItem(slug) &&
+      typeof JSON.parse( localStorage.getItem(slug) ) === 'object'
+  ) {
+    callback( JSON.parse( localStorage.getItem(slug) ) );
     promise.resolve();
   } else {
-    $.getJSON(EnvConfig.DATA_STORE + 'component/' + slug,
-      function(data) {
+    request({ 
+      method: 'GET',
+      uri: EnvConfig.DATA_STORE + 'component/' + slug + '/',
+      json: true
+    }, function(err, result, body) {
+      if (result.statusText === "OK") {
         if ( typeof(Storage)!=="undefined" ) {
-          localStorage.setItem(slug, data);
+          localStorage.setItem(slug, JSON.stringify(body));
         }
-        callback(data);
+        callback(body);
         promise.resolve();
+      } else {
+        EnvConfig.ERROR_HANDLER(err); 
       }
-    );
+    });
   }
   return promise;
 };
