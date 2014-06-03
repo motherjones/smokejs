@@ -30,7 +30,7 @@ test( "test main render function", function(t) {
   t.ok(promise,
     'render function returns a promise'
   );
-  $.when(promise).done(function() {
+  promise.then(function() {
     t.ok(true, 'render promise resolved');
   });
 });
@@ -43,8 +43,8 @@ test( "test dust ad function", function(t) {
   Ad.key = '';
   Ad.groupId = '';
   var ad_placement = 'test';
-  $.when(dustBase.global.ad(chunk, {}, {}, {placement: ad_placement}))
-    .done(function() {
+  dustBase.global.ad(chunk, {}, {}, {placement: ad_placement})
+    .then(function() {
       var el = $('<div />').html(chunk.output);
       t.equal( el.find('iframe').length, 1,
         'gives us an iframe'
@@ -69,10 +69,10 @@ test( "test dust load with template", function(t) {
   var dustBase = render.dustBase();
   var server = utils.mock_component('peter', peter);
   var chunk = new Chunk();
-  $.when(dustBase.global.load(chunk, {}, {}, {
+  dustBase.global.load(chunk, {}, {}, {
     slug: 'peter',
     template: 'byline'
-  })).done(function() {
+  }).then(function() {
     var el = utils.el(chunk.output);
     t.equal(el.find('li').length, 1,
       'dust load pulling a byline gives us a single list item'
@@ -94,10 +94,10 @@ test( "test dust load without template", function(t) {
   var dustBase = render.dustBase();
   var server = utils.mock_component('peter', peter);
   var chunk = new Chunk();
-  $.when(dustBase.global.load(chunk, {}, {}, {
+  dustBase.global.load(chunk, {}, {}, {
     slug: 'peter'
-  }))
-  .done(function() {
+  })
+  .then(function() {
     var el = utils.el(chunk.output);
     console.log(el.children());
     t.ok( el.find('div.author'),
@@ -117,7 +117,7 @@ test( "test dust render with template", function(t) {
   t.plan(3);
   var dustBase = render.dustBase();
   var chunk = new Chunk();
-  $.when(dustBase.global.render(chunk, {
+  dustBase.global.render(chunk, {
     stack: {
       head: {
         metadata: {
@@ -129,8 +129,8 @@ test( "test dust render with template", function(t) {
     }
   }, {}, {
     template: 'byline'
-  }))
-  .done(function() {
+  })
+  .then(function() {
     var el = utils.el(chunk.output);
     t.equal(el.find('li').length, 1,
       'dust renders a byline gives us a single list item'
@@ -153,10 +153,10 @@ test( "test dust load markdown", function(t) {
     'response': '#Test'
   };
   var server = utils.mock_component('peter', peter, data);
-  $.when(dustBase.global.markdown(chunk, {}, {},
+  dustBase.global.markdown(chunk, {}, {},
     { data_uri: 'content/peter-pan/data' }
-    ))
-    .done(function() {
+    )
+    .then(function() {
       t.equal( chunk.output,
         '<h1>#Test</h1>',
         'markdown loads'

@@ -50,7 +50,7 @@ module.exports = (function() {
     var promise = new $.Deferred();
     e.preventDefault();
     var path = $(this).attr("href").replace('#', '');
-    $.when(router.pop(path)).done(function(){
+    router.pop(path).then(function(){
       history.pushState(0, 0, path);
       promise.resolve();
     });

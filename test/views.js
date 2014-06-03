@@ -17,13 +17,14 @@ test( "test display_main_content", function(t) {
       'display main content has a callback which provides the data of the object loaded'
     );
     server.restore();
-    t.end();
   });
-  t.equal(
-    promise.state(),
-    'pending',
-    'display main content returns a promise'
-  );
+  promise.then(function() {
+    t.ok(
+      true,
+      'display main promise resolves as expected'
+    );
+    t.end();
+  })
 });
 test( "test display_homepage", function(t) {
   t.plan(2);
@@ -33,12 +34,13 @@ test( "test display_homepage", function(t) {
     t.equal( data.metadata.title, "Mother Jones Home Page",
       'display homepage has a callback which provides the data of the object loaded'
     );
-    t.end();
     server.restore();
   });
-  t.equal(
-    promise.state(),
-    'pending',
-    'display homepage returns a promise'
-  );
+  promise.then(function() {
+    t.ok(
+      true,
+      'display homepage promise resolves as expected'
+    );
+    t.end();
+  });
 });
