@@ -14,6 +14,12 @@ test("test component api", function(t) {
     t.ok(data, 'data is returned');
     t.equal(data['slug'], slug, 'slug is returned');
     server.restore();
+
+    //cleanup
+    if ( typeof(Storage)!=="undefined" ) {
+      localStorage.removeItem(slug);
+    }
+
     t.end();
   };
   var promise = api.component(slug, callback);
@@ -32,4 +38,10 @@ test("test component api's use of localstorage", function(t) {
     t.equal(response, localResponse, 'component pulls from localstorage');
   });//pulls from local are sync, thank goodness
   t.equal( promise.state(), 'resolved', 'promise is resolved as expected');
+
+  //cleanup
+  if ( typeof(Storage)!=="undefined" ) {
+    localStorage.removeItem(localSlug);
+  }
+
 });
