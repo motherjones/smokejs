@@ -7,6 +7,9 @@ var utils = require('./utils');
 
 test("test component api", function(t) {
   t.plan(3);
+  if ( typeof(Storage)!=="undefined" ) {
+    localStorage.clear()
+  }
   var slug = 'test';
   var server = utils.mock_component(slug, response);
   var callback = function(data) {
