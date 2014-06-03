@@ -8,7 +8,7 @@ exports.component = function(slug, callback) {
     callback(localStorage.getItem(slug));
     promise.resolve();
   } else {
-    $.getJSON(EnvConfig.DATA_STORE + 'component/' + slug,
+    $.getJSON(EnvConfig.MIRRORS_URL + 'component/' + slug,
       function(data) {
         if ( typeof(Storage)!=="undefined" ) {
           localStorage.setItem(slug, data);
