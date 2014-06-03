@@ -4,7 +4,6 @@ var api = require('../js/api');
 var test = require('tape');
 var response = require('./fixtures/article/1.json');
 var utils = require('./utils');
-var sinon = require('sinon');
 
 test("test component api", function(t) {
   t.plan(2);
@@ -20,7 +19,6 @@ test("test component api", function(t) {
   $.when(promise).done(function() {
     //maybe a test here?
   });
-
 });
 
 test("test component api's use of localstorage", function(t) {
@@ -32,4 +30,7 @@ test("test component api's use of localstorage", function(t) {
     t.equal(response, localResponse, 'component pulls from localstorage');
   });//pulls from local are sync, thank goodness
   t.equal( promise.state(), 'resolved', 'promise is resolved as expected');
+  setTimeout(function() {
+    t.end()
+  }, 100);
 });
