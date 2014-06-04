@@ -56,7 +56,7 @@
     "jsdoc": "~3.3.0",
     "grunt-jsdoc": "^0.5.4",
     "ink-docstrap": "^0.4.2",
-    "nock": "^0.32.3"
+    "browser-request": "robertjd/browser-request"
   },
   "keywords": [],
   "dependencies": {
