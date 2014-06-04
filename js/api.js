@@ -1,6 +1,7 @@
 'use strict';
 var $ = require('jquery');
 var EnvConfig = require('./config');
+var request = require('browser-request');
 
 exports.component = function(slug, callback) {
   var promise = new $.Deferred();
@@ -8,8 +9,9 @@ exports.component = function(slug, callback) {
     callback(localStorage.getItem(slug));
     promise.resolve();
   } else {
-    $.getJSON(EnvConfig.MIRRORS_URL + 'component/' + slug,
-      function(data) {
+    request(EnvConfig.MIRRORS_URL + 'component/' + slug,
+      function(error, response, data) {
+        data = JSON.parse(data);
         if ( typeof(Storage)!=="undefined" && false ) {
           localStorage.setItem(slug, data);
         }
