@@ -1,7 +1,7 @@
 /*global require */
 
 var $ = require('jquery');
-$.getScript('libs/sinon.js', function() {
+$.getScript('http://sinonjs.org/releases/sinon-server-1.10.2.js', function() {
   require('./api');
   require('./ad');
   require('./markdown');
