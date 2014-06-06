@@ -1,6 +1,7 @@
 /*global require */
 
 var $ = require('jquery');
+var sinon = require('sinon');
 
 //TODO: Rename to component and change utils to 
 //mock
