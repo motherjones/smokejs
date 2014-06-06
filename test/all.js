@@ -1,7 +1,11 @@
 /*global require */
-require('./api');
-require('./ad');
-require('./markdown');
-require('./render');
-require('./views');
-require('./router');
+
+var $ = require('jquery');
+$.getScript('libs/sinon.js', function() {
+  require('./api');
+  require('./ad');
+  require('./markdown');
+  require('./render');
+  require('./views');
+  require('./router');
+})
