@@ -57,7 +57,8 @@
     "sinon": "~1.9.1",
     "tape": "~2.12.3",
     "testling": "~1.6.1",
-    "nock": "^0.32.3"
+    "nock": "^0.32.3",
+    "browser-request": "robertjd/browser-request"
   },
   "keywords": [],
   "dependencies": {
