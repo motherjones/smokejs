@@ -11,7 +11,11 @@ exports.component = function(slug, callback) {
   } else {
     request(EnvConfig.MIRRORS_URL + 'component/' + slug,
       function(error, response, data) {
-        data = JSON.parse(data);
+        try {
+          data = JSON.parse(data);
+        } catch(e) {
+          EnvConfig.log(e);
+        };
         if ( typeof(Storage)!=="undefined" && false ) {
           localStorage.setItem(slug, data);
         }
