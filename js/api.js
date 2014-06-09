@@ -2,32 +2,29 @@
 'use strict';
 var EnvConfig = require('./config');
 var request = require('browser-request');
-var $ = require('jquery');
+var Promise = require('promise-polyfill');
 
 exports.component = function(slug, callback) {
-  var promise = new $.Deferred();
-  if (typeof(Storage)!=="undefined" &&
-      localStorage.getItem(slug) &&
-      typeof JSON.parse( localStorage.getItem(slug) ) === 'object'
-  ) {
-    callback( JSON.parse( localStorage.getItem(slug) ) );
-    promise.resolve();
-  } else {
-    request({ 
-      method: 'GET',
-      uri: EnvConfig.DATA_STORE + 'component/' + slug + '/',
-      json: true
-    }, function(err, result, body) {
-      if (result.statusText === "OK") {
-        if ( typeof(Storage)!=="undefined" ) {
-          localStorage.setItem(slug, JSON.stringify(body));
-        }
-        callback(body);
-        promise.resolve();
-      } else {
-        EnvConfig.ERROR_HANDLER(err); 
-      }
-    });
-  }
+  var promise = new Promise(function(resolve, reject) {
+    if ( typeof(Storage)!=="undefined" && localStorage.getItem(slug) &&
+        localStorage.getItem(slug) !== '[object Object]'
+      ) {
+      callback(JSON.parse(localStorage.getItem(slug)));
+      resolve();
+    } else {
+      request(EnvConfig.MIRRORS_URL + 'component/' + slug + '/',
+        function(error, response, data) {
+          if (response.statusText === "OK") {
+            if ( typeof(Storage)!=="undefined") {
+              localStorage.setItem(slug, data);
+            }
+            callback(JSON.parse(data));
+            resolve();
+          } else {
+            EnvConfig.ERROR_HANDLER(error); 
+          }
+        });
+    }
+  })
   return promise;
 };
