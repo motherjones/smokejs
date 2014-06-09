@@ -22,9 +22,10 @@ exports.component = function(slug, callback) {
             resolve();
           } else {
             EnvConfig.ERROR_HANDLER(error); 
+            reject();
           }
         });
     }
-  })
+  });
   return promise;
 };

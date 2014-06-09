@@ -52,7 +52,7 @@ module.exports = (function() {
     e.preventDefault();
     var promise = new Promise(function(resolve, reject) {
       var path = $(this).attr("href").replace('#', '');
-      router.pop(path)
+      router.pop(path);
       history.pushState(0, 0, path);
       resolve();
     });

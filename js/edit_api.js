@@ -2,46 +2,52 @@
 'use strict';
 var EnvConfig = require('./config');
 var request = require('browser-request');
-var $ = require('jquery');
+var Promise = require('promise-polyfill');
 
 exports.post = function(data, callback) {
-  var promise = new $.Deferred();
-  request({ 
-    method: 'POST',
-    uri: EnvConfig.DATA_STORE + 'component/',
-    json: data
-  }, exports.success(callback, promise)
-  );
+  var promise = new Promise(function(resolve, reject) {
+    console.log('in post promise');
+    request({ 
+      method: 'POST',
+      uri: EnvConfig.MIRRORS_URL + 'component/',
+      json: data
+    }, exports._success(callback, resolve, reject)
+    );
+  });
   return promise;
 };
 
 exports.patch = function(data, callback) {
-  var promise = new $.Deferred();
+  var promise = new Promise(function(resolve, reject) {
 
-  if (typeof(Storage)!=="undefined" ) {
-    localStorage.setItem(data.slug, JSON.stringify(data));
-  }
+    if (typeof(Storage)!=="undefined" ) {
+      localStorage.setItem(data.slug, JSON.stringify(data));
+    }
 
-  request({ 
-    method: 'PATCH',
-    uri: EnvConfig.DATA_STORE + 'component/' + data.slug + '/',
-    json: data
-  }, exports.success(callback, promise)
-  );
+    request({ 
+      method: 'PATCH',
+      uri: EnvConfig.MIRRORS_URL + 'component/' + data.slug + '/',
+      json: data
+    }, exports._success(callback, resolve, reject)
+    );
+  });
   return promise;
 };
 
-exports._success = function(callback, promise) {
+exports._success = function(callback, resolve, reject) {
+  console.log('making success callback');
   return function(err, result, body) {
+    console.log('in success callback');
+    console.log(result);
     if (result.statusText === "OK") {
-      var data = JSON.stringify(body);
       if (typeof(Storage)!=="undefined" ) {
-        localStorage.setItem(data.slug, data);
+        localStorage.setItem(body.slug, body);
       }
-      callback(data);
-      promise.resolve();
+      callback(body);
+      resolve();
     } else {
       EnvConfig.ERROR_HANDLER(err); 
+      reject();
     }
-  };
+  }
 };
