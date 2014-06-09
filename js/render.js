@@ -3,22 +3,24 @@
 var Dust = require('../build/js/dust_templates')();
 var API = require('./api');
 var EnvConfig = require('./config');
-var $ = require('jquery');
 var Markdown = require('./markdown');
 var Ad = require('./ad');
+var Promise = require('promise-polyfill');
 
 exports.render = function(template, data, callback) {
-  var promise = new $.Deferred();
-  var context = exports.dustBase().push(data);
-  Dust.render(template, context,
-    function(err, out) {  //callback
-      if (err) {
-        EnvConfig.ERROR_HANDLER(err, this);
+  var promise = new Promise(function(resolve, reject) {
+    var context = exports.dustBase().push(data);
+    Dust.render(template, context,
+      function(err, out) {  //callback
+        if (err) {
+          EnvConfig.ERROR_HANDLER(err, this);
+          reject();
+        }
+        callback(out);
+        resolve();
       }
-      callback(out);
-      promise.resolve();
-    }
-  );
+    );
+  });
   return promise;
 };
 

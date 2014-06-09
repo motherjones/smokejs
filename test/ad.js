@@ -24,12 +24,12 @@ test("test ad url creation",
 );
 test("test ad creation",
   function(t) {
-    t.plan(4);
+    t.plan(3);
     var dustBase = render.dustBase();
     var chunk = new Chunk();
     t.ok(dustBase, 'dust base created');
-    $.when(dustBase.global.ad(chunk, {}, {}, {placement: 'test'}))
-      .done(function() {
+    dustBase.global.ad(chunk, {}, {}, {placement: 'test'})
+      .then(function() {
         var el = $('<div/>').html(chunk.output).contents();
         var iframeSrc = EnvConfig.AD_LOCATION +
               '#placement=test&groupid=&key=&height=0&uri=' +
@@ -37,13 +37,10 @@ test("test ad creation",
         t.equal( el.attr('src'), iframeSrc,
           'ad iframe html rendered correctly'
         );
+        t.ok(Ad.currentAds['test'],
+          'ad creation puts its placement in the list of ads'
+        );
       });
-    t.equal( chunk.promise.state(), 'resolved',
-      'chunk properly sets promise'
-    );
-    t.ok(Ad.currentAds['test'],
-      'ad creation puts its placement in the list of ads'
-    );
   }
 );
 test("test reload",
@@ -53,8 +50,8 @@ test("test reload",
     t.equal(Ad.groupId, '', 'Group Id starts unset');
     var dustBase = render.dustBase();
     var chunk = new Chunk();
-    $.when(dustBase.global.ad(chunk, {}, {}, {placement: 'test'}))
-      .done(function() {
+    dustBase.global.ad(chunk, {}, {}, {placement: 'test'})
+      .then(function() {
           $('body').append($(chunk.output));
           t.ok($('#ad_test'), 'iframe attatched');
           Ad.reload('test keyword');
@@ -78,8 +75,8 @@ test("test event",
     t.plan(2);
     var dustBase = render.dustBase();
     var chunk = new Chunk();
-    $.when(dustBase.global.ad(chunk, {}, {}, {placement: 'test'}))
-    .done(function() {
+    dustBase.global.ad(chunk, {}, {}, {placement: 'test'})
+    .then(function() {
         $('body').append($(chunk.output));
         t.equal('150px', $('#ad_test').css('height'),
          'height starts at base');
