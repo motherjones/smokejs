@@ -4,6 +4,7 @@ var api = require('../js/api');
 var test = require('tape');
 var response = require('./fixtures/article/1.json');
 var utils = require('./utils');
+var should = require('should');
 
 module.exports = {
   "beforeEach": function() {
@@ -15,20 +16,16 @@ module.exports = {
       var server = utils.mock_component(slug, response);
       var callback = function(data) {
         should.exist.ok(data, 'data is returned');
-        t.equal(data['slug'], slug, 'slug is returned');
+        should(data).have.property('slug', slug);
         server.restore();
-        t.end();
+        done();
       };
       var promise = api.component(slug, callback);
-      $.when(promise).done(function() {
-        //maybe a test here?
-      });
     }
   }
 }
-
+/*
 test("test component api's use of localstorage", function(t) {
-  t.plan(2);
   var localSlug = 'localtest';
   var localResponse = 'test local data';
   localStorage.setItem(localSlug, localResponse);
@@ -41,4 +38,4 @@ test("test component api's use of localstorage", function(t) {
     t.end()
   }, 100);
 });
-
+*/
