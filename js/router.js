@@ -13,6 +13,8 @@ module.exports = (function() {
   var Router = require('routes');
   var Ad = require('./ad');
   var $ = require('jquery');
+  var Promise = require('promise-polyfill');
+
   var router = new Router();
   router.addRoute("/:schema/:slug", views.display_main_content);
   router.addRoute("^/$", views.display_homepage);
@@ -47,12 +49,12 @@ module.exports = (function() {
     router.pop(path);
   };
   router.browserClick = function(e) {
-    var promise = new $.Deferred();
     e.preventDefault();
-    var path = $(this).attr("href").replace('#', '');
-    router.pop(path).then(function(){
+    var promise = new Promise(function(resolve, reject) {
+      var path = $(this).attr("href").replace('#', '');
+      router.pop(path)
       history.pushState(0, 0, path);
-      promise.resolve();
+      resolve();
     });
     return promise;
   };

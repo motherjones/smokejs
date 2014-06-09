@@ -17,6 +17,7 @@ exports.component = function(slug, callback) {
             localStorage.setItem(slug, data);
           }
           callback(JSON.parse(data));
+          resolve();
         }
       );
     }
