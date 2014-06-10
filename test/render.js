@@ -109,6 +109,7 @@ test( "test dust load without template", function(t) {
     t.ok( el.find('#component_body').html(),
       'load w/o a template loads an author, which has makrdown text in it'
     );
+    server.restore();
     t.end();
   });
 });
@@ -161,6 +162,7 @@ test( "test dust load markdown", function(t) {
         '<h1>#Test</h1>',
         'markdown loads'
       );
+    server.restore();
   });
 });
 

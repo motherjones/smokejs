@@ -3,9 +3,19 @@
 var EnvConfig = require('./config');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
-var Component = require('./api');
+var Component = require('./api').Component;
 
-Component.prototype.post = function(callback) {
+/**
+ * Add create and update methods to component objects
+ * @module edit_api
+ */
+
+/**
+ * Tells mirrors to make a new component and give us a slug for it
+ * @param {function} callback - callback is called with server response
+ * @returns {promise} Resolves when complete
+ */
+Component.prototype.create = function(callback) {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
     var cb = function(data) {
@@ -19,13 +29,17 @@ Component.prototype.post = function(callback) {
         attributes : self.attributes,
         metadata: self.metadata
       }
-    }, self._success(cb, resolve, reject)
-    );
+    }, self._success(cb, resolve, reject));
   });
   return promise;
 };
 
-Component.prototype.patch = function(callback) {
+/**
+ * Tells mirrors to update a component's attributes and metadata
+ * @param {function} callback - callback is called with server response
+ * @returns {promise} Resolves when complete
+ */
+Component.prototype.update = function(callback) {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
     request({ 
@@ -41,7 +55,14 @@ Component.prototype.patch = function(callback) {
   return promise;
 };
 
-Component._success = function(callback, resolve, reject) {
+/**
+ * Helper function to create the callback from mirrors requests
+ * @param {function} callback - callback is called with server response
+ * @param {function} resolve - function to call to resolve update or create's promise
+ * @param {function} reject - function to call to reject update or create's promise
+ * @returns {function} The function to be called after update or create requests
+ */
+Component.prototype._success = function(callback, resolve, reject) {
   return function(err, result, body) {
     if (result.statusText === "OK") {
       if (typeof(Storage)!=="undefined" ) {
@@ -53,7 +74,7 @@ Component._success = function(callback, resolve, reject) {
       EnvConfig.ERROR_HANDLER(err); 
       reject();
     }
-  }
+  };
 };
 
-module.exports = Component
+exports.Component = Component;

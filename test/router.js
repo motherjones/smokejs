@@ -46,7 +46,7 @@ test( "test router callbacks", function(t) {
   var oldLocation = location.pathname;
   $.when(promise).done(function() {
     t.equal(history.length, current_history_length + 1,
-      'click event ads to history'
+      'click event adds to history'
     );
     t.equal('/loltest', location.pathname,
       'click event takes browser url to link'
