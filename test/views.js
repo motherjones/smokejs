@@ -12,13 +12,13 @@ test( "test display_main_content", function(t) {
   match.params.slug = 'peter';
   match.params.schema = 'author';
   var server = utils.mock_component(match.params.slug, response_peter);
-  var promise = views.display_main_content(match, function(data, html) {
+  console.log('here');
+  views.display_main_content(match, function(data, html) {
     t.equal( data.content_type, "text/x-markdown",
       'display main content has a callback which provides the data of the object loaded'
     );
     server.restore();
-  });
-  promise.then(function() {
+  }).then(function() {
     t.ok(
       true,
       'display main promise resolves as expected'

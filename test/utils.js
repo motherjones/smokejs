@@ -6,7 +6,15 @@ var $ = require('jquery');
 //mock
 exports.mock_component = function(slug, json, data) {
   var server = sinon.fakeServer.create();
-  server.respondWith('GET', '/mirrors/component/'+slug, [200,
+  server.respondWith('GET', '/mirrors/component/'+slug+'/', [200,
+    { "Content-Type": "application/json" },
+    JSON.stringify(json)
+  ]);
+  server.respondWith('POST', '/mirrors/component/', [200,
+    { "Content-Type": "application/json" },
+    JSON.stringify(json)
+  ]);
+  server.respondWith('PATCH', '/mirrors/component/'+slug+'/', [200,
     { "Content-Type": "application/json" },
     JSON.stringify(json)
   ]);

@@ -29,6 +29,7 @@
     "test": "grunt qunit"
   },
   "devDependencies": {
+    "browser-request": "robertjd/browser-request",
     "browserify": "~3.24.1",
     "coverify": "~1.0.6",
     "dustjs-linkedin": "~2.3.2",
@@ -49,16 +50,16 @@
     "grunt-lib-phantomjs": "~0.5.0",
     "grunt-shell": "~0.7.0",
     "ink-docstrap": "^0.4.2",
+    "jquery-browserify": "^1.8.1",
     "jsdoc": "~3.3.0",
     "jsonschema": "~0.4.0",
     "less-middleware": "~0.1.9",
+    "nock": "^0.32.3",
     "phantomjs": "~1.9.0-3",
     "promise-polyfill": "^1.1.2",
-    "sinon": "~1.9.1",
+    "sinon": "git+https://github.com/bevacqua/Sinon.JS.git",
     "tape": "~2.12.3",
-    "testling": "~1.6.1",
-    "nock": "^0.32.3",
-    "browser-request": "robertjd/browser-request"
+    "testling": "~1.6.1"
   },
   "keywords": [],
   "dependencies": {
