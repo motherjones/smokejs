@@ -3,42 +3,46 @@
 var EnvConfig = require('./config');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
+var Component = require('./api');
 
-exports.post = function(data, callback) {
+Component.prototype.post = function(callback) {
+  var self = this;
   var promise = new Promise(function(resolve, reject) {
-    console.log('in post promise');
+    var cb = function(data) {
+      self.slug = data.slug;
+      callback(data);
+    };
     request({ 
       method: 'POST',
       uri: EnvConfig.MIRRORS_URL + 'component/',
-      json: data
-    }, exports._success(callback, resolve, reject)
+      json: { 
+        attributes : self.attributes,
+        metadata: self.metadata
+      }
+    }, self._success(cb, resolve, reject)
     );
   });
   return promise;
 };
 
-exports.patch = function(data, callback) {
+Component.prototype.patch = function(callback) {
+  var self = this;
   var promise = new Promise(function(resolve, reject) {
-
-    if (typeof(Storage)!=="undefined" ) {
-      localStorage.setItem(data.slug, JSON.stringify(data));
-    }
-
     request({ 
       method: 'PATCH',
-      uri: EnvConfig.MIRRORS_URL + 'component/' + data.slug + '/',
-      json: data
-    }, exports._success(callback, resolve, reject)
+      uri: EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
+      json: {
+        attributes: self.attributes,
+        metadata: self.metadata
+      }
+    }, self._success(callback, resolve, reject)
     );
   });
   return promise;
 };
 
-exports._success = function(callback, resolve, reject) {
-  console.log('making success callback');
+Component._success = function(callback, resolve, reject) {
   return function(err, result, body) {
-    console.log('in success callback');
-    console.log(result);
     if (result.statusText === "OK") {
       if (typeof(Storage)!=="undefined" ) {
         localStorage.setItem(body.slug, body);
@@ -51,3 +55,5 @@ exports._success = function(callback, resolve, reject) {
     }
   }
 };
+
+module.exports = Component

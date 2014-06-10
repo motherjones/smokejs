@@ -4,21 +4,29 @@ var EnvConfig = require('./config');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
 
-exports.component = function(slug, callback) {
+var Component = function(slug) {
+  this.slug = slug;
+});
+
+Component.prototype.get = function(callback) {
   var promise = new Promise(function(resolve, reject) {
-    if ( typeof(Storage)!=="undefined" && localStorage.getItem(slug) &&
-        localStorage.getItem(slug) !== '[object Object]'
+    if ( typeof(Storage)!=="undefined" && localStorage.getItem(this.slug) &&
+        localStorage.getItem(this.slug) !== '[object Object]'
       ) {
-      callback(JSON.parse(localStorage.getItem(slug)));
+      callback(JSON.parse(localStorage.getItem(this.slug)));
       resolve();
     } else {
-      request(EnvConfig.MIRRORS_URL + 'component/' + slug + '/',
-        function(error, response, data) {
+      var self = this;
+      request(EnvConfig.MIRRORS_URL + 'component/' + this.slug + '/',
+        function(error, response, body) {
           if (response.statusText === "OK") {
             if ( typeof(Storage)!=="undefined") {
-              localStorage.setItem(slug, data);
+              localStorage.setItem(self.slug, body);
             }
-            callback(JSON.parse(data));
+            var data = JSON.parse(body);
+            self.attributes = data.attributes;
+            self.metadata = data.metadata;
+            callback(data);
             resolve();
           } else {
             EnvConfig.ERROR_HANDLER(error); 
@@ -29,3 +37,5 @@ exports.component = function(slug, callback) {
   });
   return promise;
 };
+
+module.exports = Component
