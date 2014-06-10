@@ -6,24 +6,19 @@ var response = require('./fixtures/article/1.json');
 var utils = require('./utils');
 var should = require('should');
 
-module.exports = {
-  "beforeEach": function() {
-
-  },
-  "component api": {
-    "get" : function() {
-      var slug = 'test';
-      var server = utils.mock_component(slug, response);
-      var callback = function(data) {
-        should.exist.ok(data, 'data is returned');
-        should(data).have.property('slug', slug);
-        server.restore();
-        done();
-      };
-      var promise = api.component(slug, callback);
-    }
-  }
-}
+describe("component api", function() {
+  describe("get", function() {
+    var slug = 'test';
+    var server = utils.mock_component(slug, response);
+    var callback = function(data) {
+      should.exist.ok(data, 'data is returned');
+      should(data).have.property('slug', slug);
+      server.restore();
+      done();
+    };
+    var promise = api.component(slug, callback);
+  })
+})
 /*
 test("test component api's use of localstorage", function(t) {
   var localSlug = 'localtest';
