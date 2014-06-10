@@ -4,30 +4,28 @@ var router = require('../js/router');
 var $ = require('jquery');
 var Ad = require('../js/ad');
 
-test('ad loaded', function(t) {
-  t.plan(1);
-  t.ok(Ad, 'ad lib loaded');
+describe("Ads", function() {
+  it('ad loaded', function(done) {
+    should.exist(Ad);
+    done();
+  });
+  it('router loaded', function(d) {
+    should.exist(router);
+    router.should.have.property('match');
+    done();
+  });
+  it("router pop calls callback", function() {
+    var test_callback = function() {
+      done();
+    };
+    router.addRoute("test", test_callback);
+    router.pop('test');
+  });
 });
 
-test('router loaded', function(t) {
-  t.plan(2);
-  t.ok(router, 'router lib loaded');
-  t.ok(router.match, 'router match function loaded');
-});
 
-test( "test router pop", function(t) {
-  t.plan(2);
-  router.pop('/article/test');
-  var test_callback = function() {
-    t.ok(true, 'pop called the callback function');
-  };
-  router.addRoute("test", test_callback);
-  t.ok(true, 'route added successfully');
-  router.pop('test');
-});
 
 test( "test router callbacks", function(t) {
-  t.plan(6);
   t.equal(null, router.callback(),
     'router starts w/ callback doing nothing'
   );

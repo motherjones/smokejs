@@ -8,17 +8,19 @@ var should = require('should');
 
 describe("component api", function() {
   describe("get", function() {
-    var slug = 'test';
-    var server = utils.mock_component(slug, response);
-    var callback = function(data) {
-      should.exist.ok(data, 'data is returned');
-      should(data).have.property('slug', slug);
+    it("returns data with slug", function(done) {
+      var slug = 'test';
+      var server = utils.mock_component(slug, response);
+      var callback = function(data) {
+        should.exist(data, 'data is returned');
+        should(data).have.property('slug', slug);
+        done();
+      };
+      var promise = api.component(slug, callback);
       server.restore();
-      done();
-    };
-    var promise = api.component(slug, callback);
+    });
   })
-})
+});
 /*
 test("test component api's use of localstorage", function(t) {
   var localSlug = 'localtest';

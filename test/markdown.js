@@ -1,31 +1,22 @@
 /*global require */
 var test = require('tape');
 var markdown = require('../js/markdown');
-test("verify inline component blocks make it into lexer",
-  function(t) {
-    t.plan(2);
+var should = require('should');
+
+describe("Markdown", function() {
+  it("adds custom !! syntax to the lexer", function (done) {
     var md = '!![foobar]';
     var tokens = markdown.lexer(md);
-    t.equal(
-      tokens[0]['type'], 'component_block',
-      'adds a component type to the lexer'
-    );
-    t.equal(
-      tokens[0]['slug'], 'foobar',
-      'the correct slug gets into the lexer'
-    );
-    t.end();
-  }
-);
-test("verify parser handles component type in lexer",
-  function(t) {
-    t.plan(1);
+    tokens.should.have.property(0);
+    var token = tokens[0];
+    token.should.have.property('type', 'component_block');
+    token.should.have.property('slug', 'foobar')
+    done();
+  });
+  it("verify parser handles component type in lexer", function(done){
     var md = '!![barfoo]';
     var html = markdown.toHTML(md);
-    t.equal(
-      html, '{#load  slug="barfoo" }',
-      'the proper component is rendered'
-    );
-    t.end();
-  }
-);
+    html.should.equal('{#load  slug="barfoo" }');
+    done();
+  });
+});
