@@ -22,7 +22,10 @@ describe("component api", function() {
         should(data).have.property('slug', slug);
         done();
       };
-      var promise = api.component(slug, callback);
+      var component = new api.Component(slug);
+      component.get(callback).then(function() {
+        should(component.slug).ok;
+      });
       server.restore();
       cleanup();
     });
