@@ -1,84 +1,81 @@
 /*global require, window */
-var test = require('tape');
+var it = require('tape');
 var Ad = require('../js/ad');
 var render = require('../js/render');
 var Chunk = require('./utils').mock_chunk;
 var EnvConfig = require('../js/config');
 var $ = require('jquery');
-test( "pulled libs", function(t) {
-    t.plan(2);
-    t.ok(Ad, "ad lib is here");
-    t.ok(Ad.currentAds, "ad lib has storage to retain which ads exist");
-});
-test("test ad url creation",
-  function(t) {
-    t.plan(1);
-    var url = Ad.getSrc('test');
+var should = require('should');
+var utils = require('./utils');
+
+
+describe("Ads", function() {
+  it('ads contain currentAds', function (done) {
+    should.exist(Ad);
+    Ad.should.have.property('currentAds');
+  });
+  it("ad url creation", function(done) {
+    var url = Ad.getSrc('it');
     t.equal( url,
       EnvConfig.AD_LOCATION +
-        '#placement=test&groupid=&key=&height=0&uri=' +
+        '#placement=it&groupid=&key=&height=0&uri=' +
         window.location.pathname,
       'ad iframe src set as expected'
     );
-  }
-);
-test("test ad creation",
-  function(t) {
-    t.plan(3);
+  });
+});
+it("ad created and rendered", function(done) {
     var dustBase = render.dustBase();
     var chunk = new Chunk();
-    t.ok(dustBase, 'dust base created');
-    dustBase.global.ad(chunk, {}, {}, {placement: 'test'})
+    shuold.exist(dustBase);
+    dustBase.global.ad(chunk, {}, {}, {placement: 'it'})
       .then(function() {
-        var el = $('<div/>').html(chunk.output).contents();
+        var el = utils.el(chunk.output);
         var iframeSrc = EnvConfig.AD_LOCATION +
-              '#placement=test&groupid=&key=&height=0&uri=' +
+              '#placement=it&groupid=&key=&height=0&uri=' +
               window.location.pathname;
-        t.equal( el.attr('src'), iframeSrc,
-          'ad iframe html rendered correctly'
-        );
-        t.ok(Ad.currentAds['test'],
-          'ad creation puts its placement in the list of ads'
-        );
+        should(el.attr('src'))
+          .eql(iframeSrc, 'ad iframe html rendered correctly');
+        Ad.currentAds.should.have.property('it');
+        done();
       });
-  }
-);
-test("test reload",
-  function(t) {
-    t.plan(6);
+});
+it("it reload",
+  function(done) {
+
     t.equal(Ad.key, '', 'Keywords starts unset');
     t.equal(Ad.groupId, '', 'Group Id starts unset');
     var dustBase = render.dustBase();
     var chunk = new Chunk();
-    dustBase.global.ad(chunk, {}, {}, {placement: 'test'})
+    dustBase.global.ad(chunk, {}, {}, {placement: 'it'})
       .then(function() {
           $('body').append($(chunk.output));
-          t.ok($('#ad_test'), 'iframe attatched');
-          Ad.reload('test keyword');
-          t.equal(Ad.key, 'test keyword', 'Keywords set at refresh');
+          t.ok($('#ad_it'), 'iframe attatched');
+          Ad.reload('it keyword');
+          t.equal(Ad.key, 'it keyword', 'Keywords set at refresh');
           t.notEqual(Ad.groupId, '', 'Group Id changes on reload');
-          t.equal($('#ad_test').attr('src'),
+          t.equal($('#ad_it').attr('src'),
             EnvConfig.AD_LOCATION +
-              '#placement=test&groupid=' +
+              '#placement=it&groupid=' +
               Ad.groupId +
-              '&key=test+keyword' +
+              '&key=it+keyword' +
               '&height=0&uri=' +
               window.location.pathname,
             'src updates on reload'
           );
-          $('#ad_test').remove();
+          $('#ad_it').remove();
       });
   }
 );
-test("test event",
-  function(t) {
-    t.plan(2);
+it("it event",
+  function(done) {
+
     var dustBase = render.dustBase();
     var chunk = new Chunk();
-    dustBase.global.ad(chunk, {}, {}, {placement: 'test'})
+    dustBase.global.ad(chunk, {}, {}, {placement: 'it'})
     .then(function() {
         $('body').append($(chunk.output));
-        t.equal('150px', $('#ad_test').css('height'),
+        t.equal('150px', $('#ad_it').css('height'),
          'height starts at base');
         var event;
         if (document.createEvent) {
@@ -89,7 +86,7 @@ test("test event",
           event.eventType = "message";
         }
         event.eventName = "message";
-        event.data = { iframe: 'test', height: 100 };
+        event.data = { iframe: 'it', height: 100 };
         event.origin = EnvConfig.AD_LOCATION;
         if (document.createEvent) {
           window.document.dispatchEvent(event);
@@ -97,7 +94,7 @@ test("test event",
           window.document.fireEvent("on" + event.eventType, event);
         }
         setTimeout(function () {
-          t.equal('100px', $('#ad_test').css('height'),
+          t.equal('100px', $('#ad_it').css('height'),
            'height changed through event');
         }, 100);
     });
