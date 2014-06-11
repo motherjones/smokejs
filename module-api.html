@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DocStrap Module: views</title>
+	<title>DocStrap Module: api</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -82,12 +82,12 @@
 					
 
 
-	<h1 class="page-title">Module: views</h1>
+	<h1 class="page-title">Module: api</h1>
 <section>
 
 <header>
     <h2>
-    views
+    api
     </h2>
     
 </header>
@@ -98,9 +98,7 @@
 
     
         
-            <div class="description"><p>Include views to be called by the router here each should
-take a callback that takes in data, html
-and returns a promise which is resolved after its loaded.</p></div>
+            <div class="description"><p>Currently, a component object with a get function</p></div>
         
 
         
@@ -130,8 +128,8 @@ and returns a promise which is resolved after its loaded.</p></div>
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="views.js.html">views.js</a>,
-				 <a href="views.js.html#sunlight-1-line-7">line 7</a>
+				<a href="api.js.html">api.js</a>,
+				 <a href="api.js.html#sunlight-1-line-7">line 7</a>
 			</li>
 		</ul>
 	</dd>
@@ -167,7 +165,7 @@ and returns a promise which is resolved after its loaded.</p></div>
         <dl>
             
 <dt>
-    <h4 class="name" id="display_homepage"><span class="type-signature">&lt;static> </span>display_homepage<span class="signature">(match, callback)</span><span class="type-signature"> &rarr; {promise}</span></h4>
+    <h4 class="name" id="Component"><span class="type-signature">&lt;static> </span>Component<span class="signature">(slug)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -175,7 +173,7 @@ and returns a promise which is resolved after its loaded.</p></div>
     
     
     <div class="description">
-        <p>View which renders the homepage.</p>
+        <p>Component constructor</p>
     </div>
     
 
@@ -209,13 +207,13 @@ and returns a promise which is resolved after its loaded.</p></div>
 
         <tr>
             
-                <td class="name"><code>match</code></td>
+                <td class="name"><code>slug</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -225,30 +223,7 @@ and returns a promise which is resolved after its loaded.</p></div>
 
             
 
-            <td class="description last"><p>match object Returned by routes.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>callback is called with html</p></td>
+            <td class="description last"><p>the id of the componet</p></td>
         </tr>
 
 	
@@ -284,8 +259,8 @@ and returns a promise which is resolved after its loaded.</p></div>
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="views.js.html">views.js</a>,
-				 <a href="views.js.html#sunlight-1-line-35">line 35</a>
+				<a href="api.js.html">api.js</a>,
+				 <a href="api.js.html#sunlight-1-line-16">line 16</a>
 			</li>
 		</ul>
 	</dd>
@@ -308,29 +283,6 @@ and returns a promise which is resolved after its loaded.</p></div>
     
     
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>Resolves when complete</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">promise</span>
-
-
-	</dd>
-</dl>
-
-
-        
     
     
 </dd>
@@ -338,7 +290,7 @@ and returns a promise which is resolved after its loaded.</p></div>
         
             
 <dt>
-    <h4 class="name" id="display_main_content"><span class="type-signature">&lt;static> </span>display_main_content<span class="signature">(match, callback)</span><span class="type-signature"> &rarr; {promise}</span></h4>
+    <h4 class="name" id="get"><span class="type-signature">&lt;static> </span>get<span class="signature">(callback, pull)</span><span class="type-signature"> &rarr; {promise}</span></h4>
     
     
 </dt>
@@ -346,7 +298,8 @@ and returns a promise which is resolved after its loaded.</p></div>
     
     
     <div class="description">
-        <p>Main view for rendering components.</p>
+        <p>Checks localstorage for the component's data, calls out to mirrors if 
+localstorage doesn't have it or is stale</p>
     </div>
     
 
@@ -380,29 +333,6 @@ and returns a promise which is resolved after its loaded.</p></div>
 
         <tr>
             
-                <td class="name"><code>match</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>match object Returned by routes.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
                 <td class="name"><code>callback</code></td>
             
 
@@ -419,7 +349,30 @@ and returns a promise which is resolved after its loaded.</p></div>
 
             
 
-            <td class="description last"><p>callback is called with html</p></td>
+            <td class="description last"><p>callback is called with the component's data</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>pull</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>don't check local storage, pull from mirrors</p></td>
         </tr>
 
 	
@@ -455,8 +408,8 @@ and returns a promise which is resolved after its loaded.</p></div>
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="views.js.html">views.js</a>,
-				 <a href="views.js.html#sunlight-1-line-20">line 20</a>
+				<a href="api.js.html">api.js</a>,
+				 <a href="api.js.html#sunlight-1-line-28">line 28</a>
 			</li>
 		</ul>
 	</dd>

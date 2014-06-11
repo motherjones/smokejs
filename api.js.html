@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DocStrap Source: markdown.js</title>
+	<title>DocStrap Source: api.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -82,74 +82,81 @@
 					
 
 
-		<h1 class="page-title">Source: markdown.js</h1>
+		<h1 class="page-title">Source: api.js</h1>
     
 <section>
 	<article>
 		<pre
-			class="sunlight-highlight-javascript linenums">'use strict';
-
-var marked = require('marked');
+			class="sunlight-highlight-javascript linenums">/* global localStorage */
+'use strict';
+var EnvConfig = require('./config');
+var request = require('browser-request');
+var Promise = require('promise-polyfill');
 
 /**
- * Sets up modifications to marked and sets them up to be called.
- * @module markdown
+ * Currently, a component object with a get function
+ * @module api
  */
 
 /**
- * Use the markdown.renderer when modifying how markdown renders
- * see https://github.com/chjj/marked#overriding-renderer-methods
+ * Component constructor
+ * @param {string} slug the id of the componet
  */
-exports.renderer = new marked.Renderer();
-
-// Setup Custom Renderers.
-exports.renderer.component_block = function (that) {
-  var str = '{#load  slug="' + that.token.slug + '" }';
-  return str;
+exports.Component = function(slug) {
+  this.slug = slug;
 };
 
-// Setup custom rules.
-var options = {
-  'renderer': exports.renderer,
-  'extra_block_rules': {
-    //Looks for pattern !!() we can switch to !!()[args] later
-    component_block: /^!!\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]/
-  },
-  'extra_block_lexers': {
-    component_block: function (cap) {
-      return {
-        type: 'component_block',
-        slug: cap[1]
-      };
+/**
+ * Checks localstorage for the component's data, calls out to mirrors if 
+ * localstorage doesn't have it or is stale
+ * @function
+ * @param {function} callback - callback is called with the component's data
+ * @param {boolean} pull - don't check local storage, pull from mirrors
+ * @returns {promise} Resolves when complete
+ */
+exports.get = function(callback, pull) {
+  var self = this;
+  var promise = new Promise(function(resolve, reject) {
+    if (!pull && typeof(Storage)!=="undefined" && 
+        localStorage.getItem(self.slug) &&
+        localStorage.getItem(self.slug) !== '[object Object]'
+      ) {
+      var data = JSON.parse(localStorage.getItem(self.slug)); 
+      var millisecondsPerHour = 3600000;
+      if ( data.lastUpdated + (millisecondsPerHour * 3) > new Date().getTime()) {
+        callback(data);
+        resolve();
+        return;
+      }
     }
-  }
+    request(
+      EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
+      function(error, response, body) {
+        if (response.statusText === "OK") {
+          try {
+            data = JSON.parse(data);
+          } catch(e) {
+            EnvConfig.log(e);
+            reject();
+          };
+          if ( typeof(Storage)!=="undefined") {
+            data.lastUpdated = new Date().getTime();
+            localStorage.setItem(self.slug, JSON.stringify(data));
+          }
+          self.attributes = data.attributes;
+          self.metadata = data.metadata;
+          callback(data);
+          resolve();
+        } else {
+          EnvConfig.ERROR_HANDLER(error); 
+          reject();
+        }
+      }
+    );
+  });
+  return promise;
 };
-marked.setOptions(options);
-
-/**
- * Provides lexer access to marked with local modifications.
- * @param {string} markdown - Markdown string
- * @return {object} lexer -  List of tokens.
- */
-exports.lexer =  function (md) {
-  return marked.lexer(md, options);
-};
-
-/**
- * Converts markdown to html using local modifications.
- * @function
- * @param {string} markdown - Markdown string
- * @return {string} html - Html string
- */
-exports.toHTML = marked;
-
-/**
- * Coverts tokens to html using local modifications.
- * @function
- * @param {object} tokens - List of tokens from lexer.
- * @return {string} html - Html built from tokens.
- */
-exports.parser = marked.parser;
+exports.Component.prototype.get = exports.get;
 </pre>
 	</article>
 </section>

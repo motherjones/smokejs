@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DocStrap Source: markdown.js</title>
+	<title>DocStrap Source: edit_api.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -82,74 +82,94 @@
 					
 
 
-		<h1 class="page-title">Source: markdown.js</h1>
+		<h1 class="page-title">Source: edit_api.js</h1>
     
 <section>
 	<article>
 		<pre
-			class="sunlight-highlight-javascript linenums">'use strict';
+			class="sunlight-highlight-javascript linenums">/* global localStorage */
+'use strict';
+var EnvConfig = require('./config');
+var request = require('browser-request');
+var Promise = require('promise-polyfill');
 
-var marked = require('marked');
-
-/**
- * Sets up modifications to marked and sets them up to be called.
- * @module markdown
- */
 
 /**
- * Use the markdown.renderer when modifying how markdown renders
- * see https://github.com/chjj/marked#overriding-renderer-methods
+ * Add create and update methods to component objects
+ * @module edit_api
  */
-exports.renderer = new marked.Renderer();
 
-// Setup Custom Renderers.
-exports.renderer.component_block = function (that) {
-  var str = '{#load  slug="' + that.token.slug + '" }';
-  return str;
+exports.Component = require('./api').Component;
+
+/**
+ * Tells mirrors to make a new component and give us a slug for it
+ * @param {function} callback - callback is called with server response
+ * @returns {promise} Resolves when complete
+ */
+exports.create = function(callback) {
+  var self = this;
+  var promise = new Promise(function(resolve, reject) {
+    var cb = function(data) {
+      self.slug = data.slug;
+      callback(data);
+    };
+    request({ 
+      method: 'POST',
+      uri: EnvConfig.MIRRORS_URL + 'component/',
+      json: { 
+        attributes : self.attributes,
+        metadata: self.metadata
+      }
+    }, self._success(cb, resolve, reject));
+  });
+  return promise;
 };
+exports.Component.prototype.create = exports.create;
 
-// Setup custom rules.
-var options = {
-  'renderer': exports.renderer,
-  'extra_block_rules': {
-    //Looks for pattern !!() we can switch to !!()[args] later
-    component_block: /^!!\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]/
-  },
-  'extra_block_lexers': {
-    component_block: function (cap) {
-      return {
-        type: 'component_block',
-        slug: cap[1]
-      };
+/**
+ * Tells mirrors to update a component's attributes and metadata
+ * @param {function} callback - callback is called with server response
+ * @returns {promise} Resolves when complete
+ */
+exports.update = function(callback) {
+  var self = this;
+  var promise = new Promise(function(resolve, reject) {
+    request({ 
+      method: 'PATCH',
+      uri: EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
+      json: {
+        attributes: self.attributes,
+        metadata: self.metadata
+      }
+    }, self._success(callback, resolve, reject)
+    );
+  });
+  return promise;
+};
+exports.Component.prototype.update = exports.update;
+
+/**
+ * Helper function to create the callback from mirrors requests
+ * @param {function} callback - callback is called with server response
+ * @param {function} resolve - function to call to resolve update or create's promise
+ * @param {function} reject - function to call to reject update or create's promise
+ * @returns {function} The function to be called after update or create requests
+ */
+exports._success = function(callback, resolve, reject) {
+  return function(err, result, body) {
+    if (result.statusText === "OK") {
+      if (typeof(Storage)!=="undefined" ) {
+        localStorage.setItem(body.slug, body);
+      }
+      callback(body);
+      resolve();
+    } else {
+      EnvConfig.ERROR_HANDLER(err); 
+      reject();
     }
-  }
+  };
 };
-marked.setOptions(options);
-
-/**
- * Provides lexer access to marked with local modifications.
- * @param {string} markdown - Markdown string
- * @return {object} lexer -  List of tokens.
- */
-exports.lexer =  function (md) {
-  return marked.lexer(md, options);
-};
-
-/**
- * Converts markdown to html using local modifications.
- * @function
- * @param {string} markdown - Markdown string
- * @return {string} html - Html string
- */
-exports.toHTML = marked;
-
-/**
- * Coverts tokens to html using local modifications.
- * @function
- * @param {object} tokens - List of tokens from lexer.
- * @return {string} html - Html built from tokens.
- */
-exports.parser = marked.parser;
+exports.Component.prototype._success = exports._success;
 </pre>
 	</article>
 </section>

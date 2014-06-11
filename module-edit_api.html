@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DocStrap Module: views</title>
+	<title>DocStrap Module: edit_api</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -82,12 +82,12 @@
 					
 
 
-	<h1 class="page-title">Module: views</h1>
+	<h1 class="page-title">Module: edit_api</h1>
 <section>
 
 <header>
     <h2>
-    views
+    edit_api
     </h2>
     
 </header>
@@ -98,9 +98,7 @@
 
     
         
-            <div class="description"><p>Include views to be called by the router here each should
-take a callback that takes in data, html
-and returns a promise which is resolved after its loaded.</p></div>
+            <div class="description"><p>Add create and update methods to component objects</p></div>
         
 
         
@@ -130,8 +128,8 @@ and returns a promise which is resolved after its loaded.</p></div>
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="views.js.html">views.js</a>,
-				 <a href="views.js.html#sunlight-1-line-7">line 7</a>
+				<a href="edit_api.js.html">edit_api.js</a>,
+				 <a href="edit_api.js.html#sunlight-1-line-8">line 8</a>
 			</li>
 		</ul>
 	</dd>
@@ -167,7 +165,7 @@ and returns a promise which is resolved after its loaded.</p></div>
         <dl>
             
 <dt>
-    <h4 class="name" id="display_homepage"><span class="type-signature">&lt;static> </span>display_homepage<span class="signature">(match, callback)</span><span class="type-signature"> &rarr; {promise}</span></h4>
+    <h4 class="name" id="_success"><span class="type-signature">&lt;static> </span>_success<span class="signature">(callback, resolve, reject)</span><span class="type-signature"> &rarr; {function}</span></h4>
     
     
 </dt>
@@ -175,7 +173,7 @@ and returns a promise which is resolved after its loaded.</p></div>
     
     
     <div class="description">
-        <p>View which renders the homepage.</p>
+        <p>Helper function to create the callback from mirrors requests</p>
     </div>
     
 
@@ -209,29 +207,6 @@ and returns a promise which is resolved after its loaded.</p></div>
 
         <tr>
             
-                <td class="name"><code>match</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>match object Returned by routes.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
                 <td class="name"><code>callback</code></td>
             
 
@@ -248,7 +223,53 @@ and returns a promise which is resolved after its loaded.</p></div>
 
             
 
-            <td class="description last"><p>callback is called with html</p></td>
+            <td class="description last"><p>callback is called with server response</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>resolve</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>function to call to resolve update or create's promise</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>reject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>function to call to reject update or create's promise</p></td>
         </tr>
 
 	
@@ -284,8 +305,156 @@ and returns a promise which is resolved after its loaded.</p></div>
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="views.js.html">views.js</a>,
-				 <a href="views.js.html#sunlight-1-line-35">line 35</a>
+				<a href="edit_api.js.html">edit_api.js</a>,
+				 <a href="edit_api.js.html#sunlight-1-line-69">line 69</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The function to be called after update or create requests</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">function</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="create"><span class="type-signature">&lt;static> </span>create<span class="signature">(callback)</span><span class="type-signature"> &rarr; {promise}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Tells mirrors to make a new component and give us a slug for it</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>callback is called with server response</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="edit_api.js.html">edit_api.js</a>,
+				 <a href="edit_api.js.html#sunlight-1-line-20">line 20</a>
 			</li>
 		</ul>
 	</dd>
@@ -338,7 +507,7 @@ and returns a promise which is resolved after its loaded.</p></div>
         
             
 <dt>
-    <h4 class="name" id="display_main_content"><span class="type-signature">&lt;static> </span>display_main_content<span class="signature">(match, callback)</span><span class="type-signature"> &rarr; {promise}</span></h4>
+    <h4 class="name" id="update"><span class="type-signature">&lt;static> </span>update<span class="signature">(callback)</span><span class="type-signature"> &rarr; {promise}</span></h4>
     
     
 </dt>
@@ -346,7 +515,7 @@ and returns a promise which is resolved after its loaded.</p></div>
     
     
     <div class="description">
-        <p>Main view for rendering components.</p>
+        <p>Tells mirrors to update a component's attributes and metadata</p>
     </div>
     
 
@@ -380,29 +549,6 @@ and returns a promise which is resolved after its loaded.</p></div>
 
         <tr>
             
-                <td class="name"><code>match</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>match object Returned by routes.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
                 <td class="name"><code>callback</code></td>
             
 
@@ -419,7 +565,7 @@ and returns a promise which is resolved after its loaded.</p></div>
 
             
 
-            <td class="description last"><p>callback is called with html</p></td>
+            <td class="description last"><p>callback is called with server response</p></td>
         </tr>
 
 	
@@ -455,8 +601,8 @@ and returns a promise which is resolved after its loaded.</p></div>
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="views.js.html">views.js</a>,
-				 <a href="views.js.html#sunlight-1-line-20">line 20</a>
+				<a href="edit_api.js.html">edit_api.js</a>,
+				 <a href="edit_api.js.html#sunlight-1-line-45">line 45</a>
 			</li>
 		</ul>
 	</dd>
