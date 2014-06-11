@@ -3,6 +3,7 @@ var api = require('../js/api');
 var test = require('tape');
 var response = require('./fixtures/article/1.json');
 var utils = require('./utils');
+var should = require('should');
 
 var cleanup = function() {
   if ( typeof(Storage)!=="undefined" ) {
@@ -11,27 +12,23 @@ var cleanup = function() {
 };
 cleanup();
 
-test("test component api", function(t) {
-  t.plan(4);
-  var slug = 'test';
-  var server = utils.mock_component(slug, response);
-
-  var component = new api.Component(slug);
-
-  var callback = function(data) {
-    t.ok(data, 'data is returned');
-    t.equal(data['slug'], slug, 'slug is returned');
-  };
-
-  component.get(callback).then(function() {
-    t.ok( true, 'promise is resolved as expected');
-    t.deepEqual(component.attributes, response.attributes, 'get sets attributes');
-    server.restore();
-    cleanup();
-    t.end();
-  });
+describe("component api", function() {
+  describe("get", function() {
+    it("returns data with slug", function(done) {
+      var slug = 'test';
+      var server = utils.mock_component(slug, response);
+      var callback = function(data) {
+        should.exist(data, 'data is returned');
+        should(data).have.property('slug', slug);
+        done();
+      };
+      var promise = api.component(slug, callback);
+      server.restore();
+      cleanup();
+    });
+  })
 });
-
+/*
 test("test component api's use of localstorage", function(t) {
   t.plan(2);
   var slug = 'localtest';
@@ -71,3 +68,4 @@ test("test component api's check to see if localstorage is stale", function(t) {
   });
 
 });
+*/

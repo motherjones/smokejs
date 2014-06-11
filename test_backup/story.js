@@ -1,5 +1,8 @@
 /*global require */
-
+/*
+ * This code is deprecated
+ * please delete aftre tests are merged.
+ */ 
 var $ = require('jquery');
 var views = require('../js/views');
 var test = require('tape');

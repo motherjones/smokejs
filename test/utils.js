@@ -1,6 +1,7 @@
 /*global require */
 
 var $ = require('jquery');
+var sinon = require('sinon');
 
 //TODO: Rename to component and change utils to 
 //mock
@@ -45,3 +46,4 @@ exports.mock_chunk = function() {
 exports.el = function(html) {
   return $('<div />').html(html);
 };
+

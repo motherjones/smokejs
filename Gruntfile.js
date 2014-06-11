@@ -67,19 +67,11 @@ module.exports = function (grunt) {
       }
     },
     shell: {
-      testling: {
-        command: function (browser) {
-          if (browser === 'undefined') {
-            return 'node_modules/.bin/browserify -t coverify test/all.js | node_modules/.bin/testling | node_modules/.bin/coverify -o ./coverify.log && tail -n3 ./coverify.log || true';
-          } else if (browser === 'url') {
-            return 'node_modules/.bin/browserify -t coverify test/all.js | node_modules/.bin/testling -u';
-          } else {
-            return 'node_modules/.bin/browserify -t coverify test/all.js | node_modules/.bin/testling -x "' + browser + '" | node_modules/.bin/coverify -o ./coverify.log && tail -n3 ./coverify.log || true';
-          }
+      mochify: {
+        command: 'node_modules/.bin/mochify --cover --port 9001',
+        options: {
+          failOnError: false
         }
-      },
-      tail_log: {
-        command: 'tail -n3 ./coverify.log || true'
       }
     },
     jshint: {
@@ -240,7 +232,7 @@ module.exports = function (grunt) {
     'htmlmin'
   ]);
   grunt.registerTask('test', function (browser) {
-    grunt.task.run('dust', 'shell:testling:' + browser, 'shell:tail_log');
+    grunt.task.run('dust', 'shell:mochify');
   });
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('css', [

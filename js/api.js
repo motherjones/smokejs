@@ -4,7 +4,6 @@ var EnvConfig = require('./config');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
 
-
 /**
  * Currently, a component object with a get function
  * @module api
@@ -45,7 +44,12 @@ exports.get = function(callback, pull) {
       EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
       function(error, response, body) {
         if (response.statusText === "OK") {
-          var data = JSON.parse(body);
+          try {
+            data = JSON.parse(data);
+          } catch(e) {
+            EnvConfig.log(e);
+            reject();
+          };
           if ( typeof(Storage)!=="undefined") {
             data.lastUpdated = new Date().getTime();
             localStorage.setItem(self.slug, JSON.stringify(data));
