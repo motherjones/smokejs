@@ -63,4 +63,4 @@ exports.get = function(callback, pull) {
   });
   return promise;
 };
-Component.prototype.get = exports.get;
+exports.Component.prototype.get = exports.get;
