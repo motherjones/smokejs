@@ -15,5 +15,7 @@ exports.log = function(str) {
 // This is not static and shouldn't be caps
 exports.ERROR_HANDLER = function(err) {
   console.log(err);
-  console.log(err.stack);
+  if (err && 'stack' in err) {
+    console.log(err.stack);
+  }
 };

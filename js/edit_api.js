@@ -19,24 +19,19 @@ exports.Component = require('./api').Component;
  */
 exports.create = function(callback) {
   var self = this;
-  console.log('problay goin wrong here');
   var promise = new Promise(function(resolve, reject) {
     var cb = function(data) {
-      console.log('in cb');
       self.slug = data.slug;
-      console.log('set self slug');
       callback(data);
     };
-    console.log('made cb');
-    request({ 
+    request({
       method: 'POST',
       uri: EnvConfig.MIRRORS_URL + 'component/',
-      json: { 
+      json: {
         attributes : self.attributes,
         metadata: self.metadata
       }
     }, self._success(cb, resolve, reject));
-    console.log('request sent off');
   });
   return promise;
 };
@@ -50,7 +45,7 @@ exports.Component.prototype.create = exports.create;
 exports.update = function(callback) {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
-    request({ 
+    request({
       method: 'PATCH',
       uri: EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
       json: {
@@ -73,17 +68,13 @@ exports.Component.prototype.update = exports.update;
  */
 exports._success = function(callback, resolve, reject) {
   return function(err, result, body) {
-    console.log('in success');
     if (result.statusText === "OK") {
-      console.log(body);
       if (typeof(Storage)!=="undefined" ) {
         localStorage.setItem(body.slug, body);
       }
-      callback(body);
       resolve();
     } else {
-      console.log('lol here wat');
-      EnvConfig.ERROR_HANDLER(err); 
+      //EnvConfig.ERROR_HANDLER(err);
       reject();
     }
   };
