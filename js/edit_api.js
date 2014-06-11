@@ -3,19 +3,21 @@
 var EnvConfig = require('./config');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
-var Component = require('./api').Component;
+
 
 /**
  * Add create and update methods to component objects
  * @module edit_api
  */
 
+exports.Component = require('./api').Component;
+
 /**
  * Tells mirrors to make a new component and give us a slug for it
  * @param {function} callback - callback is called with server response
  * @returns {promise} Resolves when complete
  */
-Component.prototype.create = function(callback) {
+exports.create = function(callback) {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
     var cb = function(data) {
@@ -33,13 +35,14 @@ Component.prototype.create = function(callback) {
   });
   return promise;
 };
+exports.Component.prototype.create = exports.create;
 
 /**
  * Tells mirrors to update a component's attributes and metadata
  * @param {function} callback - callback is called with server response
  * @returns {promise} Resolves when complete
  */
-Component.prototype.update = function(callback) {
+exports.update = function(callback) {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
     request({ 
@@ -54,6 +57,7 @@ Component.prototype.update = function(callback) {
   });
   return promise;
 };
+exports.Component.prototype.update = exports.update;
 
 /**
  * Helper function to create the callback from mirrors requests
@@ -62,7 +66,7 @@ Component.prototype.update = function(callback) {
  * @param {function} reject - function to call to reject update or create's promise
  * @returns {function} The function to be called after update or create requests
  */
-Component.prototype._success = function(callback, resolve, reject) {
+exports._success = function(callback, resolve, reject) {
   return function(err, result, body) {
     if (result.statusText === "OK") {
       if (typeof(Storage)!=="undefined" ) {
@@ -76,5 +80,4 @@ Component.prototype._success = function(callback, resolve, reject) {
     }
   };
 };
-
-exports.Component = Component;
+exports.Component.prototype._success = exports._success;
