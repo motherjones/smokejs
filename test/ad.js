@@ -13,14 +13,15 @@ describe("Ads", function() {
     should(Ad).have.property('currentAds');
     done();
   });
+
   it("ads create urls from placement", function(done) {
     var url = Ad.getSrc('it');
-    console.log(window.location.pathname);
     should(url).eql(
       EnvConfig.AD_LOCATION +
         '#placement=it&groupid=&key=&height=0&uri=' +
         window.location.pathname
     );
+    done();
   });
   it("ads are creatable and render", function(done) {
       var dustBase = render.dustBase();
@@ -32,8 +33,9 @@ describe("Ads", function() {
           var iframeSrc = EnvConfig.AD_LOCATION +
                 '#placement=it&groupid=&key=&height=0&uri=' +
                 window.location.pathname;
-          should(el.attr('src'))
-            .eql(iframeSrc, 'ad iframe html rendered correctly');
+          var elSrc = el.attr('src');
+          should(elSrc)
+            .eql(iframeSrc);
           Ad.currentAds.should.have.property('it');
           done();
         });
@@ -50,7 +52,8 @@ describe("Ads", function() {
             should($('#ad_it')).be.ok;
             Ad.reload('it keyword');
             should(Ad.key).not.be.empty;
-            should(Ad.groupId).eq('it keyword');
+            should(Ad.key).eql('it keyword');
+            Ad.groupId.should.be.a.Number;
             should($('#ad_it').attr('src')).eql(
               EnvConfig.AD_LOCATION +
                 '#placement=it&groupid=' +
