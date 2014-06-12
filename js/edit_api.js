@@ -72,6 +72,7 @@ exports._success = function(callback, resolve, reject) {
       if (typeof(Storage)!=="undefined" ) {
         localStorage.setItem(body.slug, body);
       }
+      callback(body);
       resolve();
     } else {
       EnvConfig.ERROR_HANDLER(err);

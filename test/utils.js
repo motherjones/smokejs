@@ -12,7 +12,6 @@ exports.mock_component = function(slug, json, data) {
     { "Content-Type": "application/json" },
     JSON.stringify(json)
   ]);
-  /*
   server.respondWith('POST', '/mirrors/component/', [200,
     { "Content-Type": "application/json" },
     JSON.stringify(json)
@@ -21,7 +20,6 @@ exports.mock_component = function(slug, json, data) {
     { "Content-Type": "application/json" },
     JSON.stringify(json)
   ]);
-  */
   if(data) {
     server.respondWith('GET', '/mirrors/component/'+slug+'/data', [200,
       { "Content-Type": data['content-type'] },
