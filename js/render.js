@@ -59,7 +59,6 @@ exports.dustBase = function() {
     markdown:  function(chunk, context, bodies, params) {
       return chunk.map(function(chunk) {
             chunk.end('we need to fix the fixture server');
-            console.log(Markdown, chunk, context, bodies, params);
         /*
         api.component(params.data_uri, function(data) {
           var html = Markdown.toHTML(data);
