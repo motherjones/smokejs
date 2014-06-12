@@ -19,20 +19,18 @@ describe("Views", function() {
       );
       server.restore();
     }).then(function() {
-      should(true).ok();
       done();
     })
   });
-  it( "should display the homepage", function(t) {
+  it( "should display the homepage", function(done) {
     var match = match_mock;
     var server = utils.mock_component('homepage', response_homepage);
-    var promise = views.display_homepage(function(data, html) {
+    views.display_homepage(function(data, html) {
       should( data.metadata.title ).eql( "Mother Jones Home Page",
         'display homepage has a callback which provides the data of the object loaded'
       );
       server.restore();
-    });
-    promise.then(function() {
+    }).then(function() {
       done();
     });
   });
