@@ -24,10 +24,10 @@ exports.create = function(callback) {
       self.slug = data.slug;
       callback(data);
     };
-    request({ 
+    request({
       method: 'POST',
       uri: EnvConfig.MIRRORS_URL + 'component/',
-      json: { 
+      json: {
         attributes : self.attributes,
         metadata: self.metadata
       }
@@ -45,7 +45,7 @@ exports.Component.prototype.create = exports.create;
 exports.update = function(callback) {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
-    request({ 
+    request({
       method: 'PATCH',
       uri: EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
       json: {
@@ -75,7 +75,7 @@ exports._success = function(callback, resolve, reject) {
       callback(body);
       resolve();
     } else {
-      EnvConfig.ERROR_HANDLER(err); 
+      EnvConfig.ERROR_HANDLER(err);
       reject();
     }
   };

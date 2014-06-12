@@ -1,6 +1,7 @@
 /*global require */
 
 var $ = require('jquery');
+var helper = require('./helper');
 var sinon = require('sinon');
 
 //TODO: Rename to component and change utils to 
@@ -26,6 +27,7 @@ exports.mock_component = function(slug, json, data) {
     ]);
   }
   server.autoRespond = true;
+  server.autoRespondAfter = 1;
   return server;
 };
 

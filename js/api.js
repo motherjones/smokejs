@@ -45,7 +45,7 @@ exports.get = function(callback, pull) {
       function(error, response, body) {
         if (response.statusText === "OK") {
           try {
-            data = JSON.parse(data);
+            data = JSON.parse(body);
           } catch(e) {
             EnvConfig.log(e);
             reject();
