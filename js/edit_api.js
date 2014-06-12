@@ -74,7 +74,7 @@ exports._success = function(callback, resolve, reject) {
       }
       resolve();
     } else {
-      //EnvConfig.ERROR_HANDLER(err);
+      EnvConfig.ERROR_HANDLER(err);
       reject();
     }
   };

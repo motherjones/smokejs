@@ -7,9 +7,8 @@ describe("edit component api", function() {
   describe("post", function(done) {
     it("makes post requests at mirrors", function(done) {
       var slug = 'testslug';
-      var server = utils.mock_component('', {"slug" : slug});
+      var server = utils.mock_component('test', {"slug" : slug});
       var callback = function(data) {
-        console.log('done');
         server.restore();
         data.should.have.property('slug', slug);
       };
