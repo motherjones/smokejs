@@ -43,7 +43,10 @@ exports.mock_chunk = function() {
   };
 };
 
-exports.el = function(html) {
-  return $('<div />').html(html);
+exports.div = function(html) {
+  return $('<div></div>').html(html);
 };
 
+exports.el = function(html) {
+  return $(html);
+};
