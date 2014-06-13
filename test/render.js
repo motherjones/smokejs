@@ -59,10 +59,7 @@ describe("Render", function() {
       });
   });
 
-
-  /* server is still wonky
   it( "can load from mirrors from dust templates", function(done) {
-    t.plan(3);
     var dustBase = render.dustBase();
     var slug = 'peter';
     var server = utils.mock_component(slug, peter);
@@ -86,6 +83,7 @@ describe("Render", function() {
     });
   });
 
+  /* server is still wonky
   it( "can load from dust templates without a template specified", function(done) {
     var dustBase = render.dustBase();
     var slug = 'peter';
