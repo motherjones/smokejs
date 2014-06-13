@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DocStrap Source: api.js</title>
+	<title>DocStrap Class: Component</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -94,93 +94,352 @@
 	<div class="row-fluid">
 
 		
-			<div class="span12">
-				
+		<div class="span8">
+			
 				<div id="main">
 					
 
 
-		<h1 class="page-title">Source: api.js</h1>
-    
+	<h1 class="page-title">Class: Component</h1>
 <section>
-	<article>
-		<pre
-			class="sunlight-highlight-javascript linenums">/* global localStorage */
-'use strict';
-var EnvConfig = require('./config');
-var request = require('browser-request');
-var Promise = require('promise-polyfill');
 
-/**
- * Currently, a component object with a get function
- * @module api
- */
+<header>
+    <h2>
+        <span class="ancestors"><a href="module-api.html">api</a>.</span>
+    
+    Component
+    </h2>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+<dt>
+    <h4 class="name" id="Component"><span class="type-signature"></span>new Component<span class="signature">(slug)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Component constructor</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>slug</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
-/**
- * Component constructor
- * @class
- * @constructor
- * @param {string} slug the id of the componet
- */
-exports.Component = function(slug) {
-  this.slug = slug;
-};
+            
+            </td>
 
-/**
- * Checks localstorage for the component's data, calls out to mirrors if
- * localstorage doesn't have it or is stale
- * @function
- * @param {function} callback - callback is called with the component's data
- * @param {boolean} pull - don't check local storage, pull from mirrors
- * @returns {promise} Resolves when complete
- */
-exports.Component.prototype.get = function(callback, pull) {
-  var self = this;
-  var promise = new Promise(function(resolve, reject) {
-    if (!pull && typeof(Storage)!=="undefined" && 
-        localStorage.getItem(self.slug) &&
-        localStorage.getItem(self.slug) !== '[object Object]'
-      ) {
-      var data = JSON.parse(localStorage.getItem(self.slug)); 
-      var millisecondsPerHour = 3600000;
-      if ( data.lastUpdated + (millisecondsPerHour * 3) > new Date().getTime()) {
-        callback(data);
-        resolve();
-        return;
-      }
-    }
-    request(
-      EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
-      function(error, response, body) {
-        if (response.statusText === "OK") {
-          try {
-            data = JSON.parse(body);
-          } catch(e) {
-            EnvConfig.log(e);
-            reject();
-          };
-          if ( typeof(Storage)!=="undefined") {
-            data.lastUpdated = new Date().getTime();
-            localStorage.setItem(self.slug, JSON.stringify(data));
-          }
-          self.attributes = data.attributes;
-          self.metadata = data.metadata;
-          callback(data);
-          resolve();
-        } else {
-          EnvConfig.ERROR_HANDLER(error); 
-          reject();
-        }
-      }
-    );
-  });
-  return promise;
-};
-</pre>
-	</article>
+            
+
+            
+
+            <td class="description last"><p>the id of the componet</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="api.js.html">api.js</a>,
+				 <a href="api.js.html#sunlight-1-line-19">line 19</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(callback, pull)</span><span class="type-signature"> &rarr; {promise}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Checks localstorage for the component's data, calls out to mirrors if
+localstorage doesn't have it or is stale</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>callback is called with the component's data</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>pull</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>don't check local storage, pull from mirrors</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="api.js.html">api.js</a>,
+				 <a href="api.js.html#sunlight-1-line-31">line 31</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>Resolves when complete</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">promise</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
 </section>
-
 
 
 
@@ -204,6 +463,10 @@ exports.Component.prototype.get = function(callback, pull) {
 				</footer>
 			</div>
 
+			
+			<div class="span3">
+				<div id="toc"></div>
+			</div>
 			
 			<br clear="both">
 		</div>

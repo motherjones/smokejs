@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DocStrap Source: api.js</title>
+	<title>DocStrap Classes</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -94,93 +94,95 @@
 	<div class="row-fluid">
 
 		
-			<div class="span12">
-				
+		<div class="span8">
+			
 				<div id="main">
 					
 
 
-		<h1 class="page-title">Source: api.js</h1>
-    
+	<h1 class="page-title">Classes</h1>
 <section>
-	<article>
-		<pre
-			class="sunlight-highlight-javascript linenums">/* global localStorage */
-'use strict';
-var EnvConfig = require('./config');
-var request = require('browser-request');
-var Promise = require('promise-polyfill');
 
-/**
- * Currently, a component object with a get function
- * @module api
- */
+<header>
+    <h2>
+    
+    </h2>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+
+        
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
 
 
-/**
- * Component constructor
- * @class
- * @constructor
- * @param {string} slug the id of the componet
- */
-exports.Component = function(slug) {
-  this.slug = slug;
-};
 
-/**
- * Checks localstorage for the component's data, calls out to mirrors if
- * localstorage doesn't have it or is stale
- * @function
- * @param {function} callback - callback is called with the component's data
- * @param {boolean} pull - don't check local storage, pull from mirrors
- * @returns {promise} Resolves when complete
- */
-exports.Component.prototype.get = function(callback, pull) {
-  var self = this;
-  var promise = new Promise(function(resolve, reject) {
-    if (!pull && typeof(Storage)!=="undefined" && 
-        localStorage.getItem(self.slug) &&
-        localStorage.getItem(self.slug) !== '[object Object]'
-      ) {
-      var data = JSON.parse(localStorage.getItem(self.slug)); 
-      var millisecondsPerHour = 3600000;
-      if ( data.lastUpdated + (millisecondsPerHour * 3) > new Date().getTime()) {
-        callback(data);
-        resolve();
-        return;
-      }
-    }
-    request(
-      EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
-      function(error, response, body) {
-        if (response.statusText === "OK") {
-          try {
-            data = JSON.parse(body);
-          } catch(e) {
-            EnvConfig.log(e);
-            reject();
-          };
-          if ( typeof(Storage)!=="undefined") {
-            data.lastUpdated = new Date().getTime();
-            localStorage.setItem(self.slug, JSON.stringify(data));
-          }
-          self.attributes = data.attributes;
-          self.metadata = data.metadata;
-          callback(data);
-          resolve();
-        } else {
-          EnvConfig.ERROR_HANDLER(error); 
-          reject();
-        }
-      }
-    );
-  });
-  return promise;
-};
-</pre>
-	</article>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="module-api.Component.html">Component</a></dt>
+            <dd></dd>
+        
+            <dt><a href="module-edit_api.Component.html">Component</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
 </section>
-
 
 
 
@@ -204,6 +206,10 @@ exports.Component.prototype.get = function(callback, pull) {
 				</footer>
 			</div>
 
+			
+			<div class="span3">
+				<div id="toc"></div>
+			</div>
 			
 			<br clear="both">
 		</div>

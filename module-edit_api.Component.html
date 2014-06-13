@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DocStrap Module: markdown</title>
+	<title>DocStrap Class: Component</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -100,12 +100,14 @@
 					
 
 
-	<h1 class="page-title">Module: markdown</h1>
+	<h1 class="page-title">Class: Component</h1>
 <section>
 
 <header>
     <h2>
-    markdown
+        <span class="ancestors"><a href="module-edit_api.html">edit_api</a>.</span>
+    
+    Component
     </h2>
     
 </header>
@@ -116,85 +118,21 @@
 
     
         
-            <div class="description"><p>Sets up modifications to marked and sets them up to be called.</p></div>
-        
-
-        
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="markdown.js.html">markdown.js</a>,
-				 <a href="markdown.js.html#sunlight-1-line-5">line 5</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        <dl>
-            
 <dt>
-    <h4 class="name" id="renderer"><span class="type-signature">&lt;static> </span>renderer<span class="type-signature"></span></h4>
+    <h4 class="name" id="Component"><span class="type-signature"></span>new Component<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
 </dt>
 <dd>
     
-    <div class="description">
-        <p>Use the markdown.renderer when modifying how markdown renders
-see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https://github.com/chjj/marked#overriding-renderer-methods</a></p>
-    </div>
-    
-    
     
 
+    
+    
+    
+    
+    
+    
     
 <dl class="details">
 	
@@ -222,8 +160,8 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="markdown.js.html">markdown.js</a>,
-				 <a href="markdown.js.html#sunlight-1-line-14">line 14</a>
+				<a href="edit_api.js.html">edit_api.js</a>,
+				 <a href="edit_api.js.html#sunlight-1-line-16">line 16</a>
 			</li>
 		</ul>
 	</dd>
@@ -238,9 +176,31 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 
     
     
+
+    
+
+    
+    
+    
+    
+    
+    
+    
 </dd>
 
-        </dl>
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
     
 
     
@@ -249,7 +209,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
         <dl>
             
 <dt>
-    <h4 class="name" id="lexer"><span class="type-signature">&lt;static> </span>lexer<span class="signature">(markdown)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="_success"><span class="type-signature"></span>_success<span class="signature">(callback, resolve, reject)</span><span class="type-signature"> &rarr; {function}</span></h4>
     
     
 </dt>
@@ -257,7 +217,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
     
     
     <div class="description">
-        <p>Provides lexer access to marked with local modifications.</p>
+        <p>Helper function to create the callback from mirrors requests</p>
     </div>
     
 
@@ -291,13 +251,13 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 
         <tr>
             
-                <td class="name"><code>markdown</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">function</span>
 
 
             
@@ -307,7 +267,53 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 
             
 
-            <td class="description last"><p>Markdown string</p></td>
+            <td class="description last"><p>callback is called with server response</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>resolve</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>function to call to resolve update or create's promise</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>reject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>function to call to reject update or create's promise</p></td>
         </tr>
 
 	
@@ -343,8 +349,8 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="markdown.js.html">markdown.js</a>,
-				 <a href="markdown.js.html#sunlight-1-line-45">line 45</a>
+				<a href="edit_api.js.html">edit_api.js</a>,
+				 <a href="edit_api.js.html#sunlight-1-line-70">line 70</a>
 			</li>
 		</ul>
 	</dd>
@@ -371,7 +377,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
     
             
 <div class="param-desc">
-    <p>lexer -  List of tokens.</p>
+    <p>The function to be called after update or create requests</p>
 </div>
 
 
@@ -382,7 +388,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 	</dt>
 	<dd>
 		
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
 	</dd>
@@ -397,7 +403,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
         
             
 <dt>
-    <h4 class="name" id="parser"><span class="type-signature">&lt;static> </span>parser<span class="signature">(tokens)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="create"><span class="type-signature"></span>create<span class="signature">(callback)</span><span class="type-signature"> &rarr; {promise}</span></h4>
     
     
 </dt>
@@ -405,7 +411,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
     
     
     <div class="description">
-        <p>Coverts tokens to html using local modifications.</p>
+        <p>Tells mirrors to make a new component and give us a slug for it</p>
     </div>
     
 
@@ -439,13 +445,13 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 
         <tr>
             
-                <td class="name"><code>tokens</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -455,7 +461,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 
             
 
-            <td class="description last"><p>List of tokens from lexer.</p></td>
+            <td class="description last"><p>callback is called with server response</p></td>
         </tr>
 
 	
@@ -491,8 +497,8 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="markdown.js.html">markdown.js</a>,
-				 <a href="markdown.js.html#sunlight-1-line-63">line 63</a>
+				<a href="edit_api.js.html">edit_api.js</a>,
+				 <a href="edit_api.js.html#sunlight-1-line-23">line 23</a>
 			</li>
 		</ul>
 	</dd>
@@ -519,7 +525,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
     
             
 <div class="param-desc">
-    <p>html - Html built from tokens.</p>
+    <p>Resolves when complete</p>
 </div>
 
 
@@ -530,7 +536,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 	</dt>
 	<dd>
 		
-<span class="param-type">string</span>
+<span class="param-type">promise</span>
 
 
 	</dd>
@@ -545,7 +551,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
         
             
 <dt>
-    <h4 class="name" id="toHTML"><span class="type-signature">&lt;static> </span>toHTML<span class="signature">(markdown)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">(callback)</span><span class="type-signature"> &rarr; {promise}</span></h4>
     
     
 </dt>
@@ -553,7 +559,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
     
     
     <div class="description">
-        <p>Converts markdown to html using local modifications.</p>
+        <p>Tells mirrors to update a component's attributes and metadata</p>
     </div>
     
 
@@ -587,13 +593,13 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 
         <tr>
             
-                <td class="name"><code>markdown</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">function</span>
 
 
             
@@ -603,7 +609,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 
             
 
-            <td class="description last"><p>Markdown string</p></td>
+            <td class="description last"><p>callback is called with server response</p></td>
         </tr>
 
 	
@@ -639,8 +645,8 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="markdown.js.html">markdown.js</a>,
-				 <a href="markdown.js.html#sunlight-1-line-55">line 55</a>
+				<a href="edit_api.js.html">edit_api.js</a>,
+				 <a href="edit_api.js.html#sunlight-1-line-47">line 47</a>
 			</li>
 		</ul>
 	</dd>
@@ -667,7 +673,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
     
             
 <div class="param-desc">
-    <p>html - Html string</p>
+    <p>Resolves when complete</p>
 </div>
 
 
@@ -678,7 +684,7 @@ see <a href="https://github.com/chjj/marked#overriding-renderer-methods">https:/
 	</dt>
 	<dd>
 		
-<span class="param-type">string</span>
+<span class="param-type">promise</span>
 
 
 	</dd>
