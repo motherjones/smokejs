@@ -9,8 +9,11 @@ var Promise = require('promise-polyfill');
  * @module api
  */
 
+
 /**
  * Component constructor
+ * @class
+ * @constructor
  * @param {string} slug the id of the componet
  */
 exports.Component = function(slug) {
@@ -18,14 +21,14 @@ exports.Component = function(slug) {
 };
 
 /**
- * Checks localstorage for the component's data, calls out to mirrors if 
+ * Checks localstorage for the component's data, calls out to mirrors if
  * localstorage doesn't have it or is stale
  * @function
  * @param {function} callback - callback is called with the component's data
  * @param {boolean} pull - don't check local storage, pull from mirrors
  * @returns {promise} Resolves when complete
  */
-exports.get = function(callback, pull) {
+exports.Component.prototype.get = function(callback, pull) {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
     if (!pull && typeof(Storage)!=="undefined" && 
@@ -67,4 +70,3 @@ exports.get = function(callback, pull) {
   });
   return promise;
 };
-exports.Component.prototype.get = exports.get;

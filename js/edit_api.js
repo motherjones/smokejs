@@ -10,6 +10,9 @@ var Promise = require('promise-polyfill');
  * @module edit_api
  */
 
+/**
+ * @class
+ */
 exports.Component = require('./api').Component;
 
 /**
@@ -17,7 +20,7 @@ exports.Component = require('./api').Component;
  * @param {function} callback - callback is called with server response
  * @returns {promise} Resolves when complete
  */
-exports.create = function(callback) {
+exports.Component.prototype.create = function(callback) {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
     var cb = function(data) {
@@ -35,14 +38,13 @@ exports.create = function(callback) {
   });
   return promise;
 };
-exports.Component.prototype.create = exports.create;
 
 /**
  * Tells mirrors to update a component's attributes and metadata
  * @param {function} callback - callback is called with server response
  * @returns {promise} Resolves when complete
  */
-exports.update = function(callback) {
+exports.Component.prototype.update = function(callback) {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
     request({
@@ -57,7 +59,6 @@ exports.update = function(callback) {
   });
   return promise;
 };
-exports.Component.prototype.update = exports.update;
 
 /**
  * Helper function to create the callback from mirrors requests
@@ -66,7 +67,7 @@ exports.Component.prototype.update = exports.update;
  * @param {function} reject - function to call to reject update or create's promise
  * @returns {function} The function to be called after update or create requests
  */
-exports._success = function(callback, resolve, reject) {
+exports.Component.prototype._success = function(callback, resolve, reject) {
   return function(err, result, body) {
     if (result.statusText === "OK") {
       if (typeof(Storage)!=="undefined" ) {
@@ -80,4 +81,3 @@ exports._success = function(callback, resolve, reject) {
     }
   };
 };
-exports.Component.prototype._success = exports._success;
