@@ -68,7 +68,7 @@ describe("Render", function() {
       slug: slug,
       template: 'byline'
     }).then(function() {
-      var el = utils.el(chunk.output);
+      var el = utils.div(chunk.output);
       should(el.find('li').length).eql(1,
         'dust load pulling a byline gives us a single list item'
       );
@@ -83,7 +83,6 @@ describe("Render", function() {
     });
   });
 
-  /* server is still wonky
   it( "can load from dust templates without a template specified", function(done) {
     var dustBase = render.dustBase();
     var slug = 'peter';
@@ -93,8 +92,9 @@ describe("Render", function() {
       slug: slug
     })
     .then(function() {
-      var el = utils.el(chunk.output);
-      should( el.find('div.author') ).not.be.empty;
+      var el = utils.div(chunk.output);
+      console.log(chunk.output);
+      should( el.find('div.author').html() ).not.be.empty;
       should( el.find('h1').html() ).eql('Peter Pan',
         'load w/o a template loads an author, which has an h1 w/ authorname'
       );
@@ -116,13 +116,14 @@ describe("Render", function() {
       { data_uri: 'content/peter-pan/data' }
       )
       .then(function() {
+        console.log(chunk.output);
         should( chunk.output ).eql( '<h1>#Test</h1>',
-          'markdown loads'
+          'expected <h1>#Test</h1>, got ' + chunk.output
         );
       server.restore();
+      done();
     });
   });
-  */
 
   it( "can render subtemplates without loading", function(done) {
     var dustBase = render.dustBase();
