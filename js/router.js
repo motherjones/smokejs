@@ -70,8 +70,8 @@ module.exports.browserStart = exports.browserStart;
    */
 exports.browserClick = function(e) {
   e.preventDefault();
+  var path = $(this).attr("href").replace('#', '');
   var promise = new Promise(function(resolve, reject) {
-    var path = $(this).attr("href").replace('#', '');
     module.exports.pop(path);
     history.pushState(0, 0, path);
     resolve();

@@ -60,6 +60,7 @@ describe("router callbacks", function() {
     var uri = "/loltest";
     router.addRoute(uri, function() {});
     var fakelink = $('<a href="#/loltest"></a>').click(router.browserClick);
+    $('body').append(fakelink);
     var promise = fakelink.click();
     var oldLocation = location.pathname;
     $.when(promise).done(function() {
@@ -78,7 +79,6 @@ describe("browserStart", function() {
     };
     router.pop = function() {
       var promise = new $.Deferred();
-      //FIXME running this pop should happen where we decide we're in a browser
       promise.resolve();
       return promise;
     };
@@ -86,8 +86,7 @@ describe("browserStart", function() {
     should(router.browserCallback).eql(
       router.callback, 'sets router.callback to browserCallback');
     var fakelink = $('<a href="#/loltest" id="fakelink"></a>');
-    var body = $('body');
-    body.append(fakelink);
+    $('body').append(fakelink);
     $('#fakelink').click();
   });
 });
