@@ -13,7 +13,6 @@ var Promise = require('promise-polyfill');
 /**
  * Component constructor
  * @class
- * @constructor
  * @param {string} slug the id of the componet
  */
 exports.Component = function(slug) {
