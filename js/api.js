@@ -23,9 +23,9 @@ exports.Component = function(slug) {
  * Checks localstorage for the component's data, calls out to mirrors if
  * localstorage doesn't have it or is stale
  * @function
- * @param {function} callback - callback is called with the component's data
+ * @param {function} callback - is called after the GET request for the component completes with the JSON as the first argument
  * @param {boolean} pull - don't check local storage, pull from mirrors
- * @returns {promise} Resolves when complete
+ * @returns {promise} resolves after the callback is complete, fails on error
  */
 exports.Component.prototype.get = function(callback, pull) {
   var self = this;
