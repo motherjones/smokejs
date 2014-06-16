@@ -1,7 +1,6 @@
 /*global require */
 
 var $ = require('jquery');
-var helper = require('./helper');
 var sinon = require('sinon');
 
 //TODO: Rename to component and change utils to 

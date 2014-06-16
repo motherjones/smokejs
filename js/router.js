@@ -36,7 +36,7 @@ exports.pop = function(path) {
   }
   return returned;
 };
-module.exports.pop = exports.pop
+module.exports.pop = exports.pop;
 
   /**
    * Overwrite DEPENDING ON IF I'M IN A BROWSER OR NOT
@@ -71,7 +71,7 @@ module.exports.browserStart = exports.browserStart;
 exports.browserClick = function(e) {
   e.preventDefault();
   var path = $(this).attr("href").replace('#', '');
-  var promise = new Promise(function(resolve, reject) {
+  var promise = new Promise(function(resolve) {
     module.exports.pop(path);
     history.pushState(0, 0, path);
     resolve();

@@ -11,9 +11,16 @@
   "boss": true,
   "eqnull": true,
   "browser": true,
+  "expr": true,
   "predef": [
     "console",
     "require",
+    "describe",
+    "beforeEach",
+    "before",
+    "afterEach",
+    "after",
+    "it",
     "exports"
   ]
 }

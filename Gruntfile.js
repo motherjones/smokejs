@@ -231,7 +231,7 @@ module.exports = function (grunt) {
     'cssmin',
     'htmlmin'
   ]);
-  grunt.registerTask('test', function (browser) {
+  grunt.registerTask('test', function () {
     grunt.task.run('dust', 'shell:mochify');
   });
   grunt.registerTask('lint', ['jshint']);

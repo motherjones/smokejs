@@ -1,5 +1,3 @@
-var sinon = require('sinon');
-
 beforeEach(function(done) {
   localStorage.clear();
   done();

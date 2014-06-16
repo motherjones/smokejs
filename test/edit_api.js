@@ -4,7 +4,7 @@ var test_data = require('./fixtures/article/1.json');
 var utils = require('./utils');
 
 describe("edit component api", function() {
-  describe("post", function(done) {
+  describe("post", function() {
     it("makes post requests at mirrors", function(done) {
       var slug = 'testslug';
       var server = utils.mock_component('test', {"slug" : slug});
@@ -21,7 +21,7 @@ describe("edit component api", function() {
     });
   });
 
-  describe("patch", function(done) {
+  describe("patch", function() {
     it("makes patch requests at mirrors", function(done) {
       var slug = 'testslug';
       var server = utils.mock_component(slug, test_data);

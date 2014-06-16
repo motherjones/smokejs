@@ -52,7 +52,7 @@ exports.Component.prototype.get = function(callback, pull) {
           } catch(e) {
             EnvConfig.log(e);
             reject();
-          };
+          }
           if ( typeof(Storage)!=="undefined") {
             data.lastUpdated = new Date().getTime();
             localStorage.setItem(self.slug, JSON.stringify(data));

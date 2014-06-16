@@ -3,7 +3,7 @@
 var Dust = require('../build/js/dust_templates')();
 var api = require('./api');
 var EnvConfig = require('./config');
-var Markdown = require('./markdown');
+//var Markdown = require('./markdown');
 var Ad = require('./ad');
 var Promise = require('promise-polyfill');
 
@@ -57,6 +57,7 @@ exports.dustBase = function() {
       });
     },
     markdown:  function(chunk, context, bodies, params) {
+      console.log(params, bodies, context);
       return chunk.map(function(chunk) {
             chunk.end('we need to fix the fixture server');
         /*

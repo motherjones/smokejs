@@ -1,5 +1,4 @@
 /*global require */
-var test = require('tape');
 var router = require('../js/router');
 var $ = require('jquery');
 var Ad = require('../js/ad');
@@ -62,7 +61,6 @@ describe("router callbacks", function() {
     var fakelink = $('<a href="#/loltest"></a>').click(router.browserClick);
     $('body').append(fakelink);
     var promise = fakelink.click();
-    var oldLocation = location.pathname;
     $.when(promise).done(function() {
       should(current_history_length + 1).eql(history.length);
       uri.should.eql(location.pathname);

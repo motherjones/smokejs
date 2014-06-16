@@ -1,6 +1,5 @@
 /*global require */
 var api = require('../js/api');
-var test = require('tape');
 var response = require('./fixtures/article/1.json');
 var utils = require('./utils');
 var should = require('should');
@@ -24,13 +23,13 @@ describe("component api", function() {
     });
     it("get returns data from localstorage", function(done) {
       var slug = 'localtest';
-      var localResponse = '{"string" : "test local data", '
-        + '"lastUpdated" : ' + new Date().getTime() + ' }';
+      var localResponse = '{"string" : "test local data", ' +
+        '"lastUpdated" : ' + new Date().getTime() + ' }';
       localStorage.setItem(slug, localResponse);
 
       var testResponse = JSON.parse(localResponse);
 
-      var component = new api.Component(slug)
+      var component = new api.Component(slug);
       component.get(function(response) {
         response.should.have.property('string', testResponse.string);
       }).then(function() {
@@ -52,5 +51,5 @@ describe("component api", function() {
         done();
       });
     });
-  })
+  });
 });

@@ -2,7 +2,6 @@
 'use strict';
 var api = require('./api');
 var render = require('./render');
-var Promise = require('promise-polyfill');
 
 /**
  * Include views to be called by the router here each should

@@ -1,5 +1,4 @@
 var render = require('../js/render');
-var $ = require('jquery');
 var Chunk = require('./utils').mock_chunk;
 var Ad = require('../js/ad');
 var utils = require('./utils');
@@ -144,8 +143,8 @@ describe("Render", function() {
     .then(function() {
       var el = utils.div(chunk.output);
       should(el.find('li').length).eql( 1,
-        'expected 1, got' + el.find('li').length + ' which may be a problem. thml out was'
-        + chunk.output
+        'expected 1, got' + el.find('li').length + ' which may be a problem. thml out was' +
+        chunk.output
       );
       should(el.find('a').attr('href')).eql('#/author/peter-pan',
         'dust renders a byline gives us a link to the author page of the author passed in'
