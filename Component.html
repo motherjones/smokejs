@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DocStrap Global</title>
+	<title>DocStrap Class: Component</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -32,15 +32,15 @@
 						</li>
 						
 						<li>
-							<a href="module-edit_api.html">edit_api</a>
-						</li>
-						
-						<li>
 							<a href="module-main.html">main</a>
 						</li>
 						
 						<li>
 							<a href="module-markdown.html">markdown</a>
+						</li>
+						
+						<li>
+							<a href="module-router.html">router</a>
 						</li>
 						
 						<li>
@@ -58,45 +58,11 @@
 					<ul class="dropdown-menu ">
 						
 						<li>
+							<a href="Component.html">Component</a>
+						</li>
+						
+						<li>
 							<a href="module-api.Component.html">Component</a>
-						</li>
-						
-						<li>
-							<a href="module-edit_api.Component.html">Component</a>
-						</li>
-						
-						<li>
-							<a href="router.html">router</a>
-						</li>
-						
-
-					</ul>
-				</li>
-				
-				<li class="dropdown">
-					<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b
-						class="caret"></b></a>
-
-					<ul class="dropdown-menu ">
-						
-						<li>
-							<a href="global.html#browserCallback">browserCallback</a>
-						</li>
-						
-						<li>
-							<a href="global.html#browserClick">browserClick</a>
-						</li>
-						
-						<li>
-							<a href="global.html#browserStart">browserStart</a>
-						</li>
-						
-						<li>
-							<a href="global.html#callback">callback</a>
-						</li>
-						
-						<li>
-							<a href="global.html#pop">pop</a>
 						</li>
 						
 
@@ -116,12 +82,12 @@
 					
 
 
-	<h1 class="page-title">Global</h1>
+	<h1 class="page-title">Class: Component</h1>
 <section>
 
 <header>
     <h2>
-    
+    Component
     </h2>
     
 </header>
@@ -132,149 +98,19 @@
 
     
         
-
-        
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        <dl>
-            
 <dt>
-    <h4 class="name" id="browserCallback"><span class="type-signature"></span>browserCallback<span class="signature">(object, string)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Component"><span class="type-signature"></span>new Component<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
 </dt>
 <dd>
     
     
-    <div class="description">
-        <p>Method called after the page html has been constructed</p>
-    </div>
-    
 
     
     
     
     
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>object</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">data</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the page data</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>string</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">html</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the rendered page html</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
     
     
     
@@ -304,8 +140,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="router.js.html">router.js</a>,
-				 <a href="router.js.html#sunlight-1-line-88">line 88</a>
+				<a href="edit_api.js.html">edit_api.js</a>,
+				 <a href="edit_api.js.html#sunlight-1-line-11">line 11</a>
 			</li>
 		</ul>
 	</dd>
@@ -332,10 +168,28 @@
     
 </dd>
 
-        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
             
 <dt>
-    <h4 class="name" id="browserClick"><span class="type-signature"></span>browserClick<span class="signature">(e)</span><span class="type-signature"> &rarr; {promise}</span></h4>
+    <h4 class="name" id="_success"><span class="type-signature"></span>_success<span class="signature">(callback, resolve, reject)</span><span class="type-signature"> &rarr; {function}</span></h4>
     
     
 </dt>
@@ -343,7 +197,7 @@
     
     
     <div class="description">
-        <p>Handles the hyperlink click events for browsers</p>
+        <p>Helper function to create the callback from mirrors requests</p>
     </div>
     
 
@@ -377,13 +231,13 @@
 
         <tr>
             
-                <td class="name"><code>e</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">event</span>
+<span class="param-type">function</span>
 
 
             
@@ -393,7 +247,53 @@
 
             
 
-            <td class="description last"><p>The click event</p></td>
+            <td class="description last"><p>callback is called with server response</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>resolve</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>function to call to resolve update or create's promise</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>reject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>function to call to reject update or create's promise</p></td>
         </tr>
 
 	
@@ -429,8 +329,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="router.js.html">router.js</a>,
-				 <a href="router.js.html#sunlight-1-line-70">line 70</a>
+				<a href="edit_api.js.html">edit_api.js</a>,
+				 <a href="edit_api.js.html#sunlight-1-line-65">line 65</a>
 			</li>
 		</ul>
 	</dd>
@@ -457,7 +357,155 @@
     
             
 <div class="param-desc">
-    <p>Promise resolved after history push</p>
+    <p>The function to be called after update or create requests</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">function</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="create"><span class="type-signature"></span>create<span class="signature">(callback)</span><span class="type-signature"> &rarr; {promise}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Tells mirrors to make a new component and give us a slug for it</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>callback is called with server response</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="edit_api.js.html">edit_api.js</a>,
+				 <a href="edit_api.js.html#sunlight-1-line-18">line 18</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>Resolves when complete</p>
 </div>
 
 
@@ -483,7 +531,7 @@
         
             
 <dt>
-    <h4 class="name" id="browserStart"><span class="type-signature"></span>browserStart<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">(callback)</span><span class="type-signature"> &rarr; {promise}</span></h4>
     
     
 </dt>
@@ -491,83 +539,7 @@
     
     
     <div class="description">
-        <p>Set up click and callback events for the browser</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="router.js.html">router.js</a>,
-				 <a href="router.js.html#sunlight-1-line-56">line 56</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="callback"><span class="type-signature"></span>callback<span class="signature">(data, html)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Overwrite DEPENDING ON IF I'M IN A BROWSER OR NOT</p>
+        <p>Tells mirrors to update a component's attributes and metadata</p>
     </div>
     
 
@@ -601,13 +573,13 @@
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -617,30 +589,7 @@
 
             
 
-            <td class="description last"><p>Data returned mostly for testing.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>html</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>HTML to be inserted in DOM/string.</p></td>
+            <td class="description last"><p>callback is called with server response</p></td>
         </tr>
 
 	
@@ -676,133 +625,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="router.js.html">router.js</a>,
-				 <a href="router.js.html#sunlight-1-line-47">line 47</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="pop"><span class="type-signature"></span>pop<span class="signature">(path)</span><span class="type-signature"> &rarr; {returned}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Takes path and runs view</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>path</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Url to lookup.</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="router.js.html">router.js</a>,
-				 <a href="router.js.html#sunlight-1-line-30">line 30</a>
+				<a href="edit_api.js.html">edit_api.js</a>,
+				 <a href="edit_api.js.html#sunlight-1-line-42">line 42</a>
 			</li>
 		</ul>
 	</dd>
@@ -829,7 +653,7 @@
     
             
 <div class="param-desc">
-    <p>Promise returned by view.</p>
+    <p>Resolves when complete</p>
 </div>
 
 
@@ -840,7 +664,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type">returned</span>
+<span class="param-type">promise</span>
 
 
 	</dd>
