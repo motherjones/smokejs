@@ -4,7 +4,6 @@ var EnvConfig = require('./config');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
 
-
 /**
  * Add create and update methods to component objects
  * @module edit_api
