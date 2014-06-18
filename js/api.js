@@ -35,11 +35,11 @@ exports.Component = function(slug) {
 exports.Component.prototype.get = function(callback, pull) {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
-    if (!pull && typeof(Storage)!=="undefined" && 
+    if (!pull && typeof(Storage)!=="undefined" &&
         localStorage.getItem(self.slug) &&
         localStorage.getItem(self.slug) !== '[object Object]'
       ) {
-      var data = JSON.parse(localStorage.getItem(self.slug)); 
+      var data = JSON.parse(localStorage.getItem(self.slug));
       var millisecondsPerHour = 3600000;
       if ( data.lastUpdated + (millisecondsPerHour * 3) > new Date().getTime()) {
         callback(data);
@@ -67,7 +67,7 @@ exports.Component.prototype.get = function(callback, pull) {
           callback(data);
           resolve();
         } else {
-          EnvConfig.ERROR_HANDLER(error); 
+          EnvConfig.ERROR_HANDLER(error);
           reject();
         }
       }
