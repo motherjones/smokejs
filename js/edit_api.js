@@ -25,7 +25,6 @@ exports.Component.prototype.create = function() {
   for (var attr in this.attributes) {
     this.createdAttributes[attr] = this.updatedAttributes[attr] = true;
   }
-
   return new Promise(function(resolve, reject) {
     self._post().then(function() {
       self.createAndUpdateAttributes().then(resolve, reject);
@@ -137,6 +136,7 @@ exports.Component.prototype._put = function(callback) {
  * @returns {function} The function to be called after update or create requests
  */
 exports.Component.prototype._success = function(resolve, reject, callback) {
+  var callback = callback ? callback : function() {};
   return function(err, result, body) {
     if (result.statusText === "OK") {
       if (typeof(Storage)!=="undefined" ) {
@@ -222,7 +222,7 @@ exports.Component.prototype.createAttribute = function(attr) {
  * @param {attr} component - the attribute you want to update
  * @returns {promise} promise - a promise which resolves when attribute is updated
  */
-exports.prototype.updateAttribute = function(attr) {
+exports.Component.prototype.updateAttribute = function(attr) {
   var self = this; 
   var url = EnvConfig.MIRRORS_URL + 'component/' + 
     this.slug + '/attribute/' + attr;
