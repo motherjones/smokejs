@@ -23,7 +23,7 @@ exports.Component = require('./api').Component;
 exports.Component.prototype.create = function() {
   var self = this;
   for (var attr in this.attributes) {
-    this.createdAttributes[attr] = this.updatedAttributes[attr] = true;
+    this.createdAttributes[attr] = true;
   }
   return new Promise(function(resolve, reject) {
     self._post().then(function() {
@@ -41,7 +41,7 @@ exports.Component.prototype._post = function(callback) {
   var self = this;
   var payload = {
     slug: this.slug,
-    content_type: 'application/json',
+    content_type: this.contentType,
     schema_name: this.schemaType,
     metadata: this.metadata
   };
@@ -62,18 +62,9 @@ exports.Component.prototype._post = function(callback) {
 exports.Component.prototype.update = function() {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
-    var oldChanged = self.changed;
-    self.changed = {};
-    var rej = function() {
-      for (var i in oldChanged) {
-        self.changed[i] = true;
-      }
-      reject();
-    };
-    
     self._post().then(function() {
-      self.createAndUpdateAttributes().then(resolve, rej);
-    }, rej);
+      self.createAndUpdateAttributes().then(resolve, reject);
+    }, reject);
   });
   return promise;
 };
@@ -87,12 +78,12 @@ exports.Component.prototype.createAndUpdateAttributes = function() {
   return new Promise(function(resolve, reject) {
     var attributeCreation = [];
     for (var attr in self.createdAttributes) { 
-      attributeCreation.push(self.createdAttribute(attr));
+      attributeCreation.push(self._createAttribute(attr));
     }
     Promise.all(attributeCreation).then(function() {
       var attributeUpdating = []; //update each attribute
       for (var attr in self.changedAttributes) {
-        attributeUpdating.push(self.updateAttribute(attr));
+        attributeUpdating.push(self._updateAttribute(attr));
       }
       Promise.all(attributeUpdating).then(resolve, reject);
     }, reject);
@@ -107,23 +98,17 @@ exports.Component.prototype.createAndUpdateAttributes = function() {
 exports.Component.prototype._put = function(callback) {
   var self = this;
   return new Promise(function(resolve, reject) {
-    var payload = {};
-    var oldChanged = self.changed;
-    for (var attr in self.changed) {
-      payload[attr] = self[attr];
-      delete self[attr];
-    }
-    var rej = function() {
-      for (var attr in oldChanged) {
-        self.changed[attr] = true;
-      }
-      reject();
+    var payload = {
+      slug: self.slug,
+      content_type: self.contentType,
+      schema_name: self.schemaType,
+      metadata: self.metadata
     };
     request({
       method: 'PUT',
       uri: EnvConfig.MIRRORS_URL + 'component/' + self.slug,
       json: payload
-    }, self._success(resolve, rej, callback)
+    }, self._success(resolve, reject, callback)
     );
   });
 };
@@ -136,15 +121,16 @@ exports.Component.prototype._put = function(callback) {
  * @returns {function} The function to be called after update or create requests
  */
 exports.Component.prototype._success = function(resolve, reject, callback) {
-  var callback = callback ? callback : function() {};
+  var cb = callback ? callback : function() {};
   return function(err, result, body) {
     if (result.statusText === "OK") {
       if (typeof(Storage)!=="undefined" ) {
         localStorage.setItem(body.slug, body);
       }
-      callback(body);
+      cb(body);
       resolve(result);
     } else {
+      console.log(result);
       EnvConfig.ERROR_HANDLER(err);
       reject(result);
     }
@@ -152,39 +138,22 @@ exports.Component.prototype._success = function(resolve, reject, callback) {
 };
 
 /**
- * Changes a component and makes sure the component knows it needs to patch it
- * @param {string} key - the key of the thing you want to change
- * @param {whatever} value - the value you want to set it to.
- * @returns {void} doesn't return anything
- */
-exports.Component.prototype.set = function(key, value) {
-  this.changed[key] = true;
-  this[key] = value;
-};
-
-/**
- * Changes the metadata of a component and makes sure the component knows it needs to patch it
- * @param {string} key - the key of the thing in metadata you want to change
- * @param {whatever} value - the value you want to set it to.
- * @returns {void} doesn't return anything
- */
-exports.Component.prototype.setMetadata = function(key, value) {
-  this.changed.metadata = true;
-  this.metadata[key] = value;
-};
-
-/**
  * Changes an attribute of a component and makes sure the component knows it needs to patch it
  * @param {string} key - the key of the attribute you want to change
  * @param {whatever} value - the new attribute value
- * @returns {void} doesn't return anything
+ * @returns {promise} promise resolved when attribute is set on server
  */
 exports.Component.prototype.setAttribute = function(key, value) {
-  if (!this.attributes[key]) {
-    this.createdAttributes[key] = true;
-  }
-  this.changedAttributes[key] = true;
-  this.attributes[key] = value;
+  var self = this;
+  return new Promise(function(resolve, reject) {
+    if (!self.attributes[key]) {
+      self.attributes[key] = value;
+      self._createAttribute(key).then(resolve, reject);
+    } else {
+      self.attributes[key] = value;
+      self._updateAttribute(key).then(resolve, reject);
+    }
+  });
 };
 
 /**
@@ -192,16 +161,18 @@ exports.Component.prototype.setAttribute = function(key, value) {
  * @param {string} attr - the key of the attribute you want to change
  * @returns {promise} promise - a promise which resolves when all attributes are updated
  */
-exports.Component.prototype.createAttribute = function(attr) {
+exports.Component.prototype._createAttribute = function(attr) {
   var self = this;
   var payload = {
     name: attr,
-    child: this.slug,
   };
   //is array check
   if (Object.prototype.toString.call( this.attributes[attr] ) === '[object Array]') {
     payload.contents = this.attributes[attr];
+  } else {
+    payload.child = this.attributes[attr].slug;
   }
+
   var uri = EnvConfig.MIRRORS_URL + 'component/' + this.slug + '/attribute/';
   return new Promise(function(resolve, reject) {
     delete self.createdAttributes[attr];
@@ -222,7 +193,7 @@ exports.Component.prototype.createAttribute = function(attr) {
  * @param {attr} component - the attribute you want to update
  * @returns {promise} promise - a promise which resolves when attribute is updated
  */
-exports.Component.prototype.updateAttribute = function(attr) {
+exports.Component.prototype._updateAttribute = function(attr) {
   var self = this; 
   var url = EnvConfig.MIRRORS_URL + 'component/' + 
     this.slug + '/attribute/' + attr;

@@ -3,12 +3,13 @@ var api = require('../js/edit_api');
 var test_data = require('./fixtures/article/1.json');
 var should = require('should');
 var utils = require('./utils');
+var sinon = require('sinon');
 
 describe("edit component api", function() {
   describe("post", function() {
     it("makes post requests at mirrors", function(done) {
       var slug = 'testslug';
-      var server = utils.mock_component('test', {"slug" : slug}, false,
+      utils.mock_component('test', {"slug" : slug}, false,
         ['byline', 'master_image']
       );
 
@@ -17,7 +18,6 @@ describe("edit component api", function() {
         should(true).be.ok;
         done();
       }, function() {
-        console.log('promise rejected');
         true.should.not.be.ok;
         done();
       });
@@ -27,7 +27,7 @@ describe("edit component api", function() {
   describe("patch", function() {
     it("makes patch requests at mirrors", function(done) {
       var slug = 'testslug';
-      var server = utils.mock_component(slug, test_data);
+      utils.mock_component(slug, test_data);
 
       var component = new api.Component(slug);
       component.metadata = test_data.metadata;
@@ -38,73 +38,45 @@ describe("edit component api", function() {
     });
   });
 
-  describe("set", function() {
-    it("changes component attributes", function(done) {
-      var slug = 'testslug';
-      var component = new api.Component(slug);
-      component.set('test', 'value');
-      should(component).have.property('test');
-      should(component.test).eql('value');
-      done();
-    });
-    it("marks attribute as changed", function(done) {
-      var slug = 'testslug';
-      var component = new api.Component(slug);
-      component.set('test', 'value');
-      should(component.changed).have.property('test');
-      done();
-    });
-  });
-
-  describe("setMetadata", function() {
-    it("changes component metadata attributes", function(done) {
-      var slug = 'testslug';
-      var component = new api.Component(slug);
-      component.setMetadata('test', 'value');
-      should(component.metadata).have.property('test');
-      should(component.metadata.test).eql('value');
-      done();
-    });
-    it("marks the metadata as changed", function(done) {
-      var slug = 'testslug';
-      var component = new api.Component(slug);
-      component.setMetadata('test', 'value');
-      should(component.changed).have.property('metadata');
-      done();
-    });
-  });
-
   describe("setAttribute", function() {
     it("changes component attributes", function(done) {
       var slug = 'testslug';
       var component = new api.Component(slug);
-      component.setAttribute('test', 'value');
-      should(component.attributes).have.property('test');
-      should(component.attributes.test).eql('value');
-      done();
+      utils.mock_component(slug, {"slug" : slug}, false,
+        ['test']
+      );
+      component.setAttribute('test', 'value').then(function() {
+        should(component.attributes).have.property('test');
+        should(component.attributes.test).eql('value');
+        done();
+      });
     });
-    it("marks the attribute as changed", function(done) {
+    it("creates new attributes if it is new", function(done) {
       var slug = 'testslug';
       var component = new api.Component(slug);
-      component.setAttribute('test', 'value');
-      should(component.changedAttributes).have.property('test');
-      done();
+      var server = sinon.fakeServer.create();
+      server.respondWith('POST', '/mirrors/component/'+slug+'/attribute/', [200,
+        { "Content-Type": "application/json" },
+        'note that its only post. puts do not work'
+      ]);
+      server.autoRespond = true;
+      server.autoRespondAfter = 1;
+      component.setAttribute('byline', 'value').then( function() {done();} );
     });
-    it("marks the attribute as created if new", function(done) {
+    it("attribute is changed but not created if not new", function(done) {
       var slug = 'testslug';
       var component = new api.Component(slug);
-      component.setAttribute('test', 'value');
-      should(component.createdAttributes).have.property('test');
-      done();
-    });
-    it("attribute as changed but not created if not new", function(done) {
-      var slug = 'testslug';
-      var component = new api.Component(slug);
-      component.attributes.test = 'previous value';
-      component.setAttribute('test', 'value');
-      should(component.changedAttributes).have.property('test');
-      should(component.createdAttributes).not.have.property('test');
-      done();
+      var server = sinon.fakeServer.create();
+      server.respondWith('PUT', '/mirrors/component/'+slug+'/attribute/byline', [200,
+        { "Content-Type": "application/json" },
+        'note that its only put. posts do not work'
+      ]);
+      server.autoRespond = true;
+      server.autoRespondAfter = 1;
+      component.attributes.byline = 'previous value';
+      component.setAttribute('byline', 'value').then(function() {
+        done();
+      });
     });
   });
 

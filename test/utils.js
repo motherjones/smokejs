@@ -27,7 +27,7 @@ exports.mock_component = function(slug, json, data, attributes) {
   }
   if(attributes && attributes.length) {
     for (var attr in attributes) {
-      server.respondWith('POST', '/mirrors/component/'+slug+'/attribute', [200,
+      server.respondWith('POST', '/mirrors/component/'+slug+'/attribute/', [200,
         { "Content-Type": "application/json" },
         JSON.stringify(json)
       ]);
