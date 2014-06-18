@@ -17,6 +17,11 @@ var Promise = require('promise-polyfill');
  */
 exports.Component = function(slug) {
   this.slug = slug;
+  this.attributes = [];
+  this.metadata = {};
+  this.changed = {};
+  this.changedAttributes = {};
+  this.createdAttributes = {};
 };
 
 /**
@@ -56,8 +61,9 @@ exports.Component.prototype.get = function(callback, pull) {
             data.lastUpdated = new Date().getTime();
             localStorage.setItem(self.slug, JSON.stringify(data));
           }
-          self.attributes = data.attributes;
-          self.metadata = data.metadata;
+          for (var i in data) {
+            self[i] = data[i];
+          }
           callback(data);
           resolve();
         } else {
