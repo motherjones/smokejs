@@ -27,12 +27,13 @@ describe("edit component api", function() {
   describe("patch", function() {
     it("makes patch requests at mirrors", function(done) {
       var slug = 'testslug';
-      utils.mock_component(slug, test_data);
+      var server = utils.mock_component(slug, test_data);
 
       var component = new api.Component(slug);
       component.metadata = test_data.metadata;
       component.attributes = test_data.attributes;
       component.update().then(function() {
+        server.restore();
         done();
       });
     });
@@ -42,12 +43,13 @@ describe("edit component api", function() {
     it("changes component attributes", function(done) {
       var slug = 'testslug';
       var component = new api.Component(slug);
-      utils.mock_component(slug, {"slug" : slug}, false,
+      var server = utils.mock_component(slug, {"slug" : slug}, false,
         ['test']
       );
       component.setAttribute('test', 'value').then(function() {
         should(component.attributes).have.property('test');
         should(component.attributes.test).eql('value');
+        server.restore();
         done();
       });
     });
@@ -61,7 +63,10 @@ describe("edit component api", function() {
       ]);
       server.autoRespond = true;
       server.autoRespondAfter = 1;
-      component.setAttribute('byline', 'value').then( function() {done();} );
+      component.setAttribute('byline', 'value').then(function() {
+        server.restore();
+        done();
+      });
     });
     it("attribute is changed but not created if not new", function(done) {
       var slug = 'testslug';
@@ -75,6 +80,7 @@ describe("edit component api", function() {
       server.autoRespondAfter = 1;
       component.attributes.byline = 'previous value';
       component.setAttribute('byline', 'value').then(function() {
+        server.restore();
         done();
       });
     });
