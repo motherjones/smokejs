@@ -2,6 +2,7 @@
 var EnvConfig = require('./config');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
+var _ = require('lodash');
 
 /**
  * Currently, a component object with a get function
@@ -20,7 +21,16 @@ exports.Component = function(slug, data) {
   this.metadata = {};
   if (data) {
     this.metadata = data.metadata;
-    this.attributes = data.attributes;
+    _.each(data.attributes, function(name, attribute) {
+      if (_(attribute).isArray()) {
+        this.attributes[name] = [];
+        _.each(attribute, function(index, item) {
+          this.attributes[name].push(new exports.Component(item.slug, item));
+        });
+      } else {
+        this.attributes[name] = new exports.Component(attribute.slug, attribute);
+      }
+    });
   };
   this.changed = {};
 };
@@ -46,9 +56,7 @@ exports.Component.prototype.get = function(callback, pull) {
             EnvConfig.log(e);
             reject();
           }
-          for (var i in data) {
-            self[i] = data[i];
-          }
+          this = new exports.Component(self.slug, data);
           callback(data);
           resolve();
         } else {
