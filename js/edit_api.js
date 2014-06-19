@@ -1,4 +1,3 @@
-/* global localStorage */
 'use strict';
 var EnvConfig = require('./config');
 var request = require('browser-request');
@@ -17,7 +16,7 @@ exports.Component = require('./api').Component;
 /**
  * Tells mirrors to make a new component and give us a slug for it
  * this function sends the post to create the component, then creates all the attributes
- * of the component, and then updates the attributes so they have the value currently on the component 
+ * of the component, and then updates the attributes so they have the value currently on the component
  * @returns {promise} Resolves when complete
  */
 exports.Component.prototype.create = function() {
@@ -77,7 +76,7 @@ exports.Component.prototype.createAndUpdateAttributes = function() {
   var self = this;
   return new Promise(function(resolve, reject) {
     var attributeCreation = [];
-    for (var attr in self.createdAttributes) { 
+    for (var attr in self.createdAttributes) {
       attributeCreation.push(self._createAttribute(attr));
     }
     Promise.all(attributeCreation).then(function() {
@@ -124,9 +123,6 @@ exports.Component.prototype._success = function(resolve, reject, callback) {
   var cb = callback ? callback : function() {};
   return function(err, result, body) {
     if (result.statusText === "OK") {
-      if (typeof(Storage)!=="undefined" ) {
-        localStorage.setItem(body.slug, body);
-      }
       cb(body);
       resolve(result);
     } else {
@@ -157,7 +153,7 @@ exports.Component.prototype.setAttribute = function(key, value) {
 };
 
 /**
- * Creates an attribute for a slug. Does not 
+ * Creates an attribute for a slug. Does not
  * @param {string} attr - the key of the attribute you want to change
  * @returns {promise} promise - a promise which resolves when all attributes are updated
  */
@@ -194,8 +190,8 @@ exports.Component.prototype._createAttribute = function(attr) {
  * @returns {promise} promise - a promise which resolves when attribute is updated
  */
 exports.Component.prototype._updateAttribute = function(attr) {
-  var self = this; 
-  var url = EnvConfig.MIRRORS_URL + 'component/' + 
+  var self = this;
+  var url = EnvConfig.MIRRORS_URL + 'component/' +
     this.slug + '/attribute/' + attr;
   return new Promise(function(resolve, reject) {
     delete self.changedAttributes[attr];

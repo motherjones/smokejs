@@ -1,4 +1,3 @@
-/* global localStorage */
 'use strict';
 var EnvConfig = require('./config');
 var request = require('browser-request');
@@ -15,13 +14,15 @@ var Promise = require('promise-polyfill');
  * @class
  * @param {string} slug the id of the componet
  */
-exports.Component = function(slug) {
+exports.Component = function(slug, data) {
   this.slug = slug;
   this.attributes = [];
   this.metadata = {};
+  if (data) {
+    this.metadata = data.metadata;
+    this.attributes = data.attributes;
+  };
   this.changed = {};
-  this.changedAttributes = {};
-  this.createdAttributes = {};
 };
 
 /**
@@ -35,18 +36,6 @@ exports.Component = function(slug) {
 exports.Component.prototype.get = function(callback, pull) {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
-    if (!pull && typeof(Storage)!=="undefined" &&
-        localStorage.getItem(self.slug) &&
-        localStorage.getItem(self.slug) !== '[object Object]'
-      ) {
-      var data = JSON.parse(localStorage.getItem(self.slug));
-      var millisecondsPerHour = 3600000;
-      if ( data.lastUpdated + (millisecondsPerHour * 3) > new Date().getTime()) {
-        callback(data);
-        resolve();
-        return;
-      }
-    }
     request(
       EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
       function(error, response, body) {
@@ -56,10 +45,6 @@ exports.Component.prototype.get = function(callback, pull) {
           } catch(e) {
             EnvConfig.log(e);
             reject();
-          }
-          if ( typeof(Storage)!=="undefined") {
-            data.lastUpdated = new Date().getTime();
-            localStorage.setItem(self.slug, JSON.stringify(data));
           }
           for (var i in data) {
             self[i] = data[i];
