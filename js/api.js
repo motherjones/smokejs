@@ -20,19 +20,23 @@ exports.Component = function(slug, data) {
   this.attributes = [];
   this.metadata = {};
   if (data) {
-    this.metadata = data.metadata;
-    _.each(data.attributes, function(name, attribute) {
-      if (_(attribute).isArray()) {
-        this.attributes[name] = [];
-        _.each(attribute, function(index, item) {
-          this.attributes[name].push(new exports.Component(item.slug, item));
-        });
-      } else {
-        this.attributes[name] = new exports.Component(attribute.slug, attribute);
-      }
-    });
+    self._build(data);
   };
   this.changed = {};
+};
+
+exports.prototype._build = function(data) {
+  this.metadata = data.metadata;
+  _.each(data.attributes, function(name, attribute) {
+    if (_(attribute).isArray()) {
+      this.attributes[name] = [];
+      _.each(attribute, function(index, item) {
+        this.attributes[name].push(new exports.Component(item.slug, item));
+      });
+    } else {
+      this.attributes[name] = new exports.Component(attribute.slug, attribute);
+    }
+  });
 };
 
 /**
@@ -56,7 +60,7 @@ exports.Component.prototype.get = function(callback, pull) {
             EnvConfig.log(e);
             reject();
           }
-          this = new exports.Component(self.slug, data);
+          self._build(data);
           callback(data);
           resolve();
         } else {
