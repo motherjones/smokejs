@@ -2,7 +2,7 @@
 var EnvConfig = require('./config');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
-
+var api = require('./api');
 /**
  * Add create and update methods to component objects
  * @module edit_api
@@ -11,7 +11,7 @@ var Promise = require('promise-polyfill');
 /**
  * @class
  */
-exports.Component = require('./api').Component;
+exports.Component = api.Component;
 
 /**
  * Tells mirrors to make a new component and give us a slug for it
@@ -20,15 +20,7 @@ exports.Component = require('./api').Component;
  * @returns {promise} Resolves when complete
  */
 exports.Component.prototype.create = function() {
-  var self = this;
-  for (var attr in this.attributes) {
-    this.createdAttributes[attr] = true;
-  }
-  return new Promise(function(resolve, reject) {
-    self._post().then(function() {
-      self.createAndUpdateAttributes().then(resolve, reject);
-    }, reject);
-  });
+  return this._post();
 };
 
 /**
@@ -36,22 +28,20 @@ exports.Component.prototype.create = function() {
  * @param {function} callback - Optional, callback is called with server response
  * @returns {promise} Resolves when complete
  */
-exports.Component.prototype._post = function(callback) {
+exports.Component.prototype._post = function(uri, callback) {
   var self = this;
   var payload = {
     slug: this.slug,
     content_type: this.contentType,
-    schema_name: this.schemaType,
+    schemaName: this.schemaName,
     metadata: this.metadata
   };
-  return new Promise(function(resolve, reject) {
-    request({
+  return new api._promise_request({
       method: 'POST',
       uri: EnvConfig.MIRRORS_URL + 'component/',
       json: payload
-    }, self._success(resolve, reject, callback)
-    );
-  });
+    }, callback
+  );
 };
 
 /**
@@ -69,27 +59,7 @@ exports.Component.prototype.update = function() {
 };
 
 /**
- * Tells mirrors to create and update a component's attributes
- * @returns {promise} Resolves when complete
- */
-exports.Component.prototype.createAndUpdateAttributes = function() {
-  var self = this;
-  return new Promise(function(resolve, reject) {
-    var attributeCreation = [];
-    for (var attr in self.createdAttributes) {
-      attributeCreation.push(self._createAttribute(attr));
-    }
-    Promise.all(attributeCreation).then(function() {
-      var attributeUpdating = []; //update each attribute
-      for (var attr in self.changedAttributes) {
-        attributeUpdating.push(self._updateAttribute(attr));
-      }
-      Promise.all(attributeUpdating).then(resolve, reject);
-    }, reject);
-  });
-};
-/**
- * Makes a post to update a component. Does not update attributes!
+ * Makes a put to update a component. Does not update attributes!
  * mostly useful for updating metadata, I guess
  * @param {function} callback - Optional, callback is called with server response
  * @returns {promise} Resolves when complete
@@ -100,37 +70,16 @@ exports.Component.prototype._put = function(callback) {
     var payload = {
       slug: self.slug,
       content_type: self.contentType,
-      schema_name: self.schemaType,
+      schemaName: self.schemaName,
       metadata: self.metadata
     };
     request({
       method: 'PUT',
       uri: EnvConfig.MIRRORS_URL + 'component/' + self.slug,
       json: payload
-    }, self._success(resolve, reject, callback)
+    }, api._success(resolve, reject, callback)
     );
   });
-};
-
-/**
- * Creates a callback function for mirrors requests
- * @param {function} resolve - called with response if response is ok
- * @param {function} reject - called with response if response is not ok
- * @param {function} callback - callback is called with server response body if status ok
- * @returns {function} The function to be called after update or create requests
- */
-exports.Component.prototype._success = function(resolve, reject, callback) {
-  var cb = callback ? callback : function() {};
-  return function(err, result, body) {
-    if (result.statusText === "OK") {
-      cb(body);
-      resolve(result);
-    } else {
-      console.log(result);
-      EnvConfig.ERROR_HANDLER(err);
-      reject(result);
-    }
-  };
 };
 
 /**
@@ -180,7 +129,7 @@ exports.Component.prototype._createAttribute = function(attr) {
       method: 'POST',
       uri: uri,
       json: payload
-    }, self._success(resolve, rej)
+    }, api._success(resolve, rej)
     );
   });
 };
@@ -203,7 +152,7 @@ exports.Component.prototype._updateAttribute = function(attr) {
       method: 'PUT',
       uri: url,
       json: self.attributes[attr]
-    }, self._success(resolve, rej)
+    }, api._success(resolve, rej)
     );
   });
 };

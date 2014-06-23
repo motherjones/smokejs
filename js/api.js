@@ -11,22 +11,73 @@ var _ = require('lodash');
 
 
 /**
+ * Creates a callback function for mirrors requests
+ * @param {function} resolve - called with response if response is ok
+ * @param {function} reject - called with response if response is not ok
+ * @param {function} callback - callback is called with server response body if status ok
+ * @returns {function} The function to be called after update or create requests
+ */
+exports._success = _success = function(resolve, reject, callback) {
+  var cb = callback ? callback : function() {};
+  return function(err, result, body) {
+    if (result.statusText === "OK") {
+      try {
+        cb(body);
+      } catch(e) {
+        reject(e);
+        return;
+      } finally {
+        resolve(result);
+      }
+    } else {
+      EnvConfig.log(result);
+      EnvConfig.ERROR_HANDLER(err);
+      reject(result);
+    }
+  };
+};
+
+
+/**
+ * Basic function for chaining requests and promises.
+ * @param {args} - arguments passed to request
+ * @param {callback} - callback will be called with body of response
+ * @param {pull} - ignore ControlCache, currently unused.
+ * @return {promise} - returns promise
+ */
+exports._promise_request = promise_request = function(args, callback, pull) {
+  var promise = new Promise(function(resolve, reject) {
+    request(args, _success(resolve, reject, callback));
+  });
+  return promise;
+};
+
+/**
  * Component constructor
  * @class
- * @param {string} slug the id of the componet
+ * @param {string} - slug the id of the componet
  */
 exports.Component = function(slug, data) {
   this.slug = slug;
   this.attributes = [];
   this.metadata = {};
+  this.contentType = null;
+  this.schemaName = null;
+  this.changed = {};
+
   if (data) {
     self._build(data);
   };
-  this.changed = {};
 };
 
+/**
+ * Internal function for building attrbitutes and metadata
+ * from a Components response.
+ */
 exports.prototype._build = function(data) {
   this.metadata = data.metadata;
+  this.contentType = data.content_type;
+  this.schemaName = data.schema_name;
   _.each(data.attributes, function(name, attribute) {
     if (_(attribute).isArray()) {
       this.attributes[name] = [];
@@ -36,6 +87,7 @@ exports.prototype._build = function(data) {
     } else {
       this.attributes[name] = new exports.Component(attribute.slug, attribute);
     }
+    return this;
   });
 };
 
@@ -49,26 +101,11 @@ exports.prototype._build = function(data) {
  */
 exports.Component.prototype.get = function(callback, pull) {
   var self = this;
-  var promise = new Promise(function(resolve, reject) {
-    request(
-      EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
-      function(error, response, body) {
-        if (response.statusText === "OK") {
-          try {
-            data = JSON.parse(body);
-          } catch(e) {
-            EnvConfig.log(e);
-            reject();
-          }
-          self._build(data);
-          callback(data);
-          resolve();
-        } else {
-          EnvConfig.ERROR_HANDLER(error);
-          reject();
-        }
-      }
-    );
-  });
-  return promise;
+  return _promise_request(EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
+    function(body) {
+      data = JSON.parse(body);
+      self._build(data);
+      callback(self);
+    }
+  );
 };
