@@ -4,7 +4,26 @@
   <meta charset="utf-8">
   <title>Base page</title>
   <link rel="stylesheet" href="css/smoke.css">
-  <script src="js/smoke.js"></script>
+  <script>
+    var name = "auth=";
+    var ca = document.cookie.split(';');
+    var auth;
+    for(var i=0; i < ca.length; i++) {
+      var c = ca[i].trim();
+      if (c.indexOf(name) == 0) {
+        auth = c.substring(name.length, c.length);
+      }
+    }
+
+    var js = document.createElement("script");
+    js.type = "text/javascript";
+    if (!auth) {
+      js.src = 'js/smoke.js';
+    } else { 
+      js.src = 'js/smoke_edit.js';
+    }
+    document.appendChild(js);
+  </script>
 </head>
 <body></body>
 </html>
