@@ -49,8 +49,7 @@ exports.Component.prototype._post = function(uri, callback) {
  * @returns {promise} Resolves when complete
  */
 exports.Component.prototype.update = function() {
-  var self = this;
-  return self._put()
+  return this._put()
 };
 
 /**
@@ -78,18 +77,18 @@ exports.Component.prototype._put = function(callback) {
 /**
  * Changes an attribute of a component and makes sure the component knows it needs to patch it
  * @param {string} key - the key of the attribute you want to change
- * @param {whatever} value - the new attribute value
+ * @param {component} component - the new attribute component
  * @returns {promise} promise resolved when attribute is set on server
  */
-exports.Component.prototype.setAttribute = function(key, value) {
+exports.Component.prototype.setAttribute = function(key, component) {
   var self = this;
   return new Promise(function(resolve, reject) {
     if (!self.attributes[key]) {
-      self.attributes[key] = value;
-      self._createAttribute(key).then(resolve, reject);
+      self.attributes[key] = component;
+      self._createAttribute(key, component.slug).then(resolve, reject);
     } else {
-      self.attributes[key] = value;
-      self._updateAttribute(key).then(resolve, reject);
+      self.attributes[key] = component;
+      self._updateAttribute(key, component.slug).then(resolve, reject);
     }
   });
 };
@@ -106,25 +105,22 @@ exports.Component.prototype._createAttribute = function(attr) {
   };
   //is array check
   if (Object.prototype.toString.call( this.attributes[attr] ) === '[object Array]') {
-    payload.contents = this.attributes[attr];
+    payload.contents = [];
+    for (var i = 0; i < this.attributes[attr].length; i++) {
+      payload.contents.push(this.attributes[attr][i].slug);
+    }
   } else {
     payload.child = this.attributes[attr].slug;
   }
 
   var uri = EnvConfig.MIRRORS_URL + 'component/' + this.slug + '/attribute/';
-  return new Promise(function(resolve, reject) {
-    delete self.createdAttributes[attr];
-    var rej = function() {
-      self.createdAttributes[attr] = true;
-      reject();
-    };
-    request({
+  return exports._promise_request(
+    {
       method: 'POST',
       uri: uri,
       json: payload
-    }, api._success(resolve, rej)
-    );
-  });
+    }
+  );
 };
 /**
  * Helper function to make calls to update a component's attribute
@@ -132,20 +128,51 @@ exports.Component.prototype._createAttribute = function(attr) {
  * @returns {promise} promise - a promise which resolves when attribute is updated
  */
 exports.Component.prototype._updateAttribute = function(attr) {
-  var self = this;
   var url = EnvConfig.MIRRORS_URL + 'component/' +
     this.slug + '/attribute/' + attr;
-  return new Promise(function(resolve, reject) {
-    delete self.changedAttributes[attr];
-    var rej = function() {
-      self.changedAttributes[attr] = true;
-      reject();
-    };
-    request({
+  var json;
+  if (Object.prototype.toString.call( this.attributes[attr] ) === '[object Array]') {
+    var json = [];
+    for (var i = 0; i < this.attributes[attr].length; i++) {
+      json.push(this.attributes[attr][i].slug);
+    }
+  } else {
+    json = { "name" : attr, "child" : this.attributes[attr].slug };
+  }
+  return exports._promise_request(
+    {
       method: 'PUT',
       uri: url,
-      json: self.attributes[attr]
-    }, api._success(resolve, rej)
-    );
-  });
+      json: json
+    }
+  );
 };
+
+/**
+ * Deletes a component
+ * @returns {promise} promise resolved when the component is deleted
+ */
+exports.Component.prototype.delete = function() {
+  return exports._promise_request(
+    {
+      method: 'DELETE',
+      uri: EnvConfig.MIRRORS_URL + 'component/' + this.slug
+    }
+  );
+}
+
+/**
+ * Removes an attribute from a component
+ * @param {attr} string - the attribute you want to delete
+ * @returns {promise} promise resolved when attribute deleted on server
+ */
+exports.Component.prototype.deleteAttribute = function(attr) {
+  var url = EnvConfig.MIRRORS_URL + 'component/' +
+    this.slug + '/attribute/' + attr;
+  return exports._promise_request(
+    {
+      method: 'DELETE',
+      uri: url
+    }
+  );
+}

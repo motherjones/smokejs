@@ -17,7 +17,7 @@ var _ = require('lodash');
  * @param {function} callback - callback is called with server response body if status ok
  * @returns {function} The function to be called after update or create requests
  */
-exports._success = _success = function(resolve, reject, callback) {
+exports._success = function(resolve, reject, callback) {
   var cb = callback ? callback : function() {};
   return function(err, result, body) {
     if (result.statusText === "OK") {
@@ -45,9 +45,9 @@ exports._success = _success = function(resolve, reject, callback) {
  * @param {pull} - ignore ControlCache, currently unused.
  * @return {promise} - returns promise
  */
-exports._promise_request = promise_request = function(args, callback, pull) {
+exports._promise_request = function(args, callback, pull) {
   var promise = new Promise(function(resolve, reject) {
-    request(args, _success(resolve, reject, callback));
+    request(args, exports._success(resolve, reject, callback));
   });
   return promise;
 };
@@ -66,7 +66,7 @@ exports.Component = function(slug, data) {
   this.changed = {};
 
   if (data) {
-    self._build(data);
+    this._build(data);
   };
 };
 
@@ -74,7 +74,7 @@ exports.Component = function(slug, data) {
  * Internal function for building attrbitutes and metadata
  * from a Components response.
  */
-exports.prototype._build = function(data) {
+exports.Component.prototype._build = function(data) {
   this.metadata = data.metadata;
   this.contentType = data.content_type;
   this.schemaName = data.schema_name;
@@ -101,7 +101,7 @@ exports.prototype._build = function(data) {
  */
 exports.Component.prototype.get = function(callback, pull) {
   var self = this;
-  return _promise_request(EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
+  return exports._promise_request(EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
     function(body) {
       data = JSON.parse(body);
       self._build(data);
