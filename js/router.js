@@ -17,7 +17,7 @@ var Promise = require('promise-polyfill');
 module.exports = (function() {
   var router = new Router();
   router.addRoute("/:schema/:slug", views.display_main_content);
-  router.addRoute("^/$", views.display_homepage);
+  router.addRoute("^$", views.display_homepage);
   return router;
 })();
 
@@ -29,7 +29,6 @@ module.exports = (function() {
   * @return {returned} Promise returned by view.
   */
 module.exports.pop = function(path) {
-  console.log('in router pop, looking for ', path);
   var match = module.exports.match(path);
   var returned = '';
   if(match) {
