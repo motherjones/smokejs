@@ -36,7 +36,7 @@ exports.Component.prototype._post = function(uri, callback) {
     schemaName: this.schemaName,
     metadata: this.metadata
   };
-  return new api._promise_request({
+  return api._promise_request({
       method: 'POST',
       uri: EnvConfig.MIRRORS_URL + 'component/',
       json: payload
@@ -50,12 +50,7 @@ exports.Component.prototype._post = function(uri, callback) {
  */
 exports.Component.prototype.update = function() {
   var self = this;
-  var promise = new Promise(function(resolve, reject) {
-    self._post().then(function() {
-      self.createAndUpdateAttributes().then(resolve, reject);
-    }, reject);
-  });
-  return promise;
+  return self._put()
 };
 
 /**
@@ -66,20 +61,18 @@ exports.Component.prototype.update = function() {
  */
 exports.Component.prototype._put = function(callback) {
   var self = this;
-  return new Promise(function(resolve, reject) {
-    var payload = {
-      slug: self.slug,
-      content_type: self.contentType,
-      schemaName: self.schemaName,
-      metadata: self.metadata
-    };
-    request({
+  var payload = {
+    slug: self.slug,
+    content_type: self.contentType,
+    schemaName: self.schemaName,
+    metadata: self.metadata
+  };
+  return api._promise_request({
       method: 'PUT',
       uri: EnvConfig.MIRRORS_URL + 'component/' + self.slug,
       json: payload
-    }, api._success(resolve, reject, callback)
-    );
-  });
+    }, callback
+  );
 };
 
 /**
