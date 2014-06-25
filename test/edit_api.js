@@ -19,6 +19,23 @@ describe("edit component api", function() {
         done();
       });
     });
+    it("should redirect to mirrors when unauthorized", function(done) {
+
+      var slug = 'unauthorized_check';
+      var server = utils.mock_unauthorized(slug);
+      var component = new api.Component(slug);
+        //overwrite function that changes document location
+      var redirect = component._logInRedirect;
+      component._logInRedirect = function() {
+        server.restore();
+        api._logInRedirect = redirect;
+        true.should.be.ok;
+        done();
+      };
+
+      component.create();
+
+    });
   });
 
   describe("patch", function() {

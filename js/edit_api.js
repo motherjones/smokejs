@@ -1,4 +1,4 @@
-/* global localStorage */
+/* global localStorage, document */
 'use strict';
 var EnvConfig = require('./config');
 var request = require('browser-request');
@@ -67,6 +67,7 @@ exports.Component.prototype.update = function(callback) {
  * @returns {function} The function to be called after update or create requests
  */
 exports.Component.prototype._success = function(callback, resolve, reject) {
+  var self = this;
   return function(err, result, body) {
     if (result.statusText === "OK") {
       if (typeof(Storage)!=="undefined" ) {
@@ -74,9 +75,17 @@ exports.Component.prototype._success = function(callback, resolve, reject) {
       }
       callback(body);
       resolve();
+    } else if (result.statusText === "Unauthorized") {
+      //redirect to log in server
+      self._logInRedirect();
     } else {
       EnvConfig.ERROR_HANDLER(err);
       reject();
     }
   };
+};
+
+exports.Component.prototype._logInRedirect = function() {
+  document.location = EnvConfig.MIRRORS_DOMAIN + 
+    '/login?request=' + encodeURI(document.location);
 };

@@ -30,6 +30,25 @@ exports.mock_component = function(slug, json, data) {
   return server;
 };
 
+exports.mock_unauthorized = function(slug) {
+  var server = sinon.fakeServer.create();
+  server.respondWith('POST', '/mirrors/component/', [401,
+    {},
+    ''
+  ]);
+  server.respondWith('PATCH', '/mirrors/component/'+slug+'/', [401,
+    {},
+    ''
+  ]);
+  server.respondWith('GET', '/mirrors/component/'+slug+'/data', [404,
+    {},
+    ''
+  ]);
+  server.autoRespond = true;
+  server.autoRespondAfter = 1;
+  return server;
+};
+  
 exports.mock_chunk = function() {
   return {
     map : function(callback) {
