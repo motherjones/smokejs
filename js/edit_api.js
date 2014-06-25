@@ -33,7 +33,7 @@ exports.Component.prototype._post = function(uri, callback) {
   var payload = {
     slug: this.slug,
     content_type: this.contentType,
-    schemaName: this.schemaName,
+    schema_name: this.schemaName,
     metadata: this.metadata
   };
   return api._promise_request({
@@ -64,7 +64,7 @@ exports.Component.prototype._put = function(callback) {
   var payload = {
     slug: self.slug,
     content_type: self.contentType,
-    schemaName: self.schemaName,
+    schema_name: self.schemaName,
     metadata: self.metadata
   };
   return api._promise_request({
