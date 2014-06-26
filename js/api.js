@@ -63,7 +63,6 @@ exports.Component = function(slug, data) {
   this.metadata = {};
   this.contentType = null;
   this.schemaName = null;
-  this.changed = {};
 
   if (data) {
     this._build(data);
@@ -78,17 +77,21 @@ exports.Component.prototype._build = function(data) {
   this.metadata = data.metadata;
   this.contentType = data.content_type;
   this.schemaName = data.schema_name;
-  _.each(data.attributes, function(name, attribute) {
-    if (_(attribute).isArray()) {
-      this.attributes[name] = [];
-      _.each(attribute, function(index, item) {
-        this.attributes[name].push(new exports.Component(item.slug, item));
-      });
+  for (attr in data.attributes) {
+    var attribute = data.attributes[attr];
+    //is it an array?
+    if (Object.prototype.toString.call( attribute ) === '[object Array]') {
+      this.attributes[attr] = [];
+      for (var i = 0; i < attribute.length; i++) {
+        this.attributes[attr].push(
+          new exports.Component(attribute[i].slug, attribute[i])
+        );
+      };
     } else {
-      this.attributes[name] = new exports.Component(attribute.slug, attribute);
+      this.attributes[attr] = new exports.Component(attribute.slug, attribute);
     }
     return this;
-  });
+  };
 };
 
 /**

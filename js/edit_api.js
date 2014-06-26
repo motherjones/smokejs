@@ -68,7 +68,7 @@ exports.Component.prototype._put = function(callback) {
   };
   return api._promise_request({
       method: 'PUT',
-      uri: EnvConfig.MIRRORS_URL + 'component/' + self.slug,
+      uri: EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
       json: payload
     }, callback
   );
@@ -114,7 +114,7 @@ exports.Component.prototype._createAttribute = function(attr) {
   }
 
   var uri = EnvConfig.MIRRORS_URL + 'component/' + this.slug + '/attribute/';
-  return exports._promise_request(
+  return api._promise_request(
     {
       method: 'POST',
       uri: uri,
@@ -129,7 +129,7 @@ exports.Component.prototype._createAttribute = function(attr) {
  */
 exports.Component.prototype._updateAttribute = function(attr) {
   var url = EnvConfig.MIRRORS_URL + 'component/' +
-    this.slug + '/attribute/' + attr;
+    this.slug + '/attribute/' + attr + '/';
   var json;
   if (Object.prototype.toString.call( this.attributes[attr] ) === '[object Array]') {
     var json = [];
@@ -139,7 +139,7 @@ exports.Component.prototype._updateAttribute = function(attr) {
   } else {
     json = { "name" : attr, "child" : this.attributes[attr].slug };
   }
-  return exports._promise_request(
+  return api._promise_request(
     {
       method: 'PUT',
       uri: url,
@@ -153,7 +153,7 @@ exports.Component.prototype._updateAttribute = function(attr) {
  * @returns {promise} promise resolved when the component is deleted
  */
 exports.Component.prototype.delete = function() {
-  return exports._promise_request(
+  return api._promise_request(
     {
       method: 'DELETE',
       uri: EnvConfig.MIRRORS_URL + 'component/' + this.slug
@@ -169,7 +169,7 @@ exports.Component.prototype.delete = function() {
 exports.Component.prototype.deleteAttribute = function(attr) {
   var url = EnvConfig.MIRRORS_URL + 'component/' +
     this.slug + '/attribute/' + attr;
-  return exports._promise_request(
+  return api._promise_request(
     {
       method: 'DELETE',
       uri: url

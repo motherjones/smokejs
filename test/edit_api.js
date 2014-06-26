@@ -25,7 +25,7 @@ describe("edit component api", function() {
   });
 
   describe("patch", function() {
-    it("makes patch requests at mirrors", function(done) {
+    it("makes put requests at mirrors", function(done) {
       var slug = 'testslug';
       var server = utils.mock_component(slug, test_data);
 
@@ -43,12 +43,13 @@ describe("edit component api", function() {
     it("changes component attributes", function(done) {
       var slug = 'testslug';
       var component = new api.Component(slug);
+      var attr_name = 'test';
+      var attr_value = 'value';
       var server = utils.mock_component(slug, {"slug" : slug}, false,
-        ['test']
+        [attr_name]
       );
-      component.setAttribute('test', 'value').then(function() {
-        should(component.attributes).have.property('test');
-        should(component.attributes.test).eql('value');
+      component.setAttribute(attr_name, attr_value).then(function() {
+        should(component.attributes[attr_name]).eql(attr_value);
         server.restore();
         done();
       });
@@ -63,7 +64,9 @@ describe("edit component api", function() {
       ]);
       server.autoRespond = true;
       server.autoRespondAfter = 1;
-      component.setAttribute('byline', 'value').then(function() {
+      should(component.attributes).not.have.property('attrName');
+      component.setAttribute('attrName', 'attrValue').then(function() {
+        should(component.attributes).have.property('attrName');
         server.restore();
         done();
       });
@@ -72,14 +75,14 @@ describe("edit component api", function() {
       var slug = 'testslug';
       var component = new api.Component(slug);
       var server = sinon.fakeServer.create();
-      server.respondWith('PUT', '/mirrors/component/'+slug+'/attribute/byline', [200,
+      server.respondWith('PUT', '/mirrors/component/'+slug+'/attribute/byline/', [200,
         { "Content-Type": "application/json" },
         'note that its only put. posts do not work'
       ]);
       server.autoRespond = true;
       server.autoRespondAfter = 1;
       component.attributes.byline = 'previous value';
-      component.setAttribute('byline', 'value').then(function() {
+      component.setAttribute('byline', 'new value').then(function() {
         server.restore();
         done();
       });
