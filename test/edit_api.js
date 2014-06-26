@@ -9,15 +9,17 @@ describe("edit component api", function() {
   describe("post", function() {
     it("makes post requests at mirrors", function(done) {
       var slug = 'testslug';
-      utils.mock_component('test', {"slug" : slug}, false,
+      var server = utils.mock_component('test', {"slug" : slug}, false,
         ['byline', 'master_image']
       );
 
       var component = new api.Component();
       component.create().then(function() {
+        server.restore();
         should(true).be.ok;
         done();
       }, function() {
+        server.restore();
         true.should.not.be.ok;
         done();
       });
