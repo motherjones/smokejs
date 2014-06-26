@@ -7,12 +7,13 @@ var sinon = require('sinon');
 
 describe("edit component api", function() {
   describe("post", function() {
-    it("makes post requests at mirrors", function(done) {
+    before(function(done){
       var slug = 'testslug';
-      utils.mock_component('test', {"slug" : slug}, false,
+      var server = utils.mock_component('test', {"slug" : slug}, false,
         ['byline', 'master_image']
       );
-
+    });
+    it("makes post requests at mirrors", function(done) {
       var component = new api.Component();
       component.create().then(function() {
         done();
@@ -21,6 +22,9 @@ describe("edit component api", function() {
         (1).should.eql(0, 'Post request rejected');
         done();
       });
+    });
+    after(function(done) {
+      server.restore();
     });
   });
 
