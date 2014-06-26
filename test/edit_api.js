@@ -15,10 +15,10 @@ describe("edit component api", function() {
 
       var component = new api.Component();
       component.create().then(function() {
-        should(true).be.ok;
         done();
       }, function() {
-        true.should.not.be.ok;
+        //this is the reject function, should not be here
+        (1).should.eql(0, 'Post request rejected');
         done();
       });
     });

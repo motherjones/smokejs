@@ -32,7 +32,7 @@ exports.dustBase = function() {
       return chunk.map(function(chunk) {
         var component = new api.Component(slug);
         component.get(function(data) {
-          var template = params.template ? params.template : data.schema_name;
+          var template = params.template ? params.template : data.schemaName;
           exports.render(template, data, function(html) {
             chunk.end(html);
           });
