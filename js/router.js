@@ -55,7 +55,7 @@ module.exports.callback = function() {
   */
 module.exports.browserStart = function() {
   $('body').on("click", "[href^='#/']", module.exports.browserClick );
-  module.exports.callback = exports.browserCallback;
+  module.exports.callback = module.exports.browserCallback;
   var path = document.location.hash.replace('#', '');
   module.exports.pop(path);
 };
@@ -85,7 +85,7 @@ module.exports.browserClick = function(e) {
   * @param {data} object - the page data
   * @param {html} string - the rendered page html
   */
-exports.browserCallback = function(data, html) {
+module.exports.browserCallback = function(data, html) {
   $('body').html(html);
   Ad.reload(data.keywords);
 };

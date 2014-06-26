@@ -5,7 +5,7 @@ var sinon = require('sinon');
 
 //TODO: Rename to component and change utils to 
 //mock
-exports.mock_component = function(slug, json, data) {
+exports.mock_component = function(slug, json, data, attributes) {
   var server = sinon.fakeServer.create();
   server.respondWith('GET', '/mirrors/component/'+slug+'/', [200,
     { "Content-Type": "application/json" },
@@ -19,11 +19,27 @@ exports.mock_component = function(slug, json, data) {
     { "Content-Type": "application/json" },
     JSON.stringify(json)
   ]);
+  server.respondWith('PUT', '/mirrors/component/'+slug+'/', [200,
+    { "Content-Type": "application/json" },
+    JSON.stringify(json)
+  ]);
   if(data) {
     server.respondWith('GET', '/mirrors/component/'+slug+'/data', [200,
       { "Content-Type": data['content-type'] },
       data['response']
     ]);
+  }
+  if(attributes && attributes.length) {
+    for (var attr in attributes) {
+      server.respondWith('POST', '/mirrors/component/'+slug+'/attribute/', [200,
+        { "Content-Type": "application/json" },
+        JSON.stringify(json)
+      ]);
+      server.respondWith('PUT', '/mirrors/component/'+slug+'/attribute/' + attr, [200,
+        { "Content-Type": "application/json" },
+        JSON.stringify(json)
+      ]);
+    }
   }
   server.autoRespond = true;
   server.autoRespondAfter = 1;
