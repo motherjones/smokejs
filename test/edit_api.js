@@ -7,11 +7,13 @@ var sinon = require('sinon');
 
 describe("edit component api", function() {
   describe("post", function() {
+    var server = slug = undefined;
     before(function(done){
-      var slug = 'testslug';
-      var server = utils.mock_component('test', {"slug" : slug}, false,
+      slug = 'testslug';
+      server = utils.mock_component('test', {"slug" : slug}, false,
         ['byline', 'master_image']
       );
+      done();
     });
     it("makes post requests at mirrors", function(done) {
       var component = new api.Component();
@@ -25,6 +27,7 @@ describe("edit component api", function() {
     });
     after(function(done) {
       server.restore();
+      done();
     });
   });
 
