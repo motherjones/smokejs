@@ -55,6 +55,10 @@ describe("edit component api", function() {
       component.update().then(function() {
         server.restore();
         done();
+      }, function() {
+        //this is the reject function, should not be here
+        (1).should.eql(0, 'PUT request rejected');
+        done();
       });
     });
     after(function(done) {
