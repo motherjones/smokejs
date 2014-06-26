@@ -10,9 +10,13 @@ describe("edit component api", function() {
     var server = slug = undefined;
     before(function(done){
       slug = 'testslug';
-      server = utils.mock_component('test', {"slug" : slug}, false,
-        ['byline', 'master_image']
-      );
+      server = sinon.fakeServer.create();
+      server.respondWith('POST', '/mirrors/component/', [200,
+        { "Content-Type": "application/json" },
+        ''
+      ]);
+      server.autoRespond = true;
+      server.autoRespondAfter = 1;
       done();
     });
     it("makes post requests at mirrors", function(done) {
@@ -31,11 +35,20 @@ describe("edit component api", function() {
     });
   });
 
-  describe("patch", function() {
+  describe("update", function() {
+    var slug = server = undefined;
+    before(function(done){
+      slug = 'testslug';
+      server = sinon.fakeServer.create();
+      server.respondWith('PUT', '/mirrors/component/'+slug+'/', [200,
+        { "Content-Type": "application/json" },
+        ''
+      ]);
+      server.autoRespond = true;
+      server.autoRespondAfter = 1;
+      done();
+    });
     it("makes put requests at mirrors", function(done) {
-      var slug = 'testslug';
-      var server = utils.mock_component(slug, test_data);
-
       var component = new api.Component(slug);
       component.metadata = test_data.metadata;
       component.attributes = test_data.attributes;
@@ -43,6 +56,10 @@ describe("edit component api", function() {
         server.restore();
         done();
       });
+    });
+    after(function(done) {
+      server.restore();
+      done();
     });
   });
 
