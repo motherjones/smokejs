@@ -16,7 +16,7 @@ var render = require('./render');
  * @param {function} callback - callback is called with html
  * @returns {promise} Resolves when complete
  */
-exports.display_main_content = function(match, callback) {
+exports.displayMainContent = function(match, callback) {
   var component = new api.Component(match.params.slug);
   return component.get(function(data) {
     render.render(match.params.schema, data, function(html) {
@@ -31,7 +31,7 @@ exports.display_main_content = function(match, callback) {
  * @param {function} callback - callback is called with html
  * @returns {promise} Resolves when complete
  */
-exports.display_homepage = function(match, callback) {
+exports.displayHomepage = function(match, callback) {
   var component = new api.Component('homepage');
   return component.get(function(data) {
     render.render('homepage', data, function(html) {

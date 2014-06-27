@@ -33,6 +33,22 @@ describe("edit component api", function() {
       server.restore();
       done();
     });
+    it("should redirect to mirrors when unauthorized", function(done) {
+
+      var slug = 'unauthorized_check';
+      server.restore();
+      server = utils.mock_unauthorized(slug);
+      var component = new api.Component(slug);
+        //overwrite function that changes document location
+      var redirect = component._logInRedirect;
+      component._logInRedirect = function() {
+        true.should.be.ok;
+        done();
+      };
+
+      component.create();
+
+    });
   });
 
   describe("update", function() {
@@ -97,6 +113,10 @@ describe("edit component api", function() {
         should(component.attributes).have.property('attrName');
         server.restore();
         done();
+      }, function() {
+        //this is the reject function, should not be here
+        (1).should.eql(0, 'POST request for attribute rejected');
+        done();
       });
     });
     it("attribute is changed but not created if not new", function(done) {
@@ -112,6 +132,10 @@ describe("edit component api", function() {
       component.attributes.byline = 'previous value';
       component.setAttribute('byline', 'new value').then(function() {
         server.restore();
+        done();
+      }, function() {
+        //this is the reject function, should not be here
+        (1).should.eql(0, 'PUT request for attribute rejected');
         done();
       });
     });

@@ -13,7 +13,7 @@ describe("Views", function() {
     match.params.schema = 'author';
     var server = utils.mock_component(match.params.slug, response_peter);
 
-    views.display_main_content(match, function(data, html) {
+    views.displayMainContent(match, function(data, html) {
       console.log(html);
       should(data.content_type).eql("text/x-markdown",
         'display main content has a callback which provides the data of the object loaded'
@@ -25,7 +25,7 @@ describe("Views", function() {
   });
   it( "should display the homepage", function(done) {
     var server = utils.mock_component('homepage', response_homepage);
-    views.display_homepage(function(data, html) {
+    views.displayHomepage(function(data, html) {
       console.log(html);
       should( data.metadata.title ).eql( "Mother Jones Home Page",
         'display homepage has a callback which provides the data of the object loaded'

@@ -20,7 +20,7 @@ module.exports = function (grunt) {
         }
       },
       edit: {
-        files: { 'build/js/smoke_edit.js': ['js/main_edit.js'] },
+        files: { 'build/js/smoke_edit.js': ['js/edit_main.js'] },
         options: {
           bundleOptions: {
             debug: true

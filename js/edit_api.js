@@ -36,7 +36,7 @@ exports.Component.prototype._post = function(uri, callback) {
     schema_name: this.schemaName,
     metadata: this.metadata
   };
-  return api._promise_request({
+  return self._promise_request({
       method: 'POST',
       uri: EnvConfig.MIRRORS_URL + 'component/',
       json: payload
@@ -66,7 +66,7 @@ exports.Component.prototype._put = function(callback) {
     schema_name: self.schemaName,
     metadata: self.metadata
   };
-  return api._promise_request({
+  return self._promise_request({
       method: 'PUT',
       uri: EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
       json: payload
@@ -114,7 +114,7 @@ exports.Component.prototype._createAttribute = function(attr) {
   }
 
   var uri = EnvConfig.MIRRORS_URL + 'component/' + this.slug + '/attribute/';
-  return api._promise_request(
+  return self._promise_request(
     {
       method: 'POST',
       uri: uri,
@@ -122,6 +122,7 @@ exports.Component.prototype._createAttribute = function(attr) {
     }
   );
 };
+
 /**
  * Helper function to make calls to update a component's attribute
  * @param {attr} component - the attribute you want to update
@@ -139,7 +140,7 @@ exports.Component.prototype._updateAttribute = function(attr) {
   } else {
     json = { "name" : attr, "child" : this.attributes[attr].slug };
   }
-  return api._promise_request(
+  return this._promise_request(
     {
       method: 'PUT',
       uri: url,
@@ -153,7 +154,7 @@ exports.Component.prototype._updateAttribute = function(attr) {
  * @returns {promise} promise resolved when the component is deleted
  */
 exports.Component.prototype.delete = function() {
-  return api._promise_request(
+  return self._promise_request(
     {
       method: 'DELETE',
       uri: EnvConfig.MIRRORS_URL + 'component/' + this.slug
@@ -169,7 +170,7 @@ exports.Component.prototype.delete = function() {
 exports.Component.prototype.deleteAttribute = function(attr) {
   var url = EnvConfig.MIRRORS_URL + 'component/' +
     this.slug + '/attribute/' + attr;
-  return api._promise_request(
+  return self._promise_request(
     {
       method: 'DELETE',
       uri: url
