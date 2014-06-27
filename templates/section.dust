@@ -1,17 +1,18 @@
 <article>
 	<header>
-		<h1>MoJo on <em>{title}</em></h1>
-    <h5>this is a section page for {id}</h5>
+    <h5>this is a section page for {slug}</h5>
 	</header>
   <ol>
-    {#models}
+    {#attributes}
 			<li>
-				<a href="{attributes.uri}"><img src="{attributes.master_image.uri}" alt="" title="" width="150" height="84" /></a>
+				<a href="{uri}"><img src="{attributes.master_image.uri}" alt="" title="" width="150" height="84" /></a>
 				<div class="section-item">
-					<h3><a href="{attributes.uri}">{attributes.metadata.title}</a></h3>
-					<p class="byline">&mdash;<a href="" rel="author">{attributes.byline.first_name} {attributes.byline.last_name}</a></p>
+					<h3><a href="{uri}">{metadata.title}</a></h3>
+          {#attributes.byline}
+            {#render template="byline" /}
+          {/attributes.byline}
 				</div>
       </li>
-    {/models}
+    {/attributes}
   </ol>
 </article>

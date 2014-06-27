@@ -92,7 +92,6 @@ describe("Render", function() {
     })
     .then(function() {
       var el = utils.div(chunk.output);
-      console.log(chunk.output);
       should( el.find('div.author').html() ).not.be.empty;
       should( el.find('h1').html() ).eql('Peter Pan',
         'load w/o a template loads an author, which has an h1 w/ authorname'

@@ -31,7 +31,7 @@ exports.displayMainContent = function(match, callback) {
  * @param {function} callback - callback is called with html
  * @returns {promise} Resolves when complete
  */
-exports.displayHomepage = function(callback) {
+exports.displayHomepage = function(match, callback) {
   var component = new api.Component('homepage');
   return component.get(function(data) {
     render.render('homepage', data, function(html) {
