@@ -55,6 +55,20 @@ exports._promise_request = function(args, callback, pull) {
   return promise;
 };
 
+exports.Data = function(data_uri) {
+  this.uri = data_uri;
+  this.url = EnvConfig.MIRRORS_DOMAIN + data_uri;
+};
+
+exports.Data.prototype.get = function(callback) {
+  var self = this;
+  var cb = function(data) {
+    self.data = data;
+    callback(data);
+  };
+  return exports._promise_request(this.url, cb);
+};
+
 /**
  * Component constructor
  * @class
