@@ -1,5 +1,6 @@
 /*global require */
 var api = require('../js/edit_api');
+var router = require('../js/router');
 var test_data = require('./fixtures/article/1.json');
 var should = require('should');
 var utils = require('./utils');
@@ -34,20 +35,17 @@ describe("edit component api", function() {
       done();
     });
     it("should redirect to mirrors when unauthorized", function(done) {
-
       var slug = 'unauthorized_check';
       server.restore();
       server = utils.mock_unauthorized(slug);
       var component = new api.Component(slug);
         //overwrite function that changes document location
-      var redirect = component._logInRedirect;
-      component._logInRedirect = function() {
+      var redirect = router.logInRedirect;
+      router.logInRedirect = function() {
         true.should.be.ok;
         done();
       };
-
       component.create();
-
     });
   });
 
@@ -128,7 +126,6 @@ describe("edit component api", function() {
         'note that its only put. posts do not work'
       ]);
       server.autoRespond = true;
-      server.autoRespondAfter = 1;
       component.attributes.byline = 'previous value';
       component.setAttribute('byline', 'new value').then(function() {
         server.restore();
