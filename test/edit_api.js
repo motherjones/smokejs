@@ -17,7 +17,6 @@ describe("edit component api", function() {
         ''
       ]);
       server.autoRespond = true;
-      server.autoRespondAfter = 1;
       done();
     });
     it("makes post requests at mirrors", function(done) {
@@ -36,7 +35,6 @@ describe("edit component api", function() {
     });
     it("should redirect to mirrors when unauthorized", function(done) {
       var slug = 'unauthorized_check';
-      server.restore();
       server = utils.mock_unauthorized(slug);
       var component = new api.Component(slug);
         //overwrite function that changes document location

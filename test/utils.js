@@ -11,38 +11,13 @@ exports.mock_component = function(slug, json, data, attributes) {
     { "Content-Type": "application/json" },
     JSON.stringify(json)
   ]);
-  server.respondWith('POST', '/mirrors/component/', [200,
-    { "Content-Type": "application/json" },
-    JSON.stringify(json)
-  ]);
-  server.respondWith('PATCH', '/mirrors/component/'+slug+'/', [200,
-    { "Content-Type": "application/json" },
-    JSON.stringify(json)
-  ]);
-  server.respondWith('PUT', '/mirrors/component/'+slug+'/', [200,
-    { "Content-Type": "application/json" },
-    JSON.stringify(json)
-  ]);
   if(data) {
     server.respondWith('GET', '/mirrors/component/'+slug+'/data', [200,
       { "Content-Type": data['content-type'] },
       data['response']
     ]);
   }
-  if(attributes && attributes.length) {
-    for (var attr in attributes) {
-      server.respondWith('POST', '/mirrors/component/'+slug+'/attribute/', [200,
-        { "Content-Type": "application/json" },
-        JSON.stringify(json)
-      ]);
-      server.respondWith('PUT', '/mirrors/component/'+slug+'/attribute/' + attr, [200,
-        { "Content-Type": "application/json" },
-        JSON.stringify(json)
-      ]);
-    }
-  }
   server.autoRespond = true;
-  server.autoRespondAfter = 1;
   return server;
 };
 
@@ -61,10 +36,9 @@ exports.mock_unauthorized = function(slug) {
     ''
   ]);
   server.autoRespond = true;
-  server.autoRespondAfter = 1;
   return server;
 };
-  
+
 exports.mock_chunk = function() {
   return {
     map : function(callback) {
