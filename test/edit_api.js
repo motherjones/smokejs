@@ -85,8 +85,8 @@ describe("edit component api", function() {
       var component = new api.Component(slug);
       var attr_name = 'test';
       var attr_value = 'value';
-      var server = utils.mock_component(slug, {"slug" : slug}, false,
-        [attr_name]
+      var server = utils.mock_component_attributes(slug, [attr_name],
+        {"slug" : slug}
       );
       component.setAttribute(attr_name, attr_value).then(function() {
         should(component.attributes[attr_name]).eql(attr_value);
