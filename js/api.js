@@ -120,7 +120,7 @@ exports.Component.prototype.get = function(callback, pull) {
   var self = this;
   return self._promise_request(EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
     function(body) {
-      data = JSON.parse(body);
+      var data = JSON.parse(body);
       self._build(data);
       callback(self);
     }
