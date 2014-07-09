@@ -49,7 +49,7 @@ exports.Component.prototype._post = function(uri, callback) {
  * @returns {promise} Resolves when complete
  */
 exports.Component.prototype.update = function() {
-  return this._put()
+  return this._put();
 };
 
 /**
@@ -133,7 +133,7 @@ exports.Component.prototype._updateAttribute = function(attr) {
     this.slug + '/attribute/' + attr + '/';
   var json;
   if (Object.prototype.toString.call( this.attributes[attr] ) === '[object Array]') {
-    var json = [];
+    json = [];
     for (var i = 0; i < this.attributes[attr].length; i++) {
       json.push(this.attributes[attr][i].slug);
     }
@@ -160,7 +160,7 @@ exports.Component.prototype.delete = function() {
       uri: EnvConfig.MIRRORS_URL + 'component/' + this.slug
     }
   );
-}
+};
 
 /**
  * Removes an attribute from a component
@@ -176,4 +176,4 @@ exports.Component.prototype.deleteAttribute = function(attr) {
       uri: url
     }
   );
-}
+};

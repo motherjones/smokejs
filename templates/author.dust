@@ -1,10 +1,10 @@
-<div class="author">
+<div class="author" id="{slug}">
 <h1>
   <span class="{slug} first_name">{metadata.first_name}</span>&nbsp;
   <span class="{slug} last_name">{metadata.last_name}</span>
 </h1>
-</div>
 <section class="{slug} component_body">
   {#load_content data_uri=data_uri /}
   <b>Data url</b>: {data_uri}
 </section>
+</div>

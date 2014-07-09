@@ -1,6 +1,6 @@
 var views = require('./edit_views');
 
-router = require('./router');
+var router = require('./router');
 
 //ADD ALL THE EDIT VIEWS TO THE ROUTER
 router.addRoute("^/$", views.displayHomepage);

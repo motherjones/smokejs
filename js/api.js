@@ -3,7 +3,7 @@
 var EnvConfig = require('./config');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
-var _ = require('lodash');
+//var _ = require('lodash');
 
 /**
  * Currently, a component object with a get function
@@ -24,7 +24,7 @@ exports.Component = function(slug, data) {
 
   if (data) {
     this._build(data);
-  };
+  }
 };
 
 /**
@@ -74,7 +74,7 @@ exports.Component.prototype._logInRedirect = function() {
  * @param {pull} - ignore ControlCache, currently unused.
  * @return {promise} - returns promise
  */
-exports.Component.prototype._promise_request = function(args, callback, pull) {
+exports.Component.prototype._promise_request = function(args, callback) {
   var self = this;
   var promise = new Promise(function(resolve, reject) {
     request(args, self._success(resolve, reject, callback));
@@ -91,7 +91,7 @@ exports.Component.prototype._build = function(data) {
   this.metadata = data.metadata;
   this.contentType = data.content_type;
   this.schemaName = data.schema_name;
-  for (attr in data.attributes) {
+  for (var attr in data.attributes) {
     var attribute = data.attributes[attr];
     //is it an array?
     if (Object.prototype.toString.call( attribute ) === '[object Array]') {
@@ -100,12 +100,12 @@ exports.Component.prototype._build = function(data) {
         this.attributes[attr].push(
           new exports.Component(attribute[i].slug, attribute[i])
         );
-      };
+      }
     } else {
       this.attributes[attr] = new exports.Component(attribute.slug, attribute);
     }
     return this;
-  };
+  }
 };
 
 /**
