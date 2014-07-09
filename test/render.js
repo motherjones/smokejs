@@ -93,10 +93,12 @@ describe("Render", function() {
     .then(function() {
       var el = utils.div(chunk.output);
       should( el.find('div.author').html() ).not.be.empty;
-      should( el.find('h1').html() ).eql('Peter Pan',
+      var header = el.find('h1').html();
+      should( header ).eql(
+        '<span class="peter first_name">Peter</span>&nbsp;<span class="peter last_name">Pan</span>',
         'load w/o a template loads an author, which has an h1 w/ authorname'
       );
-      should( el.find('#component_body').html() ).not.be.empty;
+      should( el.find('.component_body').html() ).not.be.empty;
       server.restore();
       done();
     });

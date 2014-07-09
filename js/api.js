@@ -1,7 +1,6 @@
 /* global document */
 'use strict';
 var EnvConfig = require('./config');
-var router = require('./router');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
 //var _ = require('lodash');
@@ -32,7 +31,7 @@ exports._success = function(resolve, reject, callback) {
       }
     } else if (result.statusText === "Unauthorized") {
       //redirect to log in server
-      router.logInRedirect();
+      exports.logInRedirect();
     } else {
       EnvConfig.log(result);
       EnvConfig.ERROR_HANDLER(err);
@@ -128,4 +127,13 @@ exports.Component.prototype.get = function(callback, pull) {
       callback(self);
     }
   );
+};
+
+/**
+ * Redirects browser to mirrors log in page
+ * @memberof module:api
+ */
+exports.logInRedirect = function() {
+  document.location = EnvConfig.MIRRORS_DOMAIN +
+    '/login?request=' + encodeURI(document.location);
 };

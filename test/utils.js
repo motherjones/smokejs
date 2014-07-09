@@ -49,6 +49,10 @@ exports.mock_unauthorized = function(slug) {
     {},
     ''
   ]);
+  server.respondWith('GET', '/mirrors/component/'+slug+'/', [401,
+    {},
+    ''
+  ]);
   server.respondWith('GET', '/mirrors/component/'+slug+'/data', [404,
     {},
     ''

@@ -33,18 +33,6 @@ describe("edit component api", function() {
       server.restore();
       done();
     });
-    it("should redirect to mirrors when unauthorized", function(done) {
-      var slug = 'unauthorized_check';
-      server = utils.mock_unauthorized(slug);
-      var component = new api.Component(slug);
-        //overwrite function that changes document location
-      var redirect = router.logInRedirect;
-      router.logInRedirect = function() {
-        true.should.be.ok;
-        done();
-      };
-      component.create();
-    });
   });
 
   describe("update", function() {

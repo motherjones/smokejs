@@ -89,12 +89,3 @@ module.exports.browserCallback = function(data, html) {
   $('body').html(html);
   Ad.reload(data.keywords);
 };
-
-/**
- * Redirects browser to mirrors log in page
- * @memberof module:router
- */
-module.exports.logInRedirect = function() {
-  document.location = EnvConfig.MIRRORS_DOMAIN +
-    '/login?request=' + encodeURI(document.location);
-};
