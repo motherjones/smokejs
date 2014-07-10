@@ -137,3 +137,21 @@ describe("edit component api", function() {
   });
 
 });
+
+describe("edit data api", function() {
+  it("update data", function(done) {
+    var uri = '/test-uri/';
+    this.server = sinon.fakeServer.create();
+    this.server.respondWith('POST', uri, function(){
+      
+    });
+    this.server.autoRespond = true;
+    var data = new api.Data(uri);
+    data.data = 'DATA';
+    data.update();
+  });
+  after(function(done) {
+    this.server.restore();
+    done();
+  });
+});
