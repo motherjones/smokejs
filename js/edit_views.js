@@ -100,7 +100,6 @@ exports._editableMetadata = function(component, meta) {
     .attr('contentEditable', true)
     .on('blur', function() {
       component.metadata[meta] = $(this).text();
-      console.log('updated metadata', component.metadata[meta]);
     });
 };
 
@@ -146,6 +145,6 @@ exports._successNotice = function(message) {
  * we should consider replacing this w/ the EnvConfig error handling
  * @param {string} message - The success message
  */
-exports._successNotice = function(error) {
+exports._failureNotice = function(error) {
   console.log('updating failed!', error);
 };
