@@ -7,6 +7,8 @@
 </head>
 <body>
   <script>
+    //FIXME Replace name w/ {cookiename}= when we know the name of the cookie
+    // which indicates someone at least claims to have editor permisions
     var name = "auth=";
     var ca = document.cookie.split(';');
     var auth;
@@ -19,9 +21,11 @@
 
     var js = document.createElement("script");
     js.type = "text/javascript";
+    //FIXME Right now we need to test edit, but later we want to replace this with
+    //if (!auth) {
     if (!auth && false) {
       js.src = 'js/smoke.js';
-    } else { 
+    } else {
       js.src = 'js/smoke_edit.js';
     }
     document.body.appendChild(js);
