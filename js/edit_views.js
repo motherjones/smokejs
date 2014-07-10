@@ -117,7 +117,7 @@ exports._socialSharingElement = function(component) {
 /**
  * helper function. creates the button that updates a component on click
  * @param {component} component - The component that will be updated
- * @returns {jQuery element} button - the jQuery element that will update a component on click
+ * @returns {element} button - the jQuery element that will update a component on click
  */
 exports._createSaveButton = function(component) {
   return $('<button>Save</button>')
