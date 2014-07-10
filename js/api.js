@@ -3,7 +3,7 @@
 var EnvConfig = require('./config');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
-//var _ = require('lodash');
+var _ = require('lodash');
 
 /**
  * Currently, a component object with a get function
@@ -96,7 +96,7 @@ exports.Component.prototype._build = function(data) {
   for (var attr in data.attributes) {
     var attribute = data.attributes[attr];
     //is it an array?
-    if (Object.prototype.toString.call( attribute ) === '[object Array]') {
+    if (_.isArray(attribute)) {
       this.attributes[attr] = [];
       for (var i = 0; i < attribute.length; i++) {
         this.attributes[attr].push(

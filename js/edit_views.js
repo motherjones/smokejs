@@ -1,5 +1,6 @@
 var views = require('./views');
 var $ = require('jquery');
+var _ = require('lodash');
 /**
  * Include views to be called by the router here each should
  * take a callback that takes in data, html
@@ -53,7 +54,7 @@ exports.displayHomepage = function(match, callback) {
  * @returns {void}
  */
 exports._makeEditable = function(component) {
-  if (Object.prototype.toString.call( component ) === '[object Array]') {
+  if (_.isArray( component )) {
     exports._makeListEditable(component);
   } else {
     for (var meta in component.metadata) {
