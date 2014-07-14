@@ -18,6 +18,7 @@ describe("component api", function() {
       component.get(callback).then(function() {
         should(component).have.property('metadata');
         should(component).have.property('attributes');
+        should(component).have.property('data');
         done();
       });
     });

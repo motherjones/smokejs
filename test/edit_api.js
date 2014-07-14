@@ -142,13 +142,18 @@ describe("edit data api", function() {
   it("update data", function(done) {
     var uri = '/test-uri/';
     this.server = sinon.fakeServer.create();
-    this.server.respondWith('POST', uri, function(){
-      
+    this.server.respondWith(function(request){
+      request.respond(200, {}, 'test');
     });
     this.server.autoRespond = true;
     var data = new api.Data(uri);
     data.data = 'DATA';
-    data.update();
+    var callback = function(data) {
+      should.exist(data);
+      done();
+    };
+    var promise = data.update(callback);
+    //TODO: add promise test
   });
   after(function(done) {
     this.server.restore();
