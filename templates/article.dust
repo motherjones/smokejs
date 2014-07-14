@@ -6,7 +6,7 @@
 		{/metadata}
 		<section id="component_author">
 			<h3>Authors</h3>
-        <ul class="byline">
+        <ul data-attribute="byline" data-slug="{slug}">
           {#attributes.byline}
             {#render template="byline" /}
           {/attributes.byline}

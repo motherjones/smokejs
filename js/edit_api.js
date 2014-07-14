@@ -1,6 +1,5 @@
 'use strict';
 var EnvConfig = require('./config');
-var request = require('browser-request');
 var Promise = require('promise-polyfill');
 var api = require('./api');
 var _ = require('lodash');
@@ -57,7 +56,6 @@ exports.Component.prototype.create = function() {
  * @returns {promise} Resolves when complete
  */
 exports.Component.prototype._post = function(uri, callback) {
-  var self = this;
   var payload = {
     slug: this.slug,
     content_type: this.contentType,
@@ -127,7 +125,6 @@ exports.Component.prototype.setAttribute = function(key, component) {
  * @returns {promise} promise - a promise which resolves when all attributes are updated
  */
 exports.Component.prototype._createAttribute = function(attr) {
-  var self = this;
   var payload = {
     name: attr,
   };

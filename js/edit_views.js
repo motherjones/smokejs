@@ -55,7 +55,7 @@ exports.displayHomepage = function(match, callback) {
  * @param {component} component - The component we're making editable
  * @returns {void}
  */
-exports._makeEditable = function(component, name) {
+exports._makeEditable = function(component) {
   for (var meta in component.metadata) {
     exports._editableMetadata(component, meta);
   }
@@ -77,11 +77,11 @@ exports._makeEditable = function(component, name) {
  * @returns {void}
  */
 exports._makeListEditable = function(name, component) {
-  var list = $('#' + name);
+  var list = $('[data-attribute="' + name + '"][data-slug="' + component.slug + '"]');
   list.sortable().bind('sortupdate', function(e, ui) {
   });
   list.find('li').each(function() {
-      exports._removeFromListButton(this, component)
+      exports._removeFromListButton(this, component);
   });
   list.append(exports._addToListButton(component));
   list.append(exports._createSaveListButton(name, component));

@@ -91,7 +91,7 @@ exports.Component = function(slug, data) {
   this.schemaName = null;
   if (data) {
     this._build(data);
-  };
+  }
 };
 
 /**
@@ -112,7 +112,7 @@ exports.Component.prototype._build = function(data) {
    * points to the Data object for Component instance
    */
   this.data = new this._Data(data.data_uri);
-  for (attr in data.attributes) {
+  for (var attr in data.attributes) {
     var attribute = data.attributes[attr];
     //is it an array?
     if (_.isArray(attribute)) {
