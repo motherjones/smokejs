@@ -9,8 +9,14 @@ var _ = require('lodash');
  * @module edit_api
  */
 
+/**
+ * @class
+ */
 exports.Data = api.Data;
 
+/**
+ * Creates and Updates the data object.
+ */
 exports.Data.prototype.update = function(callback) {
   var self = this;
   return api._promise_request({
@@ -30,7 +36,8 @@ exports.Component = api.Component;
 
 /**
  * Interally binds the appropiate data constructor
- * to the component.  Use when referencing 
+ * to the component.  Use when referencing from component
+ * please use this.
  */
 exports.Component.prototype._Data = exports.Data;
 
