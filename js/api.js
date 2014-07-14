@@ -75,7 +75,7 @@ exports.Data.prototype.get = function(callback) {
  */
 exports.Component = function(slug, data) {
   this.slug = slug;
-  this.attributes = [];
+  this.attributes = {};
   this.metadata = {};
   this.contentType = null;
   this.schemaName = null;
@@ -90,6 +90,7 @@ exports.Component = function(slug, data) {
  * from a Components response.
  */
 exports.Component.prototype._build = function(data) {
+  var oldslug = this.slug;
   this.metadata = data.metadata;
   this.contentType = data.content_type;
   this.schemaName = data.schema_name;
@@ -106,8 +107,9 @@ exports.Component.prototype._build = function(data) {
     } else {
       this.attributes[attr] = new exports.Component(attribute.slug, attribute);
     }
-    return this;
   }
+  if (this.slug !== oldslug) { console.log("WHAOHA NO WTF HAPPEND HERE?");}
+  return this;
 };
 
 /**

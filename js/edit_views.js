@@ -1,5 +1,6 @@
 var views = require('./views');
 var $ = require('jquery');
+require('./jquery.sortable');
 var _ = require('lodash');
 /**
  * Include views to be called by the router here each should
@@ -53,31 +54,67 @@ exports.displayHomepage = function(match, callback) {
  * @param {component} component - The component we're making editable
  * @returns {void}
  */
-exports._makeEditable = function(component) {
-  if (_.isArray( component )) {
-    exports._makeListEditable(component);
-  } else {
-    for (var meta in component.metadata) {
-      exports._editableMetadata(component, meta);
-    }
-    for (var attr in component.attributes) {
-      exports._makeEditable(component.attributes[attr]);
-    }
-    exports._editableData(component);
+exports._makeEditable = function(component, name) {
+  for (var meta in component.metadata) {
+    exports._editableMetadata(component, meta);
   }
+  for (var name in component.attributes) {
+    if (_.isArray( component.attributes[name] )) {
+      exports._makeListEditable(name, component);
+    } else {
+      exports._makeEditable(component.attributes[name]);
+    }
+  }
+  exports._editableData(component);
   $('#' + component.slug).append(exports._createSaveButton(component));
 };
 
 /**
  * helper function. Makes an array sortable
+ * @param {string} name - The name of the array we're making sortable
  * @param {array} components - The component array we're making sortable
  * @returns {void}
  */
-exports._makeListEditable = function(components) {
-  console.log(components);
-  // uhhh. welp
+exports._makeListEditable = function(name, component) {
+  var list = $('#' + name);
+  list.sortable().bind('sortupdate', function(e, ui) {
+  });
+  list.find('li').each(function() {
+      exports._removeFromListButton(this, component)
+  });
+  list.append(exports._addToListButton(component));
+  list.append(exports._createSaveListButton(name, component));
 };
 
+/**
+ * function for creating a button that adds a new component to a list
+ * @param {string} name - The name of the list we're adding to
+ * @param {component} component - The list we're sorting
+ * @returns {void}
+ */
+exports._addToListButton = function(name, component) {
+  // allow editor to select and add a new thing to a list
+};
+
+/**
+ * function for creating a button that removes a list item from a list
+ * @param {element} item - The particular item the button is for
+ * @param {string} name - The name of the list
+ * @param {component} component - The list we're sorting
+ * @returns {void}
+ */
+exports._removeFromListButton = function(item, name, component) {
+  // make a button that will remove an item from html and from attribute
+};
+
+/**
+ * function for creating a button that will save a list attribute
+ * @param {string} name - The name of the attribute
+ * @param {component} component - The component containing the list we're sorting
+ * @returns {void}
+ */
+exports._createSaveListButton = function(name, component) {
+};
 /**
  * helper function. Makes data editable
  * @param {component} component - The component who's data we're making editable

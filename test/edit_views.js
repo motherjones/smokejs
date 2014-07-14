@@ -16,27 +16,28 @@ describe("edit view functions", function() {
       slug = 'test';
       component = new api.Component(slug, testData);
 
+      should(component.slug).eql(slug);
       mockArticle = $('<div id="' + slug + '"></div>');
 
       $('body').append(mockArticle);
       done();
     });
 
-    it("can tell if given an array", function(done) {
+    it("can tell if an attribute is an array", function(done) {
       var listEditableBackup = views._makeListEditable;
-      views._makeListEditable = function() {
-        // called if array identified
+      views._makeListEditable = function(name) {
         views._makeListEditable = listEditableBackup;
+        name.should.eql('byline');
         done();
       }
-      views._makeEditable(testData.attributes.byline)
+      views._makeEditable(component)
     });
 
     it("calls function to make metadata editable", function(done) {
       var metadataCalled = [];
       var editableMetadataBackup = views._editableMetadata;
       views._editableMetadata = function(comp, meta) {
-        should(component.slug).eql(comp.slug);
+        //This is called on the master image, too!!
         metadataCalled.push(meta);
       }
 
