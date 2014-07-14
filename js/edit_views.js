@@ -2,6 +2,7 @@ var views = require('./views');
 var $ = require('jquery');
 require('./jquery.sortable');
 var _ = require('lodash');
+var api = require('./edit_api');
 /**
  * Include views to be called by the router here each should
  * take a callback that takes in data, html
@@ -17,9 +18,9 @@ var _ = require('lodash');
  */
 exports.displayMainContent = function(match, callback) {
   callback = callback ? callback : function() {};
-  var component;
+//  var component;
   var cb = function(data, html) {
-    component = data;
+    var component = new api.Component(data.slug, data);
     html += exports._socialSharingElement(component);
     callback(data, html);
     exports._makeEditable(component);
