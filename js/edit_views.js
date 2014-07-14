@@ -78,10 +78,24 @@ exports._makeEditable = function(component) {
  */
 exports._makeListEditable = function(name, component) {
   var list = $('[data-attribute="' + name + '"][data-slug="' + component.slug + '"]');
-  list.sortable().bind('sortupdate', function(e, ui) {
+  list.sortable().bind('sortupdate', function() {
+    var newOrder = [];
+    list.children('li').each(function() {
+      newOrder.push($(this).data('slug'))
+    });
+    var attribute = [];
+    for (var i = 0; i < newOrder.length; i++) {
+      for (var j = 0; j < component.attributes[name].length; j++) {
+        if (component.attributes[name][j].slug === newOrder[i]) {
+          attribute.push(component.attributes[name][j]);
+          break;
+        }
+      }
+    }
+    component.attributes[name] = attribute;
   });
   list.find('li').each(function() {
-      exports._removeFromListButton(this, component);
+    $(this).append(exports._removeFromListButton($(this), component));
   });
   list.append(exports._addToListButton(component));
   list.append(exports._createSaveListButton(name, component));
@@ -105,6 +119,13 @@ exports._addToListButton = function(name, component) {
  * @returns {void}
  */
 exports._removeFromListButton = function(item, name, component) {
+  return $('<span class="remove-from-list">x</span>')
+    .click(function() {
+      _.remove(component, function(comp) {
+        item.data('slug') === comp.slug;
+      });
+      item.remove();
+    });
   // make a button that will remove an item from html and from attribute
 };
 
@@ -115,6 +136,10 @@ exports._removeFromListButton = function(item, name, component) {
  * @returns {void}
  */
 exports._createSaveListButton = function(name, component) {
+  return $('<button>Save List</button>')
+    .click(function() {
+      component._updateAttribute(name);
+    });
 };
 /**
  * helper function. Makes data editable
@@ -134,7 +159,7 @@ exports._editableData = function(component) {
  * @returns {void}
  */
 exports._editableMetadata = function(component, meta) {
-  $('.' + component.slug + '.' + meta)
+  $('[data-slug="' + component.slug + '"][data-metadata="' + meta + '"]')
     .attr('contentEditable', true)
     .on('blur', function() {
       component.metadata[meta] = $(this).text();

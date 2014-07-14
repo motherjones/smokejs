@@ -1,7 +1,7 @@
 <div class="author" id="{slug}">
 <h1>
-  <span class="{slug} first_name">{metadata.first_name}</span>&nbsp;
-  <span class="{slug} last_name">{metadata.last_name}</span>
+  <span data-slug="{slug}" data-metadata="first_name">{metadata.first_name}</span>&nbsp;
+  <span data-slug="{slug}" data-metadata="last_name">{metadata.last_name}</span>
 </h1>
 <section class="{slug} component_body">
   {#load_content data_uri=data_uri /}

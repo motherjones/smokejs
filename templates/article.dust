@@ -1,8 +1,8 @@
-<article>
+<article id="{slug}">
 	<header>
 		{#metadata}
-		<h1>{title}</h1>
-		<h2>{description}</h2>
+		<h1 data-slug="{slug}" data-metadata="title">{title}</h1>
+		<h2 data-slug="{slug}" data-metadata="dek">{dek}</h2>
 		{/metadata}
 		<section id="component_author">
 			<h3>Authors</h3>
@@ -14,7 +14,7 @@
 		</section>
 		<section id="component_tags">
 			<h3>Tags</h3>
-			<ul>
+      <ul data-attribute="tags" data-slug="{slug}">
 			  {#metadata.tags}
 				<li>{.}</li>{~n}
 			  {/metadata.tags}
