@@ -8,10 +8,30 @@ var api = require('./api');
  * @module edit_api
  */
 
+exports.Data = api.Data;
+
+exports.Data.prototype.update = function(callback) {
+  var self = this;
+  return api._promise_request({
+    method: 'POST',
+    uri: self.url,
+    encoding: 'multipart/form-data',
+    form: {
+      body: self.data
+    }
+  }, callback);
+};
+
 /**
  * @class
  */
 exports.Component = api.Component;
+
+/**
+ * Interally binds the appropiate data constructor
+ * to the component.  Use when referencing 
+ */
+exports.Component.prototype._Data = exports.Data;
 
 /**
  * Tells mirrors to make a new component and give us a slug for it
