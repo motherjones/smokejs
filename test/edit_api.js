@@ -143,7 +143,6 @@ describe("edit data api", function() {
     var uri = '/test-uri/';
     this.server = sinon.fakeServer.create();
     this.server.respondWith(function(request){
-      console.log(request);
       request.respond(200, {}, 'test');
     });
     this.server.autoRespond = true;
