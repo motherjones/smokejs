@@ -29,7 +29,8 @@ exports.Component = api.Component;
 
 /**
  * Interally binds the appropiate data constructor
- * to the component.  Use when referencing 
+ * to the component.  Use when referencing from component
+ * please use this.
  */
 exports.Component.prototype._Data = exports.Data;
 
