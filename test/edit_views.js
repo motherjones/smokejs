@@ -88,7 +88,7 @@ describe("edit view functions", function() {
       component = new api.Component(slug, testData);
 
       mockArticle = $('<div id="' + slug + '"></div>');
-      mockDek = $('<h1 class="dek ' + slug + '">fake dek yo</h1>');
+      mockDek = $('<h1 data-metadata="dek" data-slug="' + slug + '">fake dek yo</h1>');
       mockArticle.append(mockDek);
       $('body').append(mockArticle);
       done();
