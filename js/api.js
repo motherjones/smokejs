@@ -109,6 +109,9 @@ exports.Component.prototype._build = function(data) {
   this.metadata = data.metadata;
   this.contentType = data.content_type;
   this.schemaName = data.schema_name;
+  /**
+   * points to the Data object for Component instance
+   */
   this.data = new this._Data(data.data_uri);
   for (attr in data.attributes) {
     var attribute = data.attributes[attr];

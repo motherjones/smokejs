@@ -8,8 +8,14 @@ var api = require('./api');
  * @module edit_api
  */
 
+/**
+ * @class
+ */
 exports.Data = api.Data;
 
+/**
+ * Creates and Updates the data object.
+ */
 exports.Data.prototype.update = function(callback) {
   var self = this;
   return api._promise_request({
