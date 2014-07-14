@@ -79,11 +79,16 @@ exports.Component = function(slug, data) {
   this.metadata = {};
   this.contentType = null;
   this.schemaName = null;
-
   if (data) {
     this._build(data);
   };
 };
+
+/**
+ * Interally binds the appropiate data constructor
+ * to the component.
+ */
+exports.Component.prototype._Data = exports.Data;
 
 /**
  * Internal function for building attrbitutes and metadata
@@ -93,7 +98,8 @@ exports.Component.prototype._build = function(data) {
   this.metadata = data.metadata;
   this.contentType = data.content_type;
   this.schemaName = data.schema_name;
-  for (var attr in data.attributes) {
+  this.data = new this._Data(data.data_uri);
+  for (attr in data.attributes) {
     var attribute = data.attributes[attr];
     //is it an array?
     if (_.isArray(attribute)) {
