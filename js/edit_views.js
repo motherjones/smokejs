@@ -138,7 +138,10 @@ exports._removeFromListButton = function(item, name, component) {
 exports._createSaveListButton = function(name, component) {
   return $('<button>Save List</button>')
     .click(function() {
-      component._updateAttribute(name);
+      component._updateAttribute(name).then(
+        exports._successNotice,
+        exports._failureNotice
+      );
     });
 };
 /**
