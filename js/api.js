@@ -55,11 +55,21 @@ exports._promise_request = function(args, callback, pull) {
   return promise;
 };
 
+/**
+ * Data constructor
+ * @class
+ * @param {string} data_uri - URI of the data object
+ */
 exports.Data = function(data_uri) {
   this.uri = data_uri;
   this.url = EnvConfig.MIRRORS_DOMAIN + data_uri;
 };
 
+/**
+ * Gets the data from the server.
+ * @param callback - Runs after data is returned.
+ * @returns {promise}
+ */
 exports.Data.prototype.get = function(callback) {
   var self = this;
   var cb = function(data) {
