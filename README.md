@@ -85,6 +85,35 @@ describe("component api", function() {
   Turns our inline documentation into documentation that can be read.
   Hopefully soon we'll have a section on how to add to our documentation
 
+### Adding new templates
+  We are using [dust](http://akdubya.github.io/dustjs/) as our templating language.
+  We've added 4 functions to dust that might be important to you.
+#### ad `{#ad placement="bottommob" width="299" /}`
+  Places an iframed ad to the page. The iframe will automatically resize to the height of the ad. It will not resize the width
+  Requires a parameter telling smoke the placement, which it passes along to the ad server.
+  You may also find it useful to pass along a width.
+#### load `{#load slug="peter" template="byline" /}`
+  Loads a new component from mirrors from a slug.
+  Takes a slug parameter, and a template parameter.
+  If a template parameter is not given, the component will be rendered with it's schemaName as the template
+#### render `{#attributes.byline} {#render template="byline" /} {/attributes.byline}`
+  Renders an already loaded component.
+  In order to work you must set dust's context to the component you want to render. That's done with the `{#attributes.byline}new context is here{/attributes.byline}` stuff
+  If a template parameter is not given, the component will be rendered with it's schemaName as the template
+#### markdown `{#markdown data_uri="http://mirrors.motherjones.com/component/bengazhi/data" /}`
+  This isn't actually implemented yet. :(  It'll be working soon. Promise.
+
+### Making our templates play nice with our inline edit
+  If you want to make a component inline editable, you have to jump through some hoops
+#### Your rendered component must have a contained in an element w/ the id of your component's slug
+  Thats how we know where to look for things that should be inline editable, and where to add the save button
+#### Your metadata must be contained in an element with the attributes data-slug equal to your component's slug, and data-metadata equal to the metadata's name
+  `<h2 data-slug="{slug}" data-metadata="dek">{dek}</h2>`
+#### If you want to make an attribute that is a list editable, your ul or ol must have the attributes data-slug equal to your component's slug, and data-attribute equal to the attributes name on your component
+  `<ul data-attribute="byline" data-slug="{slug}">`
+#### If you want to make an attribute that is a list editable, your list items must have the attribute data-slug equal to the list item's slug
+  `<li data-slug="{slug}">{authorname}</li>`
+
 ## Examples
 _(Coming soon)_
 ## Release History
