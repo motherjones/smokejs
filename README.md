@@ -25,7 +25,7 @@ We're using grunt as our task manager. It has a few commands that will make deve
   Runs our tests and gives us a code coverage percent.
   Hopefully we'll soon have a section on how our tests are constructed.
 
-```
+```javascript
 /*global require */
 var api = require('../js/api');
 var response = require('./fixtures/article/1.json');
