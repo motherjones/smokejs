@@ -7,72 +7,132 @@ var EnvConfig = require('./config');
 var Ad = require('./ad');
 var Promise = require('promise-polyfill');
 
+/**
+ * Renders data with dust templates
+ * @module api
+ */
+
+/**
+ * Creates a callback function for mirrors requests
+ * @param {string} template - the dust template to use
+ * @param {object} data - the data to render the template with
+ * @param {function} callback - callback is called with the results of the rendered template
+ * @returns {promise} A promise that resolves when rendering is done
+ */
 exports.render = function(template, data, callback) {
   var promise = new Promise(function(resolve, reject) {
-    var context = exports.dustBase().push(data);
+    var context = exports.dustBaseWrapper().push(data);
     Dust.render(template, context,
       function(err, out) {  //callback
         if (err) {
           EnvConfig.ERROR_HANDLER(err, this);
-          reject();
+          reject(err);
         }
         callback(out);
-        resolve();
+        resolve(out);
       }
     );
   });
   return promise;
 };
 
-exports.dustBase = function() {
-  return Dust.makeBase({
-    mediaBase : EnvConfig.MEDIA_STORE,
-    load:  function(chunk, context, bodies, params) {
-      var slug = params.slug ? params.slug : params.id;
-      return chunk.map(function(chunk) {
-        var component = new api.Component(slug);
-        component.get(function(data) {
-          var template = params.template ? params.template : data.schemaName;
-          exports.render(template, data, function(html) {
-            chunk.end(html);
-          });
-        });
+/**
+ * Creates dust readable context available for all dust templates
+ * @returns {dustbase} the context passed along to all dust rendering
+ */
+exports.dustBaseWrapper = function() {
+  return Dust.makeBase(exports.dustBase);
+}
+
+/**
+ * The context available for all dust templates
+ * @returns {object} the values passed along to all dust rendering
+ */
+exports.dustBase = {
+};
+
+/**
+ * Where we store our media (images, etc)
+ */
+exports.dustBase.mediaBase = EnvConfig.MEDIA_STORE;
+
+/**
+ * A function which loads a component from mirrors
+ * @param {chunk} chunk - How dust tells where to put the returned html
+ * @param {object} context - The dust context when load is called
+ * @param {object} bodies - Access to any bodies defined within the calling block.
+ * @param {object} params - Parameters passed in by the template writer. Requires slug, the slug of the component you wish to load. optional template the template to render the component with
+ * @returns {dust promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
+ */
+exports.dustBase.load = function(chunk, context, bodies, params) {
+  var slug = params.slug ? params.slug : params.id;
+  return chunk.map(function(chunk) {
+    var component = new api.Component(slug);
+    component.get(function(data) {
+      var template = params.template ? params.template : data.schemaName;
+      exports.render(template, data, function(html) {
+        chunk.end(html);
       });
-    },
-    ad:  function(chunk, context, bodies, params) {
-      return chunk.map(function(chunk) {
-        Ad.currentAds[params.placement] = true;
-        params.src = Ad.getSrc(params.placement);
-        exports.render('ad_iframe', params, function(html) {
-          chunk.end(html);
-        });
+    });
+  });
+};
+
+/**
+ * A function to render a component from dust context
+ * @param {chunk} chunk - How dust tells where to put the returned html
+ * @param {object} context - The dust context when load is called
+ * @param {object} bodies - Access to any bodies defined within the calling block.
+ * @param {object} params - Parameters passed in by the template writer. Optional template, the template to render the component with
+ * @returns {dust promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
+ */
+exports.dustBase.render = function(chunk, context, bodies, params) {
+  return chunk.map(function(chunk) {
+    exports.render(params.template, context.stack.head, function(html) {
+      chunk.end(html);
+    });
+  });
+};
+/**
+ * A function to place an ad in a template
+ * @param {chunk} chunk - How dust tells where to put the returned html
+ * @param {object} context - The dust context when load is called
+ * @param {object} bodies - Access to any bodies defined within the calling block.
+ * @param {object} params - Parameters passed in by the template writer. Required placement, the placement as the ad server knows it. Optional width, the width of the ad
+ * @returns {dust promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
+ */
+exports.dustBase.ad = function(chunk, context, bodies, params) {
+  return chunk.map(function(chunk) {
+    Ad.currentAds[params.placement] = true;
+    params.src = Ad.getSrc(params.placement);
+    exports.render('ad_iframe', params, function(html) {
+      chunk.end(html);
+    });
+  });
+};
+
+/**
+ * A function to render markdown in dust
+ * @param {chunk} chunk - How dust tells where to put the returned html
+ * @param {object} context - The dust context when load is called
+ * @param {object} bodies - Access to any bodies defined within the calling block.
+ * @param {object} params - Parameters passed in by the template writer.
+ * @returns {dust promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
+ */
+exports.dustBase.markdown = function(chunk, context, bodies, params) {
+  console.log(params, bodies, context);
+  return chunk.map(function(chunk) {
+        chunk.end('we need to fix the fixture server');
+    /*
+    api.component(params.data_uri, function(data) {
+      var html = Markdown.toHTML(data);
+      // do we need a better way of making a random name?
+      var templateName = 'markdown_' + Math.random();
+      var template = Dust.compile(html, templateName);
+      Dust.loadSource(template);
+      exports.render(templateName, data, function(html) {
+        chunk.end(html);
       });
-    },
-         /* IMPORTANT! THIS USES CONTEXT, YOU PROBABLY WANT LOAD */
-    render:  function(chunk, context, bodies, params) {
-      return chunk.map(function(chunk) {
-        exports.render(params.template, context.stack.head, function(html) {
-          chunk.end(html);
-        });
-      });
-    },
-    markdown:  function(chunk, context, bodies, params) {
-      console.log(params, bodies, context);
-      return chunk.map(function(chunk) {
-            chunk.end('we need to fix the fixture server');
-        /*
-        api.component(params.data_uri, function(data) {
-          var html = Markdown.toHTML(data);
-          // do we need a better way of making a random name?
-          var templateName = 'markdown_' + Math.random();
-          var template = Dust.compile(html, templateName);
-          Dust.loadSource(template);
-          exports.render(templateName, data, function(html) {
-            chunk.end(html);
-          });
-        });
-        */
-      });
-    },
+    });
+    */
   });
 };
