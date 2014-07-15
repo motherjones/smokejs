@@ -62,7 +62,7 @@ exports.dustBase.mediaBase = EnvConfig.MEDIA_STORE;
  * @param {object} context - The dust context when load is called
  * @param {object} bodies - Access to any bodies defined within the calling block.
  * @param {object} params - Parameters passed in by the template writer. Requires slug, the slug of the component you wish to load. optional template the template to render the component with
- * @returns {dust promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
+ * @returns {dust_promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
  */
 exports.dustBase.load = function(chunk, context, bodies, params) {
   var slug = params.slug ? params.slug : params.id;
@@ -83,7 +83,7 @@ exports.dustBase.load = function(chunk, context, bodies, params) {
  * @param {object} context - The dust context when load is called
  * @param {object} bodies - Access to any bodies defined within the calling block.
  * @param {object} params - Parameters passed in by the template writer. Optional template, the template to render the component with
- * @returns {dust promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
+ * @returns {dust_promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
  */
 exports.dustBase.render = function(chunk, context, bodies, params) {
   return chunk.map(function(chunk) {
@@ -98,7 +98,7 @@ exports.dustBase.render = function(chunk, context, bodies, params) {
  * @param {object} context - The dust context when load is called
  * @param {object} bodies - Access to any bodies defined within the calling block.
  * @param {object} params - Parameters passed in by the template writer. Required placement, the placement as the ad server knows it. Optional width, the width of the ad
- * @returns {dust promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
+ * @returns {dust_promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
  */
 exports.dustBase.ad = function(chunk, context, bodies, params) {
   return chunk.map(function(chunk) {
@@ -116,7 +116,7 @@ exports.dustBase.ad = function(chunk, context, bodies, params) {
  * @param {object} context - The dust context when load is called
  * @param {object} bodies - Access to any bodies defined within the calling block.
  * @param {object} params - Parameters passed in by the template writer.
- * @returns {dust promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
+ * @returns {dust_promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
  */
 exports.dustBase.markdown = function(chunk, context, bodies, params) {
   console.log(params, bodies, context);
