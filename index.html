@@ -135,6 +135,97 @@
 cd smokejs/
 npm install
 grunt serve</code></pre>
+<h2>Working on Smoke</h2>
+<h3>Important Grunt Commands</h3>
+<p>We're using grunt as our task manager. It has a few commands that will make developing on smoke much easier</p>
+<h4>grunt lint</h4>
+<p>  Runs our linter, <a href="http://www.jshint.com/docs/">jshint</a>, over smoke's javascript files, over our test's javascript files, and over the file we use to define our grunt tasks
+  If the linter is complaining about something you're sure is okay, jshint can be configured by editing the .jshint file in the location where you want to change the linter configuration. (/js, /test, or /)</p>
+<h4>grunt test</h4>
+<p>  Runs our tests and gives us a code coverage percent.
+  Hopefully we'll soon have a section on how our tests are constructed.
+  Tests are run using the Mocha Test runner <a href="https://github.com/visionmedia/mocha">https://github.com/visionmedia/mocha</a>
+  Asserts are made using the should library <a href="https://github.com/visionmedia/should">https://github.com/visionmedia/should</a>
+  Sinon is used for fake server and timing <a href="http://sinonjs.org/docs/">http://sinonjs.org/docs/</a></p>
+<pre><code class="lang-javascript">/*global require */
+var api = require('../js/api');
+var response = require('./fixtures/article/1.json');
+var utils = require('./utils');
+var should = require('should');
+
+// describe it before and after are added to the global scope
+describe(&quot;component api&quot;, function() {
+  describe(&quot;get&quot;, function() {
+    beforeEach(function(done) {
+      // Runs before every test in this describe
+      done();
+    });
+    afterEach(function(done) {
+      // Runs after every test in this describe
+      done();
+    });
+    before(function(done) {
+      this.slug = 'test';
+      this.server = utils.mock_component(slug, response);
+      done();
+    });
+    after(function(done) {
+      this.server.restore();
+      done();
+    });
+    it(&quot;returns data from mirrors&quot;, function(done) {
+      var callback = function(data) {
+        //Example of using should off the objects prototype
+        data.should.have.property('slug', this.slug);
+      };
+      var component = new api.Component(this.slug);
+      component.get(callback).then(function() {
+        //Example of using should w/o extending prototype
+        should(component).have.property('metadata');
+        done();
+      });
+    });
+    it(&quot;next test&quot;, function(done) {
+      //
+      // Put next test here
+      //
+      done();
+    });
+  });
+});</code></pre>
+<h4>grunt serve</h4>
+<p>  Spins up a server, at localhost:9001. While serve is running, any changes made to smoke's source javascript will be automatically browserified and served. Any template changes will be compiled, browserified, and served.
+  Sometimes browserification takes a couple seconds, if your changes don't seem to be showing up, check the cli where you're running grunt serve to make sure browserification has finished</p>
+<h4>grunt jsdoc</h4>
+<p>  Turns our inline documentation into documentation that can be read.
+  Hopefully soon we'll have a section on how to add to our documentation</p>
+<h3>Adding new templates</h3>
+<p>  We are using <a href="http://akdubya.github.io/dustjs/">dust</a> as our templating language.
+  We've added 4 functions to dust that might be important to you.</p>
+<h4>ad <code>{#ad placement=&quot;bottommob&quot; width=&quot;299&quot; /}</code></h4>
+<p>  Places an iframed ad to the page. The iframe will automatically resize to the height of the ad. It will not resize the width
+  Requires a parameter telling smoke the placement, which it passes along to the ad server.
+  You may also find it useful to pass along a width.</p>
+<h4>load <code>{#load slug=&quot;peter&quot; template=&quot;byline&quot; /}</code></h4>
+<p>  Loads a new component from mirrors from a slug.
+  Takes a slug parameter, and a template parameter.
+  If a template parameter is not given, the component will be rendered with it's schemaName as the template</p>
+<h4>render <code>{#attributes.byline} {#render template=&quot;byline&quot; /} {/attributes.byline}</code></h4>
+<p>  Renders an already loaded component.
+  In order to work you must set dust's context to the component you want to render. That's done with the <code>{#attributes.byline}new context is here{/attributes.byline}</code> stuff
+  If a template parameter is not given, the component will be rendered with it's schemaName as the template</p>
+<h4>markdown <code>{#markdown data_uri=&quot;http://mirrors.motherjones.com/component/bengazhi/data&quot; /}</code></h4>
+<p>  This isn't actually implemented yet. :(  It'll be working soon. Promise.</p>
+<h3>Making our templates play nice with our inline edit</h3>
+<p>  If you want to make a component inline editable, you have to jump through some hoops</p>
+<h4>Your rendered component must have a contained in an element w/ the id of your component's slug</h4>
+<p>  Thats how we know where to look for things that should be inline editable, and where to add the save button</p>
+<h4>Your metadata must be contained in an element with the attributes data-slug equal to your component's slug, and data-metadata equal to the metadata's name</h4>
+<p>  <code>&lt;h2 data-slug=&quot;{slug}&quot; data-metadata=&quot;dek&quot;&gt;{dek}&lt;/h2&gt;</code></p>
+<h4>If you want to make an attribute that is a list editable, your ul or ol must have the attributes data-slug equal to your component's slug, and data-attribute equal to the attributes name on your component</h4>
+<p>  <code>&lt;ul data-attribute=&quot;byline&quot; data-slug=&quot;{slug}&quot;&gt;</code></p>
+<h4>If you want to make an attribute that is a list editable, your list items must have the attribute data-slug equal to the list item's slug</h4>
+<p>  <code>&lt;li data-slug=&quot;{slug}&quot;&gt;{authorname}&lt;/li&gt;</code></p>
 <h2>Examples</h2>
 <p><em>(Coming soon)</em></p>
 <h2>Release History</h2>
