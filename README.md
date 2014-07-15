@@ -24,6 +24,9 @@ We're using grunt as our task manager. It has a few commands that will make deve
 #### grunt test
   Runs our tests and gives us a code coverage percent.
   Hopefully we'll soon have a section on how our tests are constructed.
+  Tests are run using the Mocha Test runner https://github.com/visionmedia/mocha
+  Asserts are made using the should library https://github.com/visionmedia/should
+  Sinon is used for fake server and timing http://sinonjs.org/docs/
 
 ```javascript
 /*global require */
