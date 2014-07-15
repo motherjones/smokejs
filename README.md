@@ -25,6 +25,55 @@ We're using grunt as our task manager. It has a few commands that will make deve
   Runs our tests and gives us a code coverage percent.
   Hopefully we'll soon have a section on how our tests are constructed.
 
+```
+/*global require */
+var api = require('../js/api');
+var response = require('./fixtures/article/1.json');
+var utils = require('./utils');
+var should = require('should');
+
+// describe it before and after are added to the global scope
+describe("component api", function() {
+  describe("get", function() {
+    beforeEach(function(done) {
+      // Runs before every test in this describe
+      done();
+    });
+    afterEach(function(done) {
+      // Runs after every test in this describe
+      done();
+    });
+    before(function(done) {
+      this.slug = 'test';
+      this.server = utils.mock_component(slug, response);
+      done();
+    });
+    after(function(done) {
+      this.server.restore();
+      done();
+    });
+    it("returns data from mirrors", function(done) {
+      var callback = function(data) {
+        //Example of using should off the objects prototype
+        data.should.have.property('slug', this.slug);
+      };
+      var component = new api.Component(this.slug);
+      component.get(callback).then(function() {
+        //Example of using should w/o extending prototype
+        should(component).have.property('metadata');
+        done();
+      });
+    });
+    it("next test", function(done) {
+      //
+      // Put next test here
+      //
+      done();
+    });
+  });
+});
+```
+
 #### grunt serve
   Spins up a server, at localhost:9001. While serve is running, any changes made to smoke's source javascript will be automatically browserified and served. Any template changes will be compiled, browserified, and served.
   Sometimes browserification takes a couple seconds, if your changes don't seem to be showing up, check the cli where you're running grunt serve to make sure browserification has finished
