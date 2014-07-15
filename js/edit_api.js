@@ -1,8 +1,8 @@
 'use strict';
 var EnvConfig = require('./config');
-var request = require('browser-request');
 var Promise = require('promise-polyfill');
 var api = require('./api');
+var _ = require('lodash');
 /**
  * Add create and update methods to component objects
  * @module edit_api
@@ -56,7 +56,6 @@ exports.Component.prototype.create = function() {
  * @returns {promise} Resolves when complete
  */
 exports.Component.prototype._post = function(uri, callback) {
-  var self = this;
   var payload = {
     slug: this.slug,
     content_type: this.contentType,
@@ -76,7 +75,7 @@ exports.Component.prototype._post = function(uri, callback) {
  * @returns {promise} Resolves when complete
  */
 exports.Component.prototype.update = function() {
-  return this._put()
+  return this._put();
 };
 
 /**
@@ -126,12 +125,11 @@ exports.Component.prototype.setAttribute = function(key, component) {
  * @returns {promise} promise - a promise which resolves when all attributes are updated
  */
 exports.Component.prototype._createAttribute = function(attr) {
-  var self = this;
   var payload = {
     name: attr,
   };
   //is array check
-  if (Object.prototype.toString.call( this.attributes[attr] ) === '[object Array]') {
+  if (_.isArray( this.attributes[attr] )) {
     payload.contents = [];
     for (var i = 0; i < this.attributes[attr].length; i++) {
       payload.contents.push(this.attributes[attr][i].slug);
@@ -159,8 +157,8 @@ exports.Component.prototype._updateAttribute = function(attr) {
   var url = EnvConfig.MIRRORS_URL + 'component/' +
     this.slug + '/attribute/' + attr + '/';
   var json;
-  if (Object.prototype.toString.call( this.attributes[attr] ) === '[object Array]') {
-    var json = [];
+  if (_.isArray( this.attributes[attr] )) {
+    json = [];
     for (var i = 0; i < this.attributes[attr].length; i++) {
       json.push(this.attributes[attr][i].slug);
     }
@@ -187,7 +185,7 @@ exports.Component.prototype.delete = function() {
       uri: EnvConfig.MIRRORS_URL + 'component/' + this.slug
     }
   );
-}
+};
 
 /**
  * Removes an attribute from a component
@@ -203,4 +201,4 @@ exports.Component.prototype.deleteAttribute = function(attr) {
       uri: url
     }
   );
-}
+};

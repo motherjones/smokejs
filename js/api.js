@@ -1,7 +1,6 @@
 /* global document */
 'use strict';
 var EnvConfig = require('./config');
-var router = require('./router');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
 var _ = require('lodash');
@@ -32,7 +31,7 @@ exports._success = function(resolve, reject, callback) {
       }
     } else if (result.statusText === "Unauthorized") {
       //redirect to log in server
-      router.logInRedirect();
+      exports.logInRedirect();
     } else {
       EnvConfig.log(result);
       EnvConfig.ERROR_HANDLER(err);
@@ -86,13 +85,13 @@ exports.Data.prototype.get = function(callback) {
  */
 exports.Component = function(slug, data) {
   this.slug = slug;
-  this.attributes = [];
+  this.attributes = {};
   this.metadata = {};
   this.contentType = null;
   this.schemaName = null;
   if (data) {
     this._build(data);
-  };
+  }
 };
 
 /**
@@ -113,21 +112,20 @@ exports.Component.prototype._build = function(data) {
    * points to the Data object for Component instance
    */
   this.data = new this._Data(data.data_uri);
-  for (attr in data.attributes) {
+  for (var attr in data.attributes) {
     var attribute = data.attributes[attr];
     //is it an array?
-    if (Object.prototype.toString.call( attribute ) === '[object Array]') {
+    if (_.isArray(attribute)) {
       this.attributes[attr] = [];
       for (var i = 0; i < attribute.length; i++) {
         this.attributes[attr].push(
           new exports.Component(attribute[i].slug, attribute[i])
         );
-      };
+      }
     } else {
       this.attributes[attr] = new exports.Component(attribute.slug, attribute);
     }
-    return this;
-  };
+  }
 };
 
 /**
@@ -142,9 +140,18 @@ exports.Component.prototype.get = function(callback, pull) {
   var self = this;
   return exports._promise_request(EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
     function(body) {
-      data = JSON.parse(body);
+      var data = JSON.parse(body);
       self._build(data);
       callback(self);
     }
   );
+};
+
+/**
+ * Redirects browser to mirrors log in page
+ * @memberof module:api
+ */
+exports.logInRedirect = function() {
+  document.location = EnvConfig.MIRRORS_DOMAIN +
+    '/login?request=' + encodeURI(document.location);
 };

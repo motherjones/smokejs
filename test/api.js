@@ -1,10 +1,25 @@
 /*global require */
 var api = require('../js/api');
 var response = require('./fixtures/article/1.json');
+var secondResponse = require('./fixtures/article/2');
 var utils = require('./utils');
 var should = require('should');
 
 describe("component api", function() {
+  describe("constructor", function() {
+    it("builds if data given to it", function(done) {
+      //write me please
+      done();
+    });
+    it("keeps object boundries", function(done) {
+      var drones = new api.Component('drones', response);
+      var iceStore = new api.Component('ice', secondResponse);
+      drones.slug.should.not.eql(iceStore.slug);
+      drones.attributes.should.not.eql(iceStore.attributes);
+      drones.metadata.should.not.eql(iceStore.metadata);
+      done();
+    });
+  });
   describe("get", function() {
     it("returns data from mirrors", function(done) {
       var slug = 'test';
@@ -44,6 +59,18 @@ describe("data api", function() {
       data.get(callback).then(function() {
         done();
       });
+    });
+    it("should redirect to mirrors when unauthorized", function(done) {
+      var slug = 'unauthorized_check';
+      server = utils.mock_unauthorized(slug);
+      var component = new api.Component(slug);
+        //overwrite function that changes document location
+      var redirect = api.logInRedirect;
+      api.logInRedirect = function() {
+        true.should.be.ok;
+        done();
+      };
+      component.get();
     });
   });
 });

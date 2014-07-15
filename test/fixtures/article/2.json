@@ -1,6 +1,5 @@
-{
-    "slug": "photos-ice-storm-atlanta",
-    "uri": "/blue-marble/2014/02/photos-ice-storm-atlanta",
+{ "slug" : "photos-ice-storm-atlanta",
+    "uri" : "/blue-marble/2014/02/photos-ice-storm-atlanta",
     "content_type": "text/x-markdown",
     "schema_name": "article",
     "metadata": {
@@ -10,6 +9,7 @@
 	"section": "blue_marble",
 	"tags": ["Climate Desk", "Infrastructure"]
     },
+    "attributes": {
     "byline": [
 	{ "schema_name": "author",
 	  "content_type": "application/json",
@@ -65,4 +65,5 @@
 	  }
 	}
     ]
+  }
 }

@@ -16,7 +16,7 @@ var Promise = require('promise-polyfill');
  */
 module.exports = (function() {
   var router = new Router();
-  router.addRoute("/:schema/:slug", views.displayMainContent);
+  router.addRoute(":schema/:slug", views.displayMainContent);
   router.addRoute("^/$", views.displayHomepage);
   return router;
 })();
@@ -88,13 +88,4 @@ module.exports.browserClick = function(e) {
 module.exports.browserCallback = function(data, html) {
   $('body').html(html);
   Ad.reload(data.keywords);
-};
-
-/**
- * Redirects browser to mirrors log in page
- * @memberof module:router
- */
-module.exports.logInRedirect = function() {
-  document.location = EnvConfig.MIRRORS_DOMAIN +
-    '/login?request=' + encodeURI(document.location);
 };

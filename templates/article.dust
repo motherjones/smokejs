@@ -1,12 +1,12 @@
-<article>
+<article id="{slug}">
 	<header>
 		{#metadata}
-		<h1>{title}</h1>
-		<h2>{description}</h2>
+		<h1 data-slug="{slug}" data-metadata="title">{title}</h1>
+		<h2 data-slug="{slug}" data-metadata="dek">{dek}</h2>
 		{/metadata}
 		<section id="component_author">
 			<h3>Authors</h3>
-        <ul class="byline">
+        <ul data-attribute="byline" data-slug="{slug}">
           {#attributes.byline}
             {#render template="byline" /}
           {/attributes.byline}
@@ -14,18 +14,25 @@
 		</section>
 		<section id="component_tags">
 			<h3>Tags</h3>
-			<ul>
+      <ul data-attribute="tags" data-slug="{slug}">
 			  {#metadata.tags}
 				<li>{.}</li>{~n}
 			  {/metadata.tags}
 			</ul>
 		</section>
-		{#master_image}
+		{#attributes.master_image}
 			<figure>
-				<img src="{uri}" alt="{.metadata.alt_text}" /><br />
-				<figcaption>{.metadata.caption} <cite>{.metadata.attribution}</cite></figcaption>
+				<img src="{uri}" alt="{metadata.alt_text}" /><br />
+				<figcaption>
+          <span data-slug="{slug}" data-metadata="alt_text">
+            {metadata.alt_text}
+          </span>
+          <cite data-slug="{slug}" data-metadata="attribution">
+            {metadata.attribution}
+          </cite>
+        </figcaption>
 			</figure>
-		{/master_image}
+		{/attributes.master_image}
 	</header>
 	<section id="component_body">
     {#markdown data_uri=data_uri /}
