@@ -9,7 +9,7 @@ var Promise = require('promise-polyfill');
 
 /**
  * Renders data with dust templates
- * @module api
+ * @module render
  */
 
 /**
