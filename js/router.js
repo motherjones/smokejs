@@ -2,7 +2,7 @@
 'use strict';
 var views = require('./views');
 var Router = require('routes');
-var Ad = require('./ad');
+var ad = require('./ad');
 var $ = require('jquery');
 var Promise = require('promise-polyfill');
 
@@ -39,7 +39,9 @@ module.exports.pop = function(path) {
 
 /**
   * Overwrite DEPENDING ON IF I'M IN A BROWSER OR NOT
+  * Called after a view gets rendered html
   * @alias callback
+  * @abstract
   * @memberof module:router
   * @param {object} data - Data returned mostly for testing.
   * @param {object} html - HTML to be inserted in DOM/string.
@@ -55,6 +57,7 @@ module.exports.callback = function() {
   */
 module.exports.browserStart = function() {
   $('body').on("click", "[href^='#/']", module.exports.browserClick );
+  ad.setAdListener();
   module.exports.callback = module.exports.browserCallback;
   var path = document.location.hash.replace('#', '');
   module.exports.pop(path);
@@ -87,5 +90,5 @@ module.exports.browserClick = function(e) {
   */
 module.exports.browserCallback = function(data, html) {
   $('body').html(html);
-  Ad.reload(data.keywords);
+  ad.reload(data.keywords);
 };

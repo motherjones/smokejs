@@ -72,6 +72,7 @@ describe("Ads", function() {
     function(done) {
       var dustBase = render.dustBase();
       var chunk = new Chunk();
+      Ad.setAdListener();
       dustBase.global.ad(chunk, {}, {}, {placement: 'it'})
       .then(function() {
           $('body').append($(chunk.output));
