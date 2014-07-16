@@ -91,20 +91,14 @@ describe("Render", function() {
       slug: slug
     })
     .then(function() {
-      console.log('one');
       var el = utils.div(chunk.output);
-      console.log('one');
       should( el.find('div.author').html() ).not.be.empty;
-      console.log('one');
       var header = el.find('h1').html();
-      console.log(header);
       should( header ).eql(
         '<span data-slug="peter" data-metadata="first_name">Peter</span>&nbsp;<span data-slug="peter" data-metadata="last_name">Pan</span>',
         'load w/o a template loads an author, which has an h1 w/ authorname'
       );
-      console.log('one');
       should( el.find('.component_body').html() ).not.be.empty;
-      console.log('one');
       server.restore();
       done();
     });
@@ -122,7 +116,6 @@ describe("Render", function() {
       { data_uri: 'content/peter-pan/data' }
       )
       .then(function() {
-        console.log(chunk.output);
         should( chunk.output ).eql( '<h1>#Test</h1>',
           'expected <h1>#Test</h1>, got ' + chunk.output
         );

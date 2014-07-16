@@ -1,14 +1,14 @@
 /*global require */
 
-var views = require('../js/edit_views');
+var editor = require('../js/editor');
 var should = require('should');
 var testData = require('./fixtures/article/1.json');
 var $ = require('jquery');
 var api = require('../js/edit_api');
 var Promise = require('promise-polyfill');
 
-describe("edit view functions", function() {
-  describe("_makeEditable", function() {
+describe("editor functions", function() {
+  describe("makeEditable", function() {
     var component;
     var slug;
     var mockArticle;
@@ -24,25 +24,25 @@ describe("edit view functions", function() {
     });
 
     it("can tell if an attribute is an array", function(done) {
-      var listEditableBackup = views._makeListEditable;
-      views._makeListEditable = function(name) {
-        views._makeListEditable = listEditableBackup;
+      var listEditableBackup = editor.makeListEditable;
+      editor.makeListEditable = function(name) {
+        editor.makeListEditable = listEditableBackup;
         name.should.eql('byline');
         done();
       }
-      views._makeEditable(component)
+      editor.makeEditable(component)
     });
 
     it("calls function to make metadata editable", function(done) {
       var metadataCalled = [];
-      var editableMetadataBackup = views._editableMetadata;
-      views._editableMetadata = function(comp, meta) {
+      var editableMetadataBackup = editor.editableMetadata;
+      editor.editableMetadata = function(comp, meta) {
         //This is called on the master image, too!!
         metadataCalled.push(meta);
       }
 
-      views._makeEditable(component);
-      views._editableMetadata = editableMetadataBackup;
+      editor.makeEditable(component);
+      editor.editableMetadata = editableMetadataBackup;
       metadataCalled.should.containEql( "title" );
       metadataCalled.should.containEql( "social_title" );
       metadataCalled.should.containEql( "section" );
@@ -53,21 +53,21 @@ describe("edit view functions", function() {
 
     it("should call itself for each attribute", function(done) {
       var counter = 0;
-      var _makeEditableBak = views._makeEditable;
-      views._makeEditable = function(component) {
+      var makeEditableBak = editor.makeEditable;
+      editor.makeEditable = function(component) {
         counter++;
-        _makeEditableBak(component);
+        makeEditableBak(component);
       }
-      views._makeEditable(component);
+      editor.makeEditable(component);
       counter.should.eql(2);
         //expected make editable to be called for the article, master image
         //byline will not call makeEditable again as it is an array
-      views._makeEditable = _makeEditableBak;
+      editor.makeEditable = makeEditableBak;
       done();
     });
 
     it("should add a save button to the page", function(done) {
-      views._makeEditable(component);
+      editor.makeEditable(component);
       $('#' + component.slug + ' button').length.should.not.eql(0);
       done();
     });
@@ -78,7 +78,7 @@ describe("edit view functions", function() {
     });
   });
 
-  describe("_editableMetadata", function() {
+  describe("editableMetadata", function() {
     var component;
     var slug;
     var mockArticle;
@@ -95,13 +95,13 @@ describe("edit view functions", function() {
     });
 
     it("should make a metadata element contentEditable", function(done) {
-      views._editableMetadata(component, 'dek');
+      editor.editableMetadata(component, 'dek');
       should(mockDek.attr('contentEditable')).eql('true');
       done();
     });
 
     it("should attach an on blur event to  metadata element which updates the component", function(done) {
-      views._editableMetadata(component, 'dek');
+      editor.editableMetadata(component, 'dek');
       mockDek.text('new data');
       mockDek.blur();
       component.metadata.dek.should.eql('new data');
@@ -115,10 +115,10 @@ describe("edit view functions", function() {
   });
 
 
-  describe("_createSaveButton", function() {
+  describe("saveComponentButton", function() {
     var slug = 'test';
     var component = new api.Component(slug, testData);
-    var button = views._createSaveButton(component);
+    var button = editor.saveComponentButton(component);
 
     it("should create a button", function(done) {
       button.is('button').should.be.true;
@@ -141,9 +141,9 @@ describe("edit view functions", function() {
     });
 
     it("should run success notification if component's update succeeds", function(done) {
-      var sBak = views._successNotice;
-      views._successNotice = function() {
-        views._successNotice = sBak;
+      var sBak = editor.successNotice;
+      editor.successNotice = function() {
+        editor.successNotice = sBak;
         done();
       };
       component.update = function() {
@@ -153,9 +153,9 @@ describe("edit view functions", function() {
     });
 
     it("should call failure notification if component's update fails", function(done) {
-      var fBak = views._failureNotice;
-      views._failureNotice = function() {
-        views._failureNotice = fBak;
+      var fBak = editor.failureNotice;
+      editor.failureNotice = function() {
+        editor.failureNotice = fBak;
         done();
       };
       component.update = function() {
