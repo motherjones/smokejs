@@ -39,7 +39,7 @@ exports.displayHomepage = function(match, callback) {
   var homepage;
   var cb = function(data, html) {
     homepage = data;
-    html += exports._socialSharingElement(component);
+    html += exports._socialSharingElement(data);
     callback(data, html);
     //make editable somehow
     // probably calling make editable on it? need to review the
@@ -81,7 +81,7 @@ exports._makeListEditable = function(name, component) {
   list.sortable().bind('sortupdate', function() {
     var newOrder = [];
     list.children('li').each(function() {
-      newOrder.push($(this).data('slug'))
+      newOrder.push($(this).data('slug'));
     });
     var attribute = [];
     for (var i = 0; i < newOrder.length; i++) {
@@ -122,7 +122,7 @@ exports._removeFromListButton = function(item, name, component) {
   return $('<span class="remove-from-list">x</span>')
     .click(function() {
       _.remove(component, function(comp) {
-        item.data('slug') === comp.slug;
+        return item.data('slug') === comp.slug;
       });
       item.remove();
     });

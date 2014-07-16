@@ -32,7 +32,7 @@ describe("Render", function() {
   });
 
   it( "can render ads", function(done) {
-    var dustBase = render.dustBaseWrapper();
+    var dustBase = render.dustBase();
     var chunk = new Chunk();
     should(dustBase).not.be.empty;
     Ad.key = '';
@@ -59,7 +59,7 @@ describe("Render", function() {
   });
 
   it( "can load from mirrors from dust templates", function(done) {
-    var dustBase = render.dustBaseWrapper();
+    var dustBase = render.dustBase();
     var slug = 'peter';
     var server = utils.mock_component(slug, peter);
     var chunk = new Chunk();
@@ -83,7 +83,7 @@ describe("Render", function() {
   });
 
   it( "can load from dust templates without a template specified", function(done) {
-    var dustBase = render.dustBaseWrapper();
+    var dustBase = render.dustBase();
     var slug = 'peter';
     var server = utils.mock_component(slug, peter);
     var chunk = new Chunk();
@@ -111,7 +111,7 @@ describe("Render", function() {
   });
 
   it( "can load markdown", function(done) {
-    var dustBase = render.dustBaseWrapper();
+    var dustBase = render.dustBase();
     var chunk = new Chunk();
     var data = {
       'content-type': 'application/x-markdown',
@@ -132,7 +132,7 @@ describe("Render", function() {
   });
 
   it( "can render subtemplates without loading", function(done) {
-    var dustBase = render.dustBaseWrapper();
+    var dustBase = render.dustBase();
     var chunk = new Chunk();
     dustBase.global.render(chunk, {
       stack: {

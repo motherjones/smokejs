@@ -24,7 +24,7 @@ describe("Ads", function() {
     done();
   });
   it("ads are creatable and render", function(done) {
-      var dustBase = render.dustBaseWrapper();
+      var dustBase = render.dustBase();
       var chunk = new Chunk();
       should.exist(dustBase);
       dustBase.global.ad(chunk, {}, {}, {placement: 'it'})
@@ -44,7 +44,7 @@ describe("Ads", function() {
     function(done) {
       should(Ad.key).be.empty;
       should(Ad.groupId).be.empty;
-      var dustBase = render.dustBaseWrapper();
+      var dustBase = render.dustBase();
       var chunk = new Chunk();
       dustBase.global.ad(chunk, {}, {}, {placement: 'it'})
         .then(function() {
@@ -70,12 +70,12 @@ describe("Ads", function() {
   );
   it("events change ad height",
     function(done) {
-      var dustBase = render.dustBaseWrapper();
+      var dustBase = render.dustBase();
       var chunk = new Chunk();
       dustBase.global.ad(chunk, {}, {}, {placement: 'it'})
       .then(function() {
           $('body').append($(chunk.output));
-          should($('#ad_it').css('height')).eql('150px'); 
+          should($('#ad_it').css('height')).eql('150px');
 
           var event;
           if (document.createEvent) {
