@@ -1,14 +1,17 @@
 /*global require */
 var api = require('../js/api');
 var response = require('./fixtures/article/1.json');
-var secondResponse = require('./fixtures/article/2');
+var secondResponse = require('./fixtures/article/2.json');
 var utils = require('./utils');
 var should = require('should');
+var _ = require('lodash');
 
 describe("component api", function() {
   describe("constructor", function() {
     it("builds if data given to it", function(done) {
-      //write me please
+      var component = new api.Component('test', response);
+      component.slug.should.eql(response.slug);
+      component.metadata.should.have.keys(_.keys(response.metadata));
       done();
     });
     it("keeps object boundries", function(done) {
