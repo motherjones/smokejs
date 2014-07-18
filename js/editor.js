@@ -116,7 +116,6 @@ exports.saveListButton = function(name, component) {
  * @returns {void}
  */
 exports.editableData = function(component) {
-  console.log(component);
   // uhhh. welp
 };
 
@@ -169,7 +168,6 @@ exports.saveComponentButton = function(component) {
  * @param {string} message - The success message
  */
 exports.successNotice = function(message) {
-  console.log('updated successfully', message);
 };
 
 /**
@@ -179,5 +177,4 @@ exports.successNotice = function(message) {
  * @param {string} message - The success message
  */
 exports.failureNotice = function(error) {
-  console.log('updating failed!', error);
 };

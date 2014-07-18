@@ -14,7 +14,6 @@ describe("Views", function() {
     var server = utils.mock_component(match.params.slug, response_peter);
 
     views.displayMainContent(match, function(data, html) {
-      console.log(html);
       should(data.content_type).eql("text/x-markdown",
         'display main content has a callback which provides the data of the object loaded'
       );
@@ -26,7 +25,6 @@ describe("Views", function() {
   it( "should display the homepage", function(done) {
     var server = utils.mock_component('homepage', response_homepage);
     views.displayHomepage(function(data, html) {
-      console.log(html);
       should( data.metadata.title ).eql( "Mother Jones Home Page",
         'display homepage has a callback which provides the data of the object loaded'
       );

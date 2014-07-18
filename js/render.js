@@ -121,7 +121,6 @@ exports.dustBase = function() {
      * @inner
      */
     markdown : function(chunk, context, bodies, params) {
-      console.log(params, bodies, context);
       return chunk.map(function(chunk) {
             chunk.end('we need to fix the fixture server');
         /*

@@ -21,11 +21,19 @@ describe("component api", function() {
     });
   });
   describe("get", function() {
+    var server;
+    var slug;
+    before(function(done) {
+      slug = 'test';
+      server = utils.mock_component(slug, response);
+      done();
+    });
+    after(function(done) {
+      server.restore();
+      done();
+    });
     it("returns data from mirrors", function(done) {
-      var slug = 'test';
-      var server = utils.mock_component(slug, response);
       var callback = function(data) {
-        server.restore();
         should.exist(data);
         data.should.have.property('slug', slug);
       };
