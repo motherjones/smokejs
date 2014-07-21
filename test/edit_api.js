@@ -77,6 +77,7 @@ describe("edit component api", function() {
         {"slug" : slug}
       );
       component.setAttribute(attr_name, attr_value).then(function() {
+        console.log('in then function');
         should(component.attributes[attr_name]).eql(attr_value);
         server.restore();
         done();

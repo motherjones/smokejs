@@ -34,34 +34,46 @@ exports.makeEditable = function(component) {
 
 /**
  * Makes an array sortable, it's members deletable, and gives it a save button
- * @param {string} name - The name of the array we're making sortable
+ * @param {string} attribute - The name of the array we're making sortable
  * @param {array} components - The component array we're making sortable
  * @returns {void}
  */
-exports.makeListEditable = function(name, component) {
-  var list = $('[data-attribute="' + name + '"][data-slug="' + component.slug + '"]');
+exports.makeListEditable = function(attribute, component) {
+  var list = $('[data-attribute="' + attribute + '"][data-slug="' + component.slug + '"]');
   list.sortable().bind('sortupdate', function() {
-    var newOrder = [];
-    list.children('li').each(function() {
-      newOrder.push($(this).data('slug'));
-    });
-    var attribute = [];
-    for (var i = 0; i < newOrder.length; i++) {
-      for (var j = 0; j < component.attributes[name].length; j++) {
-        if (component.attributes[name][j].slug === newOrder[i]) {
-          attribute.push(component.attributes[name][j]);
-          break;
-        }
-      }
-    }
-    component.attributes[name] = attribute;
+    listSortedAction(list, component);
   });
   list.find('li').each(function() {
-    $(this).append(exports.removeFromListButton($(this), component));
+    $(this).append(exports.removeFromListButton($(this), attribute, component));
   });
   list.append(exports.addToListButton(component));
-  list.append(exports.saveComponentButton(name, component));
+  list.append(exports.saveListButton(attribute, component));
 };
+
+/**
+ * Change the component's attribute to match the new order of a list.
+ * Runs after a list is sorted by an editor.
+ * @param {element} list - The jQuery list that was sorted
+ * @param {component} component - The component the attribute belongs to
+ * @returns {void}
+ */
+exports.listSortedAction = function(list, component) {
+  var attribute = list.data('attribute');
+  var listOrder = [];
+  list.children('li').each(function() {
+    listOrder.push($(this).data('slug'));
+  });
+  var attributeOrder = [];
+  for (var i = 0; i < listOrder.length; i++) {
+    for (var j = 0; j < component.attributes[attribute].length; j++) {
+      if (component.attributes[attribute][j].slug === listOrder[i]) {
+        attributeOrder.push(component.attributes[attribute][j]);
+        break;
+      }
+    }
+  }
+  component.attributes[attribute] = attributeOrder;
+}
 
 /**
  * Creates a button that adds a new component to a list, both in the browser
@@ -79,14 +91,14 @@ exports.addToListButton = function(name, component) {
  * Creates a button that removes a list item from a list, and updates its
  * parent component to no longer have that item.
  * @param {element} item - The particular list item element the button is for
- * @param {string} name - The name of the list
+ * @param {string} list - The name of the list on the parent component
  * @param {component} component - The parent of the attribute we're sorting
  * @returns {void}
  */
-exports.removeFromListButton = function(item, name, component) {
-  return $('<span class="remove-from-list">x</span>')
+exports.removeFromListButton = function(item, list, component) {
+  return $('<button class="remove-from-list">x</button>')
     .click(function() {
-      _.remove(component, function(comp) {
+      _.remove(component.attributes[list], function(comp) {
         return item.data('slug') === comp.slug;
       });
       item.remove();
@@ -103,7 +115,7 @@ exports.removeFromListButton = function(item, name, component) {
 exports.saveListButton = function(name, component) {
   return $('<button>Save List</button>')
     .click(function() {
-      component._updateAttribute(name).then(
+      component.setAttribute(name, component.slug).then(
         exports.successNotice,
         exports.failureNotice
       );

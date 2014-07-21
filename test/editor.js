@@ -6,6 +6,7 @@ var testData = require('./fixtures/article/1.json');
 var $ = require('jquery');
 var api = require('../js/edit_api');
 var Promise = require('promise-polyfill');
+var _ = require('lodash');
 
 describe("editor functions", function() {
   describe("makeEditable", function() {
@@ -165,5 +166,165 @@ describe("editor functions", function() {
     });
 
   });
-});
 
+  describe("saveListButton", function() {
+    var slug = 'test';
+    var component = new api.Component(slug, testData);
+    var button = editor.saveListButton('byline', component);
+
+    it("should create a button", function(done) {
+      button.is('button').should.be.true;
+      done();
+    });
+
+    it("should call the component's set attribute method on click", function(done) {
+      component.setAttribute = function() {
+        return new Promise(function(resolve, reject) {
+         done();
+         resolve();
+        });
+      };
+      button.click();
+    });
+
+    it("should run success notification if component's update succeeds", function(done) {
+      var sBak = editor.successNotice;
+      editor.successNotice = function() {
+        editor.successNotice = sBak;
+        done();
+      };
+      component.setAttribute = function() {
+        return new Promise(function(resolve, reject) { resolve(); });
+      };
+      button.click();
+    });
+
+    it("should call failure notification if component's update fails", function(done) {
+      var fBak = editor.failureNotice;
+      editor.failureNotice = function() {
+        editor.failureNotice = fBak;
+        done();
+      };
+      component.setAttribute = function() {
+        return new Promise(function(resolve, reject) { reject(); });
+      };
+      button.click();
+    });
+
+  });
+
+  describe("removeFromListButton", function() {
+    var slug = 'test';
+    var component = new api.Component(slug, testData);
+    var itemId = 'test_byline_item_removal';
+    var item = $('<li id="' + itemId + '" data-slug="peter-van-buren" >Mr. Pan, I presume</li>');
+    $('body').append(item);
+    var button = editor.removeFromListButton(item, 'byline', component);
+
+    it("should create a button", function(done) {
+      button.is('button').should.be.true;
+      done();
+    });
+
+    it("before click the document should have the item", function(done) {
+      $('#' + itemId).length.should.be.eql(1);
+      done();
+    })
+    it("before click the array should have the item", function(done) {
+      _.where(component.attributes.byline, {slug: 'peter-van-buren'}).length.should.eql(1);
+      done();
+    });
+
+    it("on click it should should remove the button from the document", function(done) {
+      button.click();
+      $('#' + itemId).length.should.be.eql(0);
+      done();
+    })
+    it("on click it should should remove the item from the array", function(done) {
+      button.click();
+      _.where(component.attributes.byline, {slug: 'peter-van-buren'}).length.should.eql(0);
+      done();
+    });
+  });
+
+  describe("makeListEditable", function() {
+    var slug = 'test';
+    var component = new api.Component(slug, testData);
+    var list = $('<ul data-attribute="byline" data-slug="'+slug+'"></ul>');
+    var item = $('<li data-slug="peter-van-buren" >Mr. Pan, I presume</li>');
+
+    before(function(done) {
+      list.append(item);
+      $('body').append(list);
+      editor.makeListEditable('byline', component);
+      done();
+    });
+
+    it("should make the li of a ul or ol be able to be resorted by clicking and dragging", function(done) {
+      // I have no clue how to test this
+      done();
+    });
+
+    it("should add a remove button to the uls list items", function(done) {
+      item.find('button').length.should.eql(1);
+      done();
+    });
+
+    it("should add an 'add to list' button and a 'save this list button' to the ul", function(done) {
+      //BROKEN add to list not implemented yet
+      //jquery's children only looks one level down, will not get the remove button
+      list.children('button').length.should.eql(2, 'add to list button not implemented yet');
+      done();
+    });
+    after(function(done) {
+      list.remove();
+      done();
+    });
+
+  });
+  describe("listSortedAction", function() {
+    var slug = 'test';
+    var component = new api.Component(slug, testData);
+    var list = $('<ul data-attribute="byline" data-slug="'+slug+'"></ul>');
+    var item = $('<li data-slug="peter-van-buren" >Mr. Pan, I presume</li>');
+    var secondItem = $('<li data-slug="henry-the-eighth" >i am i am</li>');
+    var henry = testData.attributes.byline[0];
+
+    before(function(done) {
+      list.append(item);
+      list.append(secondItem);
+      $('body').append(list);
+
+      henry.slug = 'henry-the-eighth';
+      component.attributes.byline.unshift(henry);
+      done();
+    });
+
+    it("before sorted action Henry is before Pete", function(done) {
+      _.findIndex(component.attributes.byline, function(author) {
+        return author.slug == 'henry-the-eighth';
+      }).should.eql('0');
+      _.findIndex(component.attributes.byline, function(author) {
+        return author.slug == 'peter-van-buren';
+      }).should.eql('1');
+      done();
+    });
+
+    it("should set a list attribute to an order based on an html list", function(done) {
+      editor.listSortedAction(list, component);
+
+      _.findIndex(component.attributes.byline, function(author) {
+        return author.slug == 'henry-the-eighth';
+      }).should.eql('1');
+      _.findIndex(component.attributes.byline, function(author) {
+        return author.slug == 'peter-van-buren';
+      }).should.eql('0');
+      done();
+    });
+
+    after(function(done) {
+      list.remove();
+      done();
+    });
+  });
+});
