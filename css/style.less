@@ -17,29 +17,43 @@ article.two_col_content {
 
 #component_author ul, #component_author li,
 #component_author .publish_date,
-#component_tags li{
+#component_tags ul, #component_tags li{
 	display: inline;
 }
 section#component_author li, section#component_tags li {
 	padding-right: 0.5em;
 }
 
-.master_image img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-	width: 100%;
+#component_tags {
+	margin-bottom: 1em;
+	ul {
+		padding-left: 0.5em;
+		font-size: 0.75em;
+	}
+	.section_title {
+		font-weight: bold;
+		text-transform: uppercase;
+	}
 }
 
-.master_image figcaption span{
-	font-weight: bold;
-	padding-right: 1em;
-}
+.master_image {
+	img {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%;
+	}
 
-.master_image cite {
-	font-weight: lighter;
-	font-style: italic;
-	color: @grey;
+	figcaption span{
+		font-weight: bold;
+		padding-right: 1em;
+	}
+
+	cite {
+		font-weight: lighter;
+		font-style: italic;
+		color: @grey;
+	}
 }
 
 #component_body {
@@ -47,11 +61,14 @@ section#component_author li, section#component_tags li {
 	margin-bottom: 2em;
 }
 
-.author_bio img { 
-	float: left;
-	margin: 0.5em;
+.author_bio {
+	img { 
+		float: left;
+		margin: 0.5em;
+	}
+	/* Author bio name should indicate that it is a link, somehow */
+	.name { margin: 0; text-transform: uppercase; }
+
+	p { font-size: 0.75rem; }
 }
 
-/* Author bio name should indicate that it is a link, somehow */
-.author_bio .name { margin: 0; text-transform: uppercase; }
-.author_bio p { font-size: 0.75rem; }

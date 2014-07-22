@@ -1,6 +1,15 @@
 <div class="container">
 	<article id="{slug}" class="two_col_content">
 		<header>
+			<section id="component_tags">
+			<div class="section_title">Name of section title</div>
+			&#8594;&nbsp;
+			 <ul data-attribute="tags" data-slug="{slug}">
+				  {#metadata.tags}
+					<li>{.}</li>{~n}
+				  {/metadata.tags}
+				</ul>
+			</section>
 			{#metadata}
 			<h1 data-slug="{slug}" data-metadata="title">{title}</h1>
 			<h2 data-slug="{slug}" data-metadata="dek">{dek}</h2>
@@ -13,14 +22,6 @@
 			  {/attributes.byline}
 			</ul>
 			<span class="publish_date">{created_at}</span>
-			</section>
-			<section id="component_tags">
-			Tagged with:
-			 <ul data-attribute="tags" data-slug="{slug}">
-				  {#metadata.tags}
-					<li>{.}</li>{~n}
-				  {/metadata.tags}
-				</ul>
 			</section>
 			{#attributes.master_image}
 				<figure class="master_image">
