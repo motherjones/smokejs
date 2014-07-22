@@ -1,0 +1,10 @@
+<div class="author_bio">
+	<img src="" alt="">
+	<p class="name">
+	  <a href="#/author/{slug}">
+		{metadata.first_name} {metadata.last_name}
+	  </a>
+	  <span class="position">{metadata.position}</span>
+	</p>
+	<p>{metadata.end_of_article_bio|s}</p>
+</div>
