@@ -35,8 +35,8 @@
 		{/attributes.master_image}
 	</header>
 	<section id="component_body">
-    {#markdown data_uri=data_uri /}
-    <b>Data url</b>: {data_uri}
+    {#markdown data_uri=dataURI /}
+    <b>Data url</b>: {dataURI}
 	</section>
 	<aside id="bottom_ad">
 		<h2>bottom ad</h2>

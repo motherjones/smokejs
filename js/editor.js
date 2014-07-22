@@ -1,6 +1,7 @@
 var $ = require('jquery');
 require('./jquery.sortable');
 var _ = require('lodash');
+var render = require('./render');
 
 /**
  * Includes functions to be called by the router.
@@ -78,13 +79,61 @@ exports.listSortedAction = function(list, component) {
 /**
  * Creates a button that adds a new component to a list, both in the browser
  * and in the parent component.
- * FIXME this is a stub
  * @param {string} name - The name of the list we're adding to
  * @param {component} component - The list we're sorting
  * @returns {void}
  */
 exports.addToListButton = function(name, component) {
-  // allow editor to select and add a new thing to a list
+  return $('<button class="add-to-list">+</button>')
+    .click(function() {
+      exports.addToListForm(name, component);
+    });
+};
+
+/**
+ * Called when an editor wants to add to a list.
+ * Should create a form where editors can select a component to add to the list
+ * @param {string} name - The name of the list we're adding to
+ * @param {component} component - The list we're sorting
+ * @returns {void}
+ */
+
+exports.addToListForm = function(name, component) {
+  var div = $('<div class="add_to_list_holder"></div>');
+  var close = $('<span class="cancel">x</span>').click(function() {
+      div.remove();
+    });
+  div.append(close);
+  //FIXME we really want autocomplete, relying editors to know slugs is dumb
+  var form = $('<form><label>Add another ' + name +
+    '</label><input name="slug" type="text" placeholder="slug"/></form>')
+    .submit(function() {
+      addItemToList(div, name, component);
+    });
+  div.append(form);
+  $('[data-attribute="' + name + '"][data-slug="' + component.slug + '"]')
+      .append(div);
+}
+
+/**
+ * Called when an editor submits the add to a list form.
+ * Should create a form where editors can select a component to add to the list
+ * @param {element} form - The element the form is in
+ * @param {string} name - The name of the list we're adding to
+ * @param {component} component - The list we're sorting
+ * @returns {void}
+ */
+exports.addItemToList = function(form, name, component) {
+  var item = new api.Component(form.find('[name="slug"]').val());
+  form.prop('disabled', true).addClass('disabled');
+  component.attributes[name].push(item);
+  return item.get().then(function() {
+    render.render(name, item.data).then(function(html) {
+      $('[data-attribute="' + name + '"][data-slug="' + component.slug + '"]')
+        .append($(html));
+      form.remove();
+    });
+  });
 };
 
 /**

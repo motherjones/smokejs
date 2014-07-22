@@ -108,6 +108,7 @@ exports.Component.prototype._build = function(data) {
   this.metadata = data.metadata;
   this.contentType = data.content_type;
   this.schemaName = data.schema_name;
+  this.dataURI = data.data_uri;
   /**
    * points to the Data object for Component instance
    */

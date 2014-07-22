@@ -121,6 +121,7 @@ exports.dustBase = function() {
      * @inner
      */
     markdown : function(chunk, context, bodies, params) {
+                 console.log(params);
       return chunk.map(function(chunk) {
         var data = new api.Data(params.data_uri);
         data.get().then(function() {
