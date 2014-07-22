@@ -41,7 +41,7 @@ exports.makeEditable = function(component) {
 exports.makeListEditable = function(attribute, component) {
   var list = $('[data-attribute="' + attribute + '"][data-slug="' + component.slug + '"]');
   list.sortable().bind('sortupdate', function() {
-    listSortedAction(list, component);
+    exports.listSortedAction(list, component);
   });
   list.find('li').each(function() {
     $(this).append(exports.removeFromListButton($(this), attribute, component));
@@ -73,7 +73,7 @@ exports.listSortedAction = function(list, component) {
     }
   }
   component.attributes[attribute] = attributeOrder;
-}
+};
 
 /**
  * Creates a button that adds a new component to a list, both in the browser

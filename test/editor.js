@@ -30,8 +30,8 @@ describe("editor functions", function() {
         editor.makeListEditable = listEditableBackup;
         name.should.eql('byline');
         done();
-      }
-      editor.makeEditable(component)
+      };
+      editor.makeEditable(component);
     });
 
     it("calls function to make metadata editable", function(done) {
@@ -40,7 +40,7 @@ describe("editor functions", function() {
       editor.editableMetadata = function(comp, meta) {
         //This is called on the master image, too!!
         metadataCalled.push(meta);
-      }
+      };
 
       editor.makeEditable(component);
       editor.editableMetadata = editableMetadataBackup;
@@ -58,7 +58,7 @@ describe("editor functions", function() {
       editor.makeEditable = function(component) {
         counter++;
         makeEditableBak(component);
-      }
+      };
       editor.makeEditable(component);
       counter.should.eql(2);
         //expected make editable to be called for the article, master image
@@ -133,7 +133,7 @@ describe("editor functions", function() {
 
     it("should call the component's update method on click", function(done) {
       component.update = function() {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve) {
          done();
          resolve();
         });
@@ -179,7 +179,7 @@ describe("editor functions", function() {
 
     it("should call the component's set attribute method on click", function(done) {
       component.setAttribute = function() {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve) {
          done();
          resolve();
         });
@@ -194,7 +194,7 @@ describe("editor functions", function() {
         done();
       };
       component.setAttribute = function() {
-        return new Promise(function(resolve, reject) { resolve(); });
+        return new Promise(function(resolve) { resolve(); });
       };
       button.click();
     });
@@ -229,7 +229,7 @@ describe("editor functions", function() {
     it("before click the document should have the item", function(done) {
       $('#' + itemId).length.should.be.eql(1);
       done();
-    })
+    });
     it("before click the array should have the item", function(done) {
       _.where(component.attributes.byline, {slug: 'peter-van-buren'}).length.should.eql(1);
       done();
@@ -239,7 +239,7 @@ describe("editor functions", function() {
       button.click();
       $('#' + itemId).length.should.be.eql(0);
       done();
-    })
+    });
     it("on click it should should remove the item from the array", function(done) {
       button.click();
       _.where(component.attributes.byline, {slug: 'peter-van-buren'}).length.should.eql(0);
@@ -260,8 +260,8 @@ describe("editor functions", function() {
       done();
     });
 
-    it("should make the li of a ul or ol be able to be resorted by clicking and dragging", function(done) {
-      // I have no clue how to test this
+    it("should make the li of a ul or ol be draggable", function(done) {
+      item.attr('draggable').should.eql('true');
       done();
     });
 
@@ -302,10 +302,10 @@ describe("editor functions", function() {
 
     it("before sorted action Henry is before Pete", function(done) {
       _.findIndex(component.attributes.byline, function(author) {
-        return author.slug == 'henry-the-eighth';
+        return author.slug === 'henry-the-eighth';
       }).should.eql('0');
       _.findIndex(component.attributes.byline, function(author) {
-        return author.slug == 'peter-van-buren';
+        return author.slug === 'peter-van-buren';
       }).should.eql('1');
       done();
     });
@@ -314,10 +314,10 @@ describe("editor functions", function() {
       editor.listSortedAction(list, component);
 
       _.findIndex(component.attributes.byline, function(author) {
-        return author.slug == 'henry-the-eighth';
+        return author.slug === 'henry-the-eighth';
       }).should.eql('1');
       _.findIndex(component.attributes.byline, function(author) {
-        return author.slug == 'peter-van-buren';
+        return author.slug === 'peter-van-buren';
       }).should.eql('0');
       done();
     });

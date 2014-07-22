@@ -73,12 +73,14 @@ describe("data api", function() {
     });
     it("should redirect to mirrors when unauthorized", function(done) {
       var slug = 'unauthorized_check';
-      server = utils.mock_unauthorized(slug);
+      var server = utils.mock_unauthorized(slug);
       var component = new api.Component(slug);
         //overwrite function that changes document location
       var redirect = api.logInRedirect;
       api.logInRedirect = function() {
         true.should.be.ok;
+        api.logInRedirect = redirect;
+        server.restore();
         done();
       };
       component.get();

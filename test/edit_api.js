@@ -1,6 +1,5 @@
 /*global require */
 var api = require('../js/edit_api');
-var router = require('../js/router');
 var test_data = require('./fixtures/article/1.json');
 var should = require('should');
 var utils = require('./utils');
@@ -8,7 +7,7 @@ var sinon = require('sinon');
 
 describe("edit component api", function() {
   describe("post", function() {
-    var server = slug = undefined;
+    var server, slug;
     before(function(done){
       slug = 'testslug';
       server = sinon.fakeServer.create();
@@ -36,7 +35,7 @@ describe("edit component api", function() {
   });
 
   describe("update", function() {
-    var slug = server = undefined;
+    var slug, server;
     before(function(done){
       slug = 'testslug';
       server = sinon.fakeServer.create();

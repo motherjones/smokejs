@@ -1,6 +1,5 @@
 'use strict';
 var EnvConfig = require('./config');
-var Promise = require('promise-polyfill');
 var api = require('./api');
 var _ = require('lodash');
 /**
