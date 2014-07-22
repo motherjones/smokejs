@@ -1,5 +1,5 @@
 <div class="author_bio">
-	<img src="" alt="">
+	<img src="http://placekitten.com/g/100/150" alt="">
 	<p class="name">
 	  <a href="#/author/{slug}">
 		{metadata.first_name} {metadata.last_name}

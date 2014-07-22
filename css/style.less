@@ -1,10 +1,18 @@
-@light-grey: #5E7185;
+@grey: #5E7185;
+@light-grey: #CCDAD7;
 
 article h2 {
 	font-size: 1rem;
 	font-style: italic;
-	color: @light-grey;
+	color: @grey;
 	line-height: 1.1;
+}
+
+article.two_col_content {
+	border-right: 2px dotted @light-grey;
+	/* gutter correction */
+	margin-right: 0;
+	padding-right: 10px;
 }
 
 #component_author ul, #component_author li,
@@ -16,14 +24,34 @@ section#component_author li, section#component_tags li {
 	padding-right: 0.5em;
 }
 
-.master_image figcaption{
+.master_image img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+	width: 100%;
+}
+
+.master_image figcaption span{
 	font-weight: bold;
-	padding-right: 0.5em;
+	padding-right: 1em;
 }
 
 .master_image cite {
-	font-weight: light;
+	font-weight: lighter;
 	font-style: italic;
-	color: @light-grey;
+	color: @grey;
 }
 
+#component_body {
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+
+.author_bio img { 
+	float: left;
+	margin: 0.5em;
+}
+
+/* Author bio name should indicate that it is a link, somehow */
+.author_bio .name { margin: 0; text-transform: uppercase; }
+.author_bio p { font-size: 0.75rem; }

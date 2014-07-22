@@ -1,48 +1,54 @@
-<article id="{slug}">
-	<div class="content">
-	<header>
-		{#metadata}
-		<h1 data-slug="{slug}" data-metadata="title">{title}</h1>
-		<h2 data-slug="{slug}" data-metadata="dek">{dek}</h2>
-		{/metadata}
-		<section id="component_author">
-		&mdash; By 
-        <ul data-attribute="byline" data-slug="{slug}">
-          {#attributes.byline}
-            {#render template="byline" /}
-          {/attributes.byline}
-        </ul>
-		<span class="publish_date">{created_at}</span>
-		</section>
-		<section id="component_tags">
-		Tagged with:
-		 <ul data-attribute="tags" data-slug="{slug}">
-			  {#metadata.tags}
-				<li>{.}</li>{~n}
-			  {/metadata.tags}
+<div class="container">
+	<article id="{slug}" class="two_col_content">
+		<header>
+			{#metadata}
+			<h1 data-slug="{slug}" data-metadata="title">{title}</h1>
+			<h2 data-slug="{slug}" data-metadata="dek">{dek}</h2>
+			{/metadata}
+			<section id="component_author">
+			&mdash; By 
+			<ul data-attribute="byline" data-slug="{slug}">
+			  {#attributes.byline}
+				{#render template="byline" /}
+			  {/attributes.byline}
 			</ul>
+			<span class="publish_date">{created_at}</span>
+			</section>
+			<section id="component_tags">
+			Tagged with:
+			 <ul data-attribute="tags" data-slug="{slug}">
+				  {#metadata.tags}
+					<li>{.}</li>{~n}
+				  {/metadata.tags}
+				</ul>
+			</section>
+			{#attributes.master_image}
+				<figure class="master_image">
+					<img src="http://placekitten.com/g/620/420" alt="{metadata.alt_text}" />
+					<figcaption>
+					  <span data-slug="{slug}" data-metadata="alt_text">
+						{metadata.alt_text}
+					  </span>
+					  <cite data-slug="{slug}" data-metadata="attribution">
+						{metadata.attribution}
+					  </cite>
+					</figcaption>
+				</figure>
+			{/attributes.master_image}
+		</header>
+		<section id="component_body">
+		{#markdown data_uri=data_uri /}
+		<b>Data url</b>: {data_uri}
 		</section>
-		{#attributes.master_image}
-			<figure class="master_image">
-				<img src="{uri}" alt="{metadata.alt_text}" /><br />
-				<figcaption>
-				  <span data-slug="{slug}" data-metadata="alt_text">
-					{metadata.alt_text}
-				  </span>
-				  <cite data-slug="{slug}" data-metadata="attribution">
-					{metadata.attribution}
-				  </cite>
-				</figcaption>
-			</figure>
-		{/attributes.master_image}
-	</header>
-	<section id="component_body">
-    {#markdown data_uri=data_uri /}
-    <b>Data url</b>: {data_uri}
-	</section></div>
-	<aside id="bottom_ad">
-    {#ad placement="bottommob" /}
-    should be an ad above me
+		<section>
+			{#attributes.byline}
+				{#render template="author-bio" /}
+			{/attributes.byline}
+		</section>
+	</article>
+	<aside id="bottom_ad" class="two_col_content">
+	{#ad placement="bottommob" /}
+	should be an ad above me
 	</aside>
-</article>
+</div>
 <br class="clear" />
