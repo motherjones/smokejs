@@ -107,7 +107,7 @@ describe("component api", function() {
   In order to work you must set dust's context to the component you want to render. That's done with the `{#attributes.byline}new context is here{/attributes.byline}` stuff
   If a template parameter is not given, the component will be rendered with it's schemaName as the template
 * markdown `{#markdown data_uri="http://mirrors.motherjones.com/component/bengazhi/data" /}`
-  This isn't actually implemented yet. :(  It'll be working soon. Promise.
+  Turns markdown into html, then runs it through dust templating.
 
 ### Making our templates play nice with our inline edit
   If you want to make a component inline editable, you have to jump through some hoops
