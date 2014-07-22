@@ -143,7 +143,7 @@ exports.Component.prototype.get = function(callback, pull) {
     function(body) {
       var data = JSON.parse(body);
       self._build(data);
-      callback(self);
+      if (callback) {callback(self);};
     }
   );
 };

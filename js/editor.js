@@ -2,6 +2,7 @@ var $ = require('jquery');
 require('./jquery.sortable');
 var _ = require('lodash');
 var render = require('./render');
+var api = require('./edit_api');
 
 /**
  * Includes functions to be called by the router.
@@ -47,7 +48,7 @@ exports.makeListEditable = function(attribute, component) {
   list.find('li').each(function() {
     $(this).append(exports.removeFromListButton($(this), attribute, component));
   });
-  list.append(exports.addToListButton(component));
+  list.append(exports.addToListButton(attribute, component));
   list.append(exports.saveListButton(attribute, component));
 };
 
@@ -87,6 +88,7 @@ exports.addToListButton = function(name, component) {
   return $('<button class="add-to-list">+</button>')
     .click(function() {
       exports.addToListForm(name, component);
+      $(this).prop('disabled', true);
     });
 };
 
@@ -102,13 +104,18 @@ exports.addToListForm = function(name, component) {
   var div = $('<div class="add_to_list_holder"></div>');
   var close = $('<span class="cancel">x</span>').click(function() {
       div.remove();
+      $('[data-attribute="' + name + '"][data-slug="' + component.slug +
+        '"] .add-to-list').prop('disabled', false);
     });
   div.append(close);
   //FIXME we really want autocomplete, relying editors to know slugs is dumb
   var form = $('<form><label>Add another ' + name +
     '</label><input name="slug" type="text" placeholder="slug"/></form>')
     .submit(function() {
-      addItemToList(div, name, component);
+      exports.addItemToList(div, name, component);
+      $('[data-attribute="' + name + '"][data-slug="' + component.slug +
+        '"] .add-to-list').prop('disabled', false);
+      return false;
     });
   div.append(form);
   $('[data-attribute="' + name + '"][data-slug="' + component.slug + '"]')
@@ -128,12 +135,17 @@ exports.addItemToList = function(form, name, component) {
   form.prop('disabled', true).addClass('disabled');
   component.attributes[name].push(item);
   return item.get().then(function() {
-    render.render(name, item.data).then(function(html) {
-      $('[data-attribute="' + name + '"][data-slug="' + component.slug + '"]')
-        .append($(html));
+    render.render(name, item).then(function(html) {
+      var li = $(html);
+      li.append(exports.removeFromListButton(li, name, component));
+      $('[data-attribute="' + name + '"][data-slug="' + component.slug +
+        '"] li:last-of-type')
+        .after(li);
+      $('[data-attribute="' + name + '"][data-slug="' +
+        component.slug + ' button"]').prop('disabled', false);
       form.remove();
-    });
-  });
+    }, exports.failureNotice);
+  }, exports.failureNotice);
 };
 
 /**
@@ -238,4 +250,5 @@ exports.successNotice = function(message) {
  * @param {string} message - The success message
  */
 exports.failureNotice = function(error) {
+  console.log(error);
 };

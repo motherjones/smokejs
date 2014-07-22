@@ -28,7 +28,7 @@ exports.render = function(template, data, callback) {
           EnvConfig.ERROR_HANDLER(err, this);
           reject(err);
         }
-        callback(out);
+        if (callback) { callback(out); };
         resolve(out);
       }
     );
