@@ -111,14 +111,11 @@ describe("Render", function() {
       'content-type': 'application/x-markdown',
       'response': '#Test'
     };
-    var server = utils.mock_component('peter', peter, data);
+    var server = utils.mock_component('peter-pan', peter, data);
     dustBase.global.markdown(chunk, {}, {},
-      { data_uri: 'content/peter-pan/data' }
-      )
-      .then(function() {
-        should( chunk.output ).eql( '<h1>#Test</h1>',
-          'expected <h1>#Test</h1>, got ' + chunk.output
-        );
+      { data_uri: '/mirrors/component/peter-pan/data' }
+    ).then(function() {
+      chunk.output.should.eql( '<h1 id="test">Test</h1>' );
       server.restore();
       done();
     });

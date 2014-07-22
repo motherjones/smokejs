@@ -73,7 +73,7 @@ exports.Data.prototype.get = function(callback) {
   var self = this;
   var cb = function(data) {
     self.data = data;
-    callback(data);
+    if (callback) { callback(data); };
   };
   return exports._promise_request(this.url, cb);
 };
