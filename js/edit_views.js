@@ -33,10 +33,7 @@ exports.displayMainContent = function(match, callback) {
  */
 exports.displayHomepage = function(match, callback) {
   callback = callback ? callback : function() {};
-  var homepage;
   var cb = function(data, html) {
-    homepage = data;
-    html += exports._socialSharingElement(data);
     callback(data, html);
     //make editable somehow
     // probably calling make editable on it? need to review the

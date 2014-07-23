@@ -113,7 +113,12 @@ module.exports = function (grunt) {
             return [
               less({ src: options.base }),
               connect.static(options.base),
-              connect.directory(options.base)
+              connect.directory(options.base),
+              function(req, res, next){
+                req.url = '/index.html#' + req.originalUrl;
+                req.originalUrl = '/index.html#' + req.originalUrl;
+                connect.static(options.base)(req, res, next);
+              }
             ];
           }
         }

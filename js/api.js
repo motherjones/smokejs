@@ -87,8 +87,10 @@ exports.Component = function(slug, data) {
   this.slug = slug;
   this.attributes = {};
   this.metadata = {};
-  this.contentType = null;
-  this.schemaName = null;
+  this.content_type = null;
+  this.schema_name = null;
+  this.uri = null;
+  this.data_uri = null;
   if (data) {
     this._build(data);
   }
@@ -106,9 +108,10 @@ exports.Component.prototype._Data = exports.Data;
  */
 exports.Component.prototype._build = function(data) {
   this.metadata = data.metadata;
-  this.contentType = data.content_type;
-  this.schemaName = data.schema_name;
-  this.dataURI = data.data_uri;
+  this.content_type = data.content_type;
+  this.schema_name = data.schema_name;
+  this.data_uri = data.data_uri;
+  this.uri = data.uri;
   /**
    * points to the Data object for Component instance
    */
