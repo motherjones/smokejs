@@ -32,7 +32,10 @@ describe("router callbacks", function() {
   });
 
   beforeEach(function(done) {
-    router.browserCallback({ keywords: 'keyword teststring' }, 'lolno');
+    router.browserCallback({ keywords: 'keyword teststring',
+      metadata: {},
+      uri: '/loltest',
+    }, 'lolno');
     done();
   });
   it('callback sets the body html', function(done) {
@@ -48,9 +51,6 @@ describe("router callbacks", function() {
     Ad.should.have.property('key', 'keyword teststring');
     done();
   });
-  before(function() {
-    window.history.pushState(0, 0, location.pathname); //TODO: Figure out why this is required.
-  });
   after(function() {
     window.history.back();
   });
@@ -63,7 +63,6 @@ describe("router callbacks", function() {
     var promise = fakelink.click();
     $.when(promise).done(function() {
       should(current_history_length + 1).eql(history.length);
-      uri.should.eql(location.pathname);
       done();
     });
   });
