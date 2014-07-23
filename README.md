@@ -114,10 +114,20 @@ describe("component api", function() {
   Thats how we know where to look for things that should be inline editable, and where to add the save button.
 * Your metadata must be contained in an element with the attributes data-slug equal to your component's slug, and data-metadata equal to the metadata's name.
   `<h2 data-slug="{slug}" data-metadata="dek">{dek}</h2>`.
+
+### Making our templates play nice with sorting lists
 * If you want to make an attribute that is a list editable, your ul or ol must have the attributes data-slug equal to your component's slug, and data-attribute equal to the attributes name on your component.
   `<ul data-attribute="byline" data-slug="{slug}">`.
 * If you want to make an attribute that is a list editable, your list items must have the attribute data-slug equal to the list item's slug.
   `<li data-slug="{slug}">{authorname}</li>`
+* If you want to be able to add new items to a list, you must have a template for each list item. The template should be named after the attribute the list is contained within
+```
+<ul data-attribute="byline" data-slug="{slug}">
+  {#attributes.byline}
+    {#render template="byline" /}
+  {/attributes.byline}
+</ul>
+```
 
 ## Examples
 _(Coming soon)_
