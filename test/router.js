@@ -70,7 +70,7 @@ describe("router callbacks", function() {
 
 
 describe("browserStart", function() {
-  it("sets broserClick", function(done) {
+  it("sets browserClick", function(done) {
     router.browserClick = function() {
       done();
     };
@@ -82,7 +82,7 @@ describe("browserStart", function() {
     router.browserStart();
     should(router.browserCallback).eql(
       router.callback, 'sets router.callback to browserCallback');
-    var fakelink = $('<a href="#/loltest" id="fakelink"></a>');
+    var fakelink = $('<a href="/loltest" id="fakelink"></a>');
     $('body').append(fakelink);
     $('#fakelink').click();
   });
