@@ -84,13 +84,46 @@ exports.Data.prototype.get = function(callback) {
  * @param {string} - slug the id of the componet
  */
 exports.Component = function(slug, data) {
+    /**
+     * slug {string} - the identifier of the component
+     * @inner
+     */
   this.slug = slug;
+    /**
+     * attributes {dictionary} - all the subsidiary components attached to a component
+     * @inner
+     */
   this.attributes = {};
+    /**
+     * metadata {dictionary} - additional information about the component
+     * @inner
+     */
   this.metadata = {};
+    /**
+     * content_type {string} - the type of content this component's data is (markdown, image, etc)
+     * @inner
+     */
   this.content_type = null;
+    /**
+     * schema_name {string} - the schema used to validat this is correct, and the template to use while rendering if this is the main content of a page
+     * @inner
+     */
   this.schema_name = null;
+    /**
+     * uri {url} - the location of the component for mirrors gets and to display as a page on smoke
+     * @inner
+     */
   this.uri = null;
+    /**
+     * data_uri {url} - the location of the component's data
+     * @inner
+     */
   this.data_uri = null;
+    /**
+     * data {Data} - the data of the component
+     * @inner
+     */
+  this.data = null;
   if (data) {
     this._build(data);
   }
