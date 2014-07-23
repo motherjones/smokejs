@@ -57,15 +57,13 @@ module.exports.callback = function() {
   * @memberof module:router
   */
 module.exports.browserStart = function() {
-  $('body').on("click", "[href^='#/']", module.exports.browserClick );
   $('body').on("click", "[href^='/']", module.exports.browserClick );
   $(window).on('popstate', function(e) {
     module.exports.pop(document.location.pathname);
   });
   ad.setAdListener();
   module.exports.callback = module.exports.browserCallback;
-  var path = document.location.hash.replace('#', '');
-  module.exports.pop(path);
+  module.exports.pop(document.location.pathname);
 };
 
 /**
