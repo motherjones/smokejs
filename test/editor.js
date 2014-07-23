@@ -3,10 +3,12 @@
 var editor = require('../js/editor');
 var should = require('should');
 var testData = require('./fixtures/article/1.json');
+var testAuthorData = require('./fixtures/author/peter.json');
 var $ = require('jquery');
 var api = require('../js/edit_api');
 var Promise = require('promise-polyfill');
 var _ = require('lodash');
+var utils = require('./utils');
 
 describe("editor functions", function() {
   describe("makeEditable", function() {
@@ -415,5 +417,72 @@ describe("editor functions", function() {
       button.remove();
       done();
     });
-  })
+  });
+  describe("add to list", function() {
+    var slug = 'test';
+    var authorSlug = 'peter';
+    var component, list, item, button, form;
+    var fakeServer;
+    before(function(done) {
+      $('body').html('');
+      fakeServer = utils.mock_component(authorSlug, testAuthorData);
+      done();
+    });
+    beforeEach(function(done) {
+      list = $('<ul data-attribute="byline" data-slug="'+slug+'"></ul>');
+      item = $('<li data-slug="rip-van-winkle" >ZZzzzZZzzzZZz</li>');
+      button = $('<button disabled="true">add! or save! whatever</button>');
+      form = $('<form><input name="slug" value="' + authorSlug + '"></input></form>');
+      list.append(item);
+      list.append(button);
+      list.append(button);
+      list.append(form);
+      $('body').append(list)
+      component = new api.Component(slug, testData);
+      done();
+    });
+    afterEach(function(done) {
+      list.remove();
+      done();
+    });
+    after(function(done) {
+      fakeServer.restore();
+      done();
+    });
+    it('disables the add item form', function(done) {
+      editor.addItemToList(form, 'byline', component).then(function() {
+        form.prop('disabled').should.be.true;
+        done();
+      });
+    });
+    it('adds a rendered li to the end of list, based on the attribute type', function(done) {
+      editor.addItemToList(form, 'byline', component).then(function() {
+        list.find('li:first-of-type').data('slug').should.eql('rip-van-winkle');
+        list.find('li:last-of-type').data('slug').should.eql('peter');
+        done();
+      });
+    });
+    it('adds the component to the component\'s attribute in the last position', function(done) {
+      editor.addItemToList(form, 'byline', component).then(function() {
+        component.attributes.byline[component.attributes.byline.length - 1]
+          .slug.should.eql('peter');
+        done();
+      });
+    });
+    it('removes the form that called this function', function(done) {
+      editor.addItemToList(form, 'byline', component).then(function() {
+        $('form').length.should.eql(0);
+        done();
+      });
+    });
+    it('re-enables the buttons attached to the list (add, save)', function(done) {
+      button.prop('disabled').should.be.true;
+      editor.addItemToList(form, 'byline', component).then(function() {
+        $('ul > button').each(function() {
+          $(this).prop('disabled').should.be.false;
+        })
+        done();
+      });
+    });
+  });
 });

@@ -130,7 +130,6 @@ exports.addToListForm = function(name, component, button) {
 exports.addItemToList = function(form, name, component) {
   var item = new api.Component(form.find('[name="slug"]').val());
   form.prop('disabled', true).addClass('disabled');
-  component.attributes[name].push(item);
   return item.get().then(function() {
     render.render(name, item).then(function(html) {
       var li = $(html);
@@ -138,11 +137,15 @@ exports.addItemToList = function(form, name, component) {
       $('[data-attribute="' + name + '"][data-slug="' + component.slug +
         '"] li:last-of-type')
         .after(li);
-      $('[data-attribute="' + name + '"][data-slug="' +
-        component.slug + ' button"]').prop('disabled', false);
+      component.attributes[name].push(item);
       form.remove();
+      $('[data-attribute="' + name + '"][data-slug="' +
+        component.slug + '"] button').prop('disabled', false);
     }, exports.failureNotice);
-  }, exports.failureNotice);
+  }, function(err) {
+    form.prop('disabled', false).addClass('disabled');
+    exports.failureNotice(err);
+  });
 };
 
 /**
