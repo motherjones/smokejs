@@ -57,7 +57,7 @@ exports.Component.prototype.create = function() {
 exports.Component.prototype._post = function(uri, callback) {
   var payload = {
     slug: this.slug,
-    content_type: this.contentType,
+    content_type: this.content_type,
     schema_name: this.schemaName,
     metadata: this.metadata
   };
@@ -87,7 +87,8 @@ exports.Component.prototype._put = function(callback) {
   var self = this;
   var payload = {
     slug: self.slug,
-    content_type: self.contentType,
+    uri: self.uri,
+    content_type: self.content_type,
     schema_name: self.schemaName,
     metadata: self.metadata
   };

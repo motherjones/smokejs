@@ -4,7 +4,8 @@ var router = require('./router');
 
 //ADD ALL THE EDIT VIEWS TO THE ROUTER
 router.addRoute("^$", views.displayHomepage);
-router.addRoute(":schema/:slug", views.displayMainContent);
+router.addRoute("\/?:section/[0-9]+/[0-9]+/:slug", views.displayMainContent);
+router.addRoute("\/?:schema/:slug", views.displayMainContent);
 
   /* ADD EDIT SPECIFIC POST PAGE LOAD STUFF HERE
    * if we can make the make editable fucntion smarter, we can ditch

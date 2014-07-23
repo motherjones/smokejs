@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Base page</title>
-  <link rel="stylesheet" href="css/smoke.css">
+  <link rel="stylesheet" href="/css/smoke.css">
 </head>
 <body>
   <script>
@@ -24,9 +24,9 @@
     //FIXME Right now we need to test edit, but later we want to replace this with
     //if (!auth) {
     if (!auth && false) {
-      js.src = 'js/smoke.js';
+      js.src = '/js/smoke.js';
     } else {
-      js.src = 'js/smoke_edit.js';
+      js.src = '/js/smoke_edit.js';
     }
     document.body.appendChild(js);
   </script>

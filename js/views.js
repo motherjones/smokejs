@@ -19,7 +19,7 @@ var render = require('./render');
 exports.displayMainContent = function(match, callback) {
   var component = new api.Component(match.params.slug);
   return component.get(function(data) {
-    render.render(match.params.schema, data, function(html) {
+    render.render(data.schema_name, data, function(html) {
       if (callback) { callback(data, html); }
     });
   });
