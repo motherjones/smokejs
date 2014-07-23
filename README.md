@@ -12,6 +12,12 @@ To work on this locally, you'll need:
     npm install
     grunt serve
 
+We've currently got four example payloads that can be loaded through smoke.
+[An example topic list](http://localhost:9001/#topic/health_list/)
+[An example article](http://localhost:9001/#article/drones)
+[An example author page](http://localhost:9001/#author/peter)
+[The homepage](http://localhost:9001)
+
 ## Working on Smoke
 
 ### Important Grunt Commands
@@ -23,7 +29,6 @@ We're using grunt as our task manager. It has a few commands that will make deve
 
 #### grunt test
   Runs our tests and gives us a code coverage percent.
-  Hopefully we'll soon have a section on how our tests are constructed.
   Tests are run using the Mocha Test runner https://github.com/visionmedia/mocha
   Asserts are made using the should library https://github.com/visionmedia/should
   Sinon is used for fake server and timing http://sinonjs.org/docs/
@@ -88,31 +93,41 @@ describe("component api", function() {
 ### Adding new templates
   We are using [dust](http://akdubya.github.io/dustjs/) as our templating language.
   We've added 4 functions to dust that might be important to you.
-#### ad `{#ad placement="bottommob" width="299" /}`
+* ad `{#ad placement="bottommob" width="299" /}`
   Places an iframed ad to the page. The iframe will automatically resize to the height of the ad. It will not resize the width
   Requires a parameter telling smoke the placement, which it passes along to the ad server.
   You may also find it useful to pass along a width.
-#### load `{#load slug="peter" template="byline" /}`
+* load `{#load slug="peter" template="byline" /}`
   Loads a new component from mirrors from a slug.
   Takes a slug parameter, and a template parameter.
   If a template parameter is not given, the component will be rendered with it's schemaName as the template
-#### render `{#attributes.byline} {#render template="byline" /} {/attributes.byline}`
+* render `{#attributes.byline} {#render template="byline" /} {/attributes.byline}`
   Renders an already loaded component.
   In order to work you must set dust's context to the component you want to render. That's done with the `{#attributes.byline}new context is here{/attributes.byline}` stuff
   If a template parameter is not given, the component will be rendered with it's schemaName as the template
-#### markdown `{#markdown data_uri="http://mirrors.motherjones.com/component/bengazhi/data" /}`
-  This isn't actually implemented yet. :(  It'll be working soon. Promise.
+* markdown `{#markdown data_uri="http://mirrors.motherjones.com/component/bengazhi/data" /}`
+  Turns markdown into html, then runs it through dust templating.
 
 ### Making our templates play nice with our inline edit
   If you want to make a component inline editable, you have to jump through some hoops
-#### Your rendered component must have a contained in an element w/ the id of your component's slug
-  Thats how we know where to look for things that should be inline editable, and where to add the save button
-#### Your metadata must be contained in an element with the attributes data-slug equal to your component's slug, and data-metadata equal to the metadata's name
-  `<h2 data-slug="{slug}" data-metadata="dek">{dek}</h2>`
-#### If you want to make an attribute that is a list editable, your ul or ol must have the attributes data-slug equal to your component's slug, and data-attribute equal to the attributes name on your component
-  `<ul data-attribute="byline" data-slug="{slug}">`
-#### If you want to make an attribute that is a list editable, your list items must have the attribute data-slug equal to the list item's slug
+* Your rendered component must have a contained in an element w/ the id of your component's slug.
+  Thats how we know where to look for things that should be inline editable, and where to add the save button.
+* Your metadata must be contained in an element with the attributes data-slug equal to your component's slug, and data-metadata equal to the metadata's name.
+  `<h2 data-slug="{slug}" data-metadata="dek">{dek}</h2>`.
+
+### Making our templates play nice with sorting lists
+* If you want to make an attribute that is a list editable, your ul or ol must have the attributes data-slug equal to your component's slug, and data-attribute equal to the attributes name on your component.
+  `<ul data-attribute="byline" data-slug="{slug}">`.
+* If you want to make an attribute that is a list editable, your list items must have the attribute data-slug equal to the list item's slug.
   `<li data-slug="{slug}">{authorname}</li>`
+* If you want to be able to add new items to a list, you must have a template for each list item. The template should be named after the attribute the list is contained within
+```
+<ul data-attribute="byline" data-slug="{slug}">
+  {#attributes.byline}
+    {#render template="byline" /}
+  {/attributes.byline}
+</ul>
+```
 
 ## Examples
 _(Coming soon)_

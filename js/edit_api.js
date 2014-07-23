@@ -1,6 +1,5 @@
 'use strict';
 var EnvConfig = require('./config');
-var Promise = require('promise-polyfill');
 var api = require('./api');
 var _ = require('lodash');
 /**
@@ -58,7 +57,7 @@ exports.Component.prototype.create = function() {
 exports.Component.prototype._post = function(uri, callback) {
   var payload = {
     slug: this.slug,
-    content_type: this.contentType,
+    content_type: this.content_type,
     schema_name: this.schemaName,
     metadata: this.metadata
   };
@@ -88,7 +87,8 @@ exports.Component.prototype._put = function(callback) {
   var self = this;
   var payload = {
     slug: self.slug,
-    content_type: self.contentType,
+    uri: self.uri,
+    content_type: self.content_type,
     schema_name: self.schemaName,
     metadata: self.metadata
   };
@@ -103,20 +103,19 @@ exports.Component.prototype._put = function(callback) {
 /**
  * Changes an attribute of a component and makes sure the component knows it needs to patch it
  * @param {string} key - the key of the attribute you want to change
- * @param {component} component - the new attribute component
+ * @param {component} component - the new attribute component. Optional.
  * @returns {promise} promise resolved when attribute is set on server
  */
 exports.Component.prototype.setAttribute = function(key, component) {
-  var self = this;
-  return new Promise(function(resolve, reject) {
-    if (!self.attributes[key]) {
-      self.attributes[key] = component;
-      self._createAttribute(key, component.slug).then(resolve, reject);
-    } else {
-      self.attributes[key] = component;
-      self._updateAttribute(key, component.slug).then(resolve, reject);
+  if (!this.attributes[key]) {
+    this.attributes[key] = component;
+    return this._createAttribute(key);
+  } else {
+    if (component) {
+      this.attributes[key] = component;
     }
-  });
+    return this._updateAttribute(key);
+  }
 };
 
 /**

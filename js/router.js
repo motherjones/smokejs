@@ -16,8 +16,9 @@ var Promise = require('promise-polyfill');
  */
 module.exports = (function() {
   var router = new Router();
-  router.addRoute(":schema/:slug", views.displayMainContent);
-  router.addRoute("^/$", views.displayHomepage);
+  router.addRoute("\/?:schema/:slug", views.displayMainContent);
+  router.addRoute("\/?:section/[0-9]+/[0-9]+/:slug", views.displayMainContent);
+  router.addRoute("^$", views.displayHomepage);
   return router;
 })();
 
@@ -56,11 +57,13 @@ module.exports.callback = function() {
   * @memberof module:router
   */
 module.exports.browserStart = function() {
-  $('body').on("click", "[href^='#/']", module.exports.browserClick );
+  $('body').on("click", "[href^='/']", module.exports.browserClick );
+  $(window).on('popstate', function(e) {
+    module.exports.pop(document.location.pathname);
+  });
   ad.setAdListener();
   module.exports.callback = module.exports.browserCallback;
-  var path = document.location.hash.replace('#', '');
-  module.exports.pop(path);
+  module.exports.pop(document.location.pathname);
 };
 
 /**
@@ -68,14 +71,13 @@ module.exports.browserStart = function() {
   * @alias browserClick
   * @memberof module:router
   * @param {event} e - The click event
-  * @return {promise} Promise resolved after history push
+  * @return {promise} Promise resolved the router runs the appropriate function
   */
 module.exports.browserClick = function(e) {
   e.preventDefault();
-  var path = $(this).attr("href").replace('#', '');
   var promise = new Promise(function(resolve) {
-    module.exports.pop(path);
-    history.pushState(0, 0, path);
+    module.exports.pop($(e.target).attr('href'));
+    window.history.pushState(0, 'Mother Jones', $(e.target).attr('href'));
     resolve();
   });
   return promise;
@@ -90,5 +92,9 @@ module.exports.browserClick = function(e) {
   */
 module.exports.browserCallback = function(data, html) {
   $('body').html(html);
+  window.history.replaceState(0, data.metadata.title, data.uri);
+  document.title = 'MotherJones' + (data.metadata.title
+    ? ' - ' + data.metadata.title
+    : '');
   ad.reload(data.keywords);
 };

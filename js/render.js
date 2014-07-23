@@ -3,7 +3,7 @@
 var Dust = require('../build/js/dust_templates')();
 var api = require('./api');
 var EnvConfig = require('./config');
-//var Markdown = require('./markdown');
+var Markdown = require('./markdown');
 var Ad = require('./ad');
 var Promise = require('promise-polyfill');
 
@@ -28,7 +28,7 @@ exports.render = function(template, data, callback) {
           EnvConfig.ERROR_HANDLER(err, this);
           reject(err);
         }
-        callback(out);
+        if (callback) { callback(out); };
         resolve(out);
       }
     );
@@ -64,7 +64,7 @@ exports.dustBase = function() {
       return chunk.map(function(chunk) {
         var component = new api.Component(slug);
         component.get(function(data) {
-          var template = params.template ? params.template : data.schemaName;
+          var template = params.template ? params.template : data.schema_name;
           exports.render(template, data, function(html) {
             chunk.end(html);
           });
@@ -122,19 +122,16 @@ exports.dustBase = function() {
      */
     markdown : function(chunk, context, bodies, params) {
       return chunk.map(function(chunk) {
-            chunk.end('we need to fix the fixture server');
-        /*
-        api.component(params.data_uri, function(data) {
-          var html = Markdown.toHTML(data);
-          // do we need a better way of making a random name?
+        var data = new api.Data(params.data_uri);
+        data.get().then(function() {
+          var html = Markdown.toHTML(data.data);
           var templateName = 'markdown_' + Math.random();
           var template = Dust.compile(html, templateName);
           Dust.loadSource(template);
           exports.render(templateName, data, function(html) {
             chunk.end(html);
           });
-        });
-        */
+        }, EnvConfig.ERROR_HANDLER);
       });
     },
   });
