@@ -218,8 +218,8 @@ describe("editor functions", function() {
     var component = new api.Component(slug, testData);
     var itemId = 'test_byline_item_removal';
     var item = $('<li id="' + itemId + '" data-slug="peter-van-buren" >Mr. Pan, I presume</li>');
-    $('body').append(item);
     var button = editor.removeFromListButton(item, 'byline', component);
+    $('body').append(item);
 
     it("should create a button", function(done) {
       button.is('button').should.be.true;
@@ -252,6 +252,7 @@ describe("editor functions", function() {
     var component = new api.Component(slug, testData);
     var list = $('<ul data-attribute="byline" data-slug="'+slug+'"></ul>');
     var item = $('<li data-slug="peter-van-buren" >Mr. Pan, I presume</li>');
+    var listSortedActionBak = editor.listSortedAction;
 
     before(function(done) {
       list.append(item);
@@ -276,8 +277,17 @@ describe("editor functions", function() {
       list.children('button').length.should.eql(2, 'add to list button not implemented yet');
       done();
     });
+
+    it("should run the list sorted function the list is sorted", function(done) {
+      editor.listSortedAction = function() {
+        done();
+      };
+      list.trigger('sortupdate');
+    });
+
     after(function(done) {
       list.remove();
+      editor.listSortedAction = listSortedActionBak;
       done();
     });
 
@@ -327,4 +337,83 @@ describe("editor functions", function() {
       done();
     });
   });
+
+  describe("add to list button", function() {
+    var slug = 'test';
+    var component = new api.Component(slug, testData);
+    var button = editor.addToListButton('byline', component);
+    var addToListFormBak = editor.addToListForm;
+
+    it("should create a button", function(done) {
+      button.is('button').should.be.true;
+      done();
+    });
+
+    it("becomes disabled after being clicked", function(done) {
+      button.click();
+      button.prop('disabled').should.be.true
+      done();
+    });
+
+    it("when the button is clicked it should run the func to create a form", function(done) {
+      editor.addToListForm = function() {
+        done();
+      };
+      button.click();
+    });
+
+    after(function(done) {
+      editor.addToListForm = addToListFormBak;
+      done();
+    });
+  });
+
+  describe("add to list form", function() {
+    var slug = 'test';
+    var component = new api.Component(slug, testData);
+    var button = $('<button></button>');
+    var form = editor.addToListForm('byline', component, button);
+    var cancel = form.find('.cancel');
+    var addItemBak = editor.addItemToList;
+    $('body').append(button).append(form);
+
+    it('creates a form', function(done) {
+      form.is('form').should.be.true;
+      done();
+    });
+    it('should run add to list on submit', function(done) {
+      editor.addItemToList = function() {
+        done();
+      };
+      form.submit();
+    });
+    it('should make the button which made it no longer disabled on submit', function(done) {
+      editor.addItemToList = function() {};
+      button.prop('disabled', true);
+      button.prop('disabled').should.be.true;
+      form.submit();
+      button.prop('disabled').should.be.false;
+      done();
+    });
+
+    it('has a cancel button', function(done) {
+      cancel.length.should.eql(1);
+      done();
+    });
+    it('cancel button should make the button which made the form no longer disabled on submit, and remove the form from the page', function(done) {
+      button.prop('disabled', true);
+      $('form').length.should.eql(1);
+      button.prop('disabled').should.be.true;
+      cancel.click();
+      button.prop('disabled').should.be.false;
+      $('form').length.should.eql(0);
+      done();
+    });
+    after(function(done) {
+      editor.addItemToList = addItemBak;
+      form.remove();
+      button.remove();
+      done();
+    });
+  })
 });

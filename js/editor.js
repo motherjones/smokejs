@@ -87,7 +87,7 @@ exports.listSortedAction = function(list, component) {
 exports.addToListButton = function(name, component) {
   return $('<button class="add-to-list">+</button>')
     .click(function() {
-      exports.addToListForm(name, component);
+      $(this).before(exports.addToListForm(name, component, $(this)));
       $(this).prop('disabled', true);
     });
 };
@@ -97,29 +97,26 @@ exports.addToListButton = function(name, component) {
  * Should create a form where editors can select a component to add to the list
  * @param {string} name - The name of the list we're adding to
  * @param {component} component - The list we're sorting
- * @returns {void}
+ * @param {element} button - The button that created htis list
+ * @returns {element} - the form
  */
 
-exports.addToListForm = function(name, component) {
-  var div = $('<div class="add_to_list_holder"></div>');
-  var close = $('<span class="cancel">x</span>').click(function() {
-      div.remove();
-      $('[data-attribute="' + name + '"][data-slug="' + component.slug +
-        '"] .add-to-list').prop('disabled', false);
-    });
-  div.append(close);
+exports.addToListForm = function(name, component, button) {
   //FIXME we really want autocomplete, relying editors to know slugs is dumb
   var form = $('<form><label>Add another ' + name +
     '</label><input name="slug" type="text" placeholder="slug"/></form>')
     .submit(function() {
-      exports.addItemToList(div, name, component);
-      $('[data-attribute="' + name + '"][data-slug="' + component.slug +
-        '"] .add-to-list').prop('disabled', false);
+      exports.addItemToList(form, name, component);
+      button.prop('disabled', false);
       return false;
     });
-  div.append(form);
-  $('[data-attribute="' + name + '"][data-slug="' + component.slug + '"]')
-      .append(div);
+  var close = $('<span class="cancel">x</span>').click(function() {
+      button.prop('disabled', false);
+      form.remove();
+      return false;
+    });
+  form.append(close);
+  return form;
 }
 
 /**
