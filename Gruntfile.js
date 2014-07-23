@@ -68,7 +68,7 @@ module.exports = function (grunt) {
     },
     shell: {
       mochify: {
-        command: 'node_modules/.bin/mochify --cover --port 9001',
+        command: 'node_modules/.bin/mochify --reporter spec --port 9001',
         options: {
           failOnError: false
         }
