@@ -11,7 +11,7 @@ var _ = require('lodash');
  */
 
 /**
- * Creates a callback function for mirrors requests
+ * Creates a callback function for server requests
  * @param {function} resolve - called with response if response is ok
  * @param {function} reject - called with response if response is not ok
  * @param {function} callback - callback is called with server response body if status ok
@@ -60,7 +60,15 @@ exports._promise_request = function(args, callback, pull) {
  * @param {string} data_uri - URI of the data object
  */
 exports.Data = function(data_uri) {
+    /**
+     * uri {uri} - the location of the data on the server
+     * @inner
+     */
   this.uri = data_uri;
+    /**
+     * url {url} - the full location of the data on the server
+     * @inner
+     */
   this.url = EnvConfig.MIRRORS_DOMAIN + data_uri;
 };
 
@@ -110,7 +118,7 @@ exports.Component = function(slug, data) {
      */
   this.schema_name = null;
     /**
-     * uri {url} - the location of the component for mirrors gets and to display as a page on smoke
+     * uri {url} - the location of the component for server gets and to display as a page on smoke
      * @inner
      */
   this.uri = null;
@@ -166,11 +174,11 @@ exports.Component.prototype._build = function(data) {
 };
 
 /**
- * Checks localstorage for the component's data, calls out to mirrors if
+ * Checks localstorage for the component's data, calls out to server if
  * localstorage doesn't have it or is stale
  * @function
  * @param {function} callback - is called after the GET request for the component completes with the JSON as the first argument
- * @param {boolean} pull - don't check local storage, pull from mirrors
+ * @param {boolean} pull - don't check local storage, pull from server
  * @returns {promise} resolves after the callback is complete, fails on error
  */
 exports.Component.prototype.get = function(callback, pull) {
