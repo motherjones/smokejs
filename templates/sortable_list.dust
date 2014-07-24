@@ -1,8 +1,11 @@
 <ul data-attribute="{attribute}"
     data-slug="{slug}"
     data-template="{template}" >
-  {#list}
-    {@sep}{delimiter}<li><h1> LOL WAT SRS?L</h1></li>{/sep}
-    {#render template=template delimiter=delimiter/}
+  {#list list_length=list.length}
+    {@if cond="{$idx} < {list_length} - 1"}
+      {#render template=template delimiter=delimiter /}
+    {:else}
+      {#render template=template end=end /}
+    {/if}
   {/list}
 </ul>

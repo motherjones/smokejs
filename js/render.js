@@ -83,6 +83,7 @@ exports.dustBase = function() {
      * @inner
      */
     render : function(chunk, context, bodies, params) {
+      for (var i in params) { context.stack.head[i] = params[i]; };
       return chunk.map(function(chunk) {
         exports.render(params.template, context.stack.head, function(html) {
           chunk.end(html);
@@ -106,7 +107,6 @@ exports.dustBase = function() {
       return chunk.map(function(chunk) {
         params.slug = context.stack.head.slug;
         params.list = context.stack.head.attributes[params.attribute];
-        console.log(params);
         exports.render('sortable_list', params, function(html) {
           chunk.end(html);
         });

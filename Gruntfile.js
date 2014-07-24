@@ -151,7 +151,9 @@ module.exports = function (grunt) {
           wrapper: 'commonjs',
           wrapperOptions: {
             returning: 'dust',
-            deps: { dust: 'dustjs-linkedin' }
+            deps: { dust: 'dustjs-linkedin',
+                    dusthelper: 'dustjs-helpers'
+            }
           }
         }
       },
