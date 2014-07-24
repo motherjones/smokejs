@@ -1,5 +1,24 @@
+/////////////
+// Utilities
+////////////
+@import "grid.less";
+
 @grey: #5E7185;
 @light-grey: #CCDAD7;
+@orange: #F15928;
+
+.center(@width) {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: @width;
+}
+
+
+
+//////////////////
+// Article styles
+/////////////////
 
 article h2 {
 	font-size: 1rem;
@@ -38,10 +57,7 @@ section#component_author li, section#component_tags li {
 
 .master_image {
 	img {
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
-		width: 100%;
+		.center(100%);
 	}
 
 	figcaption span{
@@ -72,3 +88,39 @@ section#component_author li, section#component_tags li {
 	p { font-size: 0.75rem; }
 }
 
+//////////////////////
+// (The actual) Footer
+//////////////////////
+
+footer {
+	font-family: serif;
+    width: @gridsystem-width;
+	margin: 0 auto;
+	p { text-align: center; }
+	.tagline span {
+			font-family: sans-serif;
+			text-transform: uppercase;
+			font-weight: bold;
+			background: @light-grey;
+			color: white;
+			padding: 0.5em 2em;
+	}
+	.colophon { margin-bottom: 2em !important; }
+		.left { .column(4); }
+		.middle { .column(4); text-align: center; }
+		.right { .column(4); text-align: right; }
+	.rss {
+		clear: both;
+		a {
+			font-family: sans-serif;
+			text-transform: uppercase;
+			font-weight: bold;
+			padding: 0.5em;
+			color: white;
+			background: @orange;
+		}
+	}
+	.copyright {
+		font-size: 0.75rem;
+	}
+}

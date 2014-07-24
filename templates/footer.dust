@@ -1,0 +1,24 @@
+<footer>
+	<p class="title">Mother Jones</p>
+	<p class="tagline"><span>Reader Supported Journalism</span></p>
+		<ul class="colophon left">
+			<li>About Us</li>
+			<li>Jobs</li>
+			<li>Contact Us</li>
+			<li>Privacy Policy</li>
+		</ul>
+		<ul class="colophon middle">
+			<li>Make a Donation</li>
+			<li>Leave A Legacy</li>
+			<li>Ben Bagdikian Fellowship</li>
+			<li>Terms of Service</li>
+		</ul>
+		<ul class="colophon right">
+			<li>Advertise</li>
+			<li>Press</li>
+			<li>Subscribe</li>
+			<li>Events</li>
+		</ul>
+	<p class="rss"><a href="#">RSS</a></p>
+	<p class="copyright">Copyright &copy;2014 Mother Jones and the Foundation for National Progress. All Rights Reserved.</p>
+</footer>
