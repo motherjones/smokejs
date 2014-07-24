@@ -90,6 +90,29 @@ exports.dustBase = function() {
       });
     },
     /**
+     * A function to place a list of components
+     * Placed into dust template's global context.
+     * Template usage: `{#list attribute="{string}" template="{string}" [delimiter="{string}"] /}`
+     * @param {chunk} chunk - How dust tells where to put the returned html
+     * @param {object} context - The dust context when list is called
+     * @param {object} bodies - Access to any bodies defined within the calling block.
+     * @param {object} params - Parameters passed in by the template writer. Required attributes-array, the things to be rendered,
+     * required template, the li template you want to use,
+     * optional delimiter, something to put in between each li.
+     * @returns {dust_promise} - the way dust handles callbacks, resolved when chunk.end is called w/ the html result
+     * @inner
+     */
+    list : function(chunk, context, bodies, params) {
+      return chunk.map(function(chunk) {
+        params.slug = context.stack.head.slug;
+        params.list = context.stack.head.attributes[params.attribute];
+        console.log(params);
+        exports.render('sortable_list', params, function(html) {
+          chunk.end(html);
+        });
+      });
+    },
+    /**
      * A function to place an ad in a template.
      * Placed into dust template's global context.
      * Template usage: `{#ad placement="{string}" /}`
