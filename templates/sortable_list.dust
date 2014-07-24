@@ -1,0 +1,11 @@
+<ul data-attribute="{attribute}"
+    data-metadata="{metadata}"
+    data-slug="{slug}"
+    data-template="{template}" >
+  {#items temp=template}
+    <li data-slug="{.slug}">
+        {#render template=temp /}
+        {@sep}{delimiter}{/sep}
+    </li>
+  {/items}
+</ul>

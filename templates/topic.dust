@@ -2,19 +2,5 @@
 	<header>
     <h5>this is a topic page for {slug}</h5>
 	</header>
-  <ol>
-    {#attributes}
-			<li>
-				<a href="{uri}"><img src="{attributes.master_image.uri}" alt="" title="" width="150" height="84" /></a>
-				<div class="section-item">
-					<h3><a href="{uri}">{metadata.title}</a></h3>
-					<p class="byline">&mdash;
-            {#attributes.byline}
-              {#render template="byline" /}
-            {/attributes.byline}
-          </p>
-				</div>
-      </li>
-    {/attributes}
-  </ol>
+  {#list template="topic_article" attribute="articles" /}
 </article>

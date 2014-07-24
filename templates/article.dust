@@ -5,9 +5,9 @@
 			<div class="section_title">Name of section title</div>
 			&#8594;&nbsp;
 			 <ul data-attribute="tags" data-slug="{slug}">
-				  {#metadata.tags}
-					<li>{.}</li>{~n}
-				  {/metadata.tags}
+         {#metadata.tags}
+               <li>{.}</li>{~n}
+         {/metadata.tags}
 				</ul>
 			</section>
 			{#metadata}
@@ -16,11 +16,7 @@
 			{/metadata}
 			<section id="component_author">
 			&mdash; By 
-			<ul data-attribute="byline" data-slug="{slug}">
-			  {#attributes.byline}
-				{#render template="byline" /}
-			  {/attributes.byline}
-			</ul>
+        {#list template="byline" attribute="byline" delimiter="," /}
 			<span class="publish_date">{created_at}</span>
 			</section>
 			{#attributes.master_image}
@@ -42,9 +38,7 @@
 		<b>Data url</b>: {data_uri}
 		</section>
 		<section>
-			{#attributes.byline}
-				{#render template="author-bio" /}
-			{/attributes.byline}
+      {#list template="author-bio" attribute="byline" delimiter="," /}
 		</section>
 	</article>
 	<aside id="bottom_ad" class="two_col_content">
