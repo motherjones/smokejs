@@ -2,17 +2,5 @@
 	<header>
     <h5>this is a section page for {slug}</h5>
 	</header>
-  <ol>
-    {#attributes}
-			<li>
-				<a href="{uri}"><img src="{attributes.master_image.uri}" alt="" title="" width="150" height="84" /></a>
-				<div class="section-item">
-					<h3><a href="{uri}">{metadata.title}</a></h3>
-          {#attributes.byline}
-            {#render template="byline" /}
-          {/attributes.byline}
-				</div>
-      </li>
-    {/attributes}
-  </ol>
+  {#list attribute="articles" template="topic_article" /}
 </article>

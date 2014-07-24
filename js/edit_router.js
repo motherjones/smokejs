@@ -3,7 +3,7 @@ var views = require('./edit_views');
 var router = require('./router');
 
 //ADD ALL THE EDIT VIEWS TO THE ROUTER
-router.addRoute("^$", views.displayHomepage);
+router.addRoute("^\/$", views.displayHomepage);
 router.addRoute("\/?:section/[0-9]+/[0-9]+/:slug", views.displayMainContent);
 router.addRoute("\/?:schema/:slug", views.displayMainContent);
 
