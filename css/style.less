@@ -14,7 +14,31 @@
 	width: @width;
 }
 
+//////////////////
+// Masthead
+/////////////
 
+.masthead {
+  .center(@gridsystem-width);
+  nav {
+    ul {
+      width: 100%;
+      border-bottom: 3px solid black;
+    }
+    li {
+      margin-right: 5%;
+      display: inline;
+    }
+    a {
+      text-decoration: none;
+      &.politics { border-top: 3px solid blue; }
+      &.environment {border-top: 3px solid green; }
+      &.culture {border-top: 3px solid yellow; }
+      &.photo-essays {border-top: 3px solid @grey; }
+      &.blags {border-top: 3px solid purple; }
+    }
+  }
+}
 
 //////////////////
 // Article styles
@@ -94,7 +118,7 @@ section#component_author li, section#component_tags li {
 
 footer {
 	font-family: serif;
-    width: @gridsystem-width;
+  width: @gridsystem-width;
 	margin: 0 auto;
 	p { text-align: center; }
 	.tagline span {

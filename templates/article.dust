@@ -1,3 +1,4 @@
+{>header /}
 <div class="container">
   <article id="{slug}" class="two_col_content">
     <header>
