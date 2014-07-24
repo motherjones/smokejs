@@ -1,11 +1,10 @@
 <ul data-attribute="{attribute}"
     data-slug="{slug}"
     data-template="{template}" >
-  {#list list_length=list.length}
-    {@if cond="{$idx} < {list_length} - 1"}
-      {#render template=template delimiter=delimiter /}
-    {:else}
-      {#render template=template end=end /}
-    {/if}
+  {#list temp=template}
+    <li data-slug="{.slug}">
+        {#render template=temp /}
+        {@sep}{delimiter}{/sep}
+    </li>
   {/list}
 </ul>

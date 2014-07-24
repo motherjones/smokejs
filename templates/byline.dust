@@ -1,7 +1,5 @@
-<li data-slug="{slug}">
-    {end}
-  <a href="#/author/{slug}">
-    {metadata.first_name} {metadata.last_name}
-    {delimiter}
-  </a>
-</li>
+  {end}
+<a href="#/author/{slug}">
+  {metadata.first_name} {metadata.last_name}
+  {delimiter}
+</a>

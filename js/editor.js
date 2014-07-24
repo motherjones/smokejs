@@ -3,6 +3,7 @@ require('./jquery.sortable');
 var _ = require('lodash');
 var render = require('./render');
 var api = require('./edit_api');
+var Promise = require('promise-polyfill');
 
 /**
  * Includes functions to be called by the router.
@@ -41,15 +42,20 @@ exports.makeEditable = function(component) {
  * @returns {void}
  */
 exports.makeListEditable = function(attribute, component) {
-  var list = $('[data-attribute="' + attribute + '"][data-slug="' + component.slug + '"]');
-  list.sortable().bind('sortupdate', function() {
-    exports.listSortedAction(list, component);
+  var lists = $('[data-attribute="' + attribute + '"][data-slug="' + component.slug + '"]');
+  lists.each(function() {
+    var list = $(this);
+    list.sortable().bind('sortupdate', function() {
+      exports.listSortedAction(list, component);
+    });
+    list.find('li').each(function() {
+      $(this).append(
+        exports.removeFromListButton($(this).data('slug'), attribute, component)
+      );
+    });
+    list.append(exports.addToListButton(attribute, component));
+    list.append(exports.saveListButton(attribute, component));
   });
-  list.find('li').each(function() {
-    $(this).append(exports.removeFromListButton($(this), attribute, component));
-  });
-  list.append(exports.addToListButton(attribute, component));
-  list.append(exports.saveListButton(attribute, component));
 };
 
 /**
@@ -75,6 +81,35 @@ exports.listSortedAction = function(list, component) {
     }
   }
   component.attributes[attribute] = attributeOrder;
+
+  exports.remakeLists(component, list.data('attribute'));
+};
+
+exports.remakeLists = function(component, attribute) {
+  var lists = $('[data-attribute="' + attribute + '"]' +
+      '[data-slug="' + component.slug + '"]');
+
+  var listsRemade = [];
+
+  lists.each(function() {
+    var list = $(this);
+    var params = {
+      slug: component.slug,
+      list: component.attributes[attribute],
+      template: $(this).data('template'),
+      attribute: attribute
+    };
+    listsRemade.push(new Promise(function(res, rej) {
+      render.render('sortable_list', params, function(html) {
+        list.before($(html)).remove();
+        res();
+      });
+    }));
+  });
+
+  Promise.all(listsRemade).then(function() {
+    exports.makeListEditable(attribute, component);
+  });
 };
 
 /**
@@ -131,17 +166,22 @@ exports.addItemToList = function(form, name, component) {
   var item = new api.Component(form.find('[name="slug"]').val());
   form.prop('disabled', true).addClass('disabled');
   return item.get().then(function() {
-    render.render(name, item).then(function(html) {
-      var li = $(html);
-      li.append(exports.removeFromListButton(li, name, component));
-      $('[data-attribute="' + name + '"][data-slug="' + component.slug +
-        '"] li:last-of-type')
-        .after(li);
-      component.attributes[name].push(item);
-      form.remove();
-      $('[data-attribute="' + name + '"][data-slug="' +
-        component.slug + '"] button').prop('disabled', false);
-    }, exports.failureNotice);
+    var lists = $('[data-attribute="' + name + '"]' +
+      '[data-slug="' + component.slug + '"]');
+    lists.each(function() {
+      var $this = $(this);
+      render.render($(this).data('template'), item).then(function(html) {
+        var li = $(html);
+        li.append(
+          exports.removeFromListButton(item.slug, name, component)
+        );
+        $this.find('li:last-of-type')
+          .after(li);
+        component.attributes[name].push(item);
+        form.remove();
+        $this.find('button').prop('disabled', false);
+      }, exports.failureNotice);
+    });
   }, function(err) {
     form.prop('disabled', false).addClass('disabled');
     exports.failureNotice(err);
@@ -151,7 +191,7 @@ exports.addItemToList = function(form, name, component) {
 /**
  * Creates a button that removes a list item from a list, and updates its
  * parent component to no longer have that item.
- * @param {element} item - The particular list item element the button is for
+ * @param {string} item - The slug of the item the button is for
  * @param {string} list - The name of the list on the parent component
  * @param {component} component - The parent of the attribute we're sorting
  * @returns {void}
@@ -160,9 +200,11 @@ exports.removeFromListButton = function(item, list, component) {
   return $('<button class="remove-from-list">x</button>')
     .click(function() {
       _.remove(component.attributes[list], function(comp) {
-        return item.data('slug') === comp.slug;
+        return item === comp.slug;
       });
-      item.remove();
+      $('[data-attribute="' + list + '"]' +
+        '[data-slug="' + component.slug + '"]' +
+        ' li[data-slug="' + item + '"]').remove();
     });
 };
 

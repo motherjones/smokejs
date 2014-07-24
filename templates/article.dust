@@ -16,7 +16,7 @@
 			{/metadata}
 			<section id="component_author">
 			&mdash; By 
-        {#list template="byline" attribute="byline" delimiter="," end="and " /}
+        {#list template="byline" attribute="byline" delimiter="," /}
 			<span class="publish_date">{created_at}</span>
 			</section>
 			{#attributes.master_image}
