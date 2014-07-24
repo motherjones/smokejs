@@ -185,7 +185,9 @@ exports.Component.prototype.get = function(callback, pull) {
   var self = this;
   return exports._promise_request(EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
     function(body) {
+      console.log(body);
       var data = JSON.parse(body);
+      console.log(data);
       self._build(data);
       if (callback) {callback(self);};
     }

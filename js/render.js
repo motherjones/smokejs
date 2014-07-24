@@ -106,7 +106,7 @@ exports.dustBase = function() {
     list : function(chunk, context, bodies, params) {
       return chunk.map(function(chunk) {
         params.slug = context.stack.head.slug;
-        params.list = context.stack.head.attributes[params.attribute];
+        params.items = context.stack.head.attributes[params.attribute];
         exports.render('sortable_list', params, function(html) {
           chunk.end(html);
         });

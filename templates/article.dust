@@ -5,9 +5,9 @@
 			<div class="section_title">Name of section title</div>
 			&#8594;&nbsp;
 			 <ul data-attribute="tags" data-slug="{slug}">
-				  {#metadata.tags}
-					<li>{.}</li>{~n}
-				  {/metadata.tags}
+         {#metadata.tags}
+               <li>{.}</li>{~n}
+         {/metadata.tags}
 				</ul>
 			</section>
 			{#metadata}
