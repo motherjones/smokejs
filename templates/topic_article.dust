@@ -2,8 +2,6 @@
 <div class="section-item">
   <h3><a href="{uri}">{metadata.title}</a></h3>
   <p class="byline">&mdash;
-    {#attributes.byline}
-      {#list template="byline" attributes="byline" /}
-    {/attributes.byline}
+    {#list template="byline" attributes="byline" /}
   </p>
 </div>
