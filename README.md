@@ -13,9 +13,9 @@ To work on this locally, you'll need:
     grunt serve
 
 We've currently got four example payloads that can be loaded through smoke.
-[An example topic list](http://localhost:9001/#topic/health_list/)
-[An example article](http://localhost:9001/#article/drones)
-[An example author page](http://localhost:9001/#author/peter)
+[An example topic list](http://localhost:9001/topic/health_list/)
+[An example article](http://localhost:9001/article/drones)
+[An example author page](http://localhost:9001/author/peter)
 [The homepage](http://localhost:9001)
 
 ## Working on Smoke
