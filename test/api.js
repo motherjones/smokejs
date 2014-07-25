@@ -10,32 +10,28 @@ var EnvConfig = require('../js/config');
 
 describe("api utilities", function() {
   describe("_promise_request", function() {
-    console.log(EnvConfig);
     var server;
+    var slug;
+    before(function(done) {
+      slug = 'test';
+      server = utils.mock_component(slug, response);
+      done();
+    });
     after(function(done) {
       server.restore();
       done();
     });
-    it("callback runs before promise", function(done) {
-      var slug = 'test';
-      var url = EnvConfig.MIRRORS_URL + 'component/' + slug;
-      console.log(EnvConfig.MIRRORS_URL);
-      console.log(url);
-      server = utils.mock_component(slug, response);
+    it("callback runs before promise succeeds", function(done) {
+      var url = EnvConfig.MIRRORS_URL + 'component/' + slug + '/';
       var callback = sinon.spy();
-      var promise = api._promise_request(url, callback);
-      var fail = function(body) {
-      };
-      sinon.spy(fail);
-      var success = function(body) {
-        body.should.eql(response);
+      var fail = sinon.spy();
+      var success = function() {
         callback.should.have.property('calledOnce', true);
         callback.calledWithExactly(response);
+        fail.should.have.property('called', false);
         done();
       };
-      var fail = function(body) {
-      };
-      promise.then(success, fail);
+      api._promise_request(url, callback).then(success, fail);
     });
   });
 });
