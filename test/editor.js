@@ -431,7 +431,7 @@ describe("editor functions", function() {
     });
     beforeEach(function(done) {
       list = $('<ul data-template="byline" data-attribute="byline" data-slug="'+slug+'"></ul>');
-      item = $('<li data-slug="rip-van-winkle" >ZZzzzZZzzzZZz</li>');
+      item = $('<li data-slug="henry-the-eighth" >ZZzzzZZzzzZZz</li>');
       button = $('<button disabled="true">add! or save! whatever</button>');
       form = $('<form><input name="slug" value="' + authorSlug + '"></input></form>');
       list.append(item);
@@ -443,6 +443,7 @@ describe("editor functions", function() {
       done();
     });
     afterEach(function(done) {
+      $('body').html('')
       list.remove();
       done();
     });
@@ -458,7 +459,8 @@ describe("editor functions", function() {
     });
     it('adds a rendered li to the end of list, based on the attribute type', function(done) {
       editor.addItemToList(form, 'byline', component).then(function() {
-        list.find('li:first-of-type').data('slug').should.eql('rip-van-winkle');
+        list = $('[data-template="byline"][data-attribute="byline"][data-slug="'+slug+'"]');
+        list.find('li:first-of-type').data('slug').should.eql('henry-the-eighth');
         list.find('li:last-of-type').data('slug').should.eql('peter');
         done();
       });
