@@ -19,7 +19,7 @@ describe("Render", function() {
       should(el.find('a').length).eql(1,
         'byline gives us a single list item interior (an anchor in this instance)'
       );
-      should(el.find('a').attr('href')).eql('#/author/' + slug,
+      should(el.find('a').attr('href')).eql('/author/' + slug,
         'byline gives us a link to the author page of the author passed in'
       );
       should(el.find('a').html()).eql(author_first_name + ' ' + author_last_name,
@@ -71,7 +71,7 @@ describe("Render", function() {
       should(el.find('a').length).eql(1,
         'dust load pulling a byline gives us a single list item interior (an anchor)'
       );
-      should(el.find('a').attr('href')).eql('#/author/peter',
+      should(el.find('a').attr('href')).eql('/author/peter',
         'dust load pulling a byline gives us a link to the author page of the author passed in'
       );
       should(el.find('a').html()).eql('Peter Pan',
@@ -143,7 +143,7 @@ describe("Render", function() {
         'expected 1, got' + el.find('a').length + ' thml out was' +
         chunk.output
       );
-      should(el.find('a').attr('href')).eql('#/author/peter-pan',
+      should(el.find('a').attr('href')).eql('/author/peter-pan',
         'dust renders a byline gives us a link to the author page of the author passed in'
       );
       should(el.find('a').html()).eql('Peter Pan',
