@@ -1,9 +1,11 @@
 var render = require('../js/render');
 var Chunk = require('./utils').mock_chunk;
 var Ad = require('../js/ad');
+var api = require('../js/api');
 var utils = require('./utils');
 var peter = require('./fixtures/author/peter.json');
 var should = require('should');
+var testData = require('./fixtures/article/1.json');
 
 describe("Render", function() {
   it('can render content', function (done) {
@@ -149,6 +151,30 @@ describe("Render", function() {
       should(el.find('a').html()).eql('Peter Pan',
         'dust renders a byline gives us the author\'s first and last as link text'
       );
+      done();
+    });
+  });
+  it( "can make a list from a component's attribute", function(done) {
+    var slug = 'test';
+    var component = new api.Component(slug, testData);
+    var dustBase = render.dustBase();
+    var chunk = new Chunk();
+    dustBase.global.list(chunk, {
+      stack: {
+        head: component
+      }
+    }, {}, {
+      template: 'byline',
+      attribute: 'byline'
+    })
+    .then(function() {
+      var el = utils.div(chunk.output);
+      var ul = el.find('ul');
+      var li = el.find('li');
+      ul.data('attribute').should.eql('byline');
+      ul.data('slug').should.eql('test');
+      ul.data('template').should.eql('byline');
+      li.data('slug').should.eql('henry-the-eighth');
       done();
     });
   });
