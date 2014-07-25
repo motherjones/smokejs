@@ -10,8 +10,20 @@ var EnvConfig = require('../js/config');
 
 describe("api utilities", function() {
   describe("_promise_request", function() {
-    var server;
-    var slug;
+    it("promise calls onRejected when request fails", function(done) {
+      var url = EnvConfig.MIRRORS_URL + 'test/';
+      var callback = sinon.spy();
+      var success = sinon.spy();
+      var fail = function() {
+        callback.should.have.property('called', false);
+        success.should.have.property('called', false);
+        done();
+      };
+      api._promise_request({
+        'url': url,
+        'timeout': 1
+        }, callback).then(success, fail);
+    });
     before(function(done) {
       slug = 'test';
       server = utils.mock_component(slug, response);
