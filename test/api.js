@@ -5,6 +5,40 @@ var secondResponse = require('./fixtures/article/2.json');
 var utils = require('./utils');
 var should = require('should');
 var _ = require('lodash');
+var sinon = require('sinon');
+var EnvConfig = require('../js/config');
+
+describe("api utilities", function() {
+  describe("_promise_request", function() {
+    console.log(EnvConfig);
+    var server;
+    after(function(done) {
+      server.restore();
+      done();
+    });
+    it("callback runs before promise", function(done) {
+      var slug = 'test';
+      var url = EnvConfig.MIRRORS_URL + 'component/' + slug;
+      console.log(EnvConfig.MIRRORS_URL);
+      console.log(url);
+      server = utils.mock_component(slug, response);
+      var callback = sinon.spy();
+      var promise = api._promise_request(url, callback);
+      var fail = function(body) {
+      };
+      sinon.spy(fail);
+      var success = function(body) {
+        body.should.eql(response);
+        callback.should.have.property('calledOnce', true);
+        callback.calledWithExactly(response);
+        done();
+      };
+      var fail = function(body) {
+      };
+      promise.then(success, fail);
+    });
+  });
+});
 
 describe("component api", function() {
   describe("constructor", function() {
