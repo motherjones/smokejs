@@ -11,7 +11,7 @@ var _ = require('lodash');
  */
 
 /**
- * Creates a callback function for mirrors requests
+ * Creates a callback function for server requests
  * @param {function} resolve - called with response if response is ok
  * @param {function} reject - called with response if response is not ok
  * @param {function} callback - callback is called with server response body if status ok
@@ -60,7 +60,15 @@ exports._promise_request = function(args, callback, pull) {
  * @param {string} data_uri - URI of the data object
  */
 exports.Data = function(data_uri) {
+    /**
+     * uri {uri} - the location of the data on the server
+     * @inner
+     */
   this.uri = data_uri;
+    /**
+     * url {url} - the full location of the data on the server
+     * @inner
+     */
   this.url = EnvConfig.MIRRORS_DOMAIN + data_uri;
 };
 
@@ -84,13 +92,46 @@ exports.Data.prototype.get = function(callback) {
  * @param {string} - slug the id of the componet
  */
 exports.Component = function(slug, data) {
+    /**
+     * slug {string} - the identifier of the component
+     * @inner
+     */
   this.slug = slug;
+    /**
+     * attributes {dictionary} - all the subsidiary components attached to a component
+     * @inner
+     */
   this.attributes = {};
+    /**
+     * metadata {dictionary} - additional information about the component
+     * @inner
+     */
   this.metadata = {};
+    /**
+     * content_type {string} - the type of content this component's data is (markdown, image, etc)
+     * @inner
+     */
   this.content_type = null;
+    /**
+     * schema_name {string} - the schema used to validat this is correct, and the template to use while rendering if this is the main content of a page
+     * @inner
+     */
   this.schema_name = null;
+    /**
+     * uri {url} - the location of the component for server gets and to display as a page on smoke
+     * @inner
+     */
   this.uri = null;
+    /**
+     * data_uri {url} - the location of the component's data
+     * @inner
+     */
   this.data_uri = null;
+    /**
+     * data {Data} - the data of the component
+     * @inner
+     */
+  this.data = null;
   if (data) {
     this._build(data);
   }
@@ -133,11 +174,11 @@ exports.Component.prototype._build = function(data) {
 };
 
 /**
- * Checks localstorage for the component's data, calls out to mirrors if
+ * Checks localstorage for the component's data, calls out to server if
  * localstorage doesn't have it or is stale
  * @function
  * @param {function} callback - is called after the GET request for the component completes with the JSON as the first argument
- * @param {boolean} pull - don't check local storage, pull from mirrors
+ * @param {boolean} pull - don't check local storage, pull from server
  * @returns {promise} resolves after the callback is complete, fails on error
  */
 exports.Component.prototype.get = function(callback, pull) {
