@@ -95,7 +95,7 @@ exports.remakeLists = function(component, attribute) {
     var list = $(this);
     var params = {
       slug: component.slug,
-      list: component.attributes[attribute],
+      items: component.attributes[attribute],
       template: $(this).data('template'),
       attribute: attribute
     };
@@ -107,8 +107,11 @@ exports.remakeLists = function(component, attribute) {
     }));
   });
 
-  Promise.all(listsRemade).then(function() {
-    exports.makeListEditable(attribute, component);
+  return new Promise(function(res, rej) {
+    Promise.all(listsRemade).then(function() {
+      exports.makeListEditable(attribute, component);
+      res();
+    }, rej);
   });
 };
 
@@ -160,31 +163,22 @@ exports.addToListForm = function(name, component, button) {
  * @param {element} form - The element the form is in
  * @param {string} name - The name of the list we're adding to
  * @param {component} component - The list we're sorting
- * @returns {void}
+ * @returns {promise} resolved on lists being remade
  */
 exports.addItemToList = function(form, name, component) {
   var item = new api.Component(form.find('[name="slug"]').val());
   form.prop('disabled', true).addClass('disabled');
-  return item.get().then(function() {
-    var lists = $('[data-attribute="' + name + '"]' +
-      '[data-slug="' + component.slug + '"]');
-    lists.each(function() {
-      var $this = $(this);
-      render.render($(this).data('template'), item).then(function(html) {
-        var li = $(html);
-        li.append(
-          exports.removeFromListButton(item.slug, name, component)
-        );
-        $this.find('li:last-of-type')
-          .after(li);
-        component.attributes[name].push(item);
-        form.remove();
-        $this.find('button').prop('disabled', false);
-      }, exports.failureNotice);
+  return new Promise(function(res, rej) {
+      item.get().then(function() {
+
+      component.attributes[name].push(item);
+      exports.remakeLists(component, name).then(res);
+
+    }, function(err) {
+      form.prop('disabled', false).addClass('disabled');
+      exports.failureNotice(err);
+      rej();
     });
-  }, function(err) {
-    form.prop('disabled', false).addClass('disabled');
-    exports.failureNotice(err);
   });
 };
 

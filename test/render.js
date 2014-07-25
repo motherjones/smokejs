@@ -16,8 +16,8 @@ describe("Render", function() {
     },
     function(out) {
       var el = utils.div(out);
-      should(el.find('li').length).eql(1,
-        'byline gives us a single list item'
+      should(el.find('a').length).eql(1,
+        'byline gives us a single list item interior (an anchor in this instance)'
       );
       should(el.find('a').attr('href')).eql('#/author/' + slug,
         'byline gives us a link to the author page of the author passed in'
@@ -68,8 +68,8 @@ describe("Render", function() {
       template: 'byline'
     }).then(function() {
       var el = utils.div(chunk.output);
-      should(el.find('li').length).eql(1,
-        'dust load pulling a byline gives us a single list item'
+      should(el.find('a').length).eql(1,
+        'dust load pulling a byline gives us a single list item interior (an anchor)'
       );
       should(el.find('a').attr('href')).eql('#/author/peter',
         'dust load pulling a byline gives us a link to the author page of the author passed in'
@@ -139,8 +139,8 @@ describe("Render", function() {
     })
     .then(function() {
       var el = utils.div(chunk.output);
-      should(el.find('li').length).eql( 1,
-        'expected 1, got' + el.find('li').length + ' which may be a problem. thml out was' +
+      should(el.find('a').length).eql( 1,
+        'expected 1, got' + el.find('a').length + ' thml out was' +
         chunk.output
       );
       should(el.find('a').attr('href')).eql('#/author/peter-pan',
