@@ -85,6 +85,12 @@ exports.listSortedAction = function(list, component) {
   exports.remakeLists(component, list.data('attribute'));
 };
 
+/**
+ * Re-render all lists associated w/ an attribute for a component
+ * @param {component} component - The component the attribute belongs to
+ * @param {string} attribute - The attribute whose lists you want to remake
+ * @returns {promise} resolved after all lists are made and editor capabilities reapplied
+ */
 exports.remakeLists = function(component, attribute) {
   var lists = $('[data-attribute="' + attribute + '"]' +
       '[data-slug="' + component.slug + '"]');

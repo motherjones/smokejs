@@ -9,6 +9,7 @@ var api = require('../js/edit_api');
 var Promise = require('promise-polyfill');
 var _ = require('lodash');
 var utils = require('./utils');
+var render = require('../js/render');
 
 describe("editor functions", function() {
   describe("makeEditable", function() {
@@ -486,6 +487,69 @@ describe("editor functions", function() {
         })
         done();
       });
+    });
+  });
+  describe("remake lists", function() {
+    var slug = 'test';
+    var makeListsEditableCalled;
+    var component, list, secondList;
+    var makeListEditableBak = editor.makeListEditable;
+    before(function(done) {
+      editor.makeListEditable = function(attribute, component) {
+        attribute.should.be.eql('byline');
+        component.slug.should.eql(slug);
+        makeListsEditableCalled += 1;
+      };
+      done();
+    });
+    beforeEach(function(done) {
+      makeListsEditableCalled = 0;
+      $('body').html('');
+      component = new api.Component(slug, testData);
+      var params = {
+        slug: component.slug,
+        items: component.attributes['byline'],
+        template: 'byline',
+        attribute: 'byline'
+      };
+      render.render('sortable_list', params, function(html) {
+        $('body').append($(html));
+        $('li').length.should.eql(1);
+        params.template = 'author-bio';
+        render.render('sortable_list', params, function(html) {
+          $('body').append($(html));
+          $('li').length.should.eql(2);
+          done();
+        });
+      });
+    });
+    it('remakes all lists based on the most recent component data', function(done) {
+      component.attributes.byline.pop();
+      editor.remakeLists(component, 'byline').then(function() {
+        $('li').length.should.eql(0);
+        done();
+      });
+    });
+    it('remakes each list with lis using the right template', function(done) {
+      editor.remakeLists(component, 'byline').then(function() {
+        $('[data-template="byline"] a').attr('href').should.eql('/author/henry-the-eighth');
+        $('[data-template="author-bio"] div').hasClass('author_bio').should.be.true;
+        done();
+      });
+    });
+    it('calls out to make the lists editable after render', function(done) {
+      editor.remakeLists(component, 'byline').then(function() {
+        makeListsEditableCalled.should.eql(1);
+        done();
+      });
+    });
+    afterEach(function(done) {
+      $('body').html('');
+      done();
+    });
+    after(function(done) {
+      editor.makeListEditable = makeListEditableBak;
+      done();
     });
   });
 });
