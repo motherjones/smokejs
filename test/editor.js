@@ -219,9 +219,12 @@ describe("editor functions", function() {
     var slug = 'test';
     var component = new api.Component(slug, testData);
     var itemId = 'test_byline_item_removal';
+    var ul = $('<ul data-attribute="byline"' +
+        ' data-slug="' + component.slug + '"></ul>');
     var item = $('<li id="' + itemId + '" data-slug="peter-van-buren" >Mr. Pan, I presume</li>');
-    var button = editor.removeFromListButton(item, 'byline', component);
-    $('body').append(item);
+    var button = editor.removeFromListButton('peter-van-buren', 'byline', component);
+    ul.append(item);
+    $('body').append(ul);
 
     it("should create a button", function(done) {
       button.is('button').should.be.true;
@@ -274,8 +277,6 @@ describe("editor functions", function() {
     });
 
     it("should add an 'add to list' button and a 'save this list button' to the ul", function(done) {
-      //BROKEN add to list not implemented yet
-      //jquery's children only looks one level down, will not get the remove button
       list.children('button').length.should.eql(2, 'add to list button not implemented yet');
       done();
     });
@@ -429,7 +430,7 @@ describe("editor functions", function() {
       done();
     });
     beforeEach(function(done) {
-      list = $('<ul data-attribute="byline" data-slug="'+slug+'"></ul>');
+      list = $('<ul data-template="byline" data-attribute="byline" data-slug="'+slug+'"></ul>');
       item = $('<li data-slug="rip-van-winkle" >ZZzzzZZzzzZZz</li>');
       button = $('<button disabled="true">add! or save! whatever</button>');
       form = $('<form><input name="slug" value="' + authorSlug + '"></input></form>');
