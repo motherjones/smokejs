@@ -1,9 +1,11 @@
 var render = require('../js/render');
 var Chunk = require('./utils').mock_chunk;
 var Ad = require('../js/ad');
+var api = require('../js/api');
 var utils = require('./utils');
 var peter = require('./fixtures/author/peter.json');
 var should = require('should');
+var testData = require('./fixtures/article/1.json');
 
 describe("Render", function() {
   it('can render content', function (done) {
@@ -16,10 +18,10 @@ describe("Render", function() {
     },
     function(out) {
       var el = utils.div(out);
-      should(el.find('li').length).eql(1,
-        'byline gives us a single list item'
+      should(el.find('a').length).eql(1,
+        'byline gives us a single list item interior (an anchor in this instance)'
       );
-      should(el.find('a').attr('href')).eql('#/author/' + slug,
+      should(el.find('a').attr('href')).eql('/author/' + slug,
         'byline gives us a link to the author page of the author passed in'
       );
       should(el.find('a').html()).eql(author_first_name + ' ' + author_last_name,
@@ -68,10 +70,10 @@ describe("Render", function() {
       template: 'byline'
     }).then(function() {
       var el = utils.div(chunk.output);
-      should(el.find('li').length).eql(1,
-        'dust load pulling a byline gives us a single list item'
+      should(el.find('a').length).eql(1,
+        'dust load pulling a byline gives us a single list item interior (an anchor)'
       );
-      should(el.find('a').attr('href')).eql('#/author/peter',
+      should(el.find('a').attr('href')).eql('/author/peter',
         'dust load pulling a byline gives us a link to the author page of the author passed in'
       );
       should(el.find('a').html()).eql('Peter Pan',
@@ -139,16 +141,40 @@ describe("Render", function() {
     })
     .then(function() {
       var el = utils.div(chunk.output);
-      should(el.find('li').length).eql( 1,
-        'expected 1, got' + el.find('li').length + ' which may be a problem. thml out was' +
+      should(el.find('a').length).eql( 1,
+        'expected 1, got' + el.find('a').length + ' thml out was' +
         chunk.output
       );
-      should(el.find('a').attr('href')).eql('#/author/peter-pan',
+      should(el.find('a').attr('href')).eql('/author/peter-pan',
         'dust renders a byline gives us a link to the author page of the author passed in'
       );
       should(el.find('a').html()).eql('Peter Pan',
         'dust renders a byline gives us the author\'s first and last as link text'
       );
+      done();
+    });
+  });
+  it( "can make a list from a component's attribute", function(done) {
+    var slug = 'test';
+    var component = new api.Component(slug, testData);
+    var dustBase = render.dustBase();
+    var chunk = new Chunk();
+    dustBase.global.list(chunk, {
+      stack: {
+        head: component
+      }
+    }, {}, {
+      template: 'byline',
+      attribute: 'byline'
+    })
+    .then(function() {
+      var el = utils.div(chunk.output);
+      var ul = el.find('ul');
+      var li = el.find('li');
+      ul.data('attribute').should.eql('byline');
+      ul.data('slug').should.eql('test');
+      ul.data('template').should.eql('byline');
+      li.data('slug').should.eql('henry-the-eighth');
       done();
     });
   });

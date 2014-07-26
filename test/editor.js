@@ -9,6 +9,7 @@ var api = require('../js/edit_api');
 var Promise = require('promise-polyfill');
 var _ = require('lodash');
 var utils = require('./utils');
+var render = require('../js/render');
 
 describe("editor functions", function() {
   describe("makeEditable", function() {
@@ -219,9 +220,12 @@ describe("editor functions", function() {
     var slug = 'test';
     var component = new api.Component(slug, testData);
     var itemId = 'test_byline_item_removal';
+    var ul = $('<ul data-attribute="byline"' +
+        ' data-slug="' + component.slug + '"></ul>');
     var item = $('<li id="' + itemId + '" data-slug="peter-van-buren" >Mr. Pan, I presume</li>');
-    var button = editor.removeFromListButton(item, 'byline', component);
-    $('body').append(item);
+    var button = editor.removeFromListButton('peter-van-buren', 'byline', component);
+    ul.append(item);
+    $('body').append(ul);
 
     it("should create a button", function(done) {
       button.is('button').should.be.true;
@@ -274,8 +278,6 @@ describe("editor functions", function() {
     });
 
     it("should add an 'add to list' button and a 'save this list button' to the ul", function(done) {
-      //BROKEN add to list not implemented yet
-      //jquery's children only looks one level down, will not get the remove button
       list.children('button').length.should.eql(2, 'add to list button not implemented yet');
       done();
     });
@@ -429,8 +431,8 @@ describe("editor functions", function() {
       done();
     });
     beforeEach(function(done) {
-      list = $('<ul data-attribute="byline" data-slug="'+slug+'"></ul>');
-      item = $('<li data-slug="rip-van-winkle" >ZZzzzZZzzzZZz</li>');
+      list = $('<ul data-template="byline" data-attribute="byline" data-slug="'+slug+'"></ul>');
+      item = $('<li data-slug="henry-the-eighth" >ZZzzzZZzzzZZz</li>');
       button = $('<button disabled="true">add! or save! whatever</button>');
       form = $('<form><input name="slug" value="' + authorSlug + '"></input></form>');
       list.append(item);
@@ -442,6 +444,7 @@ describe("editor functions", function() {
       done();
     });
     afterEach(function(done) {
+      $('body').html('')
       list.remove();
       done();
     });
@@ -457,7 +460,8 @@ describe("editor functions", function() {
     });
     it('adds a rendered li to the end of list, based on the attribute type', function(done) {
       editor.addItemToList(form, 'byline', component).then(function() {
-        list.find('li:first-of-type').data('slug').should.eql('rip-van-winkle');
+        list = $('[data-template="byline"][data-attribute="byline"][data-slug="'+slug+'"]');
+        list.find('li:first-of-type').data('slug').should.eql('henry-the-eighth');
         list.find('li:last-of-type').data('slug').should.eql('peter');
         done();
       });
@@ -483,6 +487,69 @@ describe("editor functions", function() {
         })
         done();
       });
+    });
+  });
+  describe("remake lists", function() {
+    var slug = 'test';
+    var makeListsEditableCalled;
+    var component, list, secondList;
+    var makeListEditableBak = editor.makeListEditable;
+    before(function(done) {
+      editor.makeListEditable = function(attribute, component) {
+        attribute.should.be.eql('byline');
+        component.slug.should.eql(slug);
+        makeListsEditableCalled += 1;
+      };
+      done();
+    });
+    beforeEach(function(done) {
+      makeListsEditableCalled = 0;
+      $('body').html('');
+      component = new api.Component(slug, testData);
+      var params = {
+        slug: component.slug,
+        items: component.attributes['byline'],
+        template: 'byline',
+        attribute: 'byline'
+      };
+      render.render('sortable_list', params, function(html) {
+        $('body').append($(html));
+        $('li').length.should.eql(1);
+        params.template = 'author-bio';
+        render.render('sortable_list', params, function(html) {
+          $('body').append($(html));
+          $('li').length.should.eql(2);
+          done();
+        });
+      });
+    });
+    it('remakes all lists based on the most recent component data', function(done) {
+      component.attributes.byline.pop();
+      editor.remakeLists(component, 'byline').then(function() {
+        $('li').length.should.eql(0);
+        done();
+      });
+    });
+    it('remakes each list with lis using the right template', function(done) {
+      editor.remakeLists(component, 'byline').then(function() {
+        $('[data-template="byline"] a').attr('href').should.eql('/author/henry-the-eighth');
+        $('[data-template="author-bio"] div').hasClass('author_bio').should.be.true;
+        done();
+      });
+    });
+    it('calls out to make the lists editable after render', function(done) {
+      editor.remakeLists(component, 'byline').then(function() {
+        makeListsEditableCalled.should.eql(1);
+        done();
+      });
+    });
+    afterEach(function(done) {
+      $('body').html('');
+      done();
+    });
+    after(function(done) {
+      editor.makeListEditable = makeListEditableBak;
+      done();
     });
   });
 });
