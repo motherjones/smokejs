@@ -6,6 +6,10 @@
 @grey: #5E7185;
 @light-grey: #CCDAD7;
 @orange: #F15928;
+@blue:#009DDD;
+@green:#70BF4F;
+@yellow:#F8AE16;
+@lavender:#C9AFFF;
 
 .center(@width) {
 	display: block;
@@ -14,7 +18,15 @@
 	width: @width;
 }
 
-//////////////////
+.fixme {
+	background-color: yellow !important;
+	border: 1px dashed red !important;
+	min-width: 50px !important;
+	min-height: 20px !important;
+	display: inline-block;
+}
+
+//////////////
 // Masthead
 /////////////
 
@@ -31,11 +43,18 @@
     }
     a {
       text-decoration: none;
-      &.politics { border-top: 3px solid blue; }
-      &.environment {border-top: 3px solid green; }
-      &.culture {border-top: 3px solid yellow; }
+      font-weight: bold;
+      text-transform: uppercase;
+      &.politics { border-top: 3px solid @blue; }
+      &.politics:hover { background-color: @blue; }
+      &.environment {border-top: 3px solid @green; }
+      &.environment:hover {border-bottom: 3px solid @green; }
+      &.culture {border-top: 3px solid @yellow; }
+      &.culture:hover {border-top: 3px solid @yellow; }
       &.photo-essays {border-top: 3px solid @grey; }
-      &.blags {border-top: 3px solid purple; }
+      &.photo-essays:hover {border-top: 3px solid @grey; }
+      &.blags {border-top: 3px solid @lavender; }
+      &.blags:hover {border-top: 3px solid @lavender; }
     }
   }
 }
@@ -129,10 +148,10 @@ footer {
 			color: white;
 			padding: 0.5em 2em;
 	}
-	.colophon { margin-bottom: 2em !important; }
-		.left { .column(4); }
-		.middle { .column(4); text-align: center; }
-		.right { .column(4); text-align: right; }
+	ul.colophon { margin-bottom: 2em; }
+	.left { .column(4); }
+	.middle { .column(4); text-align: center; }
+	.right { .column(4); text-align: right; }
 	.rss {
 		clear: both;
 		a {
