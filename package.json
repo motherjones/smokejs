@@ -63,7 +63,8 @@
     "should": "^4.0.4",
     "sinon": "git+https://github.com/motherjones/Sinon.JS.git",
     "tape": "~2.12.3",
-    "testling": "~1.6.1"
+    "testling": "~1.6.1",
+    "normalize.css": "~3.0.1"
   },
   "keywords": [],
   "dependencies": {
