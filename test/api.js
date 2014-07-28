@@ -9,8 +9,18 @@ var sinon = require('sinon');
 var EnvConfig = require('../js/config');
 
 describe("api utilities", function() {
+  describe("_success", function() {
+    it("", function(done){
+      var resolve = sinon.spy();
+      var reject = sinon.spy();
+      var callback = sinon.spy();
+      var success = api._success(resolve, reject, callback);
+      success.should.be.a.Function;
+      done();
+    });
+  });
   describe("_promise_request", function() {
-    it("promise calls onRejected when request fails", function(done) {
+    it("calls onRejected when request fails", function(done) {
       var url = EnvConfig.MIRRORS_URL + 'test/';
       var callback = sinon.spy();
       var success = sinon.spy();
