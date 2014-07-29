@@ -10,13 +10,22 @@ var EnvConfig = require('../js/config');
 
 describe("api utilities", function() {
   describe("_success", function() {
-    it("", function(done){
-      var resolve = sinon.spy();
-      var reject = sinon.spy();
-      var callback = sinon.spy();
-      var success = api._success(resolve, reject, callback);
-      success.should.be.a.Function;
-      done();
+    var self;
+    beforeEach(function() {
+        self = new Object;
+        self.resolve = sinon.spy();
+        self.reject = sinon.spy();
+        self.callback = sinon.spy();
+        self.success = api._success(self.resolve,
+          self.reject, self.callback);
+    });
+    it("statusText OK", function(){
+      self.success.should.be.a.Function;
+      var result = { statusText: "OK" };
+      self.success('', result, '');
+      self.callback.should.have.property('called', true);
+      self.resolve.should.have.property('called', true);
+      self.reject.should.have.property('called', false);
     });
   });
   describe("_promise_request", function() {
