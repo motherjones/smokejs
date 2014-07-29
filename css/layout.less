@@ -10,12 +10,48 @@
 ==================================================
 	#Site Styles
 	#Page Styles
-	#Media Queries
-	#Font-Face */
+	#Media Queries */
+
 /* #Site Styles
 ================================================== */
+@import "grid.less";
+@default-width: 960 * @toRems;
+@med-breakpoint: 48rem;
+@sm-breakpoint: 32rem;
+
 /* #Page Styles
 ================================================== */
+
+.two-column-article {
+	.Row(@padding: 0 (14 * @toRems));
+	article{
+	@media (min-width: @med-breakpoint) {
+			.Cols(@colspan: 3; @padding: 0 (14 * @toRems) );
+	}
+		}
+		aside{
+	@media (min-width: @med-breakpoint) {
+			.Cols(1);
+		}
+		}
+}
+
+footer.colophon {
+	@media (min-width: @med-breakpoint) {
+		.Row(635 * @toRems);
+		.links-left, .links-middle, .links-right {
+			.Cols(
+				@colspan: 1;
+				@total_cols: 3;
+				@margin_top: 2rem;
+				@margin_bottom: 2rem;
+			);
+		}
+	}
+}
+
+
+
 /* #Media Queries
 ================================================== */
 	/* Smaller than standard 960 (devices and browsers) */
@@ -24,41 +60,9 @@
 	@media only screen and (min-width: 768px) and (max-width: 959px) {}
 	/* All Mobile Sizes (devices and browser) */
 	@media only screen and (max-width: 767px) {
-		article.two_col_content, aside.two_col_content {
-
-     word-break: break-word;
-		width: 100%;
-		}
 	}
 	/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
 	@media only screen and (min-width: 480px) and (max-width: 767px) {}
 	/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 	@media only screen and (max-width: 479px) {}
-	/* Desktop? */
-	@media only screen and (min-width: 960px) {
-		article.two_col_content{
-			float:left;
-			width: 75%;
-		}
-		aside.two_col_content {
-			float: right;
-			width: 23%;
-			
-		}
-	}
-/* #Font-Face
-================================================== */
-/* 	This is the proper syntax for an @font-face file
-		Just create a "fonts" folder at the root,
-		copy your FontName into code below and remove
-		comment brackets */
-/*	@font-face {
-	    font-family: 'FontName';
-	    src: url('../fonts/FontName.eot');
-	    src: url('../fonts/FontName.eot?iefix') format('eot'),
-	         url('../fonts/FontName.woff') format('woff'),
-	         url('../fonts/FontName.ttf') format('truetype'),
-	         url('../fonts/FontName.svg#webfontZam02nTh') format('svg');
-	    font-weight: normal;
-	    font-style: normal; }
-*/
+
