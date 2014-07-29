@@ -1,23 +1,23 @@
-<footer>
+<footer class="colophon">
 	<p class="title">Mother Jones</p>
 	<p class="tagline"><span>Reader Supported Journalism</span></p>
-		<ul class="colophon left">
-			<li>About Us</li>
-			<li>Jobs</li>
-			<li>Contact Us</li>
-			<li>Privacy Policy</li>
+		<ul class="links-left">
+			<li><a href="/about">About Us</a></li>
+			<li><a href="/jobs">Jobs</a></li>
+			<li><a href="/contact">Contact Us</a></li>
+			<li><a href="/privacy">Privacy Policy</a></li>
 		</ul>
-		<ul class="colophon middle">
-			<li>Make a Donation</li>
-			<li>Leave A Legacy</li>
-			<li>Ben Bagdikian Fellowship</li>
-			<li>Terms of Service</li>
+		<ul class="links-middle">
+			<li><a href="/donate">Make a Donation</a></li>
+			<li><a href="/leave-a-legacy">Leave A Legacy</a></li>
+			<li><a href="/fellowship">Ben Bagdikian Fellowship</a></li>
+			<li><a href="/tos">Terms of Service</a></li>
 		</ul>
-		<ul class="colophon right">
-			<li>Advertise</li>
-			<li>Press</li>
-			<li>Subscribe</li>
-			<li>Events</li>
+		<ul class="links-right">
+			<li><a href="/advertise">Advertise</a></li>
+			<li><a href="/press">Press</a></li>
+			<li><a href="/subscribe">Subscribe</a></li>
+			<li><a href="/events">Events</a></li>
 		</ul>
 	<p class="rss"><a href="#">RSS</a></p>
 	<p class="copyright">Copyright &copy;2014 Mother Jones and the Foundation for National Progress. All Rights Reserved.</p>

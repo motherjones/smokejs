@@ -1,6 +1,6 @@
 {>header /}
-<div class="container">
-  <article id="{slug}" class="two_col_content">
+<div class="two-column-article">
+  <article id="{slug}">
     <header>
       <section id="component_tags">
         <div class="section_title">Name of section title</div>
@@ -44,7 +44,7 @@
     {/attributes.byline}
     </section>
   </article>
-  <aside id="bottom_ad" class="two_col_content">
+  <aside id="bottom_ad">
   {#ad placement="bottommob" /}
   should be an ad above me
   </aside>
