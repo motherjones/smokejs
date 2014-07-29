@@ -40,6 +40,7 @@ module.exports = function (grunt) {
       development: {
         files: {
           'build/css/<%= pkg.name %>.css': [
+            'node_modules/normalize.css/normalize.css',
             'css/**/*.less',
             'css/**/*.css'
           ]
@@ -49,6 +50,7 @@ module.exports = function (grunt) {
         options: { yuicompress: true },
         files: {
           'build/css/<%= pkg.name %>.min.css': [
+            'node_modules/normalize.css/normalize.css',
             'css/*.less',
             'css/*.css'
           ]

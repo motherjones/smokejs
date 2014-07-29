@@ -1,58 +1,102 @@
+/////////////
+// Utilities
+////////////
+
 @grey: #5E7185;
 @light-grey: #CCDAD7;
+@orange: #F15928;
+@blue:#009DDD;
+@green:#70BF4F;
+@yellow:#F8AE16;
+@lavender:#C9AFFF;
 
-article h2 {
-	font-size: 1rem;
-	font-style: italic;
-	color: @grey;
-	line-height: 1.1;
+@default-width: 60rem;
+@med-breakpoint: 48rem;
+@sm-breakpoint: 32rem;
+
+//////////////
+// Header styles
+/////////////
+
+.masthead {
+  nav {
+    ul {
+      width: 100%;
+      border-bottom: 3px solid black;
+    }
+    li {
+      margin-right: 5%;
+      display: inline;
+    }
+    a {
+      text-decoration: none;
+      font-weight: bold;
+      text-transform: uppercase;
+      &.politics { border-top: 3px solid @blue; }
+      &.politics:hover { background-color: @blue; }
+      &.environment {border-top: 3px solid @green; }
+      &.environment:hover {border-bottom: 3px solid @green; }
+      &.culture {border-top: 3px solid @yellow; }
+      &.culture:hover {border-top: 3px solid @yellow; }
+      &.photo-essays {border-top: 3px solid @grey; }
+      &.photo-essays:hover {border-top: 3px solid @grey; }
+      &.blags {border-top: 3px solid @lavender; }
+      &.blags:hover {border-top: 3px solid @lavender; }
+    }
+  }
 }
 
-article.two_col_content {
-	border-right: 2px dotted @light-grey;
-	/* gutter correction */
-	margin-right: 0;
-	padding-right: 10px;
-}
+//////////////////
+// Article styles
+/////////////////
 
-#component_author ul, #component_author li,
-#component_author .publish_date,
-#component_tags ul, #component_tags li{
-	display: inline;
-}
-section#component_author li, section#component_tags li {
-	padding-right: 0.5em;
-}
-
-#component_tags {
-	margin-bottom: 1em;
-	ul {
-		padding-left: 0.5em;
-		font-size: 0.75em;
+.two-column-article {
+	article {
+		@media (min-width: @default-width) { border-right: 2px dotted @light-grey; }
+		// heds with long words break layout
+		h1 { @media (max-width: @sm-breakpoint) { word-wrap: break-word; } }
+		h2 {
+			font-size: 1rem;
+			font-style: italic;
+			color: @grey;
+			line-height: 1.1;
+		}
 	}
-	.section_title {
-		font-weight: bold;
-		text-transform: uppercase;
-	}
-}
 
-.master_image {
-	img {
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
-		width: 100%;
+	#component_author ul, #component_author li,
+	#component_author .publish_date,
+	#component_tags ul, #component_tags li{
+		display: inline;
+	}
+	section#component_author li, section#component_tags li {
+		padding-right: 0.5em;
 	}
 
-	figcaption span{
-		font-weight: bold;
-		padding-right: 1em;
+	#component_tags {
+		margin-bottom: 1em;
+		ul {
+			padding-left: 0.5em;
+			font-size: 0.75em;
+		}
+		.section_title {
+			font-weight: bold;
+			text-transform: uppercase;
+		}
 	}
 
-	cite {
-		font-weight: lighter;
-		font-style: italic;
-		color: @grey;
+	.master_image {
+		img { width: 100%; }
+
+		figcaption span{
+			font-weight: bold;
+			padding-right: 1em;
+		}
+
+		cite {
+			font-weight: lighter;
+			font-style: italic;
+			color: @grey;
+		}
 	}
 }
 
@@ -62,7 +106,7 @@ section#component_author li, section#component_tags li {
 }
 
 .author_bio {
-	img { 
+	img {
 		float: left;
 		margin: 0.5em;
 	}
@@ -72,3 +116,36 @@ section#component_author li, section#component_tags li {
 	p { font-size: 0.75rem; }
 }
 
+//////////////////////
+// (The actual) Footer
+//////////////////////
+footer.colophon {
+	font-family: serif;
+	@media (min-width: 48rem) {
+		// Gotta be specific here...
+		ul.links-left { text-align: left; }
+		ul.links-right { text-align: right; }
+		li { margin-bottom: 0; }
+	}
+	p, .links-left, .links-right, .links-middle { text-align: center; }
+	.links-left, .links-middle { margin-bottom: 0; }
+	.tagline span, .rss a {
+		font-family: sans-serif;
+		text-transform: uppercase;
+		font-weight: bold;
+		background: @light-grey;
+		color: white;
+
+	}
+	.tagline span {
+		background: @grey;
+		padding: 0.5em 2em;
+	}
+	.rss a {
+		background: @orange;
+		padding: 0.5em;
+	}
+	.copyright {
+		font-size: 0.75rem;
+	}
+}
