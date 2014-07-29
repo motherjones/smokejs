@@ -24,14 +24,16 @@
 
 .two-column-article {
 	.Row(@padding: 0 (14 * @toRems));
-	@media (min-width: @default-width) {
-		article{
+	article{
+	@media (min-width: @med-breakpoint) {
 			.Cols(@colspan: 3; @padding: 0 (14 * @toRems) );
+	}
 		}
 		aside{
+	@media (min-width: @med-breakpoint) {
 			.Cols(1);
 		}
-	}
+		}
 }
 
 footer.colophon {
