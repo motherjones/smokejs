@@ -19,13 +19,23 @@ describe("api utilities", function() {
         self.success = api._success(self.resolve,
           self.reject, self.callback);
     });
-    it("statusText OK", function(){
+    it("statusText OK callback success", function(){
       self.success.should.be.a.Function;
       var result = { statusText: "OK" };
       self.success('', result, '');
       self.callback.should.have.property('called', true);
       self.resolve.should.have.property('called', true);
       self.reject.should.have.property('called', false);
+    });
+    it("statusText OK callback fail", function(){
+      self.success.should.be.a.Function;
+      var result = { statusText: "OK" };
+      self.callback = sinon.spy(function() {
+        throw new Error("test");
+      });
+      self.success('', result, '');
+      self.resolve.should.have.property('called', false);
+      self.reject.should.have.property('called', true);
     });
   });
   describe("_promise_request", function() {
