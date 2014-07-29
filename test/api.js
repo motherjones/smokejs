@@ -12,20 +12,17 @@ describe("api utilities", function() {
   describe("_success", function() {
     var self;
     beforeEach(function() {
-        self = new Object;
-        self.resolve = sinon.spy();
-        self.reject = sinon.spy();
-        self.callback = sinon.spy();
-    });
-    it("statusText OK callback success", function(){
+      self = new Object;
+      self.resolve = sinon.spy();
+      self.reject = sinon.spy();
+      self.callback = sinon.spy();
       self.success = api._success(self.resolve,
         self.reject, self.callback);
+    });
+    it("returns a function", function(){
       self.success.should.be.a.Function;
     });
     it("statusText OK callback success", function(){
-      self.success = api._success(self.resolve,
-        self.reject, self.callback);
-      self.success.should.be.a.Function;
       var result = { statusText: "OK" };
       self.success('', result, '');
       self.callback.should.have.property('called', true);
