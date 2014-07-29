@@ -16,10 +16,15 @@ describe("api utilities", function() {
         self.resolve = sinon.spy();
         self.reject = sinon.spy();
         self.callback = sinon.spy();
-        self.success = api._success(self.resolve,
-          self.reject, self.callback);
     });
     it("statusText OK callback success", function(){
+      self.success = api._success(self.resolve,
+        self.reject, self.callback);
+      self.success.should.be.a.Function;
+    });
+    it("statusText OK callback success", function(){
+      self.success = api._success(self.resolve,
+        self.reject, self.callback);
       self.success.should.be.a.Function;
       var result = { statusText: "OK" };
       self.success('', result, '');
@@ -28,14 +33,16 @@ describe("api utilities", function() {
       self.reject.should.have.property('called', false);
     });
     it("statusText OK callback fail", function(){
-      self.success.should.be.a.Function;
-      var result = { statusText: "OK" };
       self.callback = sinon.spy(function() {
         throw new Error("test");
       });
+      self.success = api._success(self.resolve,
+        self.reject, self.callback);
+      var result = { statusText: "OK" };
       self.success('', result, '');
-      self.resolve.should.have.property('called', false);
+      self.callback.should.have.property('called', true);
       self.reject.should.have.property('called', true);
+      self.resolve.should.have.property('called', false);
     });
   });
   describe("_promise_request", function() {

@@ -26,9 +26,8 @@ exports._success = function(resolve, reject, callback) {
       } catch(e) {
         reject(e);
         return;
-      } finally {
-        resolve(result);
       }
+      resolve(result);
     } else if (result.statusText === "Unauthorized") {
       //redirect to log in server
       exports.logInRedirect();
