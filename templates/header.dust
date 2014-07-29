@@ -1,5 +1,7 @@
 <header class="masthead">
   <p class="title">Mother Jones</p>
+  {> header_links /}
+  <br class="clear" />
   <nav>
     <ul>
       <li><a href="">Home</a></li>
@@ -11,7 +13,7 @@
       <li><a href="">Subscribe</a></li>
       <li><a href="">Donate</a></li>
     </ul>
-
-    <input type="text" value="Search"/>
+    <input class="search" type="text" value="Search"/>
   </nav>
+  <p class="mustreads fixme" aria-hidden="true">Must Reads: </p>
 </header>
