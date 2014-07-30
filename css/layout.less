@@ -10,13 +10,14 @@
 ================================================== */
 
 header.masthead {
-  .Row();
+  .Row(@margin: 0 auto 1rem; );
   .search {
     @media (min-width: @med-breakpoint) {
       float: right;
       margin-right: 2rem;
     }
-    input { display: inline; }
+    margin-bottom: 0;
+    input { display: inline; margin-bottom: 0;}
   }
   .mustreads {
     @media (max-width: @med-breakpoint) {

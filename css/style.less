@@ -3,8 +3,11 @@
 ////////////
 @grey: #6d6e70   ; // Text (foreground)
 @light-grey: #ddd; // Background
+@red: #e12300;
 @orange: #F15928;
 @blue:#009DDD;
+@climate-blue: #006385;
+@light-blue: #00b0ee;
 @green:#70BF4F;
 @yellow:#F8AE16;
 @lavender:#C9AFFF;
@@ -19,6 +22,8 @@
   min-height: 1em;
 }
 
+.red { color: @red !important; }
+
 //////////////
 // Header styles
 /////////////
@@ -27,6 +32,8 @@
 .menu-border-hover(@color) { border-bottom: 3px solid @color; }
 
 .masthead {
+  border-bottom: 1px solid @light-grey;
+  p.title { .fixme }
   nav {
     ul {
       border-bottom: 3px solid black;
@@ -41,6 +48,7 @@
       text-transform: uppercase;
       font-size: 0.75rem;
       padding: 0.1rem;
+      &.homepage:hover { .menu-border-hover(@red); }
       &.politics { .menu-border(@blue); }
       &.politics:hover { .menu-border-hover(@blue); }
       &.environment { .menu-border(@green); }
