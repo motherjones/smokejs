@@ -16,17 +16,21 @@ describe("api utilities", function() {
       self.resolve = sinon.spy();
       self.reject = sinon.spy();
       self.callback = sinon.spy();
+      self.redirect = sinon.stub(api, "logInRedirect");
       self.success = api._success(self.resolve,
         self.reject, self.callback);
+    });
+    afterEach(function() {
+      self.redirect.restore();
     });
     it("returns a function", function(){
       self.success.should.be.a.Function;
     });
     it("statusText OK callback success", function(){
-      var result = { statusText: "OK" };
+      var result = { statusCode: 200 };
       self.success('', result, '');
-      self.callback.should.have.property('called', true);
-      self.resolve.should.have.property('called', true);
+      self.callback.should.have.property('calledOnce', true);
+      self.resolve.should.have.property('calledOnce', true);
       self.reject.should.have.property('called', false);
     });
     it("statusText OK callback fail", function(){
@@ -35,11 +39,31 @@ describe("api utilities", function() {
       });
       self.success = api._success(self.resolve,
         self.reject, self.callback);
-      var result = { statusText: "OK" };
+      var result = { statusCode: 200 };
       self.success('', result, '');
-      self.callback.should.have.property('called', true);
-      self.reject.should.have.property('called', true);
+      self.callback.should.have.property('calledOnce', true);
+      self.reject.should.have.property('calledOnce', true);
       self.resolve.should.have.property('called', false);
+    });
+    it("statusText Unauthorized", function(){
+      self.success = api._success(self.resolve,
+        self.reject, self.callback);
+      var result = { statusCode: 401 };
+      self.success('', result, '');
+      self.callback.should.have.property('called', false);
+      self.reject.should.have.property('called', false);
+      self.resolve.should.have.property('called', false);
+      self.redirect.should.have.property('calledOnce', true);
+    });
+    it("statusText 500", function(){
+      self.success = api._success(self.resolve,
+        self.reject, self.callback);
+      var result = { statusText: 500 };
+      self.success('', result, '');
+      self.callback.should.have.property('called', false);
+      self.reject.should.have.property('calledOnce', true);
+      self.resolve.should.have.property('called', false);
+      self.redirect.should.have.property('called', false);
     });
   });
   describe("_promise_request", function() {
