@@ -1,9 +1,8 @@
 /////////////
 // Utilities
 ////////////
-
-@grey: #5E7185;
-@light-grey: #CCDAD7;
+@grey: #6d6e70   ; // Text (foreground)
+@light-grey: #ddd; // Background
 @orange: #F15928;
 @blue:#009DDD;
 @green:#70BF4F;
@@ -24,6 +23,9 @@
 // Header styles
 /////////////
 
+.menu-border(@color) { border-top: 3px solid @color; }
+.menu-border-hover(@color) { border-bottom: 3px solid @color; }
+
 .masthead {
   nav {
     ul {
@@ -38,16 +40,17 @@
       font-weight: bold;
       text-transform: uppercase;
       font-size: 0.75rem;
-      &.politics { border-top: 3px solid @blue; }
-      &.politics:hover { background-color: @blue; }
-      &.environment {border-top: 3px solid @green; }
-      &.environment:hover {border-bottom: 3px solid @green; }
-      &.culture {border-top: 3px solid @yellow; }
-      &.culture:hover {border-top: 3px solid @yellow; }
-      &.photo-essays {border-top: 3px solid @grey; }
-      &.photo-essays:hover {border-top: 3px solid @grey; }
-      &.blags {border-top: 3px solid @lavender; }
-      &.blags:hover {border-top: 3px solid @lavender; }
+      padding: 0.1rem;
+      &.politics { .menu-border(@blue); }
+      &.politics:hover { .menu-border-hover(@blue); }
+      &.environment { .menu-border(@green); }
+      &.environment:hover {.menu-border-hover(@green); }
+      &.culture { .menu-border(@yellow);}
+      &.culture:hover {.menu-border-hover(@yellow);}
+      &.photo-essays {.menu-border(@grey);}
+      &.photo-essays:hover {.menu-border-hover(@grey);}
+      &.blags {.menu-border(@lavender);}
+      &.blags:hover {.menu-border-hover(@lavender);}
     }
   }
   .header-links {

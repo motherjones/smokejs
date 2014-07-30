@@ -15,7 +15,10 @@
       <li><a href="">Subscribe</a></li>
       <li><a href="">Donate</a></li>
     </ul>
-    <input class="search" type="text" value="Search"/>
+    <form class="search" action="">
+      <input type="text" />
+      <input type="submit" value="Search">
+    </form>
   </nav>
-  <p class="mustreads fixme" aria-hidden="true">Must Reads: </p>
+  <p class="mustreads fixme" aria-hidden="true"><strong>Must Reads:</strong> </p>
 </header>
