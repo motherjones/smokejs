@@ -10,33 +10,44 @@
 ================================================== */
 
 header.masthead {
-	.Row();
+  .Row();
+  .search {
+    @media (min-width: @med-breakpoint) {
+      float: right;
+      margin-right: 2rem;
+    }
+  }
+  .mustreads {
+    @media (max-width: @med-breakpoint) {
+      display: none; visibility:hidden;
+    }
+  }
 }
 
 .two-column-article {
-	.Row(@padding: 0 (14 * @toRems));
-	article{
-	@media (min-width: @med-breakpoint) {
-			.Cols(@colspan: 3; @padding: 0 (14 * @toRems) );
-	}
-		}
-		aside{
-	@media (min-width: @med-breakpoint) {
-			.Cols(1);
-		}
-		}
+  .Row(@padding: 0 (14 * @toRems));
+  article{
+    @media (min-width: @med-breakpoint) {
+        .Cols(@colspan: 3; @padding: 0 (14 * @toRems) );
+    }
+  }
+  aside{
+    @media (min-width: @med-breakpoint) {
+      .Cols(1);
+    }
+  }
 }
 
 footer.colophon {
-	@media (min-width: @med-breakpoint) {
-		.Row(635 * @toRems);
-		.links-left, .links-middle, .links-right {
-			.Cols(
-				@colspan: 1;
-				@total_cols: 3;
-				@margin_top: 2rem;
-				@margin_bottom: 2rem;
-			);
-		}
-	}
+  @media (min-width: @med-breakpoint) {
+    .Row(635 * @toRems);
+    .links-left, .links-middle, .links-right {
+      .Cols(
+        @colspan: 1;
+        @total_cols: 3;
+        @margin_top: 2rem;
+        @margin_bottom: 2rem;
+      );
+    }
+  }
 }
