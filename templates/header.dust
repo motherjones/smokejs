@@ -1,6 +1,8 @@
 <header class="masthead">
   <p class="title">Mother Jones</p>
+  {?homepage}
   {> header_links /}
+  {/homepage}
   <br class="clear" />
   <nav>
     <ul>
