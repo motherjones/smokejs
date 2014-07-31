@@ -1,7 +1,7 @@
 # oh sweet jesus don't use me i'm very much in a state of development
 **Smoke** is a new front end for MotherJones.com.
 ## Installation
-To work on this locally, you'll need:
+To work on self locally, you'll need:
 * Node - The package manager installation instructions on [here](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) managed to work for us.
 * [npm](https://npmjs.org/) - Again, package manager version should be fine.
 * grunt-cli installed globally
@@ -24,7 +24,7 @@ We've currently got four example payloads that can be loaded through smoke.
 We're using grunt as our task manager. It has a few commands that will make developing on smoke much easier
 
 #### grunt lint
-  Runs our linter, [jshint](http://www.jshint.com/docs/), over smoke's javascript files, over our test's javascript files, and over the file we use to define our grunt tasks
+  Runs our linter, [jshint](http://www.jshint.com/docs/), over smoke's Javascript files, over our test's Javascript files, and over the file we use to define our grunt tasks
   If the linter is complaining about something you're sure is okay, jshint can be configured by editing the .jshint file in the location where you want to change the linter configuration. (/js, /test, or /)
 
 #### grunt test
@@ -33,7 +33,7 @@ We're using grunt as our task manager. It has a few commands that will make deve
   Asserts are made using the should library https://github.com/visionmedia/should
   Sinon is used for fake server and timing http://sinonjs.org/docs/
 
-```javascript
+```Javascript
 /*global require */
 var api = require('../js/api');
 var response = require('./fixtures/article/1.json');
@@ -43,47 +43,45 @@ var should = require('should');
 // describe it before and after are added to the global scope
 describe("component api", function() {
   describe("get", function() {
-    beforeEach(function(done) {
-      // Runs before every test in this describe
-      done();
+    beforeEach(function() {
+      // Runs before each test in self describe
     });
-    afterEach(function(done) {
-      // Runs after every test in this describe
-      done();
+    afterEach(function() {
+      // Runs after each test in self describe
     });
-    before(function(done) {
-      this.slug = 'test';
-      this.server = utils.mock_component(slug, response);
-      done();
+    before(function() {
+      //Runs once before all tests after self.
+      self.slug = 'test';
+      self.server = utils.mock_component(slug, response);
     });
-    after(function(done) {
-      this.server.restore();
-      done();
+    after(function() {
+      self.server.restore();
     });
     it("returns data from mirrors", function(done) {
       var callback = function(data) {
         //Example of using should off the objects prototype
-        data.should.have.property('slug', this.slug);
+        data.should.have.property('slug', self.slug);
       };
-      var component = new api.Component(this.slug);
+      var component = new api.Component(self.slug);
       component.get(callback).then(function() {
         //Example of using should w/o extending prototype
         should(component).have.property('metadata');
+        //done is an arguement for it or before/after
+        //call it on async calls to end the test
         done();
       });
     });
-    it("next test", function(done) {
+    it("next test", function() {
       //
       // Put next test here
       //
-      done();
     });
   });
 });
 ```
 
 #### grunt serve
-  Spins up a server, at localhost:9001. While serve is running, any changes made to smoke's source javascript will be automatically browserified and served. Any template changes will be compiled, browserified, and served.
+  Spins up a server, at localhost:9001. While serve is running, any changes made to smoke's source Javascript will be automatically browserified and served. Any template changes will be compiled, browserified, and served.
   Sometimes browserification takes a couple seconds, if your changes don't seem to be showing up, check the cli where you're running grunt serve to make sure browserification has finished
 
 #### grunt jsdoc
