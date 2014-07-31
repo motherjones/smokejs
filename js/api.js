@@ -20,16 +20,15 @@ var _ = require('lodash');
 exports._success = function(resolve, reject, callback) {
   var cb = callback ? callback : function() {};
   return function(err, result, body) {
-    if (result.statusText === "OK") {
+    if (result.statusCode == 200) {
       try {
         cb(body);
       } catch(e) {
         reject(e);
         return;
-      } finally {
-        resolve(result);
       }
-    } else if (result.statusText === "Unauthorized") {
+      resolve(result);
+    } else if (result.statusCode == 401) {
       //redirect to log in server
       exports.logInRedirect();
     } else {
