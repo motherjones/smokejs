@@ -1,17 +1,25 @@
 <header class="masthead">
-  <p class="title">Mother Jones</p>
+  <p class="title fixme">Mother Jones</p>
   {?homepage}
   {> header_links /}
   {/homepage}
   <br class="clear" />
   <nav>
-    <ul>
+    <ul class="mainmenu">
       <li><a href="" class="homepage">Home</a></li>
       <li><a href="" class="politics">Politics</a></li>
       <li><a href="" class="environment">Environment</a></li>
       <li><a href="" class="culture">Culture</a></li>
       <li><a href="" class="photo-essays">Photo Essays</a></li>
-      <li><a href="" class="blags">Blogs</a></li>
+      <li class="blogtab"><a href="" class="blags">Blogs</a>
+        <ul class="blogmenu">
+          <li><a href="">Political Mojo</a></li>
+          <li><a href="">Kevin Drum</a></li>
+          <li><a href="">Tom Philpott</a></li>
+          <li><a href="">David Corn</a></li>
+          <li><a href="">Mixed Media</a></li>
+        </ul>
+      </li>
       <li><a href="" {?homepage}class="red"{/homepage}>Subscribe</a></li>
       <li><a href="" {?homepage}class="red"{/homepage}>Donate</a></li>
     </ul>

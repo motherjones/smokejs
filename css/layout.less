@@ -9,8 +9,20 @@
 /* Page layout
 ================================================== */
 
-header.masthead {
-  .Row(@margin: 0 auto 1rem; );
+.masthead {
+  .Row(@margin: 0 auto 1rem;);
+  .mainmenu li {
+      margin-right: 2rem;
+      display: inline;
+  }
+  .blogmenu {
+    visibility: hidden;
+    position: fixed;
+    left: 33.5rem;
+    float: right;
+    li { display: list-item; }
+  }
+  .mainmenu li:hover > .blogmenu { visibility: visible;}
   .search {
     @media (min-width: @med-breakpoint) {
       float: right;
