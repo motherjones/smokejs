@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Smoke Docs Module: main</title>
+	<title>Smoke Docs Source: ad.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -104,189 +104,102 @@
 	<div class="row-fluid">
 
 		
-		<div class="span8">
-			
+			<div class="span12">
+				
 				<div id="main">
 					
 
 
-	<h1 class="page-title">Module: main</h1>
+		<h1 class="page-title">Source: ad.js</h1>
+    
 <section>
+	<article>
+		<pre
+			class="sunlight-highlight-javascript linenums">/*global window */
+'use strict';
+var EnvConfig = require('./config');
+var $ = require('jquery');
 
-<header>
-    <h2>
-    main
-    </h2>
-    
-</header>
+  /**
+   * @module Ad
+   */
 
-<article>
-    <div class="container-overview">
-    
+  /**
+   * The current groupId, sent to the ad server so they can send themed ads,
+   * avoid sending multiples of the same ad
+   */
+exports.groupId = '';
+  /**
+   * The current keywords of the content we're displaying.
+   * Sent to the ad server so we don't get Exxon ads on oil spill articles
+   */
+exports.key = '';
+  /**
+   * Current ads. A dictionary (to avoid multiples) w/ a list of current ad
+   * placements on the page.
+   */
+exports.currentAds = {};
 
-    
-        
-            <div class="description"><p>Starts the application and sets up browser
-environment.</p></div>
-        
+  /**
+   * Creates the src for an ad iframe
+   * @param {string} placement - The placement parameter for our ad server
+   * @return {url} the src for an ad iframe
+   */
+exports.getSrc = function(placement) {
+  placement = placement ? placement : 'unplaced';
+  return EnvConfig.AD_LOCATION + '#' +
+    window.unescape($.param({
+      'placement': placement,
+      'groupid': exports.groupId,
+      'key':  exports.key,
+      //'height': placementToHeight[placement],
+      'height': 0,
+      'uri': window.location.pathname,
+    }));
+};
 
-        
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="edit_main.js.html">edit_main.js</a>,
-				 <a href="edit_main.js.html#sunlight-1-line-4">line 4</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
+  /**
+   * Reloads all ad iframes
+   * @param {string} keywords - a comma separated string of keywords for
+   * the content we're displaying. Sent to the ad server so we don't get
+   * ads for Exxon on oil spill articles, for instance
+   * @returns void
+   */
+exports.reload = function(keywords) {
+  exports.key = keywords ? keywords : '';
+  exports.groupId = Math.floor(Math.random()*100000000);
+  for (var placement in exports.currentAds) {
+    $("#ad_" + placement).attr('src', exports.getSrc(placement));
+  }
+};
 
 
-        
-    
-    </div>
+  /**
+   * Resizes iframes when our ad page sends events telling us its height.
+   * @param {event} event - the message event
+   * @returns void
+   * */
+exports.listener = function(event){
+  if (EnvConfig.AD_LOCATION.match(event.origin)) {
+    $("#ad_" + event.data.iframe).css('height', event.data.height + 'px');
+  }
+};
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
+  /**
+   * Sets event listener on the browser
+   * @returns void
+   */
+exports.setAdListener = function() {
+  if (window.addEventListener){
+        window.addEventListener("message", exports.listener, false);
+  } else {
+        window.attachEvent("onmessage", exports.listener);
+  }
+};
+</pre>
+	</article>
 </section>
 
-
-
-
-
-	<h1 class="page-title">Module: main</h1>
-<section>
-
-<header>
-    <h2>
-    main
-    </h2>
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-
-    
-        
-            <div class="description"><p>Starts the application and sets up browser
-environment.</p></div>
-        
-
-        
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="main.js.html">main.js</a>,
-				 <a href="main.js.html#sunlight-1-line-11">line 11</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
 
 
 
@@ -310,10 +223,6 @@ environment.</p></div>
 				</footer>
 			</div>
 
-			
-			<div class="span3">
-				<div id="toc"></div>
-			</div>
 			
 			<br clear="both">
 		</div>

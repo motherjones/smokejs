@@ -28,6 +28,10 @@
 					<ul class="dropdown-menu ">
 						
 						<li>
+							<a href="module-Ad.html">Ad</a>
+						</li>
+						
+						<li>
 							<a href="module-api.html">api</a>
 						</li>
 						
@@ -37,6 +41,10 @@
 						
 						<li>
 							<a href="module-edit_views.html">edit_views</a>
+						</li>
+						
+						<li>
+							<a href="module-editor.html">editor</a>
 						</li>
 						
 						<li>
@@ -70,19 +78,19 @@
 					<ul class="dropdown-menu ">
 						
 						<li>
-							<a href="module-api.Component.html">Component</a>
+							<a href="module-api.Component.html">api.Component</a>
 						</li>
 						
 						<li>
-							<a href="module-api.Data.html">Data</a>
+							<a href="module-api.Data.html">api.Data</a>
 						</li>
 						
 						<li>
-							<a href="module-edit_api.Component.html">Component</a>
+							<a href="module-edit_api.Component.html">edit_api.Component</a>
 						</li>
 						
 						<li>
-							<a href="module-edit_api.Data.html">Data</a>
+							<a href="module-edit_api.Data.html">edit_api.Data</a>
 						</li>
 						
 
@@ -139,6 +147,11 @@
 cd smokejs/
 npm install
 grunt serve</code></pre>
+<p>We've currently got four example payloads that can be loaded through smoke.
+<a href="http://localhost:9001/topic/health_list/">An example topic list</a>
+<a href="http://localhost:9001/article/drones">An example article</a>
+<a href="http://localhost:9001/author/peter">An example author page</a>
+<a href="http://localhost:9001">The homepage</a></p>
 <h2>Working on Smoke</h2>
 <h3>Important Grunt Commands</h3>
 <p>We're using grunt as our task manager. It has a few commands that will make developing on smoke much easier</p>
@@ -147,7 +160,6 @@ grunt serve</code></pre>
   If the linter is complaining about something you're sure is okay, jshint can be configured by editing the .jshint file in the location where you want to change the linter configuration. (/js, /test, or /)</p>
 <h4>grunt test</h4>
 <p>  Runs our tests and gives us a code coverage percent.
-  Hopefully we'll soon have a section on how our tests are constructed.
   Tests are run using the Mocha Test runner <a href="https://github.com/visionmedia/mocha">https://github.com/visionmedia/mocha</a>
   Asserts are made using the should library <a href="https://github.com/visionmedia/should">https://github.com/visionmedia/should</a>
   Sinon is used for fake server and timing <a href="http://sinonjs.org/docs/">http://sinonjs.org/docs/</a></p>
@@ -205,31 +217,29 @@ describe(&quot;component api&quot;, function() {
   Hopefully soon we'll have a section on how to add to our documentation</p>
 <h3>Adding new templates</h3>
 <p>  We are using <a href="http://akdubya.github.io/dustjs/">dust</a> as our templating language.
-  We've added 4 functions to dust that might be important to you.</p>
-<h4>ad <code>{#ad placement=&quot;bottommob&quot; width=&quot;299&quot; /}</code></h4>
-<p>  Places an iframed ad to the page. The iframe will automatically resize to the height of the ad. It will not resize the width
+  We've added 4 functions to dust that might be important to you.
+<em> ad <code>{#ad placement=&quot;bottommob&quot; width=&quot;299&quot; /}</code>
+  Places an iframed ad to the page. The iframe will automatically resize to the height of the ad. It will not resize the width
   Requires a parameter telling smoke the placement, which it passes along to the ad server.
-  You may also find it useful to pass along a width.</p>
-<h4>load <code>{#load slug=&quot;peter&quot; template=&quot;byline&quot; /}</code></h4>
-<p>  Loads a new component from mirrors from a slug.
+  You may also find it useful to pass along a width.
+</em> load <code>{#load slug=&quot;peter&quot; template=&quot;byline&quot; /}</code>
+  Loads a new component from mirrors from a slug.
   Takes a slug parameter, and a template parameter.
-  If a template parameter is not given, the component will be rendered with it's schemaName as the template</p>
-<h4>render <code>{#attributes.byline} {#render template=&quot;byline&quot; /} {/attributes.byline}</code></h4>
-<p>  Renders an already loaded component.
+  If a template parameter is not given, the component will be rendered with it's schemaName as the template
+<em> render <code>{#attributes.byline} {#render template=&quot;byline&quot; /} {/attributes.byline}</code>
+  Renders an already loaded component.
   In order to work you must set dust's context to the component you want to render. That's done with the <code>{#attributes.byline}new context is here{/attributes.byline}</code> stuff
-  If a template parameter is not given, the component will be rendered with it's schemaName as the template</p>
-<h4>markdown <code>{#markdown data_uri=&quot;http://mirrors.motherjones.com/component/bengazhi/data&quot; /}</code></h4>
-<p>  This isn't actually implemented yet. :(  It'll be working soon. Promise.</p>
+  If a template parameter is not given, the component will be rendered with it's schemaName as the template
+</em> markdown <code>{#markdown data_uri=&quot;http://mirrors.motherjones.com/component/bengazhi/data&quot; /}</code>
+  Turns markdown into html, then runs it through dust templating.
+* list <code>{#list attribute=&quot;{string}&quot; template=&quot;{string}&quot; [delimiter=&quot;{string}&quot;] /}</code>
+  Renders an attribute list. Handles all the data-attribute stuff you need to make a list sortable</p>
 <h3>Making our templates play nice with our inline edit</h3>
-<p>  If you want to make a component inline editable, you have to jump through some hoops</p>
-<h4>Your rendered component must have a contained in an element w/ the id of your component's slug</h4>
-<p>  Thats how we know where to look for things that should be inline editable, and where to add the save button</p>
-<h4>Your metadata must be contained in an element with the attributes data-slug equal to your component's slug, and data-metadata equal to the metadata's name</h4>
-<p>  <code>&lt;h2 data-slug=&quot;{slug}&quot; data-metadata=&quot;dek&quot;&gt;{dek}&lt;/h2&gt;</code></p>
-<h4>If you want to make an attribute that is a list editable, your ul or ol must have the attributes data-slug equal to your component's slug, and data-attribute equal to the attributes name on your component</h4>
-<p>  <code>&lt;ul data-attribute=&quot;byline&quot; data-slug=&quot;{slug}&quot;&gt;</code></p>
-<h4>If you want to make an attribute that is a list editable, your list items must have the attribute data-slug equal to the list item's slug</h4>
-<p>  <code>&lt;li data-slug=&quot;{slug}&quot;&gt;{authorname}&lt;/li&gt;</code></p>
+<p>  If you want to make a component inline editable, you have to jump through some hoops
+<em> Your rendered component must have a contained in an element w/ the id of your component's slug.
+  Thats how we know where to look for things that should be inline editable, and where to add the save button.
+</em> Your metadata must be contained in an element with the attributes data-slug equal to your component's slug, and data-metadata equal to the metadata's name.
+  <code>&lt;h2 data-slug=&quot;{slug}&quot; data-metadata=&quot;dek&quot;&gt;{dek}&lt;/h2&gt;</code>.</p>
 <h2>Examples</h2>
 <p><em>(Coming soon)</em></p>
 <h2>Release History</h2>
@@ -255,7 +265,7 @@ describe(&quot;component api&quot;, function() {
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on Tue Jul 15th 2014 using the <a
+		on Wed Jul 30th 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
@@ -277,28 +287,35 @@ describe(&quot;component api&quot;, function() {
 
 	<script>
 		$( function () {
+			$( "[id*='$']" ).each( function () {
+				var $this = $( this );
+
+				$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+			} );
+
 			$( "#toc" ).toc( {
 				anchorName  : function ( i, heading, prefix ) {
 					return $( heading ).attr( "id" ) || ( prefix + i );
 				},
 				selectors   : "h1,h2,h3,h4",
 				showAndHide : false,
-				scrollTo    : 60
+				scrollTo    : "100px"
 			} );
+
 			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
 			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
-			$('.dropdown-toggle').dropdown();
+			$( '.dropdown-toggle' ).dropdown();
 //			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
 
 			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
 				var $this = $( this );
 
-				var example = $this.find("code" );
+				var example = $this.find( "code" );
 				exampleText = example.html();
 				var lang = /{@lang (.*?)}/.exec( exampleText );
 				if ( lang && lang[1] ) {
 					exampleText = exampleText.replace( lang[0], "" );
-					example.html(exampleText);
+					example.html( exampleText );
 					lang = lang[1];
 				} else {
 					lang = "javascript";
@@ -316,17 +333,19 @@ describe(&quot;component api&quot;, function() {
 
 			Sunlight.highlightAll( {
 				lineNumbers : true,
-				showMenu:true,
-				enableDoclinks:true
+				showMenu : true,
+				enableDoclinks : true
+			} );
 		} );
-		} );
+	 </script>
 
-	</script>
 
-	<!--Google Analytics-->
-	
 
 	<!--Navigation and Symbol Display-->
+	
+
+
+	<!--Google Analytics-->
 	
 
 </body>

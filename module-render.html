@@ -28,6 +28,10 @@
 					<ul class="dropdown-menu ">
 						
 						<li>
+							<a href="module-Ad.html">Ad</a>
+						</li>
+						
+						<li>
 							<a href="module-api.html">api</a>
 						</li>
 						
@@ -37,6 +41,10 @@
 						
 						<li>
 							<a href="module-edit_views.html">edit_views</a>
+						</li>
+						
+						<li>
+							<a href="module-editor.html">editor</a>
 						</li>
 						
 						<li>
@@ -70,19 +78,19 @@
 					<ul class="dropdown-menu ">
 						
 						<li>
-							<a href="module-api.Component.html">Component</a>
+							<a href="module-api.Component.html">api.Component</a>
 						</li>
 						
 						<li>
-							<a href="module-api.Data.html">Data</a>
+							<a href="module-api.Data.html">api.Data</a>
 						</li>
 						
 						<li>
-							<a href="module-edit_api.Component.html">Component</a>
+							<a href="module-edit_api.Component.html">edit_api.Component</a>
 						</li>
 						
 						<li>
-							<a href="module-edit_api.Data.html">Data</a>
+							<a href="module-edit_api.Data.html">edit_api.Data</a>
 						</li>
 						
 
@@ -182,18 +190,19 @@
 
         <dl>
             
-<dt>
-    <h4 class="name" id="dustBase"><span class="type-signature">&lt;static> </span>dustBase<span class="type-signature"></span></h4>
-    
+<dt class="name" id="mediaBase">
+    <h4><span class="type-signature">&lt;inner> </span>mediaBase<span class="type-signature"></span></h4>
+
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>The context available for all dust templates</p>
+        <p>Where we store our media (images, etc).
+Placed into dust template's global context.</p>
     </div>
     
-    
+
     
 
     
@@ -224,7 +233,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="render.js.html">render.js</a>,
-				 <a href="render.js.html#sunlight-1-line-51">line 51</a>
+				 <a href="render.js.html#sunlight-1-line-50">line 50</a>
 			</li>
 		</ul>
 	</dd>
@@ -237,7 +246,7 @@
 	
 </dl>
 
-    
+
     
 </dd>
 
@@ -250,7 +259,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="dustBaseWrapper"><span class="type-signature">&lt;static> </span>dustBaseWrapper<span class="signature">()</span><span class="type-signature"> &rarr; {dustbase}</span></h4>
+    <h4 class="name" id="dustBase"><span class="type-signature">&lt;static> </span>dustBase<span class="signature">()</span><span class="type-signature"> &rarr; {dustbase}</span></h4>
     
     
 </dt>
@@ -540,6 +549,1113 @@
     
 </dd>
 
+        
+            
+<dt>
+    <h4 class="name" id="ad"><span class="type-signature">&lt;inner> </span>ad<span class="signature">(chunk, context, bodies, params)</span><span class="type-signature"> &rarr; {dust_promise}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>A function to place an ad in a template.
+Placed into dust template's global context.
+Template usage: <code>{#ad placement=&quot;{string}&quot; /}</code></p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>chunk</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">chunk</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>How dust tells where to put the returned html</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>context</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The dust context when load is called</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>bodies</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Access to any bodies defined within the calling block.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters passed in by the template writer. Required placement, the placement as the ad server knows it. Optional width, the width of the ad</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="render.js.html">render.js</a>,
+				 <a href="render.js.html#sunlight-1-line-126">line 126</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <ul>
+<li>the way dust handles callbacks, resolved when chunk.end is called w/ the html result</li>
+</ul>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">dust_promise</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="list"><span class="type-signature">&lt;inner> </span>list<span class="signature">(chunk, context, bodies, params)</span><span class="type-signature"> &rarr; {dust_promise}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>A function to place a list of components
+Placed into dust template's global context.
+Template usage: <code>{#list attribute=&quot;{string}&quot; template=&quot;{string}&quot; [delimiter=&quot;{string}&quot;] /}</code></p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>chunk</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">chunk</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>How dust tells where to put the returned html</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>context</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The dust context when list is called</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>bodies</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Access to any bodies defined within the calling block.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters passed in by the template writer. Required attributes-array, the things to be rendered,
+required template, the li template you want to use,
+optional delimiter, something to put in between each li.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="render.js.html">render.js</a>,
+				 <a href="render.js.html#sunlight-1-line-106">line 106</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <ul>
+<li>the way dust handles callbacks, resolved when chunk.end is called w/ the html result</li>
+</ul>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">dust_promise</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="load"><span class="type-signature">&lt;inner> </span>load<span class="signature">(chunk, context, bodies, params)</span><span class="type-signature"> &rarr; {dust_promise}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>A function which loads a component from mirrors.
+Placed into dust template's global context.
+Template usage: <code>{#load slug=&quot;{string}&quot; [template=&quot;{string}&quot;] /}</code></p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>chunk</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">chunk</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>How dust tells where to put the returned html</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>context</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The dust context when load is called</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>bodies</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Access to any bodies defined within the calling block.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters passed in by the template writer. Requires slug, the slug of the component you wish to load. optional template the template to render the component with</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="render.js.html">render.js</a>,
+				 <a href="render.js.html#sunlight-1-line-62">line 62</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <ul>
+<li>the way dust handles callbacks, resolved when chunk.end is called w/ the html result</li>
+</ul>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">dust_promise</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="markdown"><span class="type-signature">&lt;inner> </span>markdown<span class="signature">(chunk, context, bodies, params)</span><span class="type-signature"> &rarr; {dust_promise}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>A function to render markdown in dust.
+Placed into dust template's global context.
+Template usage: <code>{#markdown data_uri=&quot;{string}&quot; /}</code></p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>chunk</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">chunk</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>How dust tells where to put the returned html</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>context</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The dust context when load is called</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>bodies</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Access to any bodies defined within the calling block.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters passed in by the template writer.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="render.js.html">render.js</a>,
+				 <a href="render.js.html#sunlight-1-line-146">line 146</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <ul>
+<li>the way dust handles callbacks, resolved when chunk.end is called w/ the html result</li>
+</ul>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">dust_promise</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="render"><span class="type-signature">&lt;inner> </span>render<span class="signature">(chunk, context, bodies, params)</span><span class="type-signature"> &rarr; {dust_promise}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>A function to render a component from dust context.
+Placed into dust template's global context.
+Template usage: <code>{#componentContext} {#render [template=&quot;{string}&quot;] /} {/componentContext}</code></p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>chunk</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">chunk</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>How dust tells where to put the returned html</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>context</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The dust context when load is called</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>bodies</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Access to any bodies defined within the calling block.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters passed in by the template writer. Optional template, the template to render the component with</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="render.js.html">render.js</a>,
+				 <a href="render.js.html#sunlight-1-line-85">line 85</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <ul>
+<li>the way dust handles callbacks, resolved when chunk.end is called w/ the html result</li>
+</ul>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">dust_promise</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
         </dl>
     
 
@@ -566,7 +1682,7 @@
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on Tue Jul 15th 2014 using the <a
+		on Wed Jul 30th 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
@@ -588,28 +1704,35 @@
 
 	<script>
 		$( function () {
+			$( "[id*='$']" ).each( function () {
+				var $this = $( this );
+
+				$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+			} );
+
 			$( "#toc" ).toc( {
 				anchorName  : function ( i, heading, prefix ) {
 					return $( heading ).attr( "id" ) || ( prefix + i );
 				},
 				selectors   : "h1,h2,h3,h4",
 				showAndHide : false,
-				scrollTo    : 60
+				scrollTo    : "100px"
 			} );
+
 			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
 			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
-			$('.dropdown-toggle').dropdown();
+			$( '.dropdown-toggle' ).dropdown();
 //			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
 
 			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
 				var $this = $( this );
 
-				var example = $this.find("code" );
+				var example = $this.find( "code" );
 				exampleText = example.html();
 				var lang = /{@lang (.*?)}/.exec( exampleText );
 				if ( lang && lang[1] ) {
 					exampleText = exampleText.replace( lang[0], "" );
-					example.html(exampleText);
+					example.html( exampleText );
 					lang = lang[1];
 				} else {
 					lang = "javascript";
@@ -627,17 +1750,19 @@
 
 			Sunlight.highlightAll( {
 				lineNumbers : true,
-				showMenu:true,
-				enableDoclinks:true
+				showMenu : true,
+				enableDoclinks : true
+			} );
 		} );
-		} );
+	 </script>
 
-	</script>
 
-	<!--Google Analytics-->
-	
 
 	<!--Navigation and Symbol Display-->
+	
+
+
+	<!--Google Analytics-->
 	
 
 </body>

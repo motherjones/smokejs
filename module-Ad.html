@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Smoke Docs Module: edit_views</title>
+	<title>Smoke Docs Module: Ad</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -110,12 +110,12 @@
 					
 
 
-	<h1 class="page-title">Module: edit_views</h1>
+	<h1 class="page-title">Module: Ad</h1>
 <section>
 
 <header>
     <h2>
-    edit_views
+    Ad
     </h2>
     
 </header>
@@ -125,10 +125,6 @@
     
 
     
-        
-            <div class="description"><p>Includes views to be called by the router.
-Each should take a callback that takes in data, and html.
-Each should return a promise which is resolved after components are loaded</p></div>
         
 
         
@@ -158,8 +154,8 @@ Each should return a promise which is resolved after components are loaded</p></
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="edit_views.js.html">edit_views.js</a>,
-				 <a href="edit_views.js.html#sunlight-1-line-4">line 4</a>
+				<a href="ad.js.html">ad.js</a>,
+				 <a href="ad.js.html#sunlight-1-line-6">line 6</a>
 			</li>
 		</ul>
 	</dd>
@@ -188,6 +184,196 @@ Each should return a promise which is resolved after components are loaded</p></
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt class="name" id="currentAds">
+    <h4><span class="type-signature">&lt;static> </span>currentAds<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Current ads. A dictionary (to avoid multiples) w/ a list of current ad
+placements on the page.</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="ad.js.html">ad.js</a>,
+				 <a href="ad.js.html#sunlight-1-line-24">line 24</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="groupId">
+    <h4><span class="type-signature">&lt;static> </span>groupId<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The current groupId, sent to the ad server so they can send themed ads,
+avoid sending multiples of the same ad</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="ad.js.html">ad.js</a>,
+				 <a href="ad.js.html#sunlight-1-line-14">line 14</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="key">
+    <h4><span class="type-signature">&lt;static> </span>key<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The current keywords of the content we're displaying.
+Sent to the ad server so we don't get Exxon ads on oil spill articles</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="ad.js.html">ad.js</a>,
+				 <a href="ad.js.html#sunlight-1-line-19">line 19</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        </dl>
+    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -195,7 +381,7 @@ Each should return a promise which is resolved after components are loaded</p></
         <dl>
             
 <dt>
-    <h4 class="name" id="displayHomepage"><span class="type-signature">&lt;static> </span>displayHomepage<span class="signature">(match, callback)</span><span class="type-signature"> &rarr; {promise}</span></h4>
+    <h4 class="name" id="getSrc"><span class="type-signature">&lt;static> </span>getSrc<span class="signature">(placement)</span><span class="type-signature"> &rarr; {url}</span></h4>
     
     
 </dt>
@@ -203,7 +389,7 @@ Each should return a promise which is resolved after components are loaded</p></
     
     
     <div class="description">
-        <p>View for rendering the homepage and making it editable.</p>
+        <p>Creates the src for an ad iframe</p>
     </div>
     
 
@@ -237,13 +423,13 @@ Each should return a promise which is resolved after components are loaded</p></
 
         <tr>
             
-                <td class="name"><code>match</code></td>
+                <td class="name"><code>placement</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -253,30 +439,7 @@ Each should return a promise which is resolved after components are loaded</p></
 
             
 
-            <td class="description last"><p>match object Returned by routes.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>callback is called with html</p></td>
+            <td class="description last"><p>The placement parameter for our ad server</p></td>
         </tr>
 
 	
@@ -312,8 +475,8 @@ Each should return a promise which is resolved after components are loaded</p></
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="edit_views.js.html">edit_views.js</a>,
-				 <a href="edit_views.js.html#sunlight-1-line-34">line 34</a>
+				<a href="ad.js.html">ad.js</a>,
+				 <a href="ad.js.html#sunlight-1-line-31">line 31</a>
 			</li>
 		</ul>
 	</dd>
@@ -340,7 +503,7 @@ Each should return a promise which is resolved after components are loaded</p></
     
             
 <div class="param-desc">
-    <p>Resolves when complete</p>
+    <p>the src for an ad iframe</p>
 </div>
 
 
@@ -351,7 +514,7 @@ Each should return a promise which is resolved after components are loaded</p></
 	</dt>
 	<dd>
 		
-<span class="param-type">promise</span>
+<span class="param-type">url</span>
 
 
 	</dd>
@@ -366,7 +529,7 @@ Each should return a promise which is resolved after components are loaded</p></
         
             
 <dt>
-    <h4 class="name" id="displayMainContent"><span class="type-signature">&lt;static> </span>displayMainContent<span class="signature">(match, callback)</span><span class="type-signature"> &rarr; {promise}</span></h4>
+    <h4 class="name" id="listener"><span class="type-signature">&lt;static> </span>listener<span class="signature">(event)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -374,7 +537,7 @@ Each should return a promise which is resolved after components are loaded</p></
     
     
     <div class="description">
-        <p>Main view for rendering components and making them editable.</p>
+        <p>Resizes iframes when our ad page sends events telling us its height.</p>
     </div>
     
 
@@ -408,13 +571,13 @@ Each should return a promise which is resolved after components are loaded</p></
 
         <tr>
             
-                <td class="name"><code>match</code></td>
+                <td class="name"><code>event</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">event</span>
 
 
             
@@ -424,30 +587,7 @@ Each should return a promise which is resolved after components are loaded</p></
 
             
 
-            <td class="description last"><p>match object Returned by routes.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>callback is called with html</p></td>
+            <td class="description last"><p>the message event</p></td>
         </tr>
 
 	
@@ -483,8 +623,8 @@ Each should return a promise which is resolved after components are loaded</p></
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="edit_views.js.html">edit_views.js</a>,
-				 <a href="edit_views.js.html#sunlight-1-line-17">line 17</a>
+				<a href="ad.js.html">ad.js</a>,
+				 <a href="ad.js.html#sunlight-1-line-65">line 65</a>
 			</li>
 		</ul>
 	</dd>
@@ -511,22 +651,235 @@ Each should return a promise which is resolved after components are loaded</p></
     
             
 <div class="param-desc">
-    <p>Resolves when complete</p>
+    <p>void</p>
 </div>
 
 
 
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="reload"><span class="type-signature">&lt;static> </span>reload<span class="signature">(keywords)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Reloads all ad iframes</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
 		
-<span class="param-type">promise</span>
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>keywords</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>a comma separated string of keywords for
+the content we're displaying. Sent to the ad server so we don't get
+ads for Exxon on oil spill articles, for instance</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="ad.js.html">ad.js</a>,
+				 <a href="ad.js.html#sunlight-1-line-51">line 51</a>
+			</li>
+		</ul>
 	</dd>
+	
+
+	
+
+	
+
+	
 </dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>void</p>
+</div>
+
+
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setAdListener"><span class="type-signature">&lt;static> </span>setAdListener<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Sets event listener on the browser</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="ad.js.html">ad.js</a>,
+				 <a href="ad.js.html#sunlight-1-line-75">line 75</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>void</p>
+</div>
+
+
 
 
         

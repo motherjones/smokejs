@@ -28,6 +28,10 @@
 					<ul class="dropdown-menu ">
 						
 						<li>
+							<a href="module-Ad.html">Ad</a>
+						</li>
+						
+						<li>
 							<a href="module-api.html">api</a>
 						</li>
 						
@@ -37,6 +41,10 @@
 						
 						<li>
 							<a href="module-edit_views.html">edit_views</a>
+						</li>
+						
+						<li>
+							<a href="module-editor.html">editor</a>
 						</li>
 						
 						<li>
@@ -70,19 +78,19 @@
 					<ul class="dropdown-menu ">
 						
 						<li>
-							<a href="module-api.Component.html">Component</a>
+							<a href="module-api.Component.html">api.Component</a>
 						</li>
 						
 						<li>
-							<a href="module-api.Data.html">Data</a>
+							<a href="module-api.Data.html">api.Data</a>
 						</li>
 						
 						<li>
-							<a href="module-edit_api.Component.html">Component</a>
+							<a href="module-edit_api.Component.html">edit_api.Component</a>
 						</li>
 						
 						<li>
-							<a href="module-edit_api.Data.html">Data</a>
+							<a href="module-edit_api.Data.html">edit_api.Data</a>
 						</li>
 						
 
@@ -108,14 +116,12 @@
 	<article>
 		<pre
 			class="sunlight-highlight-javascript linenums">var views = require('./views');
-var $ = require('jquery');
-require('./jquery.sortable');
-var _ = require('lodash');
+var editor = require('./editor');
 var api = require('./edit_api');
 /**
- * Include views to be called by the router here each should
- * take a callback that takes in data, html
- * and returns a promise which is resolved after its loaded.
+ * Includes views to be called by the router.
+ * Each should take a callback that takes in data, and html.
+ * Each should return a promise which is resolved after components are loaded
  * @module edit_views
  */
 
@@ -127,12 +133,11 @@ var api = require('./edit_api');
  */
 exports.displayMainContent = function(match, callback) {
   callback = callback ? callback : function() {};
-//  var component;
   var cb = function(data, html) {
     var component = new api.Component(data.slug, data);
-    html += exports._socialSharingElement(component);
+    html += editor.socialSharingElement(component);
     callback(data, html);
-    exports._makeEditable(component);
+    editor.makeEditable(component);
   };
   return views.displayMainContent(match, cb);
 };
@@ -145,183 +150,13 @@ exports.displayMainContent = function(match, callback) {
  */
 exports.displayHomepage = function(match, callback) {
   callback = callback ? callback : function() {};
-  var homepage;
   var cb = function(data, html) {
-    homepage = data;
-    html += exports._socialSharingElement(component);
     callback(data, html);
     //make editable somehow
     // probably calling make editable on it? need to review the
     // splash page json
   };
   return views.displayHomepage(match, cb);
-};
-
-/**
- * helper function. If a single component, makes it's metadata, attributes
- * and main data editable. If an array (a list) makes the array sortable
- * adds a save buttton to the component
- * @param {component} component - The component we're making editable
- * @returns {void}
- */
-exports._makeEditable = function(component) {
-  for (var meta in component.metadata) {
-    exports._editableMetadata(component, meta);
-  }
-  for (var name in component.attributes) {
-    if (_.isArray( component.attributes[name] )) {
-      exports._makeListEditable(name, component);
-    } else {
-      exports._makeEditable(component.attributes[name]);
-    }
-  }
-  exports._editableData(component);
-  $('#' + component.slug).append(exports._createSaveButton(component));
-};
-
-/**
- * helper function. Makes an array sortable
- * @param {string} name - The name of the array we're making sortable
- * @param {array} components - The component array we're making sortable
- * @returns {void}
- */
-exports._makeListEditable = function(name, component) {
-  var list = $('[data-attribute="' + name + '"][data-slug="' + component.slug + '"]');
-  list.sortable().bind('sortupdate', function() {
-    var newOrder = [];
-    list.children('li').each(function() {
-      newOrder.push($(this).data('slug'))
-    });
-    var attribute = [];
-    for (var i = 0; i &lt; newOrder.length; i++) {
-      for (var j = 0; j &lt; component.attributes[name].length; j++) {
-        if (component.attributes[name][j].slug === newOrder[i]) {
-          attribute.push(component.attributes[name][j]);
-          break;
-        }
-      }
-    }
-    component.attributes[name] = attribute;
-  });
-  list.find('li').each(function() {
-    $(this).append(exports._removeFromListButton($(this), component));
-  });
-  list.append(exports._addToListButton(component));
-  list.append(exports._createSaveListButton(name, component));
-};
-
-/**
- * function for creating a button that adds a new component to a list
- * @param {string} name - The name of the list we're adding to
- * @param {component} component - The list we're sorting
- * @returns {void}
- */
-exports._addToListButton = function(name, component) {
-  // allow editor to select and add a new thing to a list
-};
-
-/**
- * function for creating a button that removes a list item from a list
- * @param {element} item - The particular item the button is for
- * @param {string} name - The name of the list
- * @param {component} component - The list we're sorting
- * @returns {void}
- */
-exports._removeFromListButton = function(item, name, component) {
-  return $('&lt;span class="remove-from-list">x&lt;/span>')
-    .click(function() {
-      _.remove(component, function(comp) {
-        item.data('slug') === comp.slug;
-      });
-      item.remove();
-    });
-  // make a button that will remove an item from html and from attribute
-};
-
-/**
- * function for creating a button that will save a list attribute
- * @param {string} name - The name of the attribute
- * @param {component} component - The component containing the list we're sorting
- * @returns {void}
- */
-exports._createSaveListButton = function(name, component) {
-  return $('&lt;button>Save List&lt;/button>')
-    .click(function() {
-      component._updateAttribute(name).then(
-        exports._successNotice,
-        exports._failureNotice
-      );
-    });
-};
-/**
- * helper function. Makes data editable
- * @param {component} component - The component who's data we're making editable
- * @returns {void}
- */
-exports._editableData = function(component) {
-  console.log(component);
-  // uhhh. welp
-};
-
-/**
- * helper function. Makes a metadata html element editable, and makes
- * changes on the component object when the content changes.
- * @param {component} component - The component who's metadata we're making editable
- * @param {string} meta - The name of the metadata we're making editable
- * @returns {void}
- */
-exports._editableMetadata = function(component, meta) {
-  $('[data-slug="' + component.slug + '"][data-metadata="' + meta + '"]')
-    .attr('contentEditable', true)
-    .on('blur', function() {
-      component.metadata[meta] = $(this).text();
-    });
-};
-
-/**
- * helper function. creates a panel from which editors can change component
- * metadata related to social sharing
- * @param {component} component - The component who's social data we're editing
- * @param {string} meta - The name of the metadata we're making editable
- * @returns {string} html - the raw html of the social sharing element
- */
-exports._socialSharingElement = function(component) {
-  return "&lt;div>&lt;h4>this could one day be an edit popup or something" + component.slug + "&lt;/h4>&lt;/div>";
-};
-
-/**
- * helper function. creates the button that updates a component on click
- * @param {component} component - The component that will be updated
- * @returns {element} button - the jQuery element that will update a component on click
- */
-exports._createSaveButton = function(component) {
-  return $('&lt;button>Save&lt;/button>')
-    .click(function() {
-      component.update().then(
-        exports._successNotice,
-        exports._failureNotice
-      );
-    }
-  );
-};
-
-/**
- * helper function. Runs when a component is successfully updated
- * eventually we want this to put up a banner saying 'saved' that fades out
- * @param {string} message - The success message
- */
-exports._successNotice = function(message) {
-  console.log('updated successfully', message);
-};
-
-/**
- * helper function. Runs when a component fails to update
- * eventually we want this to put up a banner saying 'failed' that fades out
- * we should consider replacing this w/ the EnvConfig error handling
- * @param {string} message - The success message
- */
-exports._failureNotice = function(error) {
-  console.log('updating failed!', error);
 };
 </pre>
 	</article>
@@ -344,7 +179,7 @@ exports._failureNotice = function(error) {
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on Tue Jul 15th 2014 using the <a
+		on Wed Jul 30th 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
@@ -362,28 +197,35 @@ exports._failureNotice = function(error) {
 
 	<script>
 		$( function () {
+			$( "[id*='$']" ).each( function () {
+				var $this = $( this );
+
+				$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+			} );
+
 			$( "#toc" ).toc( {
 				anchorName  : function ( i, heading, prefix ) {
 					return $( heading ).attr( "id" ) || ( prefix + i );
 				},
 				selectors   : "h1,h2,h3,h4",
 				showAndHide : false,
-				scrollTo    : 60
+				scrollTo    : "100px"
 			} );
+
 			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
 			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
-			$('.dropdown-toggle').dropdown();
+			$( '.dropdown-toggle' ).dropdown();
 //			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
 
 			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
 				var $this = $( this );
 
-				var example = $this.find("code" );
+				var example = $this.find( "code" );
 				exampleText = example.html();
 				var lang = /{@lang (.*?)}/.exec( exampleText );
 				if ( lang && lang[1] ) {
 					exampleText = exampleText.replace( lang[0], "" );
-					example.html(exampleText);
+					example.html( exampleText );
 					lang = lang[1];
 				} else {
 					lang = "javascript";
@@ -401,17 +243,19 @@ exports._failureNotice = function(error) {
 
 			Sunlight.highlightAll( {
 				lineNumbers : true,
-				showMenu:true,
-				enableDoclinks:true
+				showMenu : true,
+				enableDoclinks : true
+			} );
 		} );
-		} );
+	 </script>
 
-	</script>
 
-	<!--Google Analytics-->
-	
 
 	<!--Navigation and Symbol Display-->
+	
+
+
+	<!--Google Analytics-->
 	
 
 </body>
