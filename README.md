@@ -43,19 +43,21 @@ var should = require('should');
 // describe it before and after are added to the global scope
 describe("component api", function() {
   describe("get", function() {
+    var self;
     beforeEach(function() {
       // Runs before each test in self describe
-    });
-    afterEach(function() {
-      // Runs after each test in self describe
-    });
-    before(function() {
-      //Runs once before all tests after self.
+      var self = new Object;
       self.slug = 'test';
       self.server = utils.mock_component(slug, response);
     });
-    after(function() {
+    afterEach(function() {
+      // Runs after each test in self describe
       self.server.restore();
+    });
+    before(function() {
+      //Runs once before all tests after self.
+    });
+    after(function() {
     });
     it("returns data from mirrors", function(done) {
       var callback = function(data) {
