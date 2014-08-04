@@ -12,7 +12,7 @@ exports.mock_component = function(slug, json, data) {
     JSON.stringify(json)
   ]);
   if(data) {
-    server.respondWith('GET', '/mirrors/component/'+slug+'/data', [200,
+    server.respondWith('GET', '/mirrors/component/'+slug+'/data/', [200,
       { "Content-Type": data['content-type'] },
       data['response']
     ]);

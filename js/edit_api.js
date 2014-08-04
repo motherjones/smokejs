@@ -19,7 +19,7 @@ exports.Data.prototype.update = function(callback) {
   var self = this;
   return api._promise_request({
     method: 'POST',
-    uri: self.url,
+    uri: self.uri,
     encoding: 'multipart/form-data',
     form: {
       body: self.data

@@ -4,6 +4,7 @@ var EnvConfig = require('./config');
 var request = require('browser-request');
 var Promise = require('promise-polyfill');
 var _ = require('lodash');
+var url = require('url');
 
 /**
  * Currently, a component object with a get function
@@ -54,21 +55,21 @@ exports._promise_request = function(args, callback, pull) {
 };
 
 /**
+ * Url to use for building component.
+ */
+exports.COMPONENT_URI_BASE = url.resolve(EnvConfig.MIRRORS_URL, 'component/');
+
+/**
  * Data constructor
  * @class
  * @param {string} data_uri - URI of the data object
  */
-exports.Data = function(data_uri) {
+exports.Data = function(slug) {
   /**
-   * uri {uri} - the location of the data on the server
+   * uri {url} - the location of the data on the server
    * @inner
    */
-  this.uri = data_uri;
-  /**
-   * url {url} - the full location of the data on the server
-   * @inner
-   */
-  this.url = EnvConfig.MIRRORS_DOMAIN + data_uri;
+  this.uri = url.resolve(exports.COMPONENT_URI_BASE, './' + slug + '/data/');
 };
 
 /**
@@ -82,7 +83,8 @@ exports.Data.prototype.get = function(callback) {
     self.data = data;
     if (callback) { callback(data); };
   };
-  return exports._promise_request(this.url, cb);
+  console.log(self.uri);
+  return exports._promise_request(self.uri, cb);
 };
 
 /**
@@ -125,7 +127,7 @@ exports.Component = function(slug, data) {
    * data_uri {url} - the location of the component's data
    * @inner
    */
-  this.data_uri = null;
+  this.data = new this._Data(slug);
   /**
    * data {Data} - the data of the component
    * @inner
@@ -152,10 +154,6 @@ exports.Component.prototype._build = function(data) {
   this.schema_name = data.schema_name;
   this.data_uri = data.data_uri;
   this.uri = data.uri;
-  /**
-   * points to the Data object for Component instance
-   */
-  this.data = new this._Data(data.data_uri);
   for (var attr in data.attributes) {
     var attribute = data.attributes[attr];
     //is it an array?

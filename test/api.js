@@ -164,8 +164,9 @@ describe("data api", function() {
         should.exist(data);
         data.should.be.exactly('DATA');
       };
-      var data_uri = '/mirrors/component/' + slug +'/data';
-      var data = new api.Data(data_uri);
+      var data_uri = '/mirrors/component/' + slug +'/data/';
+      var data = new api.Data(slug);
+      data.should.have.property('uri');
       data.get(callback).then(function() {
         done();
       });
