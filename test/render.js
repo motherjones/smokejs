@@ -113,9 +113,10 @@ describe("Render", function() {
       'content-type': 'application/x-markdown',
       'response': '#Test'
     };
-    var server = utils.mock_component('peter-pan', peter, data);
+    var slug = 'peter-pan';
+    var server = utils.mock_component(slug, peter, data);
     dustBase.global.markdown(chunk, {}, {},
-      { data_uri: '/mirrors/component/peter-pan/data' }
+      { slug: slug }
     ).then(function() {
       chunk.output.should.eql( '<h1 id="test">Test</h1>' );
       server.restore();

@@ -145,7 +145,7 @@ exports.dustBase = function() {
      */
     markdown : function(chunk, context, bodies, params) {
       return chunk.map(function(chunk) {
-        var data = new api.Data(params.data_uri);
+        var data = new api.Data(params.slug);
         data.get().then(function() {
           var html = Markdown.toHTML(data.data);
           var templateName = 'markdown_' + Math.random();
