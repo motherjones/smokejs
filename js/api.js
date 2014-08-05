@@ -62,7 +62,7 @@ exports.COMPONENT_URI_BASE = url.resolve(EnvConfig.MIRRORS_URL, 'component/');
 /**
  * Data constructor
  * @class
- * @param {string} data_uri - URI of the data object
+ * @param {string} slug - slug of the data object
  */
 exports.Data = function(slug) {
   /**
@@ -83,7 +83,6 @@ exports.Data.prototype.get = function(callback) {
     self.data = data;
     if (callback) { callback(data); };
   };
-  console.log(self.uri);
   return exports._promise_request(self.uri, cb);
 };
 
@@ -124,15 +123,10 @@ exports.Component = function(slug, data) {
    */
   this.uri = null;
   /**
-   * data_uri {url} - the location of the component's data
+   * data {Data} - the location of the component's data
    * @inner
    */
   this.data = new this._Data(slug);
-  /**
-   * data {Data} - the data of the component
-   * @inner
-   */
-  this.data = null;
   if (data) {
     this._build(data);
   }
@@ -152,7 +146,6 @@ exports.Component.prototype._build = function(data) {
   this.metadata = data.metadata;
   this.content_type = data.content_type;
   this.schema_name = data.schema_name;
-  this.data_uri = data.data_uri;
   this.uri = data.uri;
   for (var attr in data.attributes) {
     var attribute = data.attributes[attr];
