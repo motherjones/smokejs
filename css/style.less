@@ -31,11 +31,19 @@
 .menu-border(@color) { border-top: 3px solid @color; }
 .menu-border-hover(@color) { border-bottom: 3px solid @color; }
 
+@logo-height: 13rem;
+
 .masthead {
+  margin-top: 20px; // keeping consistent with skeleton, blah
   border-bottom: 1px solid @light-grey;
   .title {
+    color: transparent;
+    height: 3rem;
+    width: @logo-height;  // Width and background-size correspond.
     background: url('/assets/mj-logo-regent-black.png');
-    background: none, url('/assets/mj-logo-regent-black.svg');
+    background-image: none, url('/assets/mj-logo-regent-black.svg');
+    background-repeat: no-repeat;
+    background-size: @logo-height;
   }
   // Mobile main menu
   .mainmenu {
