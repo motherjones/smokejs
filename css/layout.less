@@ -1,29 +1,43 @@
-@import "grid.less";
+@import "grid";
 
 /* Values
 ================================================== */
-@default-width: 960 * @toRems;
-@med-breakpoint: 48rem;
-@sm-breakpoint: 32rem;
+@default-width: 60em;
+@med-breakpoint: 48em;
+@sm-breakpoint: 32em;
 
 /* Page layout
 ================================================== */
 
+* {
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
+
 .masthead {
   .Row(@margin: 0 auto 1rem;);
-  .mainmenu li {
-      margin-right: 2rem;
-      display: inline;
+  // Mobile main menu
+  .mainmenu a {
+    display: block;
   }
-  .blogmenu {
-    visibility: hidden;
-    position: fixed;
-    left: 33.5rem;
-    float: right;
-    li { display: list-item; }
+  @media (min-width: @med-breakpoint) {
+    .mainmenu {
+      //.Cols(1,8);
+      //margin-right: 2rem;
+      li, a { display: inline; }
+    }
+    .blogmenu {
+      visibility: hidden;
+      position: relative;
+      float: right;
+      margin-bottom: -6em;
+      li { display: list-item; }
+    }
+
+    .mainmenu li:hover > .blogmenu { visibility: visible;}
   }
-  .mainmenu li:hover > .blogmenu { visibility: visible;}
-  .search {
+  // Activates blog menu
+  /*.search {
     @media (min-width: @med-breakpoint) {
       float: right;
       margin-right: 2rem;
@@ -35,7 +49,7 @@
     @media (max-width: @med-breakpoint) {
       display: none; visibility:hidden;
     }
-  }
+  }*/
 }
 
 .two-column-article {

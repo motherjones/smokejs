@@ -1,11 +1,11 @@
 <header class="masthead">
-  <p class="title fixme">Mother Jones</p>
+  <p class="title">Mother Jones</p>
   {?homepage}
   {> header_links /}
   {/homepage}
-  <br class="clear" />
   <nav>
-    <ul class="mainmenu">
+    <input type="checkbox" id="mobile-menu-toggle" class="mobile-menu-toggle mobile-menu-toggle-button">
+    <ul class="mainmenu mobile-toggleable-menu mobile-left">
       <li><a href="" class="homepage">Home</a></li>
       <li><a href="" class="politics">Politics</a></li>
       <li><a href="" class="environment">Environment</a></li>
@@ -23,10 +23,11 @@
       <li><a href="" {?homepage}class="red"{/homepage}>Subscribe</a></li>
       <li><a href="" {?homepage}class="red"{/homepage}>Donate</a></li>
     </ul>
-    <form class="search" action="">
+    <label class="mobile-left mobmenu-toggle button" for="mobile-menu-toggle">menu</label>
+    <!--form class="search" action="">
       <input type="text" />
       <input type="submit" value="Search">
-    </form>
+    </form-->
   </nav>
   <p class="mustreads fixme" aria-hidden="true"><strong>Must Reads:</strong> </p>
 </header>

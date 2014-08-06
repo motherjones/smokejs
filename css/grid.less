@@ -1,11 +1,7 @@
-//
+
 // Variables for em / rem use
-//
-
 @base_px: 16; //set to the most common base px size used in browsers, should generally be left at default
-
 @toRems: (1 / @base_px) + 0rem; //allows you to set values as the default px size to target, which is then converted into scalable rem values.
-
 @toEms: (1 / @base_px) + 0em; //same as above, but with em values
 
 //
@@ -18,8 +14,6 @@
 @default-row_margin: 0 auto;
 
 .Row ( @width : @default-width; @padding: @default-padding; @margin: @default-row_margin; ) {
-	-moz-box-sizing:border-box;
-	box-sizing:border-box;
 	max-width: @width;
 	width: 100%;
 	margin: @margin;
@@ -50,8 +44,6 @@
 
 	@total_gutter: (@total_cols - 1) * @gutter;
 	@spanned_gutters: (@colspan - 1) * @gutter;
-	-moz-box-sizing: border-box;
-		 box-sizing: border-box;
 	width: ( @colspan * ( (100 - @total_gutter) / @total_cols) ) + @spanned_gutters + 0%;
 	float: left;
 	padding: @padding;
