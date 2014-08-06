@@ -35,7 +35,7 @@
       {/attributes.master_image}
     </header>
     <section id="component_body">
-    {#markdown data_uri=data_uri /}
+    {#markdown slug=slug /}
     <b>Data url</b>: {data_uri}
     </section>
     <section>
