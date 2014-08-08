@@ -40,3 +40,14 @@ exports.displayHomepage = function(match, callback) {
   });
 };
 
+/**
+ * Displays style guide.
+ * @param {object} match - match object Returned by routes.
+ * @param {function} callback - callback is called with html
+ * @returns {promise} Resolves when complete
+ */
+exports.displayStyleGuide = function(match, callback) {
+  render.render('styleguide', function(html) {
+    if (callback) { callback(data, html); }
+  });
+};

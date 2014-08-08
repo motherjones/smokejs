@@ -19,6 +19,7 @@ module.exports = (function() {
   router.addRoute("\/?:schema/:slug", views.displayMainContent);
   router.addRoute("\/?:section/[0-9]+/[0-9]+/:slug", views.displayMainContent);
   router.addRoute("^\/$", views.displayHomepage);
+  router.addRoute("\/styleguide", views.displayStyleGuide);
   return router;
 })();
 
