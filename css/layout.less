@@ -22,19 +22,21 @@ box-sizing: border-box;
   }
   @media (min-width: @med-breakpoint) {
     .mainmenu {
-      //.Cols(1,8);
-      //margin-right: 2rem;
+      .Cols(4);
       li, a { display: inline; }
     }
     .blogmenu {
       visibility: hidden;
       position: relative;
       float: right;
-      margin-bottom: -6em;
+      margin-bottom: -11rem;
+      height: 0;
+      left: -22em;
+      top: 1.1em;
       li { display: list-item; }
     }
-
-    .mainmenu li:hover > .blogmenu { visibility: visible;}
+    // Uncollapses the menu
+    .mainmenu li:hover > .blogmenu { visibility: visible; height: auto;}
   }
   // Activates blog menu
   /*.search {
