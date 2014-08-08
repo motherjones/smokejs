@@ -2,6 +2,7 @@
 'use strict';
 var api = require('./api');
 var render = require('./render');
+var config = require('./config');
 
 /**
  * Include views to be called by the router here each should
@@ -47,7 +48,8 @@ exports.displayHomepage = function(match, callback) {
  * @returns {promise} Resolves when complete
  */
 exports.displayStyleGuide = function(match, callback) {
-  render.render('styleguide', function(html) {
-    if (callback) { callback(data, html); }
+  config.log('styleguide');
+  return render.render('styleguide', {}, function(html) {
+    if (callback) { callback({}, html); }
   });
 };
