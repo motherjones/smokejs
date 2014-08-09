@@ -2,6 +2,8 @@
 var EnvConfig = require('./config');
 var api = require('./api');
 var _ = require('lodash');
+var url = require('url');
+
 /**
  * Add create and update methods to component objects
  * @module edit_api
@@ -63,7 +65,7 @@ exports.Component.prototype._post = function(uri, callback) {
   };
   return api._promise_request({
       method: 'POST',
-      uri: EnvConfig.MIRRORS_URL + 'component/',
+      uri: api.COMPONENT_URI_BASE,
       json: payload
     }, callback
   );
@@ -87,14 +89,13 @@ exports.Component.prototype._put = function(callback) {
   var self = this;
   var payload = {
     slug: self.slug,
-    uri: self.uri,
     content_type: self.content_type,
     schema_name: self.schemaName,
     metadata: self.metadata
   };
   return api._promise_request({
       method: 'PUT',
-      uri: EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
+      uri: self.uri,
       json: payload
     }, callback
   );
@@ -136,12 +137,10 @@ exports.Component.prototype._createAttribute = function(attr) {
   } else {
     payload.child = this.attributes[attr].slug;
   }
-
-  var uri = EnvConfig.MIRRORS_URL + 'component/' + this.slug + '/attribute/';
   return api._promise_request(
     {
       method: 'POST',
-      uri: uri,
+      uri: url.resolve(this.uri, './attribute/'),
       json: payload
     }
   );
@@ -153,8 +152,6 @@ exports.Component.prototype._createAttribute = function(attr) {
  * @returns {promise} promise - a promise which resolves when attribute is updated
  */
 exports.Component.prototype._updateAttribute = function(attr) {
-  var url = EnvConfig.MIRRORS_URL + 'component/' +
-    this.slug + '/attribute/' + attr + '/';
   var json;
   if (_.isArray( this.attributes[attr] )) {
     json = [];
@@ -167,7 +164,7 @@ exports.Component.prototype._updateAttribute = function(attr) {
   return api._promise_request(
     {
       method: 'PUT',
-      uri: url,
+      uri: url.resolve(this.uri, './attribute/' + attr + '/'),
       json: json
     }
   );
@@ -181,7 +178,7 @@ exports.Component.prototype.delete = function() {
   return api._promise_request(
     {
       method: 'DELETE',
-      uri: EnvConfig.MIRRORS_URL + 'component/' + this.slug
+      uri: this.uri
     }
   );
 };
@@ -192,12 +189,10 @@ exports.Component.prototype.delete = function() {
  * @returns {promise} promise resolved when attribute deleted on server
  */
 exports.Component.prototype.deleteAttribute = function(attr) {
-  var url = EnvConfig.MIRRORS_URL + 'component/' +
-    this.slug + '/attribute/' + attr;
-  return api._promise_request(
+ return api._promise_request(
     {
       method: 'DELETE',
-      uri: url
+      uri: url.resolve(this.uri, './attribute/' + attr + '/')
     }
   );
 };
