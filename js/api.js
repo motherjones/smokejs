@@ -70,6 +70,10 @@ exports.Data = function(slug) {
    * @inner
    */
   this.uri = url.resolve(exports.COMPONENT_URI_BASE, './' + slug + '/data/');
+  /**
+   * data {data} - Form representation of data.
+   */
+  this.data;
 };
 
 /**
@@ -81,7 +85,7 @@ exports.Data.prototype.get = function(callback) {
   var self = this;
   var cb = function(data) {
     self.data = data;
-    if (callback) { callback(data); };
+    if (callback) { callback(self); };
   };
   return exports._promise_request(self.uri, cb);
 };
