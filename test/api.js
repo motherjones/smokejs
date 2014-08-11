@@ -159,15 +159,14 @@ describe("data api", function() {
         'content-type': 'text/x-markdown',
         'response': 'DATA'
       });
-      var callback = function(data) {
-        server.restore();
-        should.exist(data);
-        data.should.be.exactly('DATA');
-      };
+      var callback = sinon.spy();
       var data_uri = '/mirrors/component/' + slug +'/data/';
       var data = new api.Data(slug);
       data.should.have.property('uri');
       data.get(callback).then(function() {
+        callback.should.have.property('calledOnce', true);
+        callback.calledWithExactly(data).should.eql(true);
+        server.restore();
         done();
       });
     });

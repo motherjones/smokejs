@@ -70,6 +70,10 @@ exports.Data = function(slug) {
    * @inner
    */
   this.uri = url.resolve(exports.COMPONENT_URI_BASE, './' + slug + '/data/');
+  /**
+   * data {data} - Form representation of data.
+   */
+  this.data;
 };
 
 /**
@@ -81,7 +85,7 @@ exports.Data.prototype.get = function(callback) {
   var self = this;
   var cb = function(data) {
     self.data = data;
-    if (callback) { callback(data); };
+    if (callback) { callback(self); };
   };
   return exports._promise_request(self.uri, cb);
 };
@@ -121,7 +125,7 @@ exports.Component = function(slug, data) {
    * uri {url} - the location of the component for server gets and to display as a page on smoke
    * @inner
    */
-  this.uri = null;
+  this.uri = url.resolve(exports.COMPONENT_URI_BASE, './' + slug + '/');
   /**
    * data {Data} - the location of the component's data
    * @inner
@@ -146,7 +150,6 @@ exports.Component.prototype._build = function(data) {
   this.metadata = data.metadata;
   this.content_type = data.content_type;
   this.schema_name = data.schema_name;
-  this.uri = data.uri;
   for (var attr in data.attributes) {
     var attribute = data.attributes[attr];
     //is it an array?
@@ -173,7 +176,7 @@ exports.Component.prototype._build = function(data) {
  */
 exports.Component.prototype.get = function(callback, pull) {
   var self = this;
-  return exports._promise_request(EnvConfig.MIRRORS_URL + 'component/' + self.slug + '/',
+  return exports._promise_request(this.uri,
     function(body) {
       var data = JSON.parse(body);
       self._build(data);
