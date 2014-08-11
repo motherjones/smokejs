@@ -92,7 +92,6 @@ module.exports.browserClick = function(e) {
   */
 module.exports.browserCallback = function(data, html) {
   $('body').html(html);
-  window.history.replaceState(0, data.metadata.title, data.uri);
   document.title = 'MotherJones' + (data.metadata.title
     ? ' - ' + data.metadata.title
     : '');
