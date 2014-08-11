@@ -1,0 +1,20 @@
+{>header /}
+<div class="full-width-article">
+	<article id="{slug}">
+		<header data-background-image="assets/feature_dummy.gif">
+			{#metadata}
+			<h1 data-slug="{slug}" data-metadata="title">{title}</h1>
+			{/metadata}
+		</header>
+		<section id="component_body">
+		{#markdown data_uri=data_uri /}
+		<b>Data url</b>: {data_uri}
+		</section>
+		<section>
+			{#attributes.byline}
+				{#render template="author-bio" /}
+			{/attributes.byline}
+		</section>
+	</article>
+</div>
+{>footer /}
