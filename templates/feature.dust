@@ -4,6 +4,7 @@
 		<header data-background-image="assets/feature_dummy.gif">
 			{#metadata}
 			<h1 data-slug="{slug}" data-metadata="title">{title}</h1>
+      <h2>EVERYTING</h2>
 			{/metadata}
 		</header>
 		<section id="component_body">
