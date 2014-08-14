@@ -6,6 +6,8 @@ console.log(__dirname);
 console.log( path.join(__dirname, 'build', 'css'))
 app.use('/css', express.static(path.join(__dirname, 'build', 'css')));
 app.use('/js', express.static(path.join(__dirname, 'build', 'js')));
+app.use('/assets', express.static(path.join(__dirname, 'build', 'assets')));
+app.use('/mirrors', express.static(path.join(__dirname, 'build', 'mirrors')));
 app.use(function(req, res) {
   res.sendfile(path.join(__dirname, 'build/index.html'));
 });
