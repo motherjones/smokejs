@@ -21,6 +21,10 @@
   border: 1px dashed red;
   min-height: 1em;
 }
+.accessible-hide() {
+  position: absolute;
+  left: -999em;
+}
 
 .red { color: @red !important; }
 
@@ -69,6 +73,7 @@
    .mainmenu {
       background-color: #fff;
       border-bottom: 3px solid #000;
+      padding-bottom: 0.0625rem;
       li {
         padding: 0 1.5rem 0 0;
       }
@@ -99,12 +104,15 @@
   @media (min-width: @med-breakpoint) {
     .blogmenu {
       background-color: #fff;
-      li, li:last-of-type {
+      padding-left: 0;
+      li{
+        list-style: none;
         margin: 0;
         padding: 0.3rem 0.3rem 0 0.3rem;
       }
+      li:last-of-type { padding: 0.3rem; }
       a {
-        width: 7rem;
+        width: 8rem;
         display: block;
         background-color: @light-grey;
         padding: 0.3rem;
@@ -179,10 +187,7 @@
 .full-width-article {
   header {
     background-repeat: no-repeat;
-    h1, h2, p {
-      position: absolute;
-      left: -999em;
-    }
+    h1, h2, p { .accessible-hide(); }
   }
 }
 
@@ -208,6 +213,7 @@
 //////////////////////
 .colophon {
   font-family: serif;
+  ul { list-style: none;}
   @media (min-width: 48rem) {
     // Gotta be specific here...
     ul.links-left { text-align: left; }
