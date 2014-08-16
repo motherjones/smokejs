@@ -2,15 +2,17 @@
 <div class="full-width-article">
   <article id="{slug}">
     <header>
+      {#attributes.master_image}
       <img src="/assets/feature_dummy.gif">
+      <!-- img src="{metadata.uri}{metadata.slug}" alt="{metadata.alt_text}" -->
+      {/attributes.master_image}
       {#metadata}
       <h1 data-slug="{slug}" data-metadata="title">{title}</h1>
       <h2 data-slug="{slug}" data-metadata="dek">{dek}</h2>
       {/metadata}
     </header>
     <section id="component_body">
-    {#markdown data_uri=data_uri /}
-    <b>Data url</b>: {data_uri}
+    {#markdown slug=slug /}
     </section>
     <section>
       {#attributes.byline}
