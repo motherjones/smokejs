@@ -1,3 +1,13 @@
+/* Reference for grid mixin
+ .Row ( @width; @padding; @margin; )
+ .Cols( @colspan;
+    @total_cols;
+    @padding;
+    @gutter;
+    @edge;
+    @margin_top;
+    @margin_bottom; )
+ */
 @import "grid";
 
 /* Values
@@ -71,6 +81,12 @@ box-sizing: border-box;
 .full-width-article {
   .Row();
 
+}
+
+.author-bio {
+  .Row(@margin: 0 0 1rem 0;);
+  img { .Cols(1, 8, 0 1rem 0 0 ); }
+  p { .Cols(7, 8); }
 }
 
 footer.colophon {

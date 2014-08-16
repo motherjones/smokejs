@@ -1,4 +1,4 @@
-<div class="author_bio">
+<div class="author-bio">
 	<img src="http://placekitten.com/g/100/150" alt="">
 	<p class="name">
 	  <a href="#/author/{slug}">
