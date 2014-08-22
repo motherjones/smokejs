@@ -28,6 +28,18 @@
 
 .red { color: @red !important; }
 
+.logo(@multiplier: 1) {
+  @logo-base-width: 13rem;
+  @logo-base-height: 3rem;
+  color: transparent;
+  height: @logo-base-height * @multiplier;
+  width: @logo-base-width * @multiplier;  // Width and background-size correspond.
+  background: url('/assets/mj-logo-regent-black.png');
+  background-image: none, url('/assets/mj-logo-regent-black.svg');
+  background-repeat: no-repeat;
+  background-size: @logo-base-width * @multiplier;
+}
+
 //////////////
 // Header styles
 /////////////
@@ -35,20 +47,10 @@
 .menu-border(@color) { border-top: 3px solid @color; }
 .menu-border-hover(@color) { border-bottom: 3px solid @color; }
 
-@logo-height: 13rem;
-
 .masthead {
   margin-top: 20px; // keeping consistent with skeleton, blah
   border-bottom: 1px solid @light-grey;
-  .title {
-    color: transparent;
-    height: 3rem;
-    width: @logo-height;  // Width and background-size correspond.
-    background: url('/assets/mj-logo-regent-black.png');
-    background-image: none, url('/assets/mj-logo-regent-black.svg');
-    background-repeat: no-repeat;
-    background-size: @logo-height;
-  }
+  .title { .logo(); }
   // Mobile main menu
   .mainmenu {
     background-color: @grey;
@@ -229,6 +231,7 @@
     ul.links-right { text-align: right; }
     li { margin-bottom: 0; }
   }
+
   p, .links-left, .links-right, .links-middle { text-align: center; }
   .links-left, .links-middle, .tagline { margin-bottom: 0; }
   .tagline span, .rss a {
@@ -238,6 +241,10 @@
     background: @light-grey;
     color: white;
 
+  }
+  p.title {
+    .logo(0.675);
+    margin: 0 auto;
   }
   .tagline span {
     background: @grey;
