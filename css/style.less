@@ -184,12 +184,25 @@
   }
 }
 
-.full-width-article header {
+.full-width-article {
+  header {
     padding-bottom: 1rem;
     border-bottom: 1px solid @light-grey;
     background-repeat: no-repeat;
     h1, h2, p { .accessible-hide(); }
   }
+
+  #component_body > p:first-child:first-letter {
+    font-size: 400%;
+    float: left;
+  }
+
+  .lead-in { text-transform: uppercase; }
+
+  figure.pull-right {
+    float: right;
+  }
+}
 
 
 #component_body {
