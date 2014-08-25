@@ -1,20 +1,23 @@
 /////////////
 // Utilities
 ////////////
-@grey: #6d6e70   ; // Text (foreground)
+
+@grey: #6d6e70; // Text (foreground)
 @light-grey: #ddd; // Background
 @red: #e12300;
 @orange: #F15928;
 @blue:#009DDD;
 @climate-blue: #006385;
 @light-blue: #00b0ee;
-@green:#70BF4F;
-@yellow:#F8AE16;
-@lavender:#C9AFFF;
+@green: #70BF4F;
+@yellow: #F8AE16;
+@lavender: #C9AFFF;
 
 @default-width: 60em;
 @med-breakpoint: 48em;
 @sm-breakpoint: 32em;
+
+@serif: Georgia, "Bitstream Vera Serif", "Times New Roman", serif;
 
 .fixme {
   background-color: yellow;
@@ -47,11 +50,18 @@
 .menu-border(@color) { border-top: 3px solid @color; }
 .menu-border-hover(@color) { border-bottom: 3px solid @color; }
 
+.mainmenu, .blogmenu {
+  padding-left: 0;
+  list-style: none;
+}
+
 .masthead {
   margin-top: 20px; // keeping consistent with skeleton, blah
   border-bottom: 1px solid @light-grey;
+  font-family: Raleway;
   .title { .logo(); }
-  // Mobile main menu
+
+  // Mobile main menu style
   .mainmenu {
     background-color: @grey;
     li { margin: 0; }
@@ -131,6 +141,12 @@
     }
   }
 }
+.search input { font-family: @serif; }
+.mustreads {
+  font-family: @serif;
+  font-size: 0.75em;
+  line-height: 1;
+}
 
 //////////////////
 // Article styles
@@ -139,9 +155,14 @@
 .two-column-article {
   article {
     @media (min-width: @default-width) { border-right: 2px dotted @light-grey; }
-    // heds with long words break layout
-    h1 { @media (max-width: @sm-breakpoint) { word-wrap: break-word; } }
+    h1 {
+      // heds with long words break layout
+      @media (max-width: @sm-breakpoint) { word-wrap: break-word; }
+      font-family: @serif;
+      font-weight: 400;
+    }
     h2 {
+      font-family: @serif;
       font-size: 1rem;
       font-style: italic;
       color: @grey;
@@ -149,28 +170,38 @@
     }
   }
 
-  #component_author ul, #component_author li,
-  #component_author .publish_date,
+  // Applies to each list element.
+  // Perhaps this should be a class?
+  .byline ul, .byline li,
+  .byline .publish_date,
   #component_tags ul, #component_tags li{
     display: inline;
   }
-  section#component_author li, section#component_tags li {
+  .byline li, section#component_tags li {
     padding-right: 0.5em;
   }
-
+  .byline {
+    font-family: @serif;
+    font-size: 0.75em;
+    color: @grey;
+    ul { padding-left: 0; }
+  }
   #component_tags {
     margin-bottom: 1em;
-    ul {
-      padding-left: 0.5em;
-      font-size: 0.75em;
-    }
-    .section_title {
-      font-weight: bold;
+    .section-title {
+      font-family: 'Raleway';
+      font-size: 0.875em;
       text-transform: uppercase;
+    }
+    ul {
+      font-family: @serif;
+      font-size: 0.625em;
+      padding: 0;
+      &:before { content: "\2192\00A0"; padding-right: 0.5em; }
     }
   }
 
-  .master_image {
+  .master-image {
     img { width: 100%; }
 
     figcaption span{
@@ -213,9 +244,8 @@
 }
 
 .author-bio {
-  /* Author bio name should indicate that it is a link, somehow */
   .name { margin: 0; text-transform: uppercase; }
-
+  .position { font-family: @serif; font-size: 0.75em; color: @grey; }
   p { font-size: 0.75rem; }
 }
 
@@ -223,28 +253,33 @@
 // (The actual) Footer
 //////////////////////
 .colophon {
-  font-family: serif;
-  ul { list-style: none;}
+  font-family: 'Raleway';
+  font-size: 0.875em;
+  ul { list-style: none;
+    a { color: #000; text-decoration: none; }
+  }
+
+  // Creates the per-column alignment on larger screens.
   @media (min-width: 48rem) {
-    // Gotta be specific here...
     ul.links-left { text-align: left; }
     ul.links-right { text-align: right; }
     li { margin-bottom: 0; }
   }
 
   p, .links-left, .links-right, .links-middle { text-align: center; }
+
   .links-left, .links-middle, .tagline { margin-bottom: 0; }
+
+  p.title {
+    .logo(0.675);
+    margin: 0 auto;
+  }
   .tagline span, .rss a {
     font-family: sans-serif;
     text-transform: uppercase;
     font-weight: bold;
     background: @light-grey;
     color: white;
-
-  }
-  p.title {
-    .logo(0.675);
-    margin: 0 auto;
   }
   .tagline span {
     background: @grey;
@@ -255,6 +290,7 @@
     padding: 0.5em;
   }
   .copyright {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
+    font-family: @serif;
   }
 }

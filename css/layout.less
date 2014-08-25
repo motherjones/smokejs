@@ -45,15 +45,14 @@ box-sizing: border-box;
       float: right;
       margin-bottom: -11rem;
       height: 0;
-      left: -22em;
+      left: -25em;
       top: 1.1em;
       li { display: list-item; }
     }
-    // Uncollapses the menu
+    // Uncollapses the blog menu
     .mainmenu li:hover > .blogmenu { visibility: visible; height: auto;}
   }
-  // Activates blog menu
-  /*.search {
+  .search {
     @media (min-width: @med-breakpoint) {
       float: right;
       margin-right: 2rem;
@@ -62,17 +61,17 @@ box-sizing: border-box;
     input { display: inline; margin-bottom: 0;}
   }
   .mustreads {
-    @media (max-width: @med-breakpoint) {
+    @media (max-width: @sm-breakpoint) {
       display: none; visibility:hidden;
     }
-  }*/
+  }
 }
 
 .two-column-article {
-  .Row(@padding: 0 (14 * @toRems));
+  .Row();
   article{
     @media (min-width: @med-breakpoint) {
-        .Cols(@colspan: 3; @padding: 0 (14 * @toRems) );
+        .Cols(@colspan: 3; @padding: 0 (14 * @toRems) 0 0 );
     }
   }
   aside{

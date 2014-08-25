@@ -3,9 +3,8 @@
   <article id="{slug}">
     <header>
       <section id="component_tags">
-        <div class="section_title">Name of section title</div>
-        &#8594;&nbsp;
-         <ul data-attribute="tags" data-slug="{slug}">
+        <div class="section-title">Name of section title</div>
+           <ul data-attribute="tags" data-slug="{slug}">
            {#metadata.tags}
                  <li>{.}</li>{~n}
            {/metadata.tags}
@@ -15,13 +14,13 @@
       <h1 data-slug="{slug}" data-metadata="title">{title}</h1>
       <h2 data-slug="{slug}" data-metadata="dek">{dek}</h2>
       {/metadata}
-      <section id="component_author">
+      <section id="component_author" class="byline">
         &mdash; By&nbsp;
         {#list template="byline" attribute="byline" delimiter="," /}
         <span class="publish_date">{created_at}</span>
       </section>
       {#attributes.master_image}
-        <figure class="master_image">
+        <figure class="master-image">
           <img src="http://placekitten.com/g/620/420" alt="{metadata.alt_text}" />
           <figcaption>
             <span data-slug="{slug}" data-metadata="alt_text">

@@ -24,10 +24,10 @@
       <li><a href="" {?homepage}class="red"{/homepage}>Donate</a></li>
     </ul>
     <label class="mobile-left mobmenu-toggle button" for="mobile-menu-toggle">menu</label>
-    <!--form class="search" action="">
+    <form class="search" action="">
       <input type="text" />
       <input type="submit" value="Search">
-    </form-->
+    </form>
   </nav>
-  <p class="mustreads fixme" aria-hidden="true"><strong>Must Reads:</strong> </p>
+  <p class="mustreads fixme" aria-hidden="true"><strong>Must Reads:</strong> Some sample text about reading things on the internet</p>
 </header>
