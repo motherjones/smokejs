@@ -60,7 +60,7 @@ exports.dustBase = function() {
      * @inner
      */
     load : function(chunk, context, bodies, params) {
-      var slug = params.slug ? params.slug : params.id;
+      var slug = params.slug ? params.slug : params.id; //TODO:FIX THIS
       return chunk.map(function(chunk) {
         var component = new api.Component(slug);
         component.get(function(data) {
