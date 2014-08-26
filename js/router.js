@@ -16,7 +16,7 @@ var Promise = require('promise-polyfill');
  */
 module.exports = (function() {
   var router = new Router();
-  router.addRoute("\/?:slug(politics|media|environment)$", views.displayMainContent);
+  router.addRoute("\/?:slug(politics|media|environment)\/?$", views.displayMainContent);
   router.addRoute("\/?:schema/:slug", views.displayMainContent);
   router.addRoute("\/?:section/[0-9]+/[0-9]+/:slug", views.displayMainContent);
   router.addRoute("^\/$", views.displayHomepage);
