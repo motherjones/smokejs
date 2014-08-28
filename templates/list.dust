@@ -13,8 +13,7 @@
           <a href="{uri}"><img src="/assets/list_image.png" alt="" title="" width="150" height="84"/></a>
           <div class="section-item">
             <p><a href="{uri}">{metadata.title}</a></p>
-            <p><a href="{byline.uri}" rel="author" class="byline">{byline.schema_name}{byline.metadata.last_name}</a>
-            </p>
+            <p class="fixme">&mdash;<a href="{uri}" rel="author" class="byline">{byline.metadata.first_name} {byline.metadata.last_name}</a></p>
           </div>
         </li>{~n}
         {/attributes.main}
@@ -23,6 +22,8 @@
     <section class="multimedia-list">
       <h3>Tag name</h3>
       <ul>
+        {! FIXME: Change this to point to a specific tag. !}
+        {#attributes.main}
         <li>
           <a href="{uri}"><img src="/assets/list_image.png" alt="" title="" width="150" height="84"/></a>
           <div class="section-item">
@@ -30,7 +31,8 @@
             <p><a href="{byline.uri}" rel="author" class="byline">{byline.schema_name}{byline.metadata.last_name}</a>
             </p>
           </div>
-        </li>
+        </li>{~n}
+        {/attributes.main}
       </ul>
     </section>
   </div>
