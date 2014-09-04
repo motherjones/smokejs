@@ -302,14 +302,14 @@ describe("editor functions", function() {
     var list = $('<ul data-attribute="byline" data-slug="'+slug+'"></ul>');
     var item = $('<li data-slug="peter-van-buren" >Mr. Pan, I presume</li>');
     var secondItem = $('<li data-slug="henry-the-eighth" >i am i am</li>');
-    var henry = testData.attributes.byline[0];
+    var henry = testData.attributes.byline[0]; //TODO: Clone here and fix consiquences
 
     before(function(done) {
       list.append(item);
       list.append(secondItem);
       $('body').append(list);
 
-      henry.slug = 'henry-the-eighth';
+      henry.slug = 'henry-the-eighth';  //TODO: This current change all instances of testData
       component.attributes.byline.unshift(henry);
       done();
     });
@@ -530,10 +530,10 @@ describe("editor functions", function() {
         done();
       });
     });
-    it('remakes each list with lis using the right template', function(done) {
+    it('remakes each list with list using the right template', function(done) {
       editor.remakeLists(component, 'byline').then(function() {
         $('[data-template="byline"] a').attr('href').should.eql('/author/henry-the-eighth');
-        $('[data-template="author-bio"] div').hasClass('author_bio').should.be.true;
+        should($('[data-template="author-bio"] div').hasClass('author-bio')).eql(true);
         done();
       });
     });
