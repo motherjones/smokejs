@@ -161,7 +161,7 @@ exports.addToListForm = function(name, component, button) {
     });
   form.append(close);
   return form;
-}
+};
 
 /**
  * Called when an editor submits the add to a list form.

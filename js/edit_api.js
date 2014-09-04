@@ -1,5 +1,4 @@
 'use strict';
-var EnvConfig = require('./config');
 var api = require('./api');
 var _ = require('lodash');
 var url = require('url');
@@ -19,7 +18,7 @@ exports.Data = api.Data;
  */
 exports.Data.prototype.update = function(callback) {
   var self = this;
-  var cb = function(data) {
+  var cb = function() {
     callback(self);
   };
   return api._promise_request({
@@ -52,16 +51,17 @@ exports.Component.prototype._Data = exports.Data;
  * @returns {promise} Resolves when complete
  */
 exports.Component.prototype.create = function(callback) {
+  var self = this;
   var payload = {
-    slug: this.slug,
-    content_type: this.content_type,
-    schema_name: this.schemaName,
-    metadata: this.metadata
+    slug: self.slug,
+    content_type: self.content_type,
+    schema_name: self.schemaName,
+    metadata: self.metadata
   };
-  if(callback) {
-    var cb = function(data) {
+  var cb = function() {
+    if (callback) {
       callback(self);
-    };
+    }
   };
   return api._promise_request({
       method: 'POST',
@@ -83,10 +83,10 @@ exports.Component.prototype.update = function(callback) {
     schema_name: self.schemaName,
     metadata: self.metadata
   };
-  if(callback) {
-    var cb = function(data) {
+  var cb = function() {
+    if (callback) {
       callback(self);
-    };
+    }
   };
   return api._promise_request({
       method: 'PUT',

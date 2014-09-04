@@ -21,7 +21,7 @@ var url = require('url');
 exports._success = function(resolve, reject, callback) {
   var cb = callback ? callback : function() {};
   return function(err, result, body) {
-    if (result.statusCode == 200) {
+    if (result.statusCode === 200) {
       try {
         cb(body);
       } catch(e) {
@@ -29,7 +29,7 @@ exports._success = function(resolve, reject, callback) {
         return;
       }
       resolve(result);
-    } else if (result.statusCode == 401) {
+    } else if (result.statusCode === 401) {
       //redirect to log in server
       exports.logInRedirect();
     } else {
@@ -73,7 +73,7 @@ exports.Data = function(slug) {
   /**
    * data {data} - Form representation of data.
    */
-  this.data;
+  this.data = undefined;
 };
 
 /**
@@ -85,7 +85,7 @@ exports.Data.prototype.get = function(callback) {
   var self = this;
   var cb = function(data) {
     self.data = data;
-    if (callback) { callback(self); };
+    if (callback) { callback(self); }
   };
   return exports._promise_request(self.uri, cb);
 };
@@ -180,7 +180,7 @@ exports.Component.prototype.get = function(callback, pull) {
     function(body) {
       var data = JSON.parse(body);
       self._build(data);
-      if (callback) {callback(self);};
+      if (callback) {callback(self);}
     }
   );
 };
