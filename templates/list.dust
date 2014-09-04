@@ -1,39 +1,18 @@
 {>header /}
 <div class="article-list-landing">
     <div class="lists">
+    <h1>{metadata.title}</h1>
     <section class="featured-articles">
-      <h1>{metadata.title}</h1>
       <!-- Need a slider generator... -->
     </section>
-    <section class="latest-list">
+    <section class="latest-list left-image-list">
       <h2>Latest</h2>
-      <ul class="left-image-list">
-        {#attributes.main}
-        <li>
-          <a href="{uri}"><img src="/assets/list_image.png" alt="" title="" width="150" height="84"/></a>
-          <div class="section-item">
-            <p><a href="{uri}">{metadata.title}</a></p>
-            <p class="fixme">&mdash;<a href="{uri}" rel="author" class="byline">{byline.metadata.first_name} {byline.metadata.last_name}</a></p>
-          </div>
-        </li>{~n}
-        {/attributes.main}
-      </ul>
+      {#list template="list-item" attribute="main" /}
     </section>
-    <section class="multimedia-list">
+    <section class="multimedia-list top-image-list">
       <h3>Tag name</h3>
-      <ul>
-        {! FIXME: Change this to point to a specific tag. !}
-        {#attributes.main}
-        <li>
-          <a href="{uri}"><img src="/assets/list_image.png" alt="" title="" width="150" height="84"/></a>
-          <div class="section-item">
-            <p><a href="{uri}">{metadata.title}</a></p>
-            <p><a href="{byline.uri}" rel="author" class="byline">{byline.schema_name}{byline.metadata.last_name}</a>
-            </p>
-          </div>
-        </li>{~n}
-        {/attributes.main}
-      </ul>
+      {! FIXME: Change this to point to a specific tag. !}
+      {#list template="list-item-no-byline" attribute="main" /}
     </section>
   </div>
   <div class="righthand-column">

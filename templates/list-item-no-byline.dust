@@ -1,0 +1,4 @@
+<li>
+  <a href="{uri}"><img src="/assets/list_image.png" alt="" title="" width="150" height="84"/></a>
+  <p><a class="headline" href="{uri}">{metadata.title}</a></p>
+</li>

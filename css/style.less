@@ -153,14 +153,36 @@
 // List page styles
 ////////////////
 
-.left-image-list, .multimedia-list ul, .bloggers ul {
+.article-list-landing h1, .article-list-landing h2,
+.article-list-landing h3, .article-list-landing h4{
+  margin: 0;
+  text-transform: uppercase;
+  font-family: Raleway;
+}
+.article-list-landing h1 {
+  font-size: 1.75em;
+}
+.article-list-landing h2,
+.article-list-landing h3, .article-list-landing h4{
+  color: @red;
+  font-size: 0.875em;
+}
+
+.left-image-list ul, .top-image-list ul {
   padding: 0;
   list-style-type: none;
+  line-height: 1.2em;
+  font-size: 0.8125em;
+  font-family: @serif;
+  a { font-weight: bold; color: black; text-decoration: none; }
+  .byline a { color: @grey; }
 }
 
 .left-image-list li a {
   margin: 0 1em 1em 0;
 }
+
+.top-image-list p { margin-top: 0.25em; }
 
 
 //////////////////
