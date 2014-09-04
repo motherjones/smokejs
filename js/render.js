@@ -28,7 +28,7 @@ exports.render = function(template, data, callback) {
           EnvConfig.ERROR_HANDLER(err, this);
           reject(err);
         }
-        if (callback) { callback(out); };
+        if (callback) { callback(out); }
         resolve(out);
       }
     );
@@ -83,7 +83,7 @@ exports.dustBase = function() {
      * @inner
      */
     render : function(chunk, context, bodies, params) {
-      for (var i in params) { context.stack.head[i] = params[i]; };
+      for (var i in params) { context.stack.head[i] = params[i]; }
       return chunk.map(function(chunk) {
         exports.render(params.template, context.stack.head, function(html) {
           chunk.end(html);

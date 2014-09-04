@@ -1,5 +1,5 @@
 var $ = require('jquery');
-require('./jquery.sortable');
+require('./external-libs/jquery.sortable');
 var _ = require('lodash');
 var render = require('./render');
 var api = require('./edit_api');
