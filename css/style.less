@@ -155,7 +155,6 @@
 
 .article-list-landing h1, .article-list-landing h2,
 .article-list-landing h3, .article-list-landing h4{
-  margin: 0;
   text-transform: uppercase;
   font-family: Raleway;
 }
@@ -166,10 +165,12 @@
 .article-list-landing h3, .article-list-landing h4{
   color: @red;
   font-size: 0.875em;
+  margin: 0.5em 0;
 }
 
 .left-image-list ul, .top-image-list ul {
   padding: 0;
+  margin: 0;
   list-style-type: none;
   line-height: 1.2em;
   font-size: 0.8125em;
@@ -177,12 +178,25 @@
   a { font-weight: bold; color: black; text-decoration: none; }
   .byline a { color: @grey; }
 }
-
+.left-image-list ul { margin: -0.25em; }
 .left-image-list li a {
   margin: 0 1em 1em 0;
 }
 
 .top-image-list p { margin-top: 0.25em; }
+
+ul.blog-items {
+  margin: 0;
+  padding: 0 0 0 6.5em;
+  list-style: none;
+  // We'll need classes for the background image.
+  background: url("/assets/blog-photo.png") no-repeat;
+  font-size: 0.6875em;
+  a { color: @grey; text-decoration: none; }
+  li { margin-bottom: 1em; }
+}
+
+.bloggers h4:after { content: " >>"; }
 
 
 //////////////////

@@ -1,9 +1,10 @@
 <section class="bloggers">
-  <h4></h4>
-  <img src="" alt="">
-  <ul>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
+  <h4>Catchy blog name</h4>
+  <ul class="blog-items">
+    <li><a href=""> Suspendisse porta, felis a fermentum interdum, dui
+    nisl sodales felis, ut fermentum sapien nibh eu nunc.</a></li>
+    <li><a href=""> Etiam enim urna, pharetra suscipit, varius et,
+    congue quis, odio. Donec lobortis, elit bibendum euismod faucibus, velit
+    nibh egestas libero, vitae.</a></li>
   </ul>
 </section>

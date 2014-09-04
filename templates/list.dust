@@ -16,7 +16,6 @@
     </section>
   </div>
   <div class="righthand-column">
-  <strong>RIGHT HAND COLUMN</strong>
     {@select key=slug}
       {@eq value="politics"}{>"inserts/blog-overview" /}{/eq}
       {@eq value="environment"}{>"inserts/blue-marble-overview" /}{/eq}
