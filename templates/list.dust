@@ -22,5 +22,13 @@
     {/select}
     {>"inserts/rhc" /}
   </div>
+  <br class="clear">
+  <div class="bottom-row">
+    <section class="top-image-list">
+      <h3>Tag name</h3>
+      {! FIXME: Change this to point to a specific tag. !}
+      {#list template="list-item-no-byline" attribute="main" /}
+    </section>
+  </div>
 </div>
 {>footer /}
