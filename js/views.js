@@ -20,7 +20,6 @@ exports.displayMainContent = function(match, callback) {
   var component = new api.Component(match.params.slug);
   var selectTemplate = function(data) {
     if (data.schema_name  === 'article' && data.metadata.hasOwnProperty('full_width') && data.metadata.full_width === true) {
-      console.log('test');
       return 'article_full_width';
     }
     return data.schema_name;
