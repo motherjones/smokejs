@@ -1,12 +1,22 @@
 <div class="related-links">
   <h6>More Ways to Get your MoJo</h6>
   <ul>
-    <li><a class="iconlink" href="" style="background-color:#3B59A8;"><i class="fa fa-facebook"></i></a></li>
-    <li><a class="iconlink" href="" style="background-color:#00A0D1;"><i class="fa fa-twitter"></i></a></li>
-    <li><a class="iconlink" href="" style="background-color:#2C4762;"><i class="fa fa-tumblr"></i></a><span>Check out Mother Jones' Tumblr alter ego.</span></li>
-    <li><a class="iconlink" href="" style="background-color:#D34836;"><i class="fa fa-google-plus"></i></a><span>Add us to your circles.</span></li>
-    <li><a class="iconlink" href="" style="background-color:#FF6600;"><i class="fa fa-rss"></i></a><span>RSS junkie? Here's your fix.</span></li>
-    <li><a class="iconlink" href="" style="background-color:#fff;"><i class="fa fa-youtube" style="color:#BB0000;font-size:2rem;"></i></a><span>Subscribe to our YouTube channel.</span></li>
+    <li>
+      <a class="iconlink" href="http://facebook.com/motherjones" style="background-color:#3B59A8;"><i class="fa fa-facebook"></i></a></li>
+    <li>
+      <a class="iconlink" href="https://twitter.com/motherjones" style="background-color:#00A0D1;"><i class="fa fa-twitter"></i></a></li>
+    <li>
+      <a class="iconlink" href="http://motherjones.tumblr.com/" style="background-color:#2C4762;"><i class="fa fa-tumblr"></i></a><span>Check out Mother Jones' <a href="http://motherjones.tumblr.com/">Tumblr</a> alter ego.</span></li>
+    <li>
+      <a class="iconlink" href="https://plus.google.com/111878759287619999687" style="background-color:#D34836;">
+      <i class="fa fa-google-plus"></i></a>
+      <span>Add us to your <a href="https://plus.google.com/111878759287619999687">circles</a>.</span></li>
+    <li>
+      <a class="iconlink" href="" style="background-color:#FF6600;"><i class="fa fa-rss"></i></a><span>RSS junkie? <a href="" class="fixme">Here's</a> your fix.</span></li>
+    <li>
+      <a class="iconlink" href="https://www.youtube.com/subscription_center?add_user=motherjonesvideo" style="background-color:#fff;">
+      <i class="fa fa-youtube" style="color:#BB0000;font-size:2rem;"></i></a>
+      <span>Subscribe to our <a href="https://www.youtube.com/subscription_center?add_user=motherjonesvideo">YouTube</a> channel.</span></li>
   </ul>
 </div>
 <div class="supporters-media">
