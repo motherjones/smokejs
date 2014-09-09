@@ -1,4 +1,4 @@
-/*global document, history */
+/*global window, document */
 'use strict';
 var views = require('./views');
 var Router = require('routes');
@@ -93,8 +93,7 @@ module.exports.browserClick = function(e) {
   */
 module.exports.browserCallback = function(data, html) {
   $('body').html(html);
-  document.title = 'MotherJones' + (data.metadata.title
-    ? ' - ' + data.metadata.title
-    : '');
+  document.title = 'MotherJones' + 
+    (data.metadata.title ? ' - ' + data.metadata.title : '');
   ad.reload(data.keywords);
 };

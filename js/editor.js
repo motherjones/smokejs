@@ -1,5 +1,5 @@
 var $ = require('jquery');
-require('./jquery.sortable');
+require('./external-libs/jquery.sortable');
 var _ = require('lodash');
 var render = require('./render');
 var api = require('./edit_api');
@@ -161,7 +161,7 @@ exports.addToListForm = function(name, component, button) {
     });
   form.append(close);
   return form;
-}
+};
 
 /**
  * Called when an editor submits the add to a list form.
