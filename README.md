@@ -11,9 +11,9 @@ sudo npm install grunt-cli -g
 ```
 
 ## Getting Started
+Clone the repository and then
 
 ```bash
-git clone git@github.com:benbreedlove/smokejs.git
 cd smokejs/
 npm install
 cp localConfig.js.example localConfig.js
