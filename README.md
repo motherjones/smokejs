@@ -7,11 +7,11 @@ To work on self locally, you'll need:
 * grunt-cli installed globally
     sudo npm install grunt-cli -g
 ## Getting Started
-    git clone git@github.com:benbreedlove/smokejs.git
-    cd smokejs/
-    npm install
-    cp localConfig.js.example localConfig.js
-    grunt serve
+git clone git@github.com:benbreedlove/smokejs.git
+cd smokejs/
+npm install
+cp localConfig.js.example localConfig.js
+grunt serve
 
 We've currently got four example payloads that can be loaded through smoke.
 [An example topic list](http://localhost:9001/topic/health_list/)
