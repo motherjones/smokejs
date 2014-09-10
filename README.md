@@ -10,6 +10,7 @@ To work on self locally, you'll need:
     git clone git@github.com:benbreedlove/smokejs.git
     cd smokejs/
     npm install
+    cp localConfig.js.example localConfig.js
     grunt serve
 
 We've currently got four example payloads that can be loaded through smoke.
