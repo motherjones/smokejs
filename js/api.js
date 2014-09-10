@@ -47,7 +47,7 @@ exports._success = function(resolve, reject, callback) {
  * @param {pull} - ignore ControlCache, currently unused.
  * @return {promise} - returns promise
  */
-exports._promise_request = function(args, callback, pull) {
+exports._promise_request = function(args, callback) {
   var promise = new Promise(function(resolve, reject) {
     request(args, exports._success(resolve, reject, callback));
   });
@@ -174,7 +174,7 @@ exports.Component.prototype._build = function(data) {
  * @param {boolean} pull - don't check local storage, pull from server
  * @returns {promise} resolves after the callback is complete, fails on error
  */
-exports.Component.prototype.get = function(callback, pull) {
+exports.Component.prototype.get = function(callback) {
   var self = this;
   return exports._promise_request(this.uri,
     function(body) {

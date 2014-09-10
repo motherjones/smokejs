@@ -18,14 +18,8 @@ var render = require('./render');
  */
 exports.displayMainContent = function(match, callback) {
   var component = new api.Component(match.params.slug);
-  var selectTemplate = function(data) {
-    if (data.schema_name  === 'article' && data.metadata.hasOwnProperty('full_width') && data.metadata.full_width === true) {
-      return 'article_full_width';
-    }
-    return data.schema_name;
-  };
   return component.get(function(data) {
-    render.render(selectTemplate(data), data, function(html) {
+    render.render(render.selectTemplate(data), data, function(html) {
       if (callback) { callback(data, html); }
     });
   });
