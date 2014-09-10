@@ -153,13 +153,21 @@
 // List page styles
 ////////////////
 
-.article-list-landing h1, .article-list-landing h2,
-.article-list-landing h3, .article-list-landing h4{
-  text-transform: uppercase;
-  font-family: Raleway;
-}
-.article-list-landing h1 {
-  font-size: 1.75em;
+.article-list-landing {
+  h1, h2, h3, h4{
+    text-transform: uppercase;
+    font-family: Raleway;
+  }
+  h1 {
+    font-size: 1.5em;
+    &.politics-header, &.environment-header, &.media-header {
+      font-size: 1.75em;
+    }
+    &.photo-essay-header {
+      font-size: 0.875em;
+      background-color: #000;
+      color: #fff; }
+  }
 }
 .article-list-landing h2,
 .article-list-landing h3, .article-list-landing h4{

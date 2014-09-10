@@ -1,7 +1,7 @@
 {>header /}
 <div class="article-list-landing">
     <div class="lists">
-    <h1>{metadata.title}</h1>
+    <h1 class="{.slug}-header">{metadata.title}</h1>
     <section class="featured-articles">
       <!-- Need a slider generator... -->
     </section>
