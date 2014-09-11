@@ -115,6 +115,20 @@ box-sizing: border-box;
 ////////////////////
 // Right hand column
 ////////////////////
+.subscription-form {
+  .savings-sticker {
+    // Using pixel amounts here, since the SVG
+    // I tried to use ended up too big :[
+    position: absolute;
+    margin-left: -106px;
+    margin-top: 105px;
+  }
+  form {
+    float: right;
+  }
+  &:after { .clear-element(); }
+}
+
 .related-links {
   h6 {
     margin: 0; padding: 0.5rem 0;

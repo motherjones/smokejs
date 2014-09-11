@@ -1,3 +1,90 @@
+<div class="subscription-form">
+<h5>Get Home Delivery</h5>
+<img src="assets/tiny-mag.png" class="tiny-cover" alt="">
+<img src="assets/savings.png" class="savings-sticker" alt="Save 66% on the cover price">
+<form action="https://secure.motherjones.com/fnp/?action=SUBSCRIPTION&amp;a_edition_code=P&amp;list_source=S35MED" id="subscribe_me" method="post"> 
+    <input name="a_first_name" id="a_first_name" class="first" style="width: 148px;" type="text"> 
+    <p>First name</p> 
+    <input name="a_last_name" id="a_last_name" style="width: 148px;" type="text"> 
+    <p>Last name</p> 
+    <input name="a_address_1" id="a_address_1" style="width: 148px;" type="text"> 
+    <p>Address</p> 
+    <input name="a_city" id="a_city" style="width: 148px;" type="text"> 
+    <p>City</p>
+    <table style="margin:0;padding:0;width:153px;" cellpadding="0" cellspacing="0"><tbody><tr><td>
+    <select name="a_state" id="a_state" style="width: 60px;"> 
+<option value="">--</option>
+<option label="AA" value="AA">AA</option>
+<option label="AE" value="AE">AE</option>
+<option label="AK" value="AK">AK</option>
+<option label="AL" value="AL">AL</option>
+<option label="AP" value="AP">AP</option>
+<option label="AR" value="AR">AR</option>
+<option label="AS" value="AS">AS</option>
+<option label="AZ" value="AZ">AZ</option>
+<option label="CA" value="CA">CA</option>
+<option label="CO" value="CO">CO</option>
+<option label="CT" value="CT">CT</option>
+<option label="DC" value="DC">DC</option>
+<option label="DE" value="DE">DE</option>
+<option label="FL" value="FL">FL</option>
+<option label="FM" value="FM">FM</option>
+<option label="GA" value="GA">GA</option>
+<option label="GU" value="GU">GU</option>
+<option label="HI" value="HI">HI</option>
+<option label="IA" value="IA">IA</option>
+<option label="ID" value="ID">ID</option>
+<option label="IL" value="IL">IL</option>
+<option label="IN" value="IN">IN</option>
+<option label="KS" value="KS">KS</option>
+<option label="KY" value="KY">KY</option>
+<option label="LA" value="LA">LA</option>
+<option label="MA" value="MA">MA</option>
+<option label="MD" value="MD">MD</option>
+<option label="ME" value="ME">ME</option>
+<option label="MH" value="MH">MH</option>
+<option label="MI" value="MI">MI</option>
+<option label="MN" value="MN">MN</option>
+<option label="MP" value="MP">MP</option>
+<option label="MS" value="MS">MS</option>
+<option label="MO" value="MO">MO</option>
+<option label="MT" value="MT">MT</option>
+<option label="NC" value="NC">NC</option>
+<option label="ND" value="ND">ND</option>
+<option label="NE" value="NE">NE</option>
+<option label="NH" value="NH">NH</option>
+<option label="NJ" value="NJ">NJ</option>
+<option label="NM" value="NM">NM</option>
+<option label="NV" value="NV">NV</option>
+<option label="NY" value="NY">NY</option>
+<option label="OH" value="OH">OH</option>
+<option label="OK" value="OK">OK</option>
+<option label="OR" value="OR">OR</option>
+<option label="PA" value="PA">PA</option>
+<option label="PR" value="PR">PR</option>
+<option label="PW" value="PW">PW</option>
+<option label="RI" value="RI">RI</option>
+<option label="SC" value="SC">SC</option>
+<option label="SD" value="SD">SD</option>
+<option label="TN" value="TN">TN</option>
+<option label="TX" value="TX">TX</option>
+<option label="UM" value="UM">UM</option>
+<option label="UT" value="UT">UT</option>
+<option label="VA" value="VA">VA</option>
+<option label="VI" value="VI">VI</option>
+<option label="VT" value="VT">VT</option>
+<option label="WA" value="WA">WA</option>
+<option label="WI" value="WI">WI</option>
+<option label="WV" value="WV">WV</option>
+<option label="WY" value="WY">WY</option>
+ </select> 
+    <p style="width: 55px; float:left; clear:left;">State</p></td>
+    <td><input name="a_zip" id="a_zip" style="width: 73px; float:left; margin-left: 7px; " type="text">   
+    <p style="width: 80px; float:left; margin-left: 7px;clear:left; ">Zip</p></td></tr>
+    </tbody></table>
+   
+  </form>
+</div>
 <div class="related-links">
   <h6>More Ways to Get your MoJo</h6>
   <ul>
