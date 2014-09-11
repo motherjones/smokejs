@@ -5,17 +5,29 @@ To work on self locally, you'll need:
 * Node - The package manager installation instructions on [here](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) managed to work for us.
 * [npm](https://npmjs.org/) - Again, package manager version should be fine.
 * grunt-cli installed globally
-    sudo npm install grunt-cli -g
+
+```bash
+sudo npm install grunt-cli -g
+```
+
 ## Getting Started
-    git clone git@github.com:benbreedlove/smokejs.git
-    cd smokejs/
-    npm install
-    grunt serve
+Clone the repository and then
+
+```bash
+cd smokejs/
+npm install
+cp localConfig.js.example localConfig.js
+grunt serve
+```
 
 We've currently got four example payloads that can be loaded through smoke.
+
 [An example topic list](http://localhost:9001/topic/health_list/)
+
 [An example article](http://localhost:9001/article/drones)
+
 [An example author page](http://localhost:9001/author/peter)
+
 [The homepage](http://localhost:9001)
 
 ## Working on Smoke

@@ -42,7 +42,7 @@ exports.render = function(template, data, callback) {
     Dust.render(template, context,
       function(err, out) {  //callback
         if (err) {
-          EnvConfig.ERROR_HANDLER(err, this);
+          EnvConfig.ERROR_HANDLER(err);
           reject(err);
         }
         if (callback) { callback(out); }

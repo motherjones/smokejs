@@ -23,3 +23,5 @@ build
 .grunt
 
 node_modules
+
+localConfig.js
