@@ -14,7 +14,7 @@ module.exports = function (grunt) {
       dist: {
         files: { 'build/js/smoke.js': ['js/main.js'] },
         options: {
-          bundleOptions: {
+          browserifyOptions: {
             debug: true
           }
         }
@@ -22,15 +22,7 @@ module.exports = function (grunt) {
       edit: {
         files: { 'build/js/smoke_edit.js': ['js/edit_main.js'] },
         options: {
-          bundleOptions: {
-            debug: true
-          }
-        }
-      },
-      test: {
-        files: { 'build/test/smoke_test.js': ['test/all.js'] },
-        options: {
-          bundleOptions: {
+          browserifyOptions: {
             debug: true
           }
         }
