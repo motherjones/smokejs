@@ -327,23 +327,37 @@ ul.blog-items {
 // Right hand column
 ////////////////////
 .subscription-form {
-  padding: 1em 0;
-  @media all and (min-width: @default-width) { padding: 1em; }
+  margin: 1rem 0;
+  padding: 1rem 0;
+  @media all and (min-width: @default-width) { padding: 1rem; }
   background-color: @light-grey;
   h5 {
+    margin: 0 0 1rem 0;
     color: #000;
     font-family: Raleway;
+    font-size: 1.25rem;
     text-transform: uppercase;
-    margin: 0 0 1rem 0;
   }
   .tiny-cover { box-shadow: 4px 4px 6px @grey; }
   form p { margin-top: 0; font-size: 0.5rem; }
+  .subscribe2 {
+    padding: 3px 10px;
+    color: #fff;
+    background-color: @red;
+    border-radius: 5px;
+    font-family: Raleway;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-transform: uppercase;
+    text-align: center;
+  }
 }
 .related-links {
   h6 {
     font-size: 0.875rem;
-    text-transform: uppercase;
     font-family: Raleway;
+    text-transform: uppercase;
     color: @red;
   }
   ul {

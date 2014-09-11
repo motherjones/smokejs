@@ -79,11 +79,13 @@
 <option label="WY" value="WY">WY</option>
  </select> 
     <p style="width: 55px; float:left; clear:left;">State</p></td>
-    <td><input name="a_zip" id="a_zip" style="width: 73px; float:left; margin-left: 7px; " type="text">   
+    <td><input name="a_zip" id="a_zip" style="width: 73px; float:left; margin-left: 7px; " type="text">
     <p style="width: 80px; float:left; margin-left: 7px;clear:left; ">Zip</p></td></tr>
     </tbody></table>
-   
   </form>
+  <div class="subscribe2" onclick="javascript:document.getElementById('subscribe_me').submit();">
+  Subscribe Now!
+  </div>
 </div>
 <div class="related-links">
   <h6>More Ways to Get your MoJo</h6>
