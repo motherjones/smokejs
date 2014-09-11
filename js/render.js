@@ -7,10 +7,27 @@ var Markdown = require('./markdown');
 var Ad = require('./ad');
 var Promise = require('promise-polyfill');
 
+
 /**
  * Renders data with dust templates
  * @module render
  */
+
+/**
+ * Returns the top template to use based on the components schema_name,
+ * attributes, metadata, or anything else in the payload.
+ * @param {component} component - The component being rendered
+ * @returns {string} Returns the templates to use for the component
+ */
+exports.selectTemplate = function(component) {
+  if (component.schema_name  === 'article' &&
+        component.metadata.hasOwnProperty('full_width') &&
+        component.metadata.full_width === true) {
+    return 'article_full_width';
+  }
+  return component.schema_name;
+};
+
 
 /**
  * Creates a callback function for mirrors requests

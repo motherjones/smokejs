@@ -105,7 +105,7 @@ exports.remakeLists = function(component, attribute) {
       template: $(this).data('template'),
       attribute: attribute
     };
-    listsRemade.push(new Promise(function(res, rej) {
+    listsRemade.push(new Promise(function(res) {
       render.render('sortable_list', params, function(html) {
         list.before($(html)).remove();
         res();
@@ -231,7 +231,7 @@ exports.saveListButton = function(name, component) {
  * @returns {void}
  */
 exports.editableData = function(component) {
-  // uhhh. welp
+
 };
 
 /**
