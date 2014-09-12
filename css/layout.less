@@ -34,6 +34,16 @@ box-sizing: border-box;
   .mainmenu a {
     display: block;
   }
+  @media (max-width: @med-breakpoint) {
+    .title {
+        position: relative;
+        left: 3rem;
+        top: -2rem;
+      }
+  }
+
+
+  // Desktop menu
   @media (min-width: @med-breakpoint) {
     .mainmenu {
       .Cols(4);

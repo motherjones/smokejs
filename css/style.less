@@ -63,6 +63,7 @@
   .title { .logo(); }
 
   // Mobile main menu style
+  .title { margin-bottom: -2rem; }
   .mainmenu {
     background-color: @grey;
     li { margin: 0; }
@@ -74,6 +75,22 @@
       padding: 1em;
     }
   }
+  .mobmenu-toggle{
+    background: #fcfeff; /* Old browsers */
+    background: -moz-linear-gradient(top,  #fcfeff 0%, #dddddd 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfeff), color-stop(100%,#dddddd)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #fcfeff 0%,#dddddd 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #fcfeff 0%,#dddddd 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #fcfeff 0%,#dddddd 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #fcfeff 0%,#dddddd 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfeff', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */
+    border: 1px solid @grey;
+    border-radius: 0px 5px 5px 0px;
+    padding: 0.25rem;
+    .fa-bars {
+      font-size: 2rem;
+    }
+  }
 
   // Adjust margin when screen is cramped
   @media screen and (min-width: @med-breakpoint)
@@ -83,6 +100,7 @@
     }
   }
   @media (min-width: @med-breakpoint) {
+    .title { margin-bottom: 2rem; }
    .mainmenu {
       background-color: #fff;
       border-bottom: 3px solid #000;

@@ -23,7 +23,7 @@
       <li><a href="" {?homepage}class="red"{/homepage}>Subscribe</a></li>
       <li><a href="" {?homepage}class="red"{/homepage}>Donate</a></li>
     </ul>
-    <label class="mobile-left mobmenu-toggle button" for="mobile-menu-toggle">menu</label>
+    <label class="mobile-left mobmenu-toggle button" for="mobile-menu-toggle"><i class="fa fa-bars"></i></label>
     <form class="search" action="">
       <input type="text" />
       <input type="submit" value="Search">
