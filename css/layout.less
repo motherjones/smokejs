@@ -71,12 +71,15 @@ box-sizing: border-box;
   .Row();
   article{
     @media (min-width: @med-breakpoint) {
-        .Cols(@colspan: 3; @padding: 0 (14 * @toRems) 0 0 );
+      width: 41.25rem;
+      float: left;
+      padding: 0 0.875rem;
+      margin: 0
     }
   }
   aside{
     @media (min-width: @med-breakpoint) {
-      .Cols(1);
+      .Cols(1,3);
     }
   }
 }
