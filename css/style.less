@@ -44,12 +44,12 @@
   background-size: @logo-base-width * @multiplier;
 }
 
+.menu-border-hover(@color) { border-bottom: 4px solid @color; margin-bottom: -4px; }
+
+
 //////////////
 // Header styles
 /////////////
-
-.menu-border(@color) { border-top: 3px solid @color; }
-.menu-border-hover(@color) { border-bottom: 3px solid @color; }
 
 .mainmenu, .blogmenu {
   padding-left: 0;
@@ -103,31 +103,39 @@
     .title { margin-bottom: 2rem; }
    .mainmenu {
       background-color: #fff;
-      border-bottom: 3px solid #000;
-      padding-bottom: 0.0625rem;
+      border-bottom: 4px solid #000;
+      li:before {
+        content: " ";
+        position: relative;
+        display: block;
+        width: 20px;
+        top: 0.25rem;
+        left: 0;
+        border-top: 4px solid pink;
+      }
       li {
-        padding: 0 1.5rem 0 0;
+        margin: 0 1.5rem 0 0;
+        float: left;
+        &.homepage:hover { .menu-border-hover(@red); }
+        &.politics:before { border-color: @blue; }
+        &.politics:hover { .menu-border-hover(@blue); }
+        &.environment:before { border-color: @green; }
+        &.environment:hover {.menu-border-hover(@green); }
+        &.culture:before { border-color: @yellow;}
+        &.culture:hover {.menu-border-hover(@yellow);}
+        &.photo-essays:before { border-color: @grey;}
+        &.photo-essays:hover {.menu-border-hover(@grey);}
+        &.blogs:before { border-color:@lavender;}
+        &.blogs:hover {.menu-border-hover(@lavender);}
       }
       li:last-of-type { padding: 0; }
       a {
+        padding: 0;
+        margin: 0;
         color: #000;
-        text-decoration: none;
-        font-weight: bold;
-        text-transform: uppercase;
         font-size: 0.75rem;
-        padding: 0.1rem 0;
+        font-weight: bold;
         border-bottom: none;
-        &.homepage:hover { .menu-border-hover(@red); }
-        &.politics { .menu-border(@blue); }
-        &.politics:hover { .menu-border-hover(@blue); }
-        &.environment { .menu-border(@green); }
-        &.environment:hover {.menu-border-hover(@green); }
-        &.culture { .menu-border(@yellow);}
-        &.culture:hover {.menu-border-hover(@yellow);}
-        &.photo-essays {.menu-border(@grey);}
-        &.photo-essays:hover {.menu-border-hover(@grey);}
-        &.blags {.menu-border(@lavender);}
-        &.blags:hover {.menu-border-hover(@lavender);}
       }
     }
   }
