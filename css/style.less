@@ -61,16 +61,22 @@
   .title { .logo(); }
 
   // Mobile main menu style
-  //.title { margin-bottom: -2rem; }
+  .title {
+    position: relative;
+    top: -2em;
+    left: 3em;
+  }
   .mainmenu {
     background-color: @grey;
     li { margin: 0; }
     a {
+      display: block;
       text-transform: uppercase;
       text-decoration: none;
+      font-weight: bold;
       color: #fff;
       border-bottom: 1px solid @light-grey;
-      padding: 1em;
+      padding: 0.75em;
     }
   }
   .mobmenu-toggle{
@@ -91,7 +97,7 @@
   }
 
   // Adjust margin when screen is cramped
-  @media screen and (min-width: @med-breakpoint)
+  @media screen and (min-width: @menu-breakpoint)
                 and (max-width: @default-width) {
     .mainmenu li {
           padding-right: 1.5% !important;
@@ -99,22 +105,26 @@
   }
   // Full size menu (desktop, tablet)
   @media (min-width: @menu-breakpoint) {
-    .title { margin-bottom: 2rem; }
+    .title {
+      position: static;
+      margin-bottom: 2rem; }
    .mainmenu {
       background-color: #fff;
       border-bottom: 4px solid #000;
       > li {
         margin: 0 1.5rem 0 0;
         float: left;
+        // Color bars (setup, then assignment)
         &:before {
           content: " ";
           position: relative;
           display: block;
           width: 20px;
-          top: 0.25rem;
+          top: 0;
           left: 0;
           border-top: 4px solid #fff;
         }
+        &.homepage:before { border-color: @red; }
         &.homepage:hover { .menu-border-hover(@red); }
         &.politics:before { border-color: @blue; }
         &.politics:hover { .menu-border-hover(@blue); }
@@ -133,16 +143,12 @@
         margin: 0;
         color: #000;
         font-size: 0.75rem;
-        font-weight: bold;
         border-bottom: none;
       }
     }
-  }
-
-  @media (min-width: @menu-breakpoint) {
     .blogmenu {
       background-color: #fff;
-      padding-left: 0;
+      padding-right: 0.25rem;
       li{
         list-style: none;
         margin: 0;
