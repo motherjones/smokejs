@@ -13,9 +13,7 @@
 @yellow: #F8AE16;
 @lavender: #C9AFFF;
 
-@default-width: 60em;
-@med-breakpoint: 48em;
-@sm-breakpoint: 32em;
+@import "constants";
 
 @serif: Georgia, "Bitstream Vera Serif", "Times New Roman", serif;
 @sans-serif: Verdana,Tahoma,Helvetica,"Bitstream Vera Sans",Arial,sans-serif;
@@ -63,7 +61,7 @@
   .title { .logo(); }
 
   // Mobile main menu style
-  .title { margin-bottom: -2rem; }
+  //.title { margin-bottom: -2rem; }
   .mainmenu {
     background-color: @grey;
     li { margin: 0; }
@@ -99,23 +97,24 @@
           padding-right: 1.5% !important;
     }
   }
-  @media (min-width: @med-breakpoint) {
+  // Full size menu (desktop, tablet)
+  @media (min-width: @menu-breakpoint) {
     .title { margin-bottom: 2rem; }
    .mainmenu {
       background-color: #fff;
       border-bottom: 4px solid #000;
-      li:before {
-        content: " ";
-        position: relative;
-        display: block;
-        width: 20px;
-        top: 0.25rem;
-        left: 0;
-        border-top: 4px solid pink;
-      }
-      li {
+      > li {
         margin: 0 1.5rem 0 0;
         float: left;
+        &:before {
+          content: " ";
+          position: relative;
+          display: block;
+          width: 20px;
+          top: 0.25rem;
+          left: 0;
+          border-top: 4px solid #fff;
+        }
         &.homepage:hover { .menu-border-hover(@red); }
         &.politics:before { border-color: @blue; }
         &.politics:hover { .menu-border-hover(@blue); }
@@ -140,7 +139,7 @@
     }
   }
 
-  @media (min-width: @med-breakpoint) {
+  @media (min-width: @menu-breakpoint) {
     .blogmenu {
       background-color: #fff;
       padding-left: 0;

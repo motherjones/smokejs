@@ -1,20 +1,15 @@
-/* Reference for grid mixin
- .Row ( @width; @padding; @margin; )
- .Cols( @colspan;
-    @total_cols;
-    @padding;
-    @gutter;
-    @edge;
-    @margin_top;
-    @margin_bottom; )
- */
-@import "grid";
+///// Reference for grid mixin
+// .Row ( @width; @padding; @margin; )
+// .Cols( @colspan;
+//    @total_cols;
+//    @padding;
+//    @gutter;
+//    @edge;
+//    @margin_top;
+//    @margin_bottom; )
 
-/* Values
-================================================== */
-@default-width: 60em;
-@med-breakpoint: 48em;
-@sm-breakpoint: 32em;
+@import "grid";
+@import "constants";
 
 
 /* Utilities */
@@ -30,24 +25,12 @@ box-sizing: border-box;
 
 .masthead {
   .Row(@margin: 0 auto 1rem;);
-  // Mobile main menu
-  .mainmenu a {
-    display: block;
-  }
-  @media (max-width: @med-breakpoint) {
-    .title {
-        position: relative;
-        left: 3rem;
-        top: -2rem;
-      }
-  }
-
-
-  // Desktop menu
-  @media (min-width: @med-breakpoint) {
+    // Desktop menu
+  @media (min-width: @menu-breakpoint) {
     .mainmenu {
       .Cols(4);
       li, a { display: inline; }
+      li.blogtab { width: 2.6rem; }
     }
     .blogmenu {
       visibility: hidden;
@@ -55,8 +38,8 @@ box-sizing: border-box;
       float: right;
       margin-bottom: -11rem;
       height: 0;
-      left: -25em;
-      top: 1.1em;
+      left: 5.5rem;
+      top: 0.2rem;
       li { display: list-item; }
     }
     // Uncollapses the blog menu

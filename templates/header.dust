@@ -6,19 +6,19 @@
   <nav>
     <input type="checkbox" id="mobile-menu-toggle" class="mobile-menu-toggle mobile-menu-toggle-button">
     <ul class="mainmenu mobile-toggleable-menu mobile-left">
-      <li><a href="" class="homepage">Home</a></li>
-      <li class="politics"><a href="">Politics</a></li>
-      <li class="environment"><a href="">Environment</a></li>
+      <li class="homepage"><a href="/">Home</a></li>
+      <li class="politics"><a href="/politics">Politics</a></li>
+      <li class="environment"><a href="/environment">Environment</a></li>
       <li class="culture"><a href="">Culture</a></li>
       <li class="photo-essays"><a href="">Photo Essays</a></li>
       <li class="blogs blogtab"><a href="">Blogs</a>
-        <!--ul class="blogmenu">
+        <ul class="blogmenu">
           <li><a href="">Political Mojo</a></li>
           <li><a href="">Kevin Drum</a></li>
           <li><a href="">Tom Philpott</a></li>
           <li><a href="">David Corn</a></li>
           <li><a href="">Mixed Media</a></li>
-        </ul-->
+        </ul>
       </li>
       <li><a href="" {?homepage}class="red"{/homepage}>Subscribe</a></li>
       <li><a href="" {?homepage}class="red"{/homepage}>Donate</a></li>

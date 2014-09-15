@@ -1,6 +1,7 @@
 /* Code based on Chris Tabor's css-drawer-menu
    https://github.com/christabor/css-drawer-menu
 */
+@import "constants";
 .mobmenu-toggle {
     display: none;
 }
@@ -9,7 +10,7 @@
     position: absolute;
     top: -9999px;
 }
-@media handheld, screen and (max-width: 47.99em) { /* <-- Adjust the breakpoints to your liking */
+@media handheld, screen and (max-width: @menu-breakpoint) { /* <-- Adjust the breakpoints to your liking */
     .mobmenu-toggle,
     .mobile-menu-toggle-button,
     .mobile-toggleable-menu {
