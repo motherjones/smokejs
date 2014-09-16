@@ -1,0 +1,181 @@
+////// Typography
+
+@serif: Georgia, "Bitstream Vera Serif", "Times New Roman", serif;
+@sans-serif: Verdana,Tahoma,Helvetica,"Bitstream Vera Sans",Arial,sans-serif;
+@import "constants";
+
+html { font-family: @serif; }
+
+//// Sitewide Header
+.masthead {
+  font-family: Raleway;
+}
+.mainmenu {
+  a {
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: bold;
+  }
+}
+.search input { font-family: @serif; }
+.mustreads {
+  font-family: @serif;
+  font-size: 0.75em;
+  line-height: 1;
+}
+
+///// List page
+.article-list-landing {
+  h1, h2, h3, h4{
+    text-transform: uppercase;
+    font-family: Raleway;
+  }
+  h1 {
+    font-size: 1.5em;
+    &.politics-header, &.environment-header, &.media-header {
+      font-size: 1.75em;
+    }
+    &.photo-essay-header {
+      font-size: 0.875em;
+      background-color: #000;
+      color: #fff; }
+  }
+}
+.article-list-landing h2,
+.article-list-landing h3, .article-list-landing h4{
+  font-size: 0.875em;
+  margin: 0.5em 0;
+}
+
+.left-image-list ul, .top-image-list ul {
+  line-height: 1.2em;
+  font-size: 0.8125em;
+  font-family: @serif;
+  a {
+    font-weight: bold; 
+    text-decoration: none;
+  }
+}
+ul.blog-items {
+  font-size: 0.6875em;
+  a { text-decoration: none; }
+}
+
+///// Articles
+.two-column-article {
+  article {
+    h1 {
+      // heds with long words break layout
+      @media (max-width: @sm-breakpoint) { word-wrap: break-word; }
+      font-family: @serif;
+      font-weight: 400;
+    }
+    h2 {
+      font-family: @serif;
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 1.35;
+    }
+  }
+
+  .byline {
+    font-family: @serif;
+    font-size: 0.75em;
+  }
+
+  #component_tags {
+    .section-title {
+      font-family: Raleway;
+      font-size: 0.875em;
+      text-transform: uppercase;
+    }
+    ul {
+      font-family: @serif;
+      font-size: 0.625em;
+    } 
+  }
+
+  .master-image {
+    figcaption span{ font-weight: bold; }
+    cite {
+      font-weight: lighter;
+      font-style: italic;
+    }
+  }
+}
+
+.full-width-article {
+  // Creating an initial
+  #component_body > p:first-child:first-letter {
+    font-size: 400%;
+    float: left;
+  }
+  .lead-in { text-transform: uppercase; }
+}
+
+.author-bio {
+  .name { text-transform: uppercase; }
+  .position { font-family: @serif; font-size: 0.75em; }
+  p { font-size: 0.75rem; }
+}
+
+////// Right hand column
+.subscription-form {
+  h5 {
+    font-family: Raleway;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+  }
+  form p { font-size: 0.5rem; }
+  .subscribe2 {
+    font-family: Raleway;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+  }
+}
+
+.related-links {
+  h6 {
+    font-size: 0.875rem;
+    font-family: Raleway;
+    text-transform: uppercase;
+  }
+  li span {
+      font-family: @serif;
+      font-size: 0.75rem;
+      a { text-decoration: none; }
+  }
+}
+
+.supporters-media {
+  p, h6 { text-align: center; }
+  a, h6 {
+    font-weight: 400;
+    font-family: Raleway, @sans-serif;
+    text-transform: uppercase;
+  }
+  h6 { font-size: 1rem; }
+  a {
+    text-decoration: none;
+    font-size: 1.25rem;
+  }
+}
+
+/////// Footer
+.colophon {
+  font-family: 'Raleway';
+  font-size: 0.875em;
+  ul a { text-decoration: none; }
+  p, .links-left, .links-right, .links-middle { text-align: center; }
+  .tagline span, .rss a {
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .copyright {
+    font-size: 0.5rem;
+    font-family: @serif;
+  }
+}
