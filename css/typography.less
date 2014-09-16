@@ -1,10 +1,10 @@
 ////// Typography
 
 @serif: Georgia, "Bitstream Vera Serif", "Times New Roman", serif;
-@sans-serif: Verdana,Tahoma,Helvetica,"Bitstream Vera Sans",Arial,sans-serif;
+@sans-serif: Verdana, Tahoma,i Helvetica,"Bitstream Vera Sans",Arial, sans-serif;
 @import "constants";
 
-html { font-family: @serif; }
+html { font-family: @sans-serif; }
 
 //// Sitewide Header
 .masthead {
@@ -126,7 +126,7 @@ ul.blog-items {
     font-size: 1.25rem;
     text-transform: uppercase;
   }
-  form p { font-size: 0.5rem; }
+  form p { font-size: 0.6875rem; }
   .subscribe2 {
     font-family: Raleway;
     font-size: 0.75em;
@@ -170,7 +170,7 @@ ul.blog-items {
   ul a { text-decoration: none; }
   p, .links-left, .links-right, .links-middle { text-align: center; }
   .tagline span, .rss a {
-    font-family: sans-serif;
+    font-family: @sans-serif;
     text-transform: uppercase;
     font-weight: bold;
   }
