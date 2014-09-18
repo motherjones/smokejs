@@ -8,7 +8,7 @@ html { font-family: @sans-serif; }
 
 //// Sitewide Header
 .masthead {
-  font-family: Raleway;
+  font-family: "Raleway";
 }
 .mainmenu {
   a {
@@ -28,7 +28,7 @@ html { font-family: @sans-serif; }
 .article-list-landing {
   h1, h2, h3, h4{
     text-transform: uppercase;
-    font-family: Raleway;
+    font-family: "Raleway";
   }
   h1 {
     font-size: 1.5em;
@@ -52,13 +52,23 @@ html { font-family: @sans-serif; }
   font-size: 0.8125em;
   font-family: @serif;
   a {
-    font-weight: bold; 
+    font-weight: bold;
     text-decoration: none;
   }
 }
 ul.blog-items {
   font-size: 0.6875em;
   a { text-decoration: none; }
+}
+
+.bloggers h4:after {
+  content: " \f101"; // looks like >>
+  font-family: FontAwesome;
+  font-size: 1.1rem;
+  line-height: 1;
+  top: 0.05em;
+  position: relative;
+  left: -0.2em;
 }
 
 ///// Articles
@@ -92,7 +102,7 @@ ul.blog-items {
     ul {
       font-family: @serif;
       font-size: 0.625em;
-    } 
+    }
   }
 
   .master-image {
