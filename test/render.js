@@ -175,7 +175,7 @@ describe("Render", function() {
       ul.data('attribute').should.eql('byline');
       ul.data('slug').should.eql('test');
       ul.data('template').should.eql('byline');
-      li.data('slug').should.eql('henry-the-eighth');
+      li.data('slug').should.eql('peter-van-buren');
       done();
     });
   });
