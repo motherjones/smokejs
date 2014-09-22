@@ -302,7 +302,7 @@ describe("editor functions", function() {
     var list = $('<ul data-attribute="byline" data-slug="'+slug+'"></ul>');
     var item = $('<li data-slug="peter-van-buren" >Mr. Pan, I presume</li>');
     var secondItem = $('<li data-slug="henry-the-eighth" >i am i am</li>');
-    var henry = testData.attributes.byline[0]; //TODO: Clone here and fix consiquences
+    var henry = JSON.parse(JSON.stringify(testData.attributes.byline[0])); //TODO: Clone here and fix consiquences
 
     before(function(done) {
       list.append(item);
@@ -461,8 +461,7 @@ describe("editor functions", function() {
     it('adds a rendered li to the end of list, based on the attribute type', function(done) {
       editor.addItemToList(form, 'byline', component).then(function() {
         list = $('[data-template="byline"][data-attribute="byline"][data-slug="'+slug+'"]');
-        list.find('li:first-of-type').data('slug').should.eql('henry-the-eighth');
-        list.find('li:last-of-type').data('slug').should.eql('peter');
+        list.find('li').data('slug').should.eql('peter-van-buren');
         done();
       });
     });
@@ -532,7 +531,7 @@ describe("editor functions", function() {
     });
     it('remakes each list with list using the right template', function(done) {
       editor.remakeLists(component, 'byline').then(function() {
-        $('[data-template="byline"] a').attr('href').should.eql('/author/henry-the-eighth');
+        $('[data-template="byline"] a').attr('href').should.eql('/author/peter-van-buren');
         should($('[data-template="author-bio"] div').hasClass('author-bio')).eql(true);
         done();
       });
