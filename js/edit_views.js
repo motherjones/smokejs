@@ -15,14 +15,10 @@ var api = require('./edit_api');
  * @returns {promise} Resolves when complete
  */
 exports.displayMainContent = function(match, callback) {
-  callback = callback ? callback : function() {};
-  var cb = function(data, html) {
-    var component = new api.Component(data.slug, data);
-    html += editor.socialSharingElement(component);
-    callback(data, html);
+    $('body').append(editor.socialSharingElement(component));
     editor.makeEditable(component);
+    callback(match);
   };
-  return views.displayMainContent(match, cb);
 };
 
 /**
@@ -32,12 +28,8 @@ exports.displayMainContent = function(match, callback) {
  * @returns {promise} Resolves when complete
  */
 exports.displayHomepage = function(match, callback) {
-  callback = callback ? callback : function() {};
-  var cb = function(data, html) {
-    callback(data, html);
     //make editable somehow
     // probably calling make editable on it? need to review the
     // splash page json
-  };
-  return views.displayHomepage(match, cb);
+    callback(match);
 };

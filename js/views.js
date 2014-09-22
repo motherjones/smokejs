@@ -20,7 +20,8 @@ exports.displayMainContent = function(match, callback) {
   var component = new api.Component(match.params.slug);
   return component.get(function(data) {
     render.render(render.selectTemplate(data), data, function(html) {
-      if (callback) { callback(data, html); }
+      var title = data.metadata.title ? data.metadata.title : undefined;
+      callback(match, html, title);
     });
   });
 };
@@ -35,8 +36,19 @@ exports.displayHomepage = function(match, callback) {
   var component = new api.Component('homepage');
   return component.get(function(data) {
     render.render('homepage', data, function(html) {
-      if (callback) { callback(data, html); }
+      callback(match, html, 'Smart, Fearless Journalism');
     });
   });
 };
 
+/**
+ * View which renders the homepage.
+ * @param {object} match - match object Returned by routes.
+ * @param {function} callback - callback is called with html
+ * @returns {promise} Resolves when complete
+ */
+exports.displayLogin = function(match, callback) {
+  return render.render('login', data, function(html) {
+    callback(match, html, 'Login to the Edit Suite');
+  });
+};

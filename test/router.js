@@ -32,10 +32,10 @@ describe("router callbacks", function() {
   });
 
   beforeEach(function(done) {
-    router.browserCallback({ keywords: 'keyword teststring',
-      metadata: {},
-      uri: '/loltest',
-    }, 'lolno');
+    var match = {};
+    match.fn = function() {};
+    match.next = function() { return match };
+    router.browserCallback(match, 'lolno', 'Title');
     done();
   });
   it('callback sets the body html', function(done) {

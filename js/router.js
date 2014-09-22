@@ -20,6 +20,7 @@ module.exports = (function() {
   router.addRoute("\/?:schema/:slug", views.displayMainContent);
   router.addRoute("\/?:section/[0-9]+/[0-9]+/:slug", views.displayMainContent);
   router.addRoute("^\/$", views.displayHomepage);
+  router.addRoute("^login\/?$", views.displayLogin);
   return router;
 })();
 
@@ -91,9 +92,14 @@ module.exports.browserClick = function(e) {
   * @param {data} object - the page data
   * @param {html} string - the rendered page html
   */
-module.exports.browserCallback = function(data, html) {
-  $('body').html(html);
-  document.title = 'MotherJones' + 
-    (data.metadata.title ? ' - ' + data.metadata.title : '');
+module.exports.browserCallback = function(match, html, title) {
+  if(html) {
+    $('body').html(html);
+  }
+  var match = match.next();
+  match.fn(match, module.exports.callback);
+  if (title) {
+    document.title = 'MotherJones - ' + title;
+  };
   ad.reload(data.keywords);
 };
