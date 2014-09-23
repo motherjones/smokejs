@@ -15,10 +15,9 @@ var api = require('./edit_api');
  * @returns {promise} Resolves when complete
  */
 exports.displayMainContent = function(match, callback) {
-    $('body').append(editor.socialSharingElement(component));
-    editor.makeEditable(component);
-    callback(match);
-  };
+  $('body').append(editor.socialSharingElement(component));
+  editor.makeEditable(component);
+  callback(match);
 };
 
 /**
@@ -28,8 +27,8 @@ exports.displayMainContent = function(match, callback) {
  * @returns {promise} Resolves when complete
  */
 exports.displayHomepage = function(match, callback) {
-    //make editable somehow
-    // probably calling make editable on it? need to review the
-    // splash page json
-    callback(match);
+  //make editable somehow
+  // probably calling make editable on it? need to review the
+  // splash page json
+  callback(match);
 };
