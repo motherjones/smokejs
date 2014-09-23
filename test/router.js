@@ -31,24 +31,27 @@ describe("router callbacks", function() {
     done();
   });
 
-  beforeEach(function(done) {
+  beforeEach(function() {
     var match = {};
     match.fn = function() {};
+    match.component = {
+      metadata: {
+        section: "politics extra",
+      }
+    }
     match.next = function() { return match };
     router.browserCallback(match, 'lolno', 'Title');
-    done();
+  });
+  afterEach(function() {
+    Ad.key = '';
   });
   it('callback sets the body html', function(done) {
     should($('body').html()).eql('lolno');
     done();
   });
-  after(function(done) {
-    Ad.key = '';
-    done();
-  });
   it('sets browser Ad callback and keys', function(done) {
     should.exist(Ad);
-    Ad.should.have.property('key', 'keyword teststring');
+    Ad.should.have.property('key', 'politics-extra');
     done();
   });
   after(function() {

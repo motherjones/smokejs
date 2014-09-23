@@ -45,13 +45,15 @@ exports.getSrc = function(placement) {
 
 /**
   * Reloads all ad iframes
-  * @param {string} keywords - a comma separated string of keywords for
-  * the content we're displaying. Sent to the ad server so we don't get
-  * ads for Exxon on oil spill articles, for instance
+  * @param {array} keywords - an array of keywords for
+  * the content we're displaying.
   * @returns void
   */
 exports.reload = function(keywords) {
-  exports.key = keywords ? keywords : '';
+  exports.key = '';
+  if(keywords) {
+    exports.key = keywords.join('+').replace(/ /g, '-').toLowerCase();
+  }
   exports.groupId = Math.floor(Math.random()*100000000);
   for (var placement in exports.currentAds) {
     $("#ad_" + placement).attr('src', exports.getSrc(placement));

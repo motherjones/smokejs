@@ -50,15 +50,15 @@ describe("Ads", function() {
         .then(function() {
             $('body').append($(chunk.output));
             should($('#ad_it')).be.ok;
-            Ad.reload('it keyword');
+            Ad.reload(['it keyword', 'two keywords']);
             should(Ad.key).not.be.empty;
-            should(Ad.key).eql('it keyword');
+            should(Ad.key).eql('it-keyword+two-keywords');
             Ad.groupId.should.be.a.Number;
             should($('#ad_it').attr('src')).eql(
               EnvConfig.AD_LOCATION +
                 '#placement=it&groupid=' +
                 Ad.groupId +
-                '&key=it+keyword' +
+                '&key=it-keyword+two-keywords' +
                 '&height=0&uri=' +
                 window.location.pathname,
               'src updates on reload'
