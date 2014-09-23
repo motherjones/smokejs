@@ -21,6 +21,7 @@ exports.displayMainContent = function(match, callback) {
   return component.get(function(data) {
     render.render(render.selectTemplate(data), data, function(html) {
       var title = data.metadata.title ? data.metadata.title : undefined;
+      match.component = data;
       callback(match, html, title);
     });
   });

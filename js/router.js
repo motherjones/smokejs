@@ -101,5 +101,6 @@ module.exports.browserCallback = function(match, html, title) {
   if (title) {
     document.title = 'MotherJones - ' + title;
   };
-  ad.reload(data.keywords);
+  var keywords = {}; //FIXME
+  ad.reload(keywords);
 };

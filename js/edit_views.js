@@ -15,8 +15,8 @@ var api = require('./edit_api');
  * @returns {promise} Resolves when complete
  */
 exports.displayMainContent = function(match, callback) {
-  $('body').append(editor.socialSharingElement(component));
-  editor.makeEditable(component);
+  $('body').append(editor.socialSharingElement(match.component));
+  editor.makeEditable(match.component);
   callback(match);
 };
 
