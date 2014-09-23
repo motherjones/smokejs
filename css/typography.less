@@ -1,14 +1,15 @@
 ////// Typography
 
+@import "constants";
 @serif: Georgia, "Bitstream Vera Serif", "Times New Roman", serif;
 @sans-serif: Verdana, Tahoma,i Helvetica,"Bitstream Vera Sans",Arial, sans-serif;
-@import "constants";
+@accent: "Raleway";
 
 html { font-family: @sans-serif; }
 
 //// Sitewide Header
 .masthead {
-  font-family: "Raleway";
+  font-family: @accent;
 }
 .mainmenu {
   a {
@@ -28,7 +29,7 @@ html { font-family: @sans-serif; }
 .article-list-landing {
   h1, h2, h3, h4{
     text-transform: uppercase;
-    font-family: "Raleway";
+    font-family: @accent;
   }
   h1 {
     font-size: 1.5em;
@@ -95,7 +96,7 @@ ul.blog-items {
 
   #component_tags {
     .section-title {
-      font-family: Raleway;
+      font-family: @accent;
       font-size: 0.875em;
       text-transform: uppercase;
     }
@@ -132,13 +133,13 @@ ul.blog-items {
 ////// Right hand column
 .subscription-form {
   h5 {
-    font-family: Raleway;
+    font-family: @accent;
     font-size: 1.25rem;
     text-transform: uppercase;
   }
   form p { font-size: 0.6875rem; }
   .subscribe2 {
-    font-family: Raleway;
+    font-family: @accent;
     font-size: 0.75em;
     font-weight: bold;
     text-transform: uppercase;
@@ -149,7 +150,7 @@ ul.blog-items {
 .related-links {
   h6 {
     font-size: 0.875rem;
-    font-family: Raleway;
+    font-family: @accent;
     text-transform: uppercase;
   }
   li span {
@@ -163,7 +164,7 @@ ul.blog-items {
   p, h6 { text-align: center; }
   a, h6 {
     font-weight: 400;
-    font-family: Raleway, @sans-serif;
+    font-family: @accent;
     text-transform: uppercase;
   }
   h6 { font-size: 1rem; }
@@ -175,7 +176,7 @@ ul.blog-items {
 
 /////// Footer
 .colophon {
-  font-family: 'Raleway';
+  font-family: @accent;
   font-size: 0.875em;
   ul a { text-decoration: none; }
   p, .links-left, .links-right, .links-middle { text-align: center; }
