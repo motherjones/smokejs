@@ -2,8 +2,38 @@
 <div class="article-list-landing">
     <div class="lists">
     <h1 class="{.slug}-header">{metadata.title}</h1>
-    <section class="featured-articles">
+    <section class="featured-articles top-image-list">
       <!-- Need a slider generator... -->
+      <div class="slider-selected">
+        <a href=""><img src="/assets/slider-placeholder.png" alt=""></a>
+          <h1><a href=""> Porta, malesuada elementum, nisi. Integer
+          vitae enim quis risus aliquet gravida. </a></h1>
+          <p>Suspendisse potenti. Donec
+          sodales elementum turpis. Duis dolor elit, dapibus sed, placerat vitae,
+          auctor sit amet, nunc. Donec nisl quam, hendrerit.
+           <span>&mdash; Nameof Person</span></p>
+      </div>
+      <ul class="slider-items">
+        <li>
+          <a href=""><img src="/assets/list_image.png" alt=""></a>
+          <p><a href="">Ornare mollis velit. Sed vitae metus. Morbi posuere mi idodio. Donec elit sem, tempor at.</a></p>
+        </li>
+        <li>
+          <a href=""><img src="/assets/list_image.png" alt=""></a>
+          <p><a href="">Diam. Vestibulum porta justo. Suspendisse egestas commodo
+          eros. Suspendisse tincidunt mi vel metus. Vivamus.</a></p>
+        </li>
+        <li>
+          <a href=""><img src="/assets/list_image.png" alt=""></a>
+          <p><a href="">Ante ipsum primis in faucibus orci luctus et ultrices.</a></p>
+        </li>
+        <li>
+          <a href=""><img src="/assets/list_image.png" alt=""></a>
+          <p><a href="">Integer vitae enim quis risus aliquet gravida. Curabitur vel
+          lorem vel.</a></p>
+        </li>
+      </ul>
+
     </section>
     <section class="latest-list left-image-list">
       <h2>Latest</h2>
