@@ -96,15 +96,17 @@ module.exports.browserCallback = function(match, html, title) {
   if(html) {
     $('body').html(html);
   }
-  var match = match.next();
-  match.fn(match, module.exports.callback);
   if (title) {
     document.title = 'MotherJones - ' + title;
   };
+  var match = match.next();
   var keywords = [];
-  if ('component' in match) {
-    if ('section' in match.component.metadata) {
-      keywords.push(match.component.metadata.section);
+  if(match) {
+    match.fn(match, module.exports.callback);
+    if ('component' in match) {
+      if ('section' in match.component.metadata) {
+        keywords.push(match.component.metadata.section);
+      }
     }
   }
   ad.reload(keywords);

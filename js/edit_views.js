@@ -1,3 +1,4 @@
+var $ = require('jquery');
 var views = require('./views');
 var editor = require('./editor');
 var api = require('./edit_api');
@@ -15,8 +16,10 @@ var api = require('./edit_api');
  * @returns {promise} Resolves when complete
  */
 exports.displayMainContent = function(match, callback) {
-  $('body').append(editor.socialSharingElement(match.component));
-  editor.makeEditable(match.component);
+  if(match.component) {
+    $('body').append(editor.socialSharingElement(match.component));
+    editor.makeEditable(match.component);
+  }
   callback(match);
 };
 
