@@ -13,12 +13,7 @@
 @yellow: #F8AE16;
 @lavender: #C9AFFF;
 
-@default-width: 60em;
-@med-breakpoint: 48em;
-@sm-breakpoint: 32em;
-
-@serif: Georgia, "Bitstream Vera Serif", "Times New Roman", serif;
-@sans-serif: Verdana,Tahoma,Helvetica,"Bitstream Vera Sans",Arial,sans-serif;
+@import "constants";
 
 .fixme {
   background-color: yellow;
@@ -48,9 +43,6 @@
 // Header styles
 /////////////
 
-.menu-border(@color) { border-top: 3px solid @color; }
-.menu-border-hover(@color) { border-bottom: 3px solid @color; }
-
 .mainmenu, .blogmenu {
   padding-left: 0;
   list-style: none;
@@ -63,61 +55,89 @@
   .title { .logo(); }
 
   // Mobile main menu style
+  .title {
+    position: relative;
+    top: -2em;
+    left: 3em;
+  }
   .mainmenu {
     background-color: @grey;
     li { margin: 0; }
     a {
-      text-transform: uppercase;
-      text-decoration: none;
+      display: block;
       color: #fff;
       border-bottom: 1px solid @light-grey;
-      padding: 1em;
+      padding: 0.75em;
+    }
+  }
+  .mobmenu-toggle{
+    background: #fcfeff; /* Old browsers */
+    background: -moz-linear-gradient(top,  #fcfeff 0%, #dddddd 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfeff), color-stop(100%,#dddddd)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #fcfeff 0%,#dddddd 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #fcfeff 0%,#dddddd 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #fcfeff 0%,#dddddd 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #fcfeff 0%,#dddddd 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfeff', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */
+    border: 1px solid @grey;
+    border-radius: 0px 5px 5px 0px;
+    padding: 0.25rem;
+    .fa-bars {
+      font-size: 2rem;
     }
   }
 
   // Adjust margin when screen is cramped
-  @media screen and (min-width: @med-breakpoint)
+  @media screen and (min-width: @menu-breakpoint)
                 and (max-width: @default-width) {
     .mainmenu li {
           padding-right: 1.5% !important;
     }
   }
-  @media (min-width: @med-breakpoint) {
+  // Full size menu (desktop, tablet)
+  @media (min-width: @menu-breakpoint) {
+    .title {
+      position: static;
+      margin-bottom: 2rem; }
    .mainmenu {
       background-color: #fff;
-      border-bottom: 3px solid #000;
-      padding-bottom: 0.0625rem;
-      li {
-        padding: 0 1.5rem 0 0;
+      border-bottom: 4px solid #000;
+      > li {
+        margin: 0 1.5rem 0 0;
+        float: left;
+        // Color bars (setup, then assignment)
+        &:before {
+          content: " ";
+          position: relative;
+          display: block;
+          width: 20px;
+          top: 0;
+          left: 0;
+          border-top: 4px solid #fff;
+        }
+        &:hover {
+          border-bottom: 4px solid #fff;
+          margin-bottom: -4px;
+        }
+        &.homepage:before, &.homepage:hover { border-color: @red; }
+        &.politics:before, &.politics:hover{ border-color: @blue; }
+        &.environment:before, &.environment:hover{ border-color: @green; }
+        &.culture:before, &.culture:hover { border-color: @yellow;}
+        &.photo-essays:before, &.photo-essays:hover{ border-color: @grey;}
+        &.blogs:before, &.blogs:hover{ border-color:@lavender;}
       }
       li:last-of-type { padding: 0; }
       a {
+        padding: 0;
+        margin: 0;
         color: #000;
-        text-decoration: none;
-        font-weight: bold;
-        text-transform: uppercase;
         font-size: 0.75rem;
-        padding: 0.1rem 0;
         border-bottom: none;
-        &.homepage:hover { .menu-border-hover(@red); }
-        &.politics { .menu-border(@blue); }
-        &.politics:hover { .menu-border-hover(@blue); }
-        &.environment { .menu-border(@green); }
-        &.environment:hover {.menu-border-hover(@green); }
-        &.culture { .menu-border(@yellow);}
-        &.culture:hover {.menu-border-hover(@yellow);}
-        &.photo-essays {.menu-border(@grey);}
-        &.photo-essays:hover {.menu-border-hover(@grey);}
-        &.blags {.menu-border(@lavender);}
-        &.blags:hover {.menu-border-hover(@lavender);}
       }
     }
-  }
-
-  @media (min-width: @med-breakpoint) {
     .blogmenu {
       background-color: #fff;
-      padding-left: 0;
+      padding-right: 0.25rem;
       li{
         list-style: none;
         margin: 0;
@@ -153,37 +173,32 @@
 // List page styles
 ////////////////
 
-.article-list-landing {
-  h1, h2, h3, h4{
-    text-transform: uppercase;
-    font-family: Raleway;
-  }
-  h1 {
-    font-size: 1.5em;
-    &.politics-header, &.environment-header, &.media-header {
-      font-size: 1.75em;
-    }
-    &.photo-essay-header {
-      font-size: 0.875em;
-      background-color: #000;
-      color: #fff; }
+//// Slider
+.slider-selected {
+  background-color: #000;
+  color: #fff;
+  h1 { margin-top: 0; padding: 0 1rem;  }
+  p {
+    padding: 0 1rem 1rem;
+    span { color: @blue; }
   }
 }
-.article-list-landing h2,
-.article-list-landing h3, .article-list-landing h4{
-  color: @red;
-  font-size: 0.875em;
-  margin: 0.5em 0;
+
+.article-list-landing {
+  h1.photo-essay-header {
+      background-color: #000;
+      color: #fff; }
+  h2, h3, h4 {
+    color: @red;
+    margin: 0.5em 0;
+  }
 }
 
 .left-image-list ul, .top-image-list ul {
   padding: 0;
   margin: 0;
   list-style-type: none;
-  line-height: 1.2em;
-  font-size: 0.8125em;
-  font-family: @serif;
-  a { font-weight: bold; color: black; text-decoration: none; }
+  a { color: black; }
   .byline a { color: @grey; }
 }
 .left-image-list ul { margin: -0.25em; }
@@ -199,12 +214,9 @@ ul.blog-items {
   list-style: none;
   // We'll need classes for the background image.
   background: url("/assets/blog-photo.png") no-repeat;
-  font-size: 0.6875em;
-  a { color: @grey; text-decoration: none; }
+  a { color: @grey; }
   li { margin-bottom: 1em; }
 }
-
-.bloggers h4:after { content: " >>"; }
 
 
 //////////////////
@@ -214,19 +226,7 @@ ul.blog-items {
 .two-column-article {
   article {
     @media (min-width: @default-width) { border-right: 2px dotted @light-grey; }
-    h1 {
-      // heds with long words break layout
-      @media (max-width: @sm-breakpoint) { word-wrap: break-word; }
-      font-family: @serif;
-      font-weight: 400;
-    }
-    h2 {
-      font-family: @serif;
-      font-size: 1rem;
-      font-style: italic;
-      color: @grey;
-      line-height: 1.35;
-    }
+    h2 { color: @grey; }
   }
 
   // Applies to each list element.
@@ -240,39 +240,22 @@ ul.blog-items {
     padding-right: 0.5em;
   }
   .byline {
-    font-family: @serif;
-    font-size: 0.75em;
     color: @grey;
     ul { padding-left: 0; }
   }
   #component_tags {
     margin-bottom: 1em;
-    .section-title {
-      font-family: 'Raleway';
-      font-size: 0.875em;
-      text-transform: uppercase;
-    }
     ul {
-      font-family: @serif;
-      font-size: 0.625em;
       padding: 0;
       &:before { content: "\2192\00A0"; padding-right: 0.5em; }
     }
   }
 
   .master-image {
+    margin: 0;
     img { width: 100%; }
-
-    figcaption span{
-      font-weight: bold;
-      padding-right: 1em;
-    }
-
-    cite {
-      font-weight: lighter;
-      font-style: italic;
-      color: @grey;
-    }
+    figcaption span{ padding-right: 1em; }
+    cite { color: @grey; }
   }
 }
 
@@ -284,19 +267,12 @@ ul.blog-items {
     h1, h2, p { .accessible-hide(); }
   }
 
-  #component_body > p:first-child:first-letter {
-    font-size: 400%;
-    float: left;
-  }
-
-  .lead-in { text-transform: uppercase; }
-
   figure.pull-right {
     float: right;
   }
 }
 
-
+// Common to all article types
 #component_body {
   margin-top: 2em;
   margin-bottom: 2em;
@@ -317,9 +293,8 @@ ul.blog-items {
 }
 
 .author-bio {
-  .name { margin: 0; text-transform: uppercase; }
-  .position { font-family: @serif; font-size: 0.75em; color: @grey; }
-  p { font-size: 0.75rem; }
+  .name { margin: 0; }
+  .position { color: @grey; }
 }
 
 
@@ -327,23 +302,25 @@ ul.blog-items {
 // Right hand column
 ////////////////////
 .subscription-form {
-  padding: 1em 0;
-  @media all and (min-width: @default-width) { padding: 1em; }
+  margin: 1rem 0;
+  padding: 1rem 0;
+  @media all and (min-width: @default-width) { padding: 1rem; }
   background-color: @light-grey;
   h5 {
-    color: #000;
-    font-family: Raleway;
-    text-transform: uppercase;
     margin: 0 0 1rem 0;
+    color: #000;
   }
   .tiny-cover { box-shadow: 4px 4px 6px @grey; }
   form p { margin-top: 0; font-size: 0.5rem; }
+  .subscribe2 {
+    padding: 3px 10px;
+    color: #fff;
+    background-color: @red;
+    border-radius: 5px;
+  }
 }
 .related-links {
   h6 {
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    font-family: Raleway;
     color: @red;
   }
   ul {
@@ -352,12 +329,9 @@ ul.blog-items {
   }
   li {
     border-bottom: 1px solid @light-grey;
-    span {
-      font-family: @serif;
-      font-size: 0.75rem;
-      a { color: inherit; text-decoration: none;
+    span a {
+        color: inherit;
         border-bottom: 1px dotted; }
-    }
   }
 }
 .iconlink {
@@ -365,24 +339,16 @@ ul.blog-items {
   &:hover { opacity: 0.7; }
   i {
     color: #fff;
-    font-size: 1.25rem;
+    font-size: 1.25rem; // Resizing a FontAwesome icon here.
   }
 }
 
 .supporters-media {
-  p, h6 { text-align: center; }
-  a, h6 {
-    color: @grey;
-    font-weight: 400;
-    font-family: Raleway, @sans-serif;
-    text-transform: uppercase;
-  }
-  h6 { font-size: 1rem; margin: 0; padding: 1rem 0;}
+  a, h6 { color: @grey; }
+  h6 { margin: 0; padding: 1rem 0;}
   a {
     padding: 1rem;
     background-color: @light-grey;
-    text-decoration: none;
-    font-size: 1.25rem;
     &.left-link { margin-right: 1rem; }
     &.single-link { padding: 1rem 1.5rem; }
   }
@@ -392,12 +358,10 @@ ul.blog-items {
 // (The actual) Footer
 //////////////////////
 .colophon {
-  font-family: 'Raleway';
-  font-size: 0.875em;
   ul {
     list-style: none;
     padding: 0;
-    a { color: #000; text-decoration: none; }
+    a { color: #000; }
   }
 
   // Creates the per-column alignment on larger screens.
@@ -407,8 +371,6 @@ ul.blog-items {
     li { margin-bottom: 0; }
   }
 
-  p, .links-left, .links-right, .links-middle { text-align: center; }
-
   .links-left, .links-middle, .tagline { margin-bottom: 0; }
 
   p.title {
@@ -416,9 +378,6 @@ ul.blog-items {
     margin: 0 auto;
   }
   .tagline span, .rss a {
-    font-family: sans-serif;
-    text-transform: uppercase;
-    font-weight: bold;
     background: @light-grey;
     color: white;
   }
@@ -429,9 +388,5 @@ ul.blog-items {
   .rss a {
     background: @orange;
     padding: 0.5em;
-  }
-  .copyright {
-    font-size: 0.5rem;
-    font-family: @serif;
   }
 }

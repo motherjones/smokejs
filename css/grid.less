@@ -14,19 +14,22 @@
 @default-row_margin: 0 auto;
 
 .Row ( @width : @default-width; @padding: @default-padding; @margin: @default-row_margin; ) {
-	max-width: @width;
-	width: 100%;
-	margin: @margin;
-	padding: @padding;
-	// clear at the end of container
-	&:before,
-	&:after {
-		content:"";
-		display:table;
-	}
-	&:after {
-		clear:both;
-	}
+  max-width: @width;
+  width: 100%;
+  margin: @margin;
+  padding: @padding;
+  // clear at the end of container
+  &:before,
+  &:after {
+    content: "\0020";
+    display:table;
+  }
+  &:after {
+    clear:both;
+    display: block;
+    height: 0;
+    visibility: hidden;
+  }
 }
 
 @default-colspan: 1;
@@ -36,24 +39,24 @@
 @default-margin_bottom: 0;
 
 .Cols ( @colspan : @default-colspan;
-		@total_cols : @default-total_cols;
-		@padding: @default-padding;
-		@gutter: @default-gutter; @edge: false;
-		@margin_top : @default-margin_top;
-		@margin_bottom : @default-margin_bottom; ) {
+    @total_cols : @default-total_cols;
+    @padding: @default-padding;
+    @gutter: @default-gutter; @edge: false;
+    @margin_top : @default-margin_top;
+    @margin_bottom : @default-margin_bottom; ) {
 
-	@total_gutter: (@total_cols - 1) * @gutter;
-	@spanned_gutters: (@colspan - 1) * @gutter;
-	width: ( @colspan * ( (100 - @total_gutter) / @total_cols) ) + @spanned_gutters + 0%;
-	float: left;
-	padding: @padding;
-	.IfEdge (@edge; @gutter; @margin_top; @margin_bottom; );
+  @total_gutter: (@total_cols - 1) * @gutter;
+  @spanned_gutters: (@colspan - 1) * @gutter;
+  width: ( @colspan * ( (100 - @total_gutter) / @total_cols) ) + @spanned_gutters + 0%;
+  float: left;
+  padding: @padding;
+  .IfEdge (@edge; @gutter; @margin_top; @margin_bottom; );
 }
 
 .IfEdge ( @edge; @gutter; @margin_top; @margin_bottom;  ) when (@edge = false) {
-	margin: @margin_top @gutter + 0% @margin_bottom 0;
+  margin: @margin_top @gutter + 0% @margin_bottom 0;
 }
 
 .IfEdge ( @edge; @gutter; @margin_top; @margin_bottom;  ) when (@edge = true) {
-	margin: @margin_top 0 @margin_bottom 0;
+  margin: @margin_top 0 @margin_bottom 0;
 }
