@@ -1,66 +1,64 @@
 /*global require */
 var views = require('../js/edit_views');
+var view_views = require('../js/views');
 var editor = require('../js/editor');
 var utils = require('./utils');
 var response_peter = require('./fixtures/author/peter.json');
 var response_homepage = require('./fixtures/homepage.json');
-var match_mock = { params: {} };
 var should = require('should');
 
+var match_mock = {
+  fn : function() {}, params: {}, next: function(){
+    return match_mock;
+  }
+};
+
 describe("edit views", function() {
-  it('should display main content', function (done) {
-    var match = match_mock;
-    match.params.slug = 'peter';
-    match.params.schema = 'author';
-    var server = utils.mock_component(match.params.slug, response_peter);
-
-    views.displayMainContent(match, function(data, html) {
-      should(data.content_type).eql("text/x-markdown",
-        'display main content has a callback which provides the data of the object loaded'
-      );
-      server.restore();
-    }).then(function() {
-      done();
+  describe('displayMainContent', function() {
+    var self = {};
+    beforeEach(function() {
+      self.match = match_mock;
+      self.match.params.slug = 'peter';
+      self.match.params.schema = 'author';
+      self.match.component = response_peter;
+      self.server = utils.mock_component(self.match.params.slug, response_peter);
+    });
+    afterEach(function() {
+      editor.makeEditable.restore();
+      editor.socialSharingElement.restore();
+      self.server.restore();
+      self = {};
+    });
+    it('display main content', function (done) {
+      sinon.stub(editor, "makeEditable");
+      sinon.stub(editor, "socialSharingElement");
+      views.displayMainContent(self.match, function(match, html, title) {
+        should.exist(match);
+        should.not.exist(html);
+        should.not.exist(title);
+        editor.makeEditable.called.should.be.true;
+        editor.socialSharingElement.called.should.be.true;
+        done();
+      })
     });
   });
-  it('should calll make editable on main content', function (done) {
-    var match = match_mock;
-    var socialSharingString = 'social call';
-    match.params.slug = 'peter';
-    match.params.schema = 'author';
-    var server = utils.mock_component(match.params.slug, response_peter);
-    var makeEditable = sinon.stub(editor, "makeEditable", function(){
-      console.log('called');
-      should(makeEditable.called).be.true;
-      done();
+  describe('homepage', function() {
+    var self = {};
+    beforeEach(function() {
+      self.match = match_mock;
+      self.server = utils.mock_component('homepage', response_homepage);
     });
-    var socialSharing = sinon.stub(editor, "socialSharingElement", function(){
-      return socialSharingString;
+    afterEach(function() {
+      self.server.restore();
+      self = {};
     });
-
-    views.displayMainContent(match, function(data, html) {
-      console.log('socail string check here');
-      should(html.indexOf(socialSharingString) >= 0).be.true;
-      console.log('socail string found');
-    }).then(function() {
-      should(socialSharing.called).be.true;
-      console.log('social string func caled');
-    });
-  });
-  after(function(done) {
-    editor.makeEditable.restore();
-    editor.socialSharingElement.restore();
-    done();
-  });
-  it( "should display the homepage", function(done) {
-    var server = utils.mock_component('homepage', response_homepage);
-    views.displayHomepage(function(data, html) {
-      should( data.metadata.title ).eql( "Mother Jones Home Page",
-        'display homepage has a callback which provides the data of the object loaded'
-      );
-      server.restore();
-    }).then(function() {
-      done();
+    it("should display and set title", function(done) {
+      views.displayHomepage(self.match, function(match, html, title) {
+        should.exist(match);
+        should.not.exist(html);
+        should.not.exist(title);
+        done();
+      })
     });
   });
 });
