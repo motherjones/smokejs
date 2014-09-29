@@ -52,16 +52,5 @@ describe("edit views", function() {
     editor.socialSharingElement.restore();
     done();
   });
-  it( "should display the homepage", function(done) {
-    var server = utils.mock_component('homepage', response_homepage);
-    views.displayHomepage(function(data, html) {
-      should( data.metadata.title ).eql( "Mother Jones Home Page",
-        'display homepage has a callback which provides the data of the object loaded'
-      );
-      server.restore();
-    }).then(function() {
-      done();
-    });
-  });
 });
 

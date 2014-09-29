@@ -24,20 +24,3 @@ exports.displayMainContent = function(match, callback) {
   };
   return views.displayMainContent(match, cb);
 };
-
-/**
- * View for rendering the homepage and making it editable.
- * @param {object} match - match object Returned by routes.
- * @param {function} callback - callback is called with html
- * @returns {promise} Resolves when complete
- */
-exports.displayHomepage = function(match, callback) {
-  callback = callback ? callback : function() {};
-  var cb = function(data, html) {
-    callback(data, html);
-    //make editable somehow
-    // probably calling make editable on it? need to review the
-    // splash page json
-  };
-  return views.displayHomepage(match, cb);
-};

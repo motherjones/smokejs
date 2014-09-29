@@ -22,8 +22,10 @@ describe("Views", function() {
       done();
     });
   });
-  it( "should display the homepage", function(done) {
+  it( "should default to the homepage if there's no slug", function(done) {
     var server = utils.mock_component('homepage', response_homepage);
+    match.params.slug = '';
+    match.params.schema = 'homepage';
     views.displayHomepage(function(data, html) {
       should( data.metadata.title ).eql( "Mother Jones Home Page",
         'display homepage has a callback which provides the data of the object loaded'

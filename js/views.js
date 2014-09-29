@@ -17,26 +17,11 @@ var render = require('./render');
  * @returns {promise} Resolves when complete
  */
 exports.displayMainContent = function(match, callback) {
-  var component = new api.Component(match.params.slug);
+  var slug = match.params.slug ? match.params.slug : 'homepage';
+  var component = new api.Component(slug);
   return component.get(function(data) {
     render.render(render.selectTemplate(data), data, function(html) {
       if (callback) { callback(data, html); }
     });
   });
 };
-
-/**
- * View which renders the homepage.
- * @param {object} match - match object Returned by routes.
- * @param {function} callback - callback is called with html
- * @returns {promise} Resolves when complete
- */
-exports.displayHomepage = function(match, callback) {
-  var component = new api.Component('homepage');
-  return component.get(function(data) {
-    render.render('homepage', data, function(html) {
-      if (callback) { callback(data, html); }
-    });
-  });
-};
-
