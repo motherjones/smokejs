@@ -231,7 +231,8 @@ exports.saveListButton = function(name, component) {
  * @returns {void}
  */
 exports.editableData = function(component) {
-
+  console.log(component);
+  console.log('Ability to make component data editable not implemented');
 };
 
 /**
@@ -283,6 +284,7 @@ exports.saveComponentButton = function(component) {
  * @param {string} message - The success message
  */
 exports.successNotice = function(message) {
+  console.log(message);
 };
 
 /**
