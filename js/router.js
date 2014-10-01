@@ -59,7 +59,7 @@ module.exports.callback = function() {
   */
 module.exports.browserStart = function() {
   $('body').on("click", "[href^='/']", module.exports.browserClick );
-  $(window).on('popstate', function(e) {
+  $(window).on('popstate', function() {
     module.exports.pop(document.location.pathname);
   });
   ad.setAdListener();

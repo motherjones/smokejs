@@ -12,7 +12,7 @@ describe("api utilities", function() {
   describe("_success", function() {
     var self;
     beforeEach(function() {
-      self = new Object;
+      self = {};
       self.resolve = sinon.spy();
       self.reject = sinon.spy();
       self.callback = sinon.spy();
@@ -67,6 +67,7 @@ describe("api utilities", function() {
     });
   });
   describe("_promise_request", function() {
+    var slug, server;
     it("calls onRejected when request fails", function(done) {
       var url = EnvConfig.MIRRORS_URL + 'test/';
       var callback = sinon.spy();
@@ -160,7 +161,7 @@ describe("data api", function() {
         'response': 'DATA'
       });
       var callback = sinon.spy();
-      var data_uri = '/mirrors/component/' + slug +'/data/';
+      //var data_uri = '/mirrors/component/' + slug +'/data/';
       var data = new api.Data(slug);
       data.should.have.property('uri');
       data.get(callback).then(function() {

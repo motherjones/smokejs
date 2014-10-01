@@ -21,6 +21,7 @@
     "afterEach",
     "after",
     "it",
-    "exports"
+    "exports",
+    "-Promise"
   ]
 }

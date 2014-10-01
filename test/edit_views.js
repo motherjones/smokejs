@@ -3,9 +3,9 @@ var views = require('../js/edit_views');
 var editor = require('../js/editor');
 var utils = require('./utils');
 var response_peter = require('./fixtures/author/peter.json');
-var response_homepage = require('./fixtures/homepage.json');
 var match_mock = { params: {} };
 var should = require('should');
+var sinon = require('sinon');
 
 describe("edit views", function() {
   it('should display main content', function (done) {
@@ -18,6 +18,7 @@ describe("edit views", function() {
       should(data.content_type).eql("text/x-markdown",
         'display main content has a callback which provides the data of the object loaded'
       );
+      html.should.match(/Peter/);
       server.restore();
     }).then(function() {
       done();
@@ -32,6 +33,7 @@ describe("edit views", function() {
     var makeEditable = sinon.stub(editor, "makeEditable", function(){
       console.log('called');
       should(makeEditable.called).be.true;
+      server.restore();
       done();
     });
     var socialSharing = sinon.stub(editor, "socialSharingElement", function(){
@@ -39,12 +41,9 @@ describe("edit views", function() {
     });
 
     views.displayMainContent(match, function(data, html) {
-      console.log('socail string check here');
       should(html.indexOf(socialSharingString) >= 0).be.true;
-      console.log('socail string found');
     }).then(function() {
       should(socialSharing.called).be.true;
-      console.log('social string func caled');
     });
   });
   after(function(done) {

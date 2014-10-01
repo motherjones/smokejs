@@ -151,7 +151,7 @@ describe("editor functions", function() {
         done();
       };
       component.update = function() {
-        return new Promise(function(resolve, reject) { resolve(); });
+        return new Promise(function(resolve) { resolve(); });
       };
       button.click();
     });
@@ -355,7 +355,7 @@ describe("editor functions", function() {
 
     it("becomes disabled after being clicked", function(done) {
       button.click();
-      button.prop('disabled').should.be.true
+      button.prop('disabled').should.be.true;
       done();
     });
 
@@ -439,12 +439,12 @@ describe("editor functions", function() {
       list.append(button);
       list.append(button);
       list.append(form);
-      $('body').append(list)
+      $('body').append(list);
       component = new api.Component(slug, testData);
       done();
     });
     afterEach(function(done) {
-      $('body').html('')
+      $('body').html('');
       list.remove();
       done();
     });
@@ -483,7 +483,7 @@ describe("editor functions", function() {
       editor.addItemToList(form, 'byline', component).then(function() {
         $('ul > button').each(function() {
           $(this).prop('disabled').should.be.false;
-        })
+        });
         done();
       });
     });
@@ -491,7 +491,7 @@ describe("editor functions", function() {
   describe("remake lists", function() {
     var slug = 'test';
     var makeListsEditableCalled;
-    var component, list, secondList;
+    var component;
     var makeListEditableBak = editor.makeListEditable;
     before(function(done) {
       editor.makeListEditable = function(attribute, component) {

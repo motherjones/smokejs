@@ -2,10 +2,10 @@
 var _ = require('lodash');
 
 module.exports = (function() {
+  var localConfig = {};
   try {
-    var localConfig = require('../localConfig.js');
+    localConfig = require('../localConfig.js');
   } catch(e) {
-    var localConfig = {};
   }
   var defaultConfig = {
     ERROR_HANDLER: function(err) {

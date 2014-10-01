@@ -139,7 +139,8 @@ describe("edit data api", function() {
       should.exist(data);
       done();
     };
-    var promise = data.update(callback);
+    data.update(callback);
+    //var promise = data.update(callback);
     //TODO: add promise test
   });
   after(function(done) {

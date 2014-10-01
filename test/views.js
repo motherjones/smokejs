@@ -17,6 +17,7 @@ describe("Views", function() {
       should(data.content_type).eql("text/x-markdown",
         'display main content has a callback which provides the data of the object loaded'
       );
+      html.should.match(/Peter/);
       server.restore();
     }).then(function() {
       done();
@@ -24,12 +25,15 @@ describe("Views", function() {
   });
   it( "should default to the homepage if there's no slug", function(done) {
     var server = utils.mock_component('homepage', response_homepage);
+    var match = match_mock;
     match.params.slug = '';
     match.params.schema = 'homepage';
-    views.displayHomepage(function(data, html) {
+    views.displayMainContent(match, function(data, html) {
+      console.log(html);
       should( data.metadata.title ).eql( "Mother Jones Home Page",
         'display homepage has a callback which provides the data of the object loaded'
       );
+      html.should.match(data.metadata.title);
       server.restore();
     }).then(function() {
       done();
