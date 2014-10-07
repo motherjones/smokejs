@@ -4,6 +4,7 @@ var views = require('./views');
 var Router = require('routes');
 var ad = require('./ad');
 var $ = require('jquery');
+var _ = require('lowdash');
 var Promise = require('promise-polyfill');
 
 //In general please use exports.name for simplicity
@@ -16,13 +17,15 @@ var Promise = require('promise-polyfill');
  */
 module.exports = (function() {
   var router = new Router();
-  router.addRoute("\/?:slug(politics|media|environment)\/?$", views.displayMainContent);
-  router.addRoute("\/?:schema/:slug", views.displayMainContent);
-  router.addRoute("\/?:section/[0-9]+/[0-9]+/:slug", views.displayMainContent);
-  router.addRoute("^\/$", views.displayHomepage);
-  router.addRoute("^login\/?$", views.displayLogin);
   return router;
 })();
+
+module.exports.addRoutes = function(routes) {
+  _(routes).forEach(function(view, route) {
+    module.exports.addRoute(route, view);
+  });
+  return module.exports;
+};
 
 /**
   * Takes path and runs view
@@ -50,6 +53,10 @@ module.exports.pop = function(path) {
   * @param {object} html - HTML to be inserted in DOM/string.
   */
 module.exports.callback = function() {
+  throw {
+    name : "NotImplementedError", 
+    message : "please replace this with a runtime specific callback"
+  };
   return null;
 };
 
