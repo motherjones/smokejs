@@ -4,6 +4,7 @@ var _ = require('lodash');
 var render = require('./render');
 var api = require('./edit_api');
 var Promise = require('promise-polyfill');
+var tweditor = require('./tweditor');
 
 /**
  * Includes functions to be called by the router.
@@ -226,13 +227,27 @@ exports.saveListButton = function(name, component) {
 };
 /**
  * Make a component's data inline editable.
- * FIXME this is a stub
+ * FIXME this is a stub for images
  * @param {component} component - The component who's data we're making editable
  * @returns {void}
  */
 exports.editableData = function(component) {
-  console.log(component);
-  console.log('Ability to make component data editable not implemented');
+  if (component.content_type.match(/markdown/i)) {
+    component.data.get().then(function() {
+      var textArea = $('<textarea class="component_body" data-slug="'
+        + component.slug + '">' + component.data.data + '</textarea>');
+
+      var selector = '.component_body[data-slug="' + component.slug + '"]';
+      $(selector).replaceWith(textArea);
+      var editor = tweditor.tweditor(selector);
+      editor.on('blur', function() {
+        component.data.data = editor.getValue();
+      });
+    });
+  }
+  if (component.content_type.match(/image/i)) {
+    console.log('implement fancy image stuff');
+  };
 };
 
 /**
@@ -269,8 +284,14 @@ exports.socialSharingElement = function(component) {
 exports.saveComponentButton = function(component) {
   return $('<button>Save</button>')
     .click(function() {
+          console.log(component.data.data);
       component.update().then(
-        exports.successNotice,
+        function() {
+          component.data.update().then(
+            exports.successNotice,
+            exports.failureNotice
+          );
+        },
         exports.failureNotice
       );
     }
