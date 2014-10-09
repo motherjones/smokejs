@@ -1,6 +1,8 @@
 var $ = require('jquery');
 var Codemirror = require('./codemirror');
 var Markdown = require('./markdown');
+var Render = require('./render');
+var Dust = require('../build/js/dust_templates')();
 
 exports.tweditor = function(textarea_selector) {
   //Build Editor and Preview
@@ -45,9 +47,18 @@ exports.tweditor = function(textarea_selector) {
   });
   editor.setSize(textarea.width(),textarea.height());
   var convert = function(cm) {
-    preview.html(
-        Markdown.toHTML(cm.getValue())
-    );
+    var html = Markdown.toHTML(cm.getValue());
+    var templateName = 'markdown_' + Math.random();
+    console.log(templateName);
+    console.log(html);
+    var template = Dust.compile(html, templateName);
+    console.log('compile succeeded');
+    console.log('bout to load');
+    Dust.loadSource(template);
+    console.log('bout to render');
+    Render.render(templateName, {}, function(html) {
+      preview.html(html);
+    });
   };
   editor.on("change", function(cm, changeObject) {
     convert(cm);
