@@ -26,6 +26,13 @@ exports.tweditor = function(textarea_selector) {
   menu.append(boldButton);
   var italicButton = $('<li class="editButton"><i class="fa fa-italic"></i></li>');
   menu.append(italicButton);
+  var strikethroughButton = $('<li class="editButton"><i class="fa fa-strikethrough"></i></li>');
+  menu.append(strikethroughButton);
+  var linkButton = $('<li class="editButton"><i class="fa fa-link"></i></li>');
+  menu.append(linkButton);
+  linkFormOverlay = $('<div style="display:none;"><form><label for="url">URL</label><input type="text" name="url"/><button type="submit">OK</button></form></div>');
+  menu.append(linkFormOverlay);
+
   //Build Header Menu
   var headerDropDown = $('<select class="headerDropDown">')
   for (var i=0;i<6;i++) {
@@ -49,13 +56,8 @@ exports.tweditor = function(textarea_selector) {
   var convert = function(cm) {
     var html = Markdown.toHTML(cm.getValue());
     var templateName = 'markdown_' + Math.random();
-    console.log(templateName);
-    console.log(html);
     var template = Dust.compile(html, templateName);
-    console.log('compile succeeded');
-    console.log('bout to load');
     Dust.loadSource(template);
-    console.log('bout to render');
     Render.render(templateName, {}, function(html) {
       preview.html(html);
     });
@@ -81,10 +83,26 @@ exports.tweditor = function(textarea_selector) {
     editor.replaceSelection(' **'+newText+'** ', "end");
     editor.focus();
   });
+  strikethroughButton.on("click", function() {
+    var newText = editor.getSelection().replace('*', '', 'g');
+    editor.replaceSelection(' ~~'+newText+'~~ ', "end");
+    editor.focus();
+  });
   italicButton.on("click", function() {
     var newText = editor.getSelection().replace('*', '', 'g');
     editor.replaceSelection(' *'+newText+'* ', "end");
     editor.focus();
+  });
+  linkButton.on("click", function() {
+    var newText = editor.getSelection().replace('*', '', 'g');
+    linkFormOverlay.show().on('submit', function() {
+      linkFormOverlay.hide();
+      editor.replaceSelection(' ['+newText+']('+
+        linkFormOverlay.find('[name="url"]').val()+
+        ') ', "end");
+      editor.focus();
+      return false;
+    });
   });
   headerDropDown.on("change", function(e) {
     var headerDepth = parseInt($(e.target).val());
