@@ -30,7 +30,9 @@ exports.tweditor = function(textarea_selector) {
   menu.append(strikethroughButton);
   var linkButton = $('<li class="editButton"><i class="fa fa-link"></i></li>');
   menu.append(linkButton);
-  linkFormOverlay = $('<div style="display:none;"><form><label for="url">URL</label><input type="text" name="url"/><button type="submit">OK</button></form></div>');
+  var imageButton = $('<li class="editButton"><i class="fa fa-picture-o"></i></li>');
+  menu.append(imageButton);
+  var linkFormOverlay = $('<div style="display:none;"><form><label for="url">URL</label><input type="text" name="url"/><button type="submit">OK</button></form></div>');
   menu.append(linkFormOverlay);
 
   //Build Header Menu
@@ -102,6 +104,12 @@ exports.tweditor = function(textarea_selector) {
         ') ', "end");
       editor.focus();
       return false;
+    });
+  });
+  imageButton.on("click", function() {
+    var newText = editor.getSelection().replace('*', '', 'g');
+    imageFormOverlay.show().on('submit', function() {
+      //FIXME need create image component form
     });
   });
   headerDropDown.on("change", function(e) {

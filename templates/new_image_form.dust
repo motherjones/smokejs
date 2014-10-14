@@ -1,0 +1,4 @@
+<form class="image">
+  <input type="file" name="pic" accept="image/*">
+  <button type="submit">Upload</button>
+</form>
