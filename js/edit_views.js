@@ -24,11 +24,3 @@ exports.displayMainContent = function(match, callback) {
   };
   return views.displayMainContent(match, cb);
 };
-
-exports.createImageForm = function(match, callback) {
-  callback = callback ? callback : function() {};
-  return render.render('new_image_form', {}, function(html) {
-    var form = editor.newImageForm(html);
-    if (callback) { callback(form); }
-  });
-};

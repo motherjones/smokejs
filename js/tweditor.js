@@ -32,6 +32,10 @@ exports.tweditor = function(textarea_selector) {
   menu.append(linkButton);
   var imageButton = $('<li class="editButton"><i class="fa fa-picture-o"></i></li>');
   menu.append(imageButton);
+  var imageFormOverlay;
+  render.render('new_image_form', {}, function(html) {
+    imageFormOverlay = editor.newImageForm(html);
+  });
   var linkFormOverlay = $('<div style="display:none;"><form><label for="url">URL</label><input type="text" name="url"/><button type="submit">OK</button></form></div>');
   menu.append(linkFormOverlay);
 

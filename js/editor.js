@@ -317,3 +317,20 @@ exports.successNotice = function(message) {
 exports.failureNotice = function(error) {
   console.log(error);
 };
+
+/**
+ * makes the upload image form an element w/ appropriate event handlers
+ * @param {string} html - The html of the form
+ * @returns {element} form - the jquery element w/ events attached
+ */
+exports.newImageForm = function(html) {
+  var form = $(html);
+  var component = new api.Component('fake slug somehow???');
+  form.on('submit', function() {
+    //turn image into something we can make data eat
+    component.data.data = 'the iamge';
+    return component.data.update().then(function() {
+    });
+  });
+  return form
+};
