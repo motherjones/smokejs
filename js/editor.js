@@ -284,7 +284,6 @@ exports.socialSharingElement = function(component) {
 exports.saveComponentButton = function(component) {
   return $('<button>Save</button>')
     .click(function() {
-          console.log(component.data.data);
       component.update().then(
         function() {
           component.data.update().then(
