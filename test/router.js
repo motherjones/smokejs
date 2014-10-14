@@ -2,8 +2,8 @@
 var router = require('../js/router');
 var $ = require('jquery');
 var Ad = require('../js/ad');
-var should = require('should');
-
+var should = require('chai').should();
+var errors = require('../js/errors');
 
 describe("router properties", function() {
   it('ad loaded', function(done) {
@@ -22,12 +22,19 @@ describe("router properties", function() {
     router.addRoute("test", test_callback);
     router.pop('test');
   });
+  it("addRoutes adds routes", function(done) {
+    var test_callback = function() {
+      done();
+    };
+    router.addRoutes({"test": test_callback});
+    router.pop('test');
+  });
 });
 
 
 describe("router callbacks", function() {
   it('router starts w/ callback doing nothing', function(done) {
-    should(router.callback()).eql(null, 'callback is not set');
+    router.callback.should.throw(errors.NotImplementedError);
     done();
   });
 

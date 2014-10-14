@@ -4,7 +4,7 @@ var views = require('./views');
 var Router = require('routes');
 var ad = require('./ad');
 var $ = require('jquery');
-var _ = require('lowdash');
+var _ = require('lodash');
 var Promise = require('promise-polyfill');
 
 //In general please use exports.name for simplicity
