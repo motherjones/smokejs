@@ -69,15 +69,15 @@ exports.tweditor = function(textarea_selector) {
   });
   convert(editor);
   splitScreenButton.on("click", function() {
-    viewer.addClass("fullscreen").removeClass("view-mode").removeClass("edit-mode");  
+    viewer.addClass("fullscreen").removeClass("view-mode").removeClass("edit-mode");
     editor.refresh(); //not documented
   });
   editButton.on("click", function() {
-    viewer.removeClass("fullscreen").removeClass("view-mode").addClass("edit-mode");  
+    viewer.removeClass("fullscreen").removeClass("view-mode").addClass("edit-mode");
     editor.refresh();
   });
   viewButton.on("click", function() {
-    viewer.removeClass("fullscreen").addClass("view-mode").removeClass("edit-mode");  
+    viewer.removeClass("fullscreen").addClass("view-mode").removeClass("edit-mode");
     editor.refresh();
   });
   boldButton.on("click", function() {
@@ -116,7 +116,7 @@ exports.tweditor = function(textarea_selector) {
     var headerDepth = parseInt($(e.target).val());
     console.log(headerDepth);
     var cursorStart = editor.getCursor("start");
-    var cursorEnd = editor.getCursor("end"); 
+    var cursorEnd = editor.getCursor("end");
     for (var i = cursorStart.line; i<=cursorEnd.line; i++) {
       var line = editor.getLine(i);
       var tokens = Markdown.lexer(line);
