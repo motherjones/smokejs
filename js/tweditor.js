@@ -1,5 +1,5 @@
 var $ = require('jquery');
-var Codemirror = require('./codemirror');
+var Codemirror = require('codemirror');
 var Markdown = require('./markdown');
 var Render = require('./render');
 var Dust = require('../build/js/dust_templates')();

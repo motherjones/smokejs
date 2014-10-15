@@ -62,8 +62,9 @@
   },
   "keywords": [],
   "dependencies": {
-    "routes": "~1.1.0",
+    "codemirror": "~4.6.0",
     "jquery": "~2.1.0",
-    "marked": "git+https://github.com/glassresistor/marked.git#feature/add_rules"
+    "marked": "git+https://github.com/glassresistor/marked.git#feature/add_rules",
+    "routes": "~1.1.0"
   }
 }
