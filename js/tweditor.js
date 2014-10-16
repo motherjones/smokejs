@@ -1,9 +1,12 @@
 var $ = require('jquery');
+exports.markdown = require('./marked');
 var Codemirror = require('./codemirror');
-var Markdown = require('./markdown');
-var Render = require('./render');
-var Dust = require('../build/js/dust_templates')();
-var Views = require('./edit_views');
+
+exports.convert =  function(cm) {
+  preview.html(exports.markedown(cm.getValue()));
+};
+exports.preview = $('<div class="html"></div>');
+exports.menu =  $('<ul class="tweditorMenu"></ul>');
 
 exports.tweditor = function(textarea_selector) {
   //Build Editor and Preview
@@ -12,72 +15,19 @@ exports.tweditor = function(textarea_selector) {
   var editarea = textarea.parent();
   editarea.wrap('<div class="tweditor view-mode"></div>');
   var viewer = editarea.parent();
-  var preview = $('<div class="html"></div>');
-  editarea.after(preview);
+  editarea.after(exports.preview);
   //Build Menu
-  var menu = $('<ul class="tweditorMenu"></ul>');
   var splitScreenButton = $('<li class="splitScreenButton"><i class="fa fa-expand"></i></li>');
-  menu.append(splitScreenButton);
+  exports.menu.append(splitScreenButton);
   var editButton = $('<li class="editModeButton"><i class="fa fa-edit"></i></li>');
-  menu.append(editButton);
+  exports.menu.append(editButton);
   var viewButton = $('<li class="viewModeButton"><i class="fa fa-eye"></i></li>');
-  menu.append(viewButton);
-  menu.append($('<li class="seperator">|</li>'));
+  exports.menu.append(viewButton);
+  exports.menu.append($('<li class="seperator">|</li>'));
   var boldButton = $('<li class="editButton"><i class="fa fa-bold"></i></li>');
-  menu.append(boldButton);
+  exports.menu.append(boldButton);
   var italicButton = $('<li class="editButton"><i class="fa fa-italic"></i></li>');
-  menu.append(italicButton);
-  var strikethroughButton = $('<li class="editButton"><i class="fa fa-strikethrough"></i></li>');
-  menu.append(strikethroughButton);
-  var linkButton = $('<li class="editButton"><i class="fa fa-link"></i></li>');
-  menu.append(linkButton);
-  var imageButton = $('<li class="editButton"><i class="fa fa-picture-o"></i></li>');
-  menu.append(imageButton);
-  var imageFormOverlay = $('<div style="display:none"></div>');
-  menu.append(imageFormOverlay);
-
-  var closeOverlay = function() {
-    imageFormOverlay.hide();
-    addImageOverlay();
-  };
-  var closeOverlayButton = $('<span>X</span>').click(closeOverlay);
-
-  var imageFormCallback = function(component) {
-    closeOverlay();
-    editor.replaceSelection('!!['+component.slug+'] ', "end");
-    editor.focus();
-  };
-  var newImageButton = $('<button>New Image</button>').click(function() {
-    Views.createImageForm({},
-      function(form) {
-        imageFormOverlay.remove().append(closeOverlay).append(form);
-      },
-      editImage
-    );
-  });
-
-  var editImage = function() {
-    Views.editImageForm({},
-      function(form) {
-        imageFormOverlay.remove().append(closeOverlay).append(form);
-      },
-      imageFormCallback
-    );
-  };
-
-  var addImageOverlay = function() {
-    imageFormOverlay.empty();
-    Views.selectImageForm({}, function(form) {
-      imageFormOverlay
-        .append(closeOverlayButton)
-        .append(form)
-        .append(newImageButton);
-    }, imageFormCallback);
-  };
-  addImageOverlay();
-
-  var linkFormOverlay = $('<div style="display:none;"><form><label for="url">URL</label><input type="text" name="url"/><button type="submit">OK</button></form></div>');
-  menu.append(linkFormOverlay);
+  exports.menu.append(italicButton);
 
   //Build Header Menu
   var headerDropDown = $('<select class="headerDropDown">')
@@ -91,27 +41,18 @@ exports.tweditor = function(textarea_selector) {
   }
   var headerButton = $('<li class="editButton"></li>');
   headerButton.append(headerDropDown);
-  menu.append(headerButton);
-  editarea.before(menu);
+  exports.menu.append(headerButton);
+  editarea.before(exports.menu);
   editor = CodeMirror.fromTextArea(textarea.get(0), {
     lineNumbers: true,
     lineWrapping: true,
     mode: "markdown"
   });
   editor.setSize(textarea.width(),textarea.height());
-  var convert = function(cm) {
-    var html = Markdown.toHTML(cm.getValue());
-    var templateName = 'markdown_' + Math.random();
-    var template = Dust.compile(html, templateName);
-    Dust.loadSource(template);
-    Render.render(templateName, {}, function(html) {
-      preview.html(html);
-    });
-  };
   editor.on("change", function(cm, changeObject) {
-    convert(cm);
+    exports.convert(cm);
   });
-  convert(editor);
+  exports.convert(editor);
   splitScreenButton.on("click", function() {
     viewer.addClass("fullscreen").removeClass("view-mode").removeClass("edit-mode");  
     editor.refresh(); //not documented
@@ -124,37 +65,15 @@ exports.tweditor = function(textarea_selector) {
     viewer.removeClass("fullscreen").addClass("view-mode").removeClass("edit-mode");  
     editor.refresh();
   });
-  boldButton.on("click", function() {
-    var newText = editor.getSelection().replace('*', '', 'g');
-    editor.replaceSelection(' **'+newText+'** ', "end");
-    editor.focus();
-  });
-  strikethroughButton.on("click", function() {
-    var newText = editor.getSelection().replace('*', '', 'g');
-    editor.replaceSelection(' ~~'+newText+'~~ ', "end");
-    editor.focus();
-  });
   italicButton.on("click", function() {
     var newText = editor.getSelection().replace('*', '', 'g');
     editor.replaceSelection(' *'+newText+'* ', "end");
     editor.focus();
   });
-  linkButton.on("click", function() {
+  boldButton.on("click", function() {
     var newText = editor.getSelection().replace('*', '', 'g');
-    linkFormOverlay.show().on('submit', function() {
-      linkFormOverlay.hide();
-      editor.replaceSelection(' ['+newText+']('+
-        linkFormOverlay.find('[name="url"]').val()+
-        ') ', "end");
-      editor.focus();
-      return false;
-    });
-  });
-  imageButton.on("click", function() {
-    var newText = editor.getSelection().replace('*', '', 'g');
-    imageFormOverlay.show().on('submit', function() {
-      //FIXME need create image component form
-    });
+    editor.replaceSelection(' **'+newText+'** ', "end");
+    editor.focus();
   });
   headerDropDown.on("change", function(e) {
     var headerDepth = parseInt($(e.target).val());
@@ -163,7 +82,7 @@ exports.tweditor = function(textarea_selector) {
     var cursorEnd = editor.getCursor("end"); 
     for (var i = cursorStart.line; i<=cursorEnd.line; i++) {
       var line = editor.getLine(i);
-      var tokens = Markdown.lexer(line);
+      var tokens = exports.markedown.lexer(line);
       var newLine = Array();
       var hasHeader = false;
       tokens.forEach(function(val, index) {

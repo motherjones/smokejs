@@ -4,7 +4,7 @@ var _ = require('lodash');
 var render = require('./render');
 var api = require('./edit_api');
 var Promise = require('promise-polyfill');
-var tweditor = require('./tweditor');
+var tweditor = require('./smoke_tweditor');
 
 /**
  * Includes functions to be called by the router.
