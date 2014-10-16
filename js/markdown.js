@@ -15,7 +15,6 @@ exports.renderer = new marked.Renderer();
 
 // Setup Custom Renderers.
 exports.renderer.component_block = function (that) {
-  console.log('comp found');
   var str = '{#load  slug="' + that.token.slug + '"/}';
   return str;
 };

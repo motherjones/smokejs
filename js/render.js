@@ -77,14 +77,11 @@ exports.dustBase = function() {
      * @inner
      */
     load : function(chunk, context, bodies, params) {
-      console.log('load found');
       var slug = (params && params.slug) ? params.slug : params.id; //TODO:FIX THIS
-      console.log(slug);
       return chunk.map(function(chunk) {
         var component = new api.Component(slug);
         component.get(function(data) {
           var template = params.template ? params.template : data.schema_name;
-          console.log(template);
           exports.render(template, data, function(html) {
             chunk.end(html);
           });
@@ -169,13 +166,8 @@ exports.dustBase = function() {
         data.get().then(function() {
           var html = Markdown.toHTML(data.data);
           var templateName = 'markdown_' + Math.random();
-          console.log(templateName);
-          console.log(html);
           var template = Dust.compile(html, templateName);
-          console.log('compile succeeded');
-          console.log('bout to load');
           Dust.loadSource(template);
-          console.log('bout to render');
           exports.render(templateName, data, function(html) {
             chunk.end(html);
           });

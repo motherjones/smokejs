@@ -284,7 +284,6 @@ exports.socialSharingElement = function(component) {
 exports.saveComponentButton = function(component) {
   return $('<button>Save</button>')
     .click(function() {
-          console.log(component.data.data);
       component.update().then(
         function() {
           component.data.update().then(
@@ -319,18 +318,54 @@ exports.failureNotice = function(error) {
 };
 
 /**
- * makes the upload image form an element w/ appropriate event handlers
+ * gives the upload image form appropriate event handlers
  * @param {string} html - The html of the form
+ * @param {function} callback - What to do once an image is created, called w/ the image component
  * @returns {element} form - the jquery element w/ events attached
  */
-exports.newImageForm = function(html) {
+exports.createImageForm = function(html, callback) {
   var form = $(html);
-  var component = new api.Component('fake slug somehow???');
   form.on('submit', function() {
     //turn image into something we can make data eat
-    component.data.data = 'the iamge';
-    return component.data.update().then(function() {
+    var component = new api.Component();
+    component.content_type =  ''; //Get file type
+    component.data.data = ''; //Read file
+    component.create().then(function() {
+      component.update().then(function() {
+        callback(component);
+      });
     });
   });
-  return form
+  return form;
+};
+
+/**
+ * gives the select image form appropriate event handlers
+ * @param {string} html - The html of the form
+ * @param {function} callback - What to do once an image is selected, called w/ the image component
+ * @returns {string} slug - the slug of the image selected
+ */
+exports.selectImageForm = function(html, callback) {
+  var form = $(html);
+  form.on('submit', function() {
+      callback(form.find('[name="slug"]').val());
+  });
+  return form;
+};
+
+/**
+ * gives the select image form appropriate event handlers
+ * @param {string} html - The html of the form
+ * @param {function} callback - What to do once an image is selected, called w/ the image component
+ * @returns {string} slug - the slug of the image selected
+ */
+exports.editImageForm = function(html, component, callback) {
+  var form = $(html);
+  form.on('submit', function() {
+    //FIXME for each type of thing update this component
+    component.update().then(function() {
+      callback(component);
+    });
+  });
+  return form;
 };

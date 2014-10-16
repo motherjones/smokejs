@@ -1,7 +1,7 @@
 <figure class="master-image">
   <img src="{MEDIA_BASE}{slug}/data/" alt="{metadata.alt_text}" />
-  {!FIXME MAKE SOME SORTA CROPPING SELECTOR IN EDITOR.JS FOR
-  DIFFERENT PLACES AN IMAGE IS USED SO CROPPING CAN BE RIGHT EVERYWHERE !}
+  <h1>FIXME MAKE SOME SORTA CROPPING SELECTOR IN EDITOR.JS FOR
+  DIFFERENT PLACES AN IMAGE IS USED SO CROPPING CAN BE RIGHT EVERYWHERE</h1>
   <figcaption>
     <span data-slug="{slug}" data-metadata="alt_text" editable="true">
     {metadata.alt_text}

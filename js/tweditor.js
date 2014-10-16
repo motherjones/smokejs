@@ -3,6 +3,7 @@ var Codemirror = require('./codemirror');
 var Markdown = require('./markdown');
 var Render = require('./render');
 var Dust = require('../build/js/dust_templates')();
+var Views = require('./edit_views');
 
 exports.tweditor = function(textarea_selector) {
   //Build Editor and Preview
@@ -32,10 +33,49 @@ exports.tweditor = function(textarea_selector) {
   menu.append(linkButton);
   var imageButton = $('<li class="editButton"><i class="fa fa-picture-o"></i></li>');
   menu.append(imageButton);
-  var imageFormOverlay;
-  render.render('new_image_form', {}, function(html) {
-    imageFormOverlay = editor.newImageForm(html);
+  var imageFormOverlay = $('<div style="display:none"></div>');
+  menu.append(imageFormOverlay);
+
+  var closeOverlay = function() {
+    imageFormOverlay.hide();
+    addImageOverlay();
+  };
+  var closeOverlayButton = $('<span>X</span>').click(closeOverlay);
+
+  var imageFormCallback = function(component) {
+    closeOverlay();
+    editor.replaceSelection('!!['+component.slug+'] ', "end");
+    editor.focus();
+  };
+  var newImageButton = $('<button>New Image</button>').click(function() {
+    Views.createImageForm({},
+      function(form) {
+        imageFormOverlay.remove().append(closeOverlay).append(form);
+      },
+      editImage
+    );
   });
+
+  var editImage = function() {
+    Views.editImageForm({},
+      function(form) {
+        imageFormOverlay.remove().append(closeOverlay).append(form);
+      },
+      imageFormCallback
+    );
+  };
+
+  var addImageOverlay = function() {
+    imageFormOverlay.empty();
+    Views.selectImageForm({}, function(form) {
+      imageFormOverlay
+        .append(closeOverlayButton)
+        .append(form)
+        .append(newImageButton);
+    }, imageFormCallback);
+  };
+  addImageOverlay();
+
   var linkFormOverlay = $('<div style="display:none;"><form><label for="url">URL</label><input type="text" name="url"/><button type="submit">OK</button></form></div>');
   menu.append(linkFormOverlay);
 

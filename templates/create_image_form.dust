@@ -1,0 +1,6 @@
+<form>
+  <h1>FIXME it'd be super cool if you could drag and drop a file here,
+  or paste a url in here</h1>
+  <label for="file">Select image</label>
+  <input type="file" name="file" />
+</form>
