@@ -2,35 +2,32 @@ var $ = require('jquery');
 var Render = require('./render');
 var Dust = require('../build/js/dust_templates')();
 var Views = require('./edit_views');
+var Markdown = require('./markdown');
 var tweditor = require('./tweditor');
 
-var Markdown = tweditor.markdown = require('./markdown');
-tweditor.convert = function(cm) {
+
+exports.tweditor = function(textarea_selector) {
+  tweditor.buttons.push(exports.makeStrikethroughButton);
+  tweditor.buttons.push(exports.makeLinkButton);
+  tweditor.buttons.push(exports.addImageButton);
+
+  tweditor.convert = exports.convert;
+  tweditor.markdown = Markdown;
+
+  return tweditor.tweditor(textarea_selector);
+}
+
+exports.convert = function(cm, preview) {
   var html = Markdown.toHTML(cm.getValue());
   var templateName = 'markdown_' + Math.random();
   var template = Dust.compile(html, templateName);
   Dust.loadSource(template);
   Render.render(templateName, {}, function(html) {
-    tweditor.preview.html(html);
+    preview.html(html);
   });
 };
 
-exports.tweditor = function(textarea_selector) {
-  var editor = tweditor.tweditor(textarea_selector);
-  tweditor.menu.append(
-      exports.makeStrikethroughButton(editor)
-  );
-  tweditor.menu.append(
-    exports.makeLinkButton(editor)
-  );
-  tweditor.menu.append(
-    exports.addImageButton(editor)
-  );
-
-  return editor;
-}
-
-exports.makeStrikethroughButton = function(editor) {
+exports.makeStrikethroughButton = function(editor, viewer) {
   var strikethroughButton = $('<li class="editButton"><i class="fa fa-strikethrough"></i></li>');
   strikethroughButton.on("click", function() {
     var newText = editor.getSelection().replace('*', '', 'g');
@@ -40,7 +37,7 @@ exports.makeStrikethroughButton = function(editor) {
   return strikethroughButton;
 };
 
-exports.makeLinkButton = function(editor) {
+exports.makeLinkButton = function(editor, viewer) {
   var linkButton = $('<li class="editButton"><i class="fa fa-link"></i></li>');
   var linkFormOverlay = $('<div style="display:none;"><form><label for="url">URL</label><input type="text" name="url"/><button type="submit">OK</button></form></div>');
   linkFormOverlay.on('submit', function() {
