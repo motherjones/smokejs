@@ -6,6 +6,7 @@ var ad = require('./ad');
 var $ = require('jquery');
 var _ = require('lodash');
 var Promise = require('promise-polyfill');
+var errors = require('./errors');
 
 //In general please use exports.name for simplicity
 //unless otherwise necessary not to.
@@ -53,12 +54,8 @@ module.exports.pop = function(path) {
   * @param {object} html - HTML to be inserted in DOM/string.
   */
 module.exports.callback = function() {
-  throw {
-    name : "NotImplementedError", 
-    message : "please replace this with a runtime specific callback"
-  };
-  return null;
-};
+  throw new errors.NotImplementedError();
+}
 
 /**
   * Set up click and callback events for the browser

@@ -13,11 +13,13 @@
  * environment.
  * @module main
  */
-(function() {
+module.exports = function() {
   var router = require('./router');
   var $ = require('jquery');
   $(document).ready(function() {
     router.browserStart();
   });
   return;
-})();
+}
+
+module.exports();
