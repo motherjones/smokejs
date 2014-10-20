@@ -39,7 +39,8 @@ exports.makeStrikethroughButton = function(editor, viewer) {
 
 exports.makeLinkButton = function(editor, viewer) {
   var linkButton = $('<li class="editButton"><i class="fa fa-link"></i></li>');
-  var linkFormOverlay = $('<div style="display:none;"><form><label for="url">URL</label><input type="text" name="url"/><button type="submit">OK</button></form></div>');
+  var linkFormOverlay = $('<div class="link-form-overlay"><form><label for="url">URL</label><input type="text" name="url"/><button type="submit">OK</button></form></div>');
+  linkFormOverlay.hide();
   linkFormOverlay.on('submit', function() {
     var newText = editor.getSelection().replace('*', '', 'g');
     linkFormOverlay.hide();
@@ -62,19 +63,22 @@ exports.closeOverlayButton = function(overlay, callback) {
     overlay.hide();
     callback();
   };
-  var closeOverlayButton = $('<span>X</span>').click(closeOverlay);
+  var closeOverlayButton = $('<span class="close-wysiwyg-button">X</span>').click(closeOverlay);
   return closeOverlayButton;
 };
 
 exports.createImageOverlay = function(editor) {
-  var imageFormOverlay = $('<div style="display:none"></div>');
+  var imageFormOverlay = $('<div class="image-form-overlay"></div>');
+  imageFormOverlay.hide();
 
   var closeOverlayButton = exports.closeOverlayButton(imageFormOverlay, resetImageOverlay);
 
-  var newImageButton = $('<button>New Image</button>').click(function() {
+  var newImageButton = $('<button class="new-image">New Image</button>').click(function() {
     Views.createImageForm({},
       function(form) {
-        imageFormOverlay.remove().append(closeOverlay).append(form);
+        imageFormOverlay.empty();
+        imageFormOverlay.append(closeOverlayButton).append(form);
+        console.log('lol wat');
       },
       editImage
     );

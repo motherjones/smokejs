@@ -4,12 +4,14 @@ var Codemirror = require('./codemirror');
 
 exports.tweditor = function(textarea_selector) {
   var textarea = $(textarea_selector);
+  textarea.wrap('<div class="markdown"></div>');
+  var width = (function() {return textarea.width(); })();
   var editor = CodeMirror.fromTextArea(textarea.get(0), {
     lineNumbers: true,
     lineWrapping: true,
     mode: "markdown"
   });
-  editor.setSize(textarea.width(),textarea.height());
+  editor.setSize(width,textarea.height());
 
   var html = exports.createHTML(textarea, editor);
 
@@ -27,7 +29,6 @@ exports.convert =  function(cm, preview) {
 
 exports.createHTML = function(textarea, editor) {
   //Build Editor and Preview
-  textarea.wrap('<div class="markdown"></div>');
   var editarea = textarea.parent();
   editarea.wrap('<div class="tweditor view-mode"></div>');
   var viewer = editarea.parent();
@@ -54,7 +55,7 @@ exports.createHTML = function(textarea, editor) {
 exports.splitScreenButton = function(editor, viewer) {
   var splitScreenButton = $('<li class="splitScreenButton"><i class="fa fa-expand"></i></li>');
   splitScreenButton.on("click", function() {
-    viewer.addClass("fullscreen").removeClass("view-mode").removeClass("edit-mode");  
+    viewer.addClass("fullscreen").removeClass("view-mode").removeClass("edit-mode");
     editor.refresh();
   });
   return splitScreenButton;
@@ -63,7 +64,7 @@ exports.splitScreenButton = function(editor, viewer) {
 exports.editButton = function(editor, viewer) {
   var editButton = $('<li class="editModeButton"><i class="fa fa-edit"></i></li>');
   editButton.on("click", function() {
-    viewer.removeClass("fullscreen").removeClass("view-mode").addClass("edit-mode");  
+    viewer.removeClass("fullscreen").removeClass("view-mode").addClass("edit-mode");
     editor.refresh();
   });
   return editButton;
@@ -72,7 +73,7 @@ exports.editButton = function(editor, viewer) {
 exports.viewButton = function(editor, viewer) {
   var viewButton = $('<li class="viewModeButton"><i class="fa fa-eye"></i></li>');
   viewButton.on("click", function() {
-    viewer.removeClass("fullscreen").addClass("view-mode").removeClass("edit-mode");  
+    viewer.removeClass("fullscreen").addClass("view-mode").removeClass("edit-mode");
     editor.refresh();
   });
   return viewButton;

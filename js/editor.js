@@ -324,7 +324,9 @@ exports.failureNotice = function(error) {
  * @returns {element} form - the jquery element w/ events attached
  */
 exports.createImageForm = function(html, callback) {
+  console.log(html);
   var form = $(html);
+  console.log(form);
   form.on('submit', function() {
     //turn image into something we can make data eat
     var component = new api.Component();
