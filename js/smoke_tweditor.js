@@ -10,6 +10,7 @@ exports.tweditor = function(textarea_selector) {
   tweditor.buttons.push(exports.makeStrikethroughButton);
   tweditor.buttons.push(exports.makeLinkButton);
   tweditor.buttons.push(exports.addImageButton);
+  tweditor.buttons.push(exports.addMininavButton);
 
   tweditor.convert = exports.convert;
   tweditor.markdown = Markdown;
@@ -58,27 +59,24 @@ exports.makeLinkButton = function(editor, viewer) {
 };
 
 exports.closeOverlayButton = function(overlay, callback) {
-  callback = callback ? callback : function() {};
-  var closeOverlay = function() {
-    overlay.hide();
+  return closeOverlayButton = $('<span class="close-wysiwyg-button">X</span>').click(
+  function() {
+    overlay.detach();
+    callback = callback ? callback : function() {};
     callback();
-  };
-  var closeOverlayButton = $('<span class="close-wysiwyg-button">X</span>').click(closeOverlay);
-  return closeOverlayButton;
+  });
 };
 
 exports.createImageOverlay = function(editor) {
   var imageFormOverlay = $('<div class="image-form-overlay"></div>');
-  imageFormOverlay.hide();
 
   var closeOverlayButton = exports.closeOverlayButton(imageFormOverlay, resetImageOverlay);
 
   var newImageButton = $('<button class="new-image">New Image</button>').click(function() {
     Views.createImageForm({},
       function(form) {
-        imageFormOverlay.empty();
+        imageFormOverlay.html('');
         imageFormOverlay.append(closeOverlayButton).append(form);
-        console.log('lol wat');
       },
       editImage
     );
@@ -87,7 +85,7 @@ exports.createImageOverlay = function(editor) {
   var editImage = function() {
     Views.editImageForm({},
       function(form) {
-        imageFormOverlay.remove().append(closeOverlay).append(form);
+        imageFormOverlay.detach().append(closeOverlay).append(form);
       },
       imageFormCallback
     );
@@ -96,16 +94,20 @@ exports.createImageOverlay = function(editor) {
   var imageFormCallback = function(component) {
     editor.replaceSelection('!!['+component.slug+'] ', "end");
     editor.focus();
+    imageFormOverlay.detach()
   };
 
   var resetImageOverlay = function() {
-    imageFormOverlay.empty();
-    Views.selectImageForm({}, function(form) {
+    imageFormOverlay.html('');
+    Views.selectComponent({}, function(form) {
       imageFormOverlay
         .append(closeOverlayButton)
         .append(form)
         .append(newImageButton);
-    }, imageFormCallback);
+    },
+    imageFormCallback,
+    { type: 'image' }
+    );
   };
 
   resetImageOverlay();
@@ -117,9 +119,66 @@ exports.addImageButton = function(editor) {
   var imageButton = $('<li class="editButton"><i class="fa fa-picture-o"></i></li>');
   var imageFormOverlay = exports.createImageOverlay(editor);
   imageButton.on("click", function() {
-    imageFormOverlay.show();
+    $('body').append(imageFormOverlay);
   });
-  imageButton.append(imageFormOverlay);
 
   return imageButton;
+};
+
+exports.addMininavButton = function(editor) {
+  var mininavButton = $('<li class="editButton"><i class="fa fa-list"></i></li>');
+  var mininavFormOverlay = exports.createMininavOverlay(editor);
+  mininavButton.on("click", function() {
+    $('body').append(mininavFormOverlay);
+  });
+
+  return mininavButton;
+}
+
+exports.createMininavOverlay = function(editor) {
+  var mininavFormOverlay = $('<div class="mininav-form-overlay"></div>');
+
+  var closeOverlayButton = exports.closeOverlayButton(mininavFormOverlay, resetMininavOverlay);
+
+  var newMininavButton = $('<button class="new-mininav">New Mininav</button>').click(function() {
+    Views.createList({},
+      function(form) {
+        mininavFormOverlay.html('');
+        mininavFormOverlay.append(closeOverlayButton).append(form);
+      },
+      editMininav
+    );
+  });
+
+  var editMininav = function() {
+    Views.editList({},
+      function(form) {
+        mininavFormOverlay.detach().append(closeOverlayButton).append(form);
+      },
+      mininavFormCallback
+    );
+  };
+
+  var mininavFormCallback = function(component) {
+    mininavFormOverlay.detach();
+    editor.replaceSelection('!!['+component.slug+'] ', "end");
+    editor.focus();
+  };
+
+  var resetMininavOverlay = function() {
+    mininavFormOverlay.html('');
+    Views.selectComponent({}, function(form) {
+      mininavFormOverlay
+        .append(closeOverlayButton)
+        .append(form)
+        .append(newMininavButton);
+    },
+    mininavFormCallback,
+    { type: 'mininav' }
+    );
+  };
+
+  resetMininavOverlay();
+
+  return mininavFormOverlay;
 };

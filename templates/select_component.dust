@@ -1,5 +1,5 @@
 <form class="select-image-form">
-  <label for="image_selector">Replace me with an autocomplete of images</label>
+  <label for="slug">Replace me with an autocomplete</label>
   <input type="text" name="slug" />
   <button type="submit">This one</button>
 </form>

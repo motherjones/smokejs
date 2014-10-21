@@ -44,18 +44,19 @@ exports.createImageForm = function(match, callback, formCallback) {
 };
 
 /**
- * View for rendering a select image form.
+ * View for rendering a select component form.
  * @param {object} match - match object Returned by routes.
  * @param {function} callback - callback is when form is made
- * @param {function} formCallback - callback when image is selected
+ * @param {function} formCallback - callback when component is selected
+ * @param {object} filter - what kind of components can be selected
  * @returns {promise} Resolves when complete
  */
-exports.selectImageForm = function(match, callback, formCallback) {
+exports.selectComponent = function(match, callback, formCallback, filter) {
   callback = callback ? callback : function() {};
   formCallback = formCallback ? formCallback : editor.successNotice;
-  return render.render('select_image_form', {}, function(html) {
+  return render.render('select_component', {}, function(html) {
     callback(
-      editor.selectImageForm(html, formCallback)
+      editor.selectComponent(html, formCallback, filter)
     );
   })
 };
@@ -64,7 +65,7 @@ exports.selectImageForm = function(match, callback, formCallback) {
  * View for rendering an edit image form.
  * @param {object} match - match object Returned by routes.
  * @param {function} callback - callback is when form is made
- * @param {function} formCallback - callback when image is selected
+ * @param {function} formCallback - callback when image is done being edited
  * @returns {promise} Resolves when complete
  */
 exports.editImageForm = function(match, callback, formCallback) {
@@ -75,6 +76,49 @@ exports.editImageForm = function(match, callback, formCallback) {
   return render.render('edit_image_form', {}, function(html) {
     callback(
       editor.editImageForm(html, formCallback)
+    );
+  })
+};
+
+/**
+ * View for rendering an edit mininav form.
+ * @param {object} match - match object Returned by routes.
+ * @param {function} callback - callback is when form is made
+ * @param {function} formCallback - callback when image is selected
+ * @returns {promise} Resolves when complete
+ */
+exports.editList = function(match, callback, formCallback) {
+  callback = callback ? callback : function() {};
+  formCallback = formCallback ? formCallback : editor.successNotice;
+  var slug = match.params.slug;
+  var component = new api.Component(slug);
+  return render.render('sortable_list',
+  {
+    attribute: 'main',
+    metadata: 'FIXME',
+    slug: slug,
+    template: 'slug_li',
+    delimiter: ''
+  },
+  function(html) {
+    callback(
+      editor.makeListEditable(html, component)
+    );
+  })
+};
+/**
+ * View for rendering a create list form.
+ * @param {object} match - match object Returned by routes.
+ * @param {function} callback - callback is when form is made
+ * @param {function} formCallback - callback when image is selected
+ * @returns {promise} Resolves when complete
+ */
+exports.createList = function(match, callback, formCallback) {
+  callback = callback ? callback : function() {};
+  formCallback = formCallback ? formCallback : editor.successNotice;
+  return render.render('create_list', {}, function(html) {
+    callback(
+      editor.createList(html, formCallback)
     );
   })
 };

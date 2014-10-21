@@ -27,7 +27,7 @@ exports.makeEditable = function(component) {
   }
   for (var name in component.attributes) {
     if (_.isArray( component.attributes[name] )) {
-      exports.makeListEditable(name, component);
+      exports.makeListsEditable(name, component);
     } else {
       exports.makeEditable(component.attributes[name]);
     }
@@ -37,26 +37,38 @@ exports.makeEditable = function(component) {
 };
 
 /**
- * Makes an array sortable, it's members deletable, and gives it a save button
+ * Makes uls which pre-exist on the page editable
  * @param {string} attribute - The name of the array we're making sortable
  * @param {array} components - The component array we're making sortable
  * @returns {void}
  */
-exports.makeListEditable = function(attribute, component) {
+exports.makeListsEditable = function(attribute, component) {
   var lists = $('[data-attribute="' + attribute + '"][data-slug="' + component.slug + '"]');
   lists.each(function() {
-    var list = $(this);
-    list.sortable().bind('sortupdate', function() {
-      exports.listSortedAction(list, component);
-    });
-    list.find('li').each(function() {
-      $(this).append(
-        exports.removeFromListButton($(this).data('slug'), attribute, component)
-      );
-    });
-    list.append(exports.addToListButton(attribute, component));
-    list.append(exports.saveListButton(attribute, component));
+    exports.makeListEditable($(this), component);
   });
+}
+
+/**
+ * Makes an array sortable, it's members deletable, and gives it a save button
+ * @param {list} element - The element containing the list
+ * @param {array} components - The component array we're making sortable
+ * @returns {list} the list element
+ */
+exports.makeListEditable = function(list, component) {
+  if (typeof list === 'string') { list = $(list) }
+  var attribute = list.data('attribute');
+  list.sortable().bind('sortupdate', function() {
+    exports.listSortedAction(list, component);
+  });
+  list.find('li').each(function() {
+    $(this).append(
+      exports.removeFromListButton($(this).data('slug'), attribute, component)
+    );
+  });
+  list.append(exports.addToListButton(attribute, component));
+  list.append(exports.saveListButton(attribute, component));
+  return list;
 };
 
 /**
@@ -116,7 +128,7 @@ exports.remakeLists = function(component, attribute) {
 
   return new Promise(function(res, rej) {
     Promise.all(listsRemade).then(function() {
-      exports.makeListEditable(attribute, component);
+      exports.makeListsEditable(attribute, component);
       res();
     }, rej);
   });
@@ -324,9 +336,7 @@ exports.failureNotice = function(error) {
  * @returns {element} form - the jquery element w/ events attached
  */
 exports.createImageForm = function(html, callback) {
-  console.log(html);
   var form = $(html);
-  console.log(form);
   form.on('submit', function() {
     //turn image into something we can make data eat
     var component = new api.Component();
@@ -337,29 +347,33 @@ exports.createImageForm = function(html, callback) {
         callback(component);
       });
     });
+    return false;
   });
   return form;
 };
 
 /**
- * gives the select image form appropriate event handlers
+ * gives the select component form appropriate event handlers
  * @param {string} html - The html of the form
- * @param {function} callback - What to do once an image is selected, called w/ the image component
- * @returns {string} slug - the slug of the image selected
+ * @param {function} callback - What to do once a component is selected, called w/ the component
+ * @param {object} filter - What kinds of components should be selectable
+ * @returns {string} slug - the slug of the component selected
  */
-exports.selectImageForm = function(html, callback) {
+exports.selectComponent = function(html, callback, filter) {
   var form = $(html);
   form.on('submit', function() {
-      callback(form.find('[name="slug"]').val());
+    var component = new api.Component(form.find('[name="slug"]').val());
+    callback(component);
+    return false;
   });
   return form;
 };
 
 /**
- * gives the select image form appropriate event handlers
+ * gives the edit image form appropriate event handlers
  * @param {string} html - The html of the form
- * @param {function} callback - What to do once an image is selected, called w/ the image component
- * @returns {string} slug - the slug of the image selected
+ * @param {function} callback - What to do once an image is done being edited, called w/ the image component
+ * @returns {element} form - the form w/ appropriate event handlers
  */
 exports.editImageForm = function(html, component, callback) {
   var form = $(html);
@@ -368,6 +382,25 @@ exports.editImageForm = function(html, component, callback) {
     component.update().then(function() {
       callback(component);
     });
+    return false;
   });
   return form;
 };
+
+/**
+ * gives the create list form appropriate event handlers
+ * @param {string} html - The html of the form
+ * @param {function} callback - What to do after list creation, called w/ the new component
+ * @return {element} form - the form w/ appropriate event handlers
+ */
+exports.createList = function(html, callback) {
+  var form = $(html);
+  var component = new api.Component();
+  form.on('submit', function() {
+    component.create(function(component) {
+      callback(component);
+    });
+    return false;
+  });
+  return form;
+}
