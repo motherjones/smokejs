@@ -63,6 +63,7 @@ module.exports.callback = function() {
   * @memberof module:router
   */
 module.exports.browserStart = function() {
+  console.log('browserStart\n\n\ntest');
   $('body').on("click", "[href^='/']", module.exports.browserClick );
   $(window).on('popstate', function(e) {
     module.exports.pop(document.location.pathname);

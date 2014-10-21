@@ -3,7 +3,7 @@ var router = require('../js/router');
 var $ = require('jquery');
 var Ad = require('../js/ad');
 var errors = require('../js/errors');
-var should = require('should'):
+var should = require('should');
 
 describe("router properties", function() {
   it('ad loaded', function(done) {
@@ -46,6 +46,7 @@ describe("router callbacks", function() {
         }
       }
       match.next = function() { return match };
+      console.log("before called\n\n\ntest");
       router.browserCallback(match, 'lolno', 'Title');
     });
     afterEach(function() {
