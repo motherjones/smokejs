@@ -41,10 +41,15 @@ exports.makeStrikethroughButton = function(editor, viewer) {
 exports.makeLinkButton = function(editor, viewer) {
   var linkButton = $('<li class="editButton"><i class="fa fa-link"></i></li>');
   var linkFormOverlay = $('<div class="link-form-overlay"><form><label for="url">URL</label><input type="text" name="url"/><button type="submit">OK</button></form></div>');
-  linkFormOverlay.hide();
+  linkFormOverlay.prepend(
+    exports.closeOverlayButton(
+      linkFormOverlay,
+      function() { linkFormOverlay.find('[name="url"]').val(''); }
+    )
+  );
   linkFormOverlay.on('submit', function() {
     var newText = editor.getSelection().replace('*', '', 'g');
-    linkFormOverlay.hide();
+    linkFormOverlay.detach();
     editor.replaceSelection(' ['+newText+']('+
       linkFormOverlay.find('[name="url"]').val()+
       ') ', "end");
@@ -52,9 +57,8 @@ exports.makeLinkButton = function(editor, viewer) {
     return false;
   });
   linkButton.on("click", function() {
-    linkFormOverlay.show();
+    $('body').append(linkFormOverlay);
   });
-  linkButton.append(linkFormOverlay);
   return linkButton;
 };
 
