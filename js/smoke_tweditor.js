@@ -28,6 +28,72 @@ exports.convert = function(cm, preview) {
   });
 };
 
+exports.headerButton = function(editor, viewer) {
+  var headerDropDown = $('<select class="headerDropDown">');
+  var wrap = function(start, end) {
+    end = end ? end : start;
+    var newText = editor.getSelection().replace('*', '', 'g');
+    editor.replaceSelection(' '+start+newText+end+' ', "end");
+    editor.focus();
+  };
+  var addHeader = function(size) {
+    var cursorStart = editor.getCursor("start");
+    var cursorEnd = editor.getCursor("end");
+    for (var i = cursorStart.line; i<=cursorEnd.line; i++) {
+      var line = editor.getLine(i);
+      var tokens = exports.markdown.lexer(line);
+      var newLine = Array();
+      var hasHeader = false;
+      tokens.forEach(function(val, index) {
+        if (val.type === "blockquote_start") {
+          newLine.push('> ');
+        } else if (val.type === "heading") {
+          newLine.push(Array(size+1).join('#')+val.text);
+          hasHeader = true;
+        } else if (val.type === "paragraph") {
+          if (!hasHeader) {
+            newLine.push(Array(size+1).join('#')+val.text);
+            hasHeader = true;
+          } else {
+            newLine.push(val.text);
+          }
+        } else {
+          newLine.push(val.text);
+        }
+      });
+      editor.setLine(i, newLine.join(''));
+    }
+    editor.setSelection(cursorStart, cursorEnd);
+    editor.focus();
+  }
+    /**
+     * FIXME!!!
+     * the types of styles i know about are
+     * article lead { text-transform: uppercase; font-weight: bold; }
+     * large subsection lead { font-size: 36px; font-family: 'bitter', serif'; margin .5em 0;}
+     * small subsection lead { font-size: 36px; font-family: 'bitter', serif'; margin .5em 0;}
+     * highlight {font-weight:bold; font-size: 1.4em;color: #e12300(red)}
+     * subscript
+     * superscript
+     */
+  var styles = {
+    'article-lead' : function() {
+      wrap('<span class="article-lead">', '</span>');
+    },
+  };
+  for (var i in styles) { //start at 1, there is no h0
+    headerDropDown.append($('<option>')
+        .addClass(i)
+        .attr('value', i)
+        .text(styles[i]));
+  }
+  headerDropDown.on("change", function(e) {
+  });
+  var headerButton = $('<li class="editButton"></li>');
+  headerButton.append(headerDropDown);
+  return headerButton;
+};
+
 exports.makeStrikethroughButton = function(editor, viewer) {
   var strikethroughButton = $('<li class="editButton"><i class="fa fa-strikethrough"></i></li>');
   strikethroughButton.on("click", function() {
@@ -63,7 +129,7 @@ exports.makeLinkButton = function(editor, viewer) {
 };
 
 exports.closeOverlayButton = function(overlay, callback) {
-  return closeOverlayButton = $('<span class="close-wysiwyg-button">X</span>').click(
+  return $('<span class="close-wysiwyg-button">X</span>').click(
   function() {
     overlay.detach();
     callback = callback ? callback : function() {};
@@ -89,7 +155,7 @@ exports.createImageOverlay = function(editor) {
   var editImage = function() {
     Views.editImageForm({},
       function(form) {
-        imageFormOverlay.detach().append(closeOverlay).append(form);
+        imageFormOverlay.detach().append(closeOverlayButton).append(form);
       },
       imageFormCallback
     );
