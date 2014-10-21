@@ -123,6 +123,18 @@ describe("editor functions", function() {
     var slug = 'test';
     var component = new api.Component(slug, testData);
     var button = editor.saveComponentButton(component);
+    var successBackup, failureBackup;
+
+    beforeEach(function(done) {
+      successBackup = editor.successNotice;
+      failureBackup = editor.failureNotice;
+      done();
+    });
+    afterEach(function(done) {
+      editor.successNotice = successBackup;
+      editor.failureNotice = failureBackup;
+      done();
+    });
 
     it("should create a button", function(done) {
       button.is('button').should.be.true;
@@ -135,31 +147,26 @@ describe("editor functions", function() {
     });
 
     it("should call the component's update method on click", function(done) {
-      component.update = function() {
+      component.update = component.data.update = function() {
         return new Promise(function(resolve) {
          done();
-         resolve();
         });
       };
       button.click();
     });
 
     it("should run success notification if component's update succeeds", function(done) {
-      var sBak = editor.successNotice;
       editor.successNotice = function() {
-        editor.successNotice = sBak;
         done();
       };
-      component.update = function() {
+      component.update = component.data.update = function() {
         return new Promise(function(resolve) { resolve(); });
       };
       button.click();
     });
 
     it("should call failure notification if component's update fails", function(done) {
-      var fBak = editor.failureNotice;
       editor.failureNotice = function() {
-        editor.failureNotice = fBak;
         done();
       };
       component.update = function() {
