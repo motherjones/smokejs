@@ -16,7 +16,7 @@ exports.tweditor = function(textarea_selector) {
   tweditor.markdown = Markdown;
 
   return tweditor.tweditor(textarea_selector);
-}
+};
 
 exports.convert = function(cm, preview) {
   var html = Markdown.toHTML(cm.getValue());
@@ -28,7 +28,8 @@ exports.convert = function(cm, preview) {
   });
 };
 
-exports.headerButton = function(editor, viewer) {
+exports.headerButton = function(editor) {
+//exports.headerButton = function(editor, viewer) {
   var headerDropDown = $('<select class="headerDropDown">');
   var wrap = function(start, end) {
     end = end ? end : start;
@@ -36,13 +37,13 @@ exports.headerButton = function(editor, viewer) {
     editor.replaceSelection(' '+start+newText+end+' ', "end");
     editor.focus();
   };
-  var addHeader = function(size) {
+  /*var addHeader = function(size) {
     var cursorStart = editor.getCursor("start");
     var cursorEnd = editor.getCursor("end");
     for (var i = cursorStart.line; i<=cursorEnd.line; i++) {
       var line = editor.getLine(i);
       var tokens = exports.markdown.lexer(line);
-      var newLine = Array();
+      var newLine = [];
       var hasHeader = false;
       tokens.forEach(function(val, index) {
         if (val.type === "blockquote_start") {
@@ -52,7 +53,7 @@ exports.headerButton = function(editor, viewer) {
           hasHeader = true;
         } else if (val.type === "paragraph") {
           if (!hasHeader) {
-            newLine.push(Array(size+1).join('#')+val.text);
+            newLine.push([].join('#')+val.text);
             hasHeader = true;
           } else {
             newLine.push(val.text);
@@ -65,7 +66,8 @@ exports.headerButton = function(editor, viewer) {
     }
     editor.setSelection(cursorStart, cursorEnd);
     editor.focus();
-  }
+  };
+  */
     /**
      * FIXME!!!
      * the types of styles i know about are
@@ -88,13 +90,15 @@ exports.headerButton = function(editor, viewer) {
         .text(styles[i]));
   }
   headerDropDown.on("change", function(e) {
+    console.log(e);
   });
   var headerButton = $('<li class="editButton"></li>');
   headerButton.append(headerDropDown);
   return headerButton;
 };
 
-exports.makeStrikethroughButton = function(editor, viewer) {
+//exports.makeStrikethroughButton = function(editor, viewer) {
+exports.makeStrikethroughButton = function(editor) {
   var strikethroughButton = $('<li class="editButton"><i class="fa fa-strikethrough"></i></li>');
   strikethroughButton.on("click", function() {
     var newText = editor.getSelection().replace('*', '', 'g');
@@ -104,7 +108,8 @@ exports.makeStrikethroughButton = function(editor, viewer) {
   return strikethroughButton;
 };
 
-exports.makeLinkButton = function(editor, viewer) {
+//exports.makeLinkButton = function(editor, viewer) {
+exports.makeLinkButton = function(editor) {
   var linkButton = $('<li class="editButton"><i class="fa fa-link"></i></li>');
   var linkFormOverlay = $('<div class="link-form-overlay"><form><label for="url">URL</label><input type="text" name="url"/><button type="submit">OK</button></form></div>');
   linkFormOverlay.prepend(
@@ -140,6 +145,19 @@ exports.closeOverlayButton = function(overlay, callback) {
 exports.createImageOverlay = function(editor) {
   var imageFormOverlay = $('<div class="image-form-overlay"></div>');
 
+  var resetImageOverlay = function() {
+    imageFormOverlay.html('');
+    Views.selectComponent({}, function(form) {
+      imageFormOverlay
+        .append(closeOverlayButton)
+        .append(form)
+        .append(newImageButton);
+    },
+    imageFormCallback,
+    { type: 'image' }
+    );
+  };
+
   var closeOverlayButton = exports.closeOverlayButton(imageFormOverlay, resetImageOverlay);
 
   var newImageButton = $('<button class="new-image">New Image</button>').click(function() {
@@ -164,20 +182,7 @@ exports.createImageOverlay = function(editor) {
   var imageFormCallback = function(component) {
     editor.replaceSelection('!!['+component.slug+'] ', "end");
     editor.focus();
-    imageFormOverlay.detach()
-  };
-
-  var resetImageOverlay = function() {
-    imageFormOverlay.html('');
-    Views.selectComponent({}, function(form) {
-      imageFormOverlay
-        .append(closeOverlayButton)
-        .append(form)
-        .append(newImageButton);
-    },
-    imageFormCallback,
-    { type: 'image' }
-    );
+    imageFormOverlay.detach();
   };
 
   resetImageOverlay();
@@ -203,10 +208,23 @@ exports.addMininavButton = function(editor) {
   });
 
   return mininavButton;
-}
+};
 
 exports.createMininavOverlay = function(editor) {
   var mininavFormOverlay = $('<div class="mininav-form-overlay"></div>');
+
+  var resetMininavOverlay = function() {
+    mininavFormOverlay.html('');
+    Views.selectComponent({}, function(form) {
+      mininavFormOverlay
+        .append(closeOverlayButton)
+        .append(form)
+        .append(newMininavButton);
+    },
+    mininavFormCallback,
+    { type: 'mininav' }
+    );
+  };
 
   var closeOverlayButton = exports.closeOverlayButton(mininavFormOverlay, resetMininavOverlay);
 
@@ -233,19 +251,6 @@ exports.createMininavOverlay = function(editor) {
     mininavFormOverlay.detach();
     editor.replaceSelection('!!['+component.slug+'] ', "end");
     editor.focus();
-  };
-
-  var resetMininavOverlay = function() {
-    mininavFormOverlay.html('');
-    Views.selectComponent({}, function(form) {
-      mininavFormOverlay
-        .append(closeOverlayButton)
-        .append(form)
-        .append(newMininavButton);
-    },
-    mininavFormCallback,
-    { type: 'mininav' }
-    );
   };
 
   resetMininavOverlay();

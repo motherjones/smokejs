@@ -47,7 +47,7 @@ exports.makeListsEditable = function(attribute, component) {
   lists.each(function() {
     exports.makeListEditable($(this), component);
   });
-}
+};
 
 /**
  * Makes an array sortable, it's members deletable, and gives it a save button
@@ -56,7 +56,7 @@ exports.makeListsEditable = function(attribute, component) {
  * @returns {list} the list element
  */
 exports.makeListEditable = function(list, component) {
-  if (typeof list === 'string') { list = $(list) }
+  if (typeof list === 'string') { list = $(list); }
   var attribute = list.data('attribute');
   list.sortable().bind('sortupdate', function() {
     exports.listSortedAction(list, component);
@@ -246,8 +246,8 @@ exports.saveListButton = function(name, component) {
 exports.editableData = function(component) {
   if (component.content_type.match(/markdown/i)) {
     component.data.get().then(function() {
-      var textArea = $('<textarea class="component_body" data-slug="'
-        + component.slug + '">' + component.data.data + '</textarea>');
+      var textArea = $('<textarea class="component_body" data-slug="' +
+        component.slug + '">' + component.data.data + '</textarea>');
 
       var selector = '.component_body[data-slug="' + component.slug + '"]';
       $(selector).replaceWith(textArea);
@@ -259,7 +259,7 @@ exports.editableData = function(component) {
   }
   if (component.content_type.match(/image/i)) {
     console.log('implement fancy image stuff');
-  };
+  }
 };
 
 /**
@@ -361,6 +361,7 @@ exports.createImageForm = function(html, callback) {
  */
 exports.selectComponent = function(html, callback, filter) {
   var form = $(html);
+  console.log('FIXME have the filter do someting', filter);
   form.on('submit', function() {
     var component = new api.Component(form.find('[name="slug"]').val());
     callback(component);
@@ -403,4 +404,4 @@ exports.createList = function(html, callback) {
     return false;
   });
   return form;
-}
+};

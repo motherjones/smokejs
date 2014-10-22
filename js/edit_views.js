@@ -40,7 +40,7 @@ exports.createImageForm = function(match, callback, formCallback) {
     callback(
       editor.createImageForm(html, formCallback)
     );
-  })
+  });
 };
 
 /**
@@ -58,7 +58,7 @@ exports.selectComponent = function(match, callback, formCallback, filter) {
     callback(
       editor.selectComponent(html, formCallback, filter)
     );
-  })
+  });
 };
 
 /**
@@ -73,11 +73,11 @@ exports.editImageForm = function(match, callback, formCallback) {
   formCallback = formCallback ? formCallback : editor.successNotice;
   var slug = match.params.slug;
   var component = new api.Component(slug);
-  return render.render('edit_image_form', {}, function(html) {
+  return render.render('edit_image_form', component, function(html) {
     callback(
       editor.editImageForm(html, formCallback)
     );
-  })
+  });
 };
 
 /**
@@ -104,7 +104,7 @@ exports.editList = function(match, callback, formCallback) {
     callback(
       editor.makeListEditable(html, component)
     );
-  })
+  });
 };
 /**
  * View for rendering a create list form.
@@ -120,5 +120,5 @@ exports.createList = function(match, callback, formCallback) {
     callback(
       editor.createList(html, formCallback)
     );
-  })
+  });
 };

@@ -28,9 +28,9 @@ describe("editor functions", function() {
     });
 
     it("can tell if an attribute is an array", function(done) {
-      var listEditableBackup = editor.makeListEditable;
-      editor.makeListEditable = function(name) {
-        editor.makeListEditable = listEditableBackup;
+      var listEditableBackup = editor.makeListsEditable;
+      editor.makeListsEditable = function(name) {
+        editor.makeListsEditable = listEditableBackup;
         name.should.eql('byline');
         done();
       };
@@ -260,7 +260,7 @@ describe("editor functions", function() {
     });
   });
 
-  describe("makeListEditable", function() {
+  describe("makeListsEditable", function() {
     var slug = 'test';
     var component = new api.Component(slug, testData);
     var list = $('<ul data-attribute="byline" data-slug="'+slug+'"></ul>');
@@ -270,7 +270,7 @@ describe("editor functions", function() {
     before(function(done) {
       list.append(item);
       $('body').append(list);
-      editor.makeListEditable('byline', component);
+      editor.makeListsEditable('byline', component);
       done();
     });
 
@@ -499,9 +499,9 @@ describe("editor functions", function() {
     var slug = 'test';
     var makeListsEditableCalled;
     var component;
-    var makeListEditableBak = editor.makeListEditable;
+    var makeListEditableBak = editor.makeListsEditable;
     before(function(done) {
-      editor.makeListEditable = function(attribute, component) {
+      editor.makeListsEditable = function(attribute, component) {
         attribute.should.be.eql('byline');
         component.slug.should.eql(slug);
         makeListsEditableCalled += 1;
@@ -554,7 +554,7 @@ describe("editor functions", function() {
       done();
     });
     after(function(done) {
-      editor.makeListEditable = makeListEditableBak;
+      editor.makeListsEditable = makeListEditableBak;
       done();
     });
   });
