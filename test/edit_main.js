@@ -1,9 +1,11 @@
 var router = require('../js/router');
 var routes = require('../js/routes');
+var editRoutes = require('../js/edit_routes');
 var sinon = require('sinon');
 var should = require('should');
+var _ = require('lodash');
 
-describe("main", function() {
+describe("edit main", function() {
   var self = new Object();
   before(function() {
     self.browserStart = sinon.stub(router, "browserStart", function() {});
@@ -14,9 +16,9 @@ describe("main", function() {
     self.addRoutes.restore();
   });
   it("runs", function() {
-    var main = require('../js/main');
+    var main = require('../js/edit_main');
     self.browserStart.calledOnce.should.be.true;
     self.addRoutes.calledOnce.should.be.true;
-    self.addRoutes.calledWith(routes).should.be.true;
+    self.addRoutes.calledWith(_.merge(_.clone(routes), editRoutes)).should.be.true;
   });
 });

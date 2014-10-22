@@ -1,17 +1,19 @@
-/*global document */
-'use strict';
-
 /**
  * Starts the application and sets up browser
  * environment.
- * @module main
+ * @module edit_main
  */
-(function() {
-  var router = require('./edit_router');
+module.exports = function() {
+  var router = require('./router');
+  var routes = require('./routes');
+  var edit_routes = require('./edit_routes');
+  var _ = require('lodash');
   var $ = require('jquery');
+  router.addRoutes(_.merge(_.clone(routes), edit_routes));
   $(document).ready(function() {
     router.browserStart();
   });
   return;
-})();
+}
 
+module.exports();

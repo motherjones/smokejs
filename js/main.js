@@ -15,7 +15,9 @@
  */
 module.exports = function() {
   var router = require('./router');
+  var routes = require('./routes');
   var $ = require('jquery');
+  router.addRoutes(routes);
   $(document).ready(function() {
     router.browserStart();
   });
