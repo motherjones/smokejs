@@ -12,6 +12,8 @@ exports.tweditor = function(textarea_selector) {
   tweditor.buttons.push(exports.addImageButton);
   tweditor.buttons.push(exports.addMininavButton);
 
+  tweditor.buttons[6] = exports.headerButton;
+
   tweditor.convert = exports.convert;
   tweditor.markdown = Markdown;
 
@@ -30,70 +32,15 @@ exports.convert = function(cm, preview) {
 
 exports.headerButton = function(editor) {
 //exports.headerButton = function(editor, viewer) {
-  var headerDropDown = $('<select class="headerDropDown">');
-  var wrap = function(start, end) {
-    end = end ? end : start;
-    var newText = editor.getSelection().replace('*', '', 'g');
-    editor.replaceSelection(' '+start+newText+end+' ', "end");
-    editor.focus();
-  };
-  /*var addHeader = function(size) {
+  console.log('in here');
+  var headerButton = $('<li class="editButton"><i class="fa fa-header"></i></li>');
+  headerButton.on("click", function() {
+    editor.replaceSelection('\n###'+editor.getSelection().replace(/[\*\#]/, '', 'g')+'\n', "end");
     var cursorStart = editor.getCursor("start");
     var cursorEnd = editor.getCursor("end");
-    for (var i = cursorStart.line; i<=cursorEnd.line; i++) {
-      var line = editor.getLine(i);
-      var tokens = exports.markdown.lexer(line);
-      var newLine = [];
-      var hasHeader = false;
-      tokens.forEach(function(val, index) {
-        if (val.type === "blockquote_start") {
-          newLine.push('> ');
-        } else if (val.type === "heading") {
-          newLine.push(Array(size+1).join('#')+val.text);
-          hasHeader = true;
-        } else if (val.type === "paragraph") {
-          if (!hasHeader) {
-            newLine.push([].join('#')+val.text);
-            hasHeader = true;
-          } else {
-            newLine.push(val.text);
-          }
-        } else {
-          newLine.push(val.text);
-        }
-      });
-      editor.setLine(i, newLine.join(''));
-    }
     editor.setSelection(cursorStart, cursorEnd);
     editor.focus();
-  };
-  */
-    /**
-     * FIXME!!!
-     * the types of styles i know about are
-     * article lead { text-transform: uppercase; font-weight: bold; }
-     * large subsection lead { font-size: 36px; font-family: 'bitter', serif'; margin .5em 0;}
-     * small subsection lead { font-size: 36px; font-family: 'bitter', serif'; margin .5em 0;}
-     * highlight {font-weight:bold; font-size: 1.4em;color: #e12300(red)}
-     * subscript
-     * superscript
-     */
-  var styles = {
-    'article-lead' : function() {
-      wrap('<span class="article-lead">', '</span>');
-    },
-  };
-  for (var i in styles) { //start at 1, there is no h0
-    headerDropDown.append($('<option>')
-        .addClass(i)
-        .attr('value', i)
-        .text(styles[i]));
-  }
-  headerDropDown.on("change", function(e) {
-    console.log(e);
   });
-  var headerButton = $('<li class="editButton"></li>');
-  headerButton.append(headerDropDown);
   return headerButton;
 };
 
