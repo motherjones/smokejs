@@ -17,7 +17,10 @@ exports.tweditor = function(textarea_selector) {
   tweditor.convert = exports.convert;
   tweditor.markdown = Markdown;
 
-  return tweditor.tweditor(textarea_selector);
+  editor = tweditor.tweditor(textarea_selector);
+  editor.setSize('auto', 'auto');
+
+  return editor;
 };
 
 exports.convert = function(cm, preview) {
