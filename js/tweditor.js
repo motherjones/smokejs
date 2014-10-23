@@ -3,26 +3,20 @@ exports.markdown = require('marked');
 var CodeMirror = require('codemirror');
 
 exports.tweditor = function(textarea_selector) {
-  console.log('in twed');
   var textarea = $(textarea_selector);
   textarea.wrap('<div class="markdown"></div>');
-  console.log('textarea wrpapped');
   var editor = CodeMirror.fromTextArea(textarea[0], {
     lineNumbers: true,
     lineWrapping: true,
     mode: "markdown"
   });
-  console.log('editor maedea');
   editor.setSize(textarea.width(),textarea.height());
 
-  console.log('bout to make topbar');
   var html = exports.createHTML(textarea, editor);
 
-  console.log('bt to set chagnevnt');
   editor.on("change", function(cm, changeObject) {
     exports.convert(cm, html.preview);
   });
-  console.log('no conversion yet');
   exports.convert(editor, html.preview);
 
   return editor;

@@ -32,7 +32,6 @@ exports.convert = function(cm, preview) {
 
 exports.headerButton = function(editor) {
 //exports.headerButton = function(editor, viewer) {
-  console.log('in here');
   var headerButton = $('<li class="editButton"><i class="fa fa-header"></i></li>');
   headerButton.on("click", function() {
     editor.replaceSelection('\n###'+editor.getSelection().replace(/[\*\#]/, '', 'g')+'\n', "end");
