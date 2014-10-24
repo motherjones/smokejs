@@ -28,6 +28,7 @@
   "devDependencies": {
     "browser-request": "robertjd/browser-request",
     "browserify": "~3.24.1",
+    "codemirror": "^4.7.0",
     "coverify": "~1.0.6",
     "dustjs-helpers": "~1.2.0",
     "dustjs-linkedin": "~2.3.2",
@@ -54,11 +55,11 @@
     "mocha": "~1.20.1",
     "mochify": "~0.9.4",
     "nock": "^0.32.3",
+    "normalize.css": "~3.0.1",
     "phantomjs": "~1.9.7-8",
     "promise-polyfill": "~1.1.2",
     "should": "~4.0.4",
-    "sinon": "git+https://github.com/motherjones/Sinon.JS.git",
-    "normalize.css": "~3.0.1"
+    "sinon": "git+https://github.com/motherjones/Sinon.JS.git"
   },
   "keywords": [],
   "dependencies": {
