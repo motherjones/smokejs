@@ -3,7 +3,7 @@ var Render = require('./render');
 var Dust = require('../build/js/dust_templates')();
 var Views = require('./edit_views');
 var Markdown = require('./markdown');
-var tweditor = require('./tweditor');
+var tweditor = require('tweditor');
 
 
 exports.tweditor = function(textarea_selector) {
