@@ -3,14 +3,15 @@ var Render = require('./render');
 var Dust = require('../build/js/dust_templates')();
 var Views = require('./edit_views');
 var Markdown = require('./markdown');
-var tweditor = require('./tweditor');
+var tweditor = require('tweditor/src/index.js');
 
 
 exports.tweditor = function(textarea_selector) {
   tweditor.buttons.push(exports.makeStrikethroughButton);
   tweditor.buttons.push(exports.makeLinkButton);
-  tweditor.buttons.push(exports.addImageButton);
-  tweditor.buttons.push(exports.addMininavButton);
+  tweditor.buttons.push(exports.quoteButton);
+//  tweditor.buttons.push(exports.addImageButton);
+//  tweditor.buttons.push(exports.addMininavButton);
 
   tweditor.buttons[6] = exports.headerButton;
 
@@ -33,14 +34,26 @@ exports.convert = function(cm, preview) {
   });
 };
 
+exports.quoteButton = function(editor) {
+  var quoteButton = $('<li class="editButton"><i class="fa fa-quote-left"></i></li>');
+  quoteButton.on("click", function() {
+    var oldtext = editor.getSelection('\n');
+    var newtext = '\n> ' + oldtext.replace(/\n/g, '\n> ') + '\n';
+    newtext = newtext.replace(/>\s*\n/g, '\n');
+    editor.replaceSelection(newtext);
+    editor.focus();
+  });
+  return quoteButton;
+};
+
 exports.headerButton = function(editor) {
 //exports.headerButton = function(editor, viewer) {
   var headerButton = $('<li class="editButton"><i class="fa fa-header"></i></li>');
   headerButton.on("click", function() {
-    editor.replaceSelection('\n###'+editor.getSelection().replace(/[\*\#]/, '', 'g')+'\n', "end");
-    var cursorStart = editor.getCursor("start");
-    var cursorEnd = editor.getCursor("end");
-    editor.setSelection(cursorStart, cursorEnd);
+    var oldtext = editor.getSelection('\n');
+    var newtext = '\n###' + oldtext.replace(/\n/g, '\n###') + '\n';
+    newtext = newtext.replace(/###\s*\n/g, '\n');
+    editor.replaceSelection(newtext);
     editor.focus();
   });
   return headerButton;

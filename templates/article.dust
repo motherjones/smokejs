@@ -40,7 +40,7 @@
     </section>
     <section>
     {#attributes.byline}
-      {#render template="author-bio" /}
+      {! bio is too far off the right thing for testing, ppl will freak #render template="author-bio" /!}
     {/attributes.byline}
     </section>
   </article>
