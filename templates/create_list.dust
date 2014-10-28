@@ -1,0 +1,8 @@
+<form class="create-list">
+  <h4>FIXME give a bunch of options to have the list filter or something</h4>
+  <label for="slug">
+    Slug:
+  </label>
+  <input type="text" name="slug"></input>
+  <button type="submit">Submit</button>
+</form>

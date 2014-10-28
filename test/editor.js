@@ -28,9 +28,9 @@ describe("editor functions", function() {
     });
 
     it("can tell if an attribute is an array", function(done) {
-      var listEditableBackup = editor.makeListEditable;
-      editor.makeListEditable = function(name) {
-        editor.makeListEditable = listEditableBackup;
+      var listEditableBackup = editor.makeListsEditable;
+      editor.makeListsEditable = function(name) {
+        editor.makeListsEditable = listEditableBackup;
         name.should.eql('byline');
         done();
       };
@@ -123,6 +123,18 @@ describe("editor functions", function() {
     var slug = 'test';
     var component = new api.Component(slug, testData);
     var button = editor.saveComponentButton(component);
+    var successBackup, failureBackup;
+
+    beforeEach(function(done) {
+      successBackup = editor.successNotice;
+      failureBackup = editor.failureNotice;
+      done();
+    });
+    afterEach(function(done) {
+      editor.successNotice = successBackup;
+      editor.failureNotice = failureBackup;
+      done();
+    });
 
     it("should create a button", function(done) {
       button.is('button').should.be.true;
@@ -135,31 +147,26 @@ describe("editor functions", function() {
     });
 
     it("should call the component's update method on click", function(done) {
-      component.update = function() {
+      component.update = component.data.update = function() {
         return new Promise(function(resolve) {
          done();
-         resolve();
         });
       };
       button.click();
     });
 
     it("should run success notification if component's update succeeds", function(done) {
-      var sBak = editor.successNotice;
       editor.successNotice = function() {
-        editor.successNotice = sBak;
         done();
       };
-      component.update = function() {
-        return new Promise(function(resolve, reject) { resolve(); });
+      component.update = component.data.update = function() {
+        return new Promise(function(resolve) { resolve(); });
       };
       button.click();
     });
 
     it("should call failure notification if component's update fails", function(done) {
-      var fBak = editor.failureNotice;
       editor.failureNotice = function() {
-        editor.failureNotice = fBak;
         done();
       };
       component.update = function() {
@@ -253,7 +260,7 @@ describe("editor functions", function() {
     });
   });
 
-  describe("makeListEditable", function() {
+  describe("makeListsEditable", function() {
     var slug = 'test';
     var component = new api.Component(slug, testData);
     var list = $('<ul data-attribute="byline" data-slug="'+slug+'"></ul>');
@@ -263,7 +270,7 @@ describe("editor functions", function() {
     before(function(done) {
       list.append(item);
       $('body').append(list);
-      editor.makeListEditable('byline', component);
+      editor.makeListsEditable('byline', component);
       done();
     });
 
@@ -355,7 +362,7 @@ describe("editor functions", function() {
 
     it("becomes disabled after being clicked", function(done) {
       button.click();
-      button.prop('disabled').should.be.true
+      button.prop('disabled').should.be.true;
       done();
     });
 
@@ -439,12 +446,12 @@ describe("editor functions", function() {
       list.append(button);
       list.append(button);
       list.append(form);
-      $('body').append(list)
+      $('body').append(list);
       component = new api.Component(slug, testData);
       done();
     });
     afterEach(function(done) {
-      $('body').html('')
+      $('body').html('');
       list.remove();
       done();
     });
@@ -483,7 +490,7 @@ describe("editor functions", function() {
       editor.addItemToList(form, 'byline', component).then(function() {
         $('ul > button').each(function() {
           $(this).prop('disabled').should.be.false;
-        })
+        });
         done();
       });
     });
@@ -491,10 +498,10 @@ describe("editor functions", function() {
   describe("remake lists", function() {
     var slug = 'test';
     var makeListsEditableCalled;
-    var component, list, secondList;
-    var makeListEditableBak = editor.makeListEditable;
+    var component;
+    var makeListEditableBak = editor.makeListsEditable;
     before(function(done) {
-      editor.makeListEditable = function(attribute, component) {
+      editor.makeListsEditable = function(attribute, component) {
         attribute.should.be.eql('byline');
         component.slug.should.eql(slug);
         makeListsEditableCalled += 1;
@@ -547,7 +554,7 @@ describe("editor functions", function() {
       done();
     });
     after(function(done) {
-      editor.makeListEditable = makeListEditableBak;
+      editor.makeListsEditable = makeListEditableBak;
       done();
     });
   });

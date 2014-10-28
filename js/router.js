@@ -22,8 +22,8 @@ module.exports = (function() {
 })();
 
 module.exports.addRoutes = function(routes) {
-  _(routes).forEach(function(view, route) {
-    module.exports.addRoute(route, view);
+  routes.forEach(function(route) {
+    module.exports.addRoute(route[0], route[1]);
   });
   return module.exports;
 };
@@ -63,9 +63,8 @@ module.exports.callback = function() {
   * @memberof module:router
   */
 module.exports.browserStart = function() {
-  console.log('browserStart\n\n\ntest');
   $('body').on("click", "[href^='/']", module.exports.browserClick );
-  $(window).on('popstate', function(e) {
+  $(window).on('popstate', function() {
     module.exports.pop(document.location.pathname);
   });
   ad.setAdListener();
@@ -104,13 +103,14 @@ module.exports.browserCallback = function(match, html, title) {
   if (title) {
     document.title = 'MotherJones - ' + title;
   };
-  var match = match.next();
+  var new_match = match.next();
   var keywords = [];
-  if(match) {
-    match.fn(match, module.exports.callback);
-    if ('component' in match) {
-      if ('section' in match.component.metadata) {
-        keywords.push(match.component.metadata.section);
+  if(new_match) {
+    console.log(new_match.fn);
+    new_match.fn(new_match, module.exports.browserCallback);
+    if ('component' in new_match) {
+      if ('section' in new_match.component.metadata) {
+        keywords.push(new_match.component.metadata.section);
       }
     }
   }

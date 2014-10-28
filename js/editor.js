@@ -4,6 +4,7 @@ var _ = require('lodash');
 var render = require('./render');
 var api = require('./edit_api');
 var Promise = require('promise-polyfill');
+var tweditor = require('./smoke_tweditor');
 
 /**
  * Includes functions to be called by the router.
@@ -26,7 +27,7 @@ exports.makeEditable = function(component) {
   }
   for (var name in component.attributes) {
     if (_.isArray( component.attributes[name] )) {
-      exports.makeListEditable(name, component);
+      exports.makeListsEditable(name, component);
     } else {
       exports.makeEditable(component.attributes[name]);
     }
@@ -36,26 +37,38 @@ exports.makeEditable = function(component) {
 };
 
 /**
- * Makes an array sortable, it's members deletable, and gives it a save button
+ * Makes uls which pre-exist on the page editable
  * @param {string} attribute - The name of the array we're making sortable
  * @param {array} components - The component array we're making sortable
  * @returns {void}
  */
-exports.makeListEditable = function(attribute, component) {
+exports.makeListsEditable = function(attribute, component) {
   var lists = $('[data-attribute="' + attribute + '"][data-slug="' + component.slug + '"]');
   lists.each(function() {
-    var list = $(this);
-    list.sortable().bind('sortupdate', function() {
-      exports.listSortedAction(list, component);
-    });
-    list.find('li').each(function() {
-      $(this).append(
-        exports.removeFromListButton($(this).data('slug'), attribute, component)
-      );
-    });
-    list.append(exports.addToListButton(attribute, component));
-    list.append(exports.saveListButton(attribute, component));
+    exports.makeListEditable($(this), component);
   });
+};
+
+/**
+ * Makes an array sortable, it's members deletable, and gives it a save button
+ * @param {list} element - The element containing the list
+ * @param {array} components - The component array we're making sortable
+ * @returns {list} the list element
+ */
+exports.makeListEditable = function(list, component) {
+  if (typeof list === 'string') { list = $(list); }
+  var attribute = list.data('attribute');
+  list.sortable().bind('sortupdate', function() {
+    exports.listSortedAction(list, component);
+  });
+  list.find('li').each(function() {
+    $(this).append(
+      exports.removeFromListButton($(this).data('slug'), attribute, component)
+    );
+  });
+  list.append(exports.addToListButton(attribute, component));
+  list.append(exports.saveListButton(attribute, component));
+  return list;
 };
 
 /**
@@ -115,7 +128,7 @@ exports.remakeLists = function(component, attribute) {
 
   return new Promise(function(res, rej) {
     Promise.all(listsRemade).then(function() {
-      exports.makeListEditable(attribute, component);
+      exports.makeListsEditable(attribute, component);
       res();
     }, rej);
   });
@@ -226,12 +239,27 @@ exports.saveListButton = function(name, component) {
 };
 /**
  * Make a component's data inline editable.
- * FIXME this is a stub
+ * FIXME this is a stub for images
  * @param {component} component - The component who's data we're making editable
  * @returns {void}
  */
 exports.editableData = function(component) {
+  if (component.content_type.match(/markdown/i)) {
+    component.data.get().then(function() {
+      var textArea = $('<textarea class="component_body" data-slug="' +
+        component.slug + '">' + component.data.data + '</textarea>');
 
+      var selector = '.component_body[data-slug="' + component.slug + '"]';
+      $(selector).replaceWith(textArea);
+      var editor = tweditor.tweditor(selector);
+      editor.on('blur', function() {
+        component.data.data = editor.getValue();
+      });
+    });
+  }
+  if (component.content_type.match(/image/i)) {
+    console.log('implement fancy image stuff');
+  }
 };
 
 /**
@@ -269,7 +297,12 @@ exports.saveComponentButton = function(component) {
   return $('<button>Save</button>')
     .click(function() {
       component.update().then(
-        exports.successNotice,
+        function() {
+          component.data.update().then(
+            exports.successNotice,
+            exports.failureNotice
+          );
+        },
         exports.failureNotice
       );
     }
@@ -283,6 +316,7 @@ exports.saveComponentButton = function(component) {
  * @param {string} message - The success message
  */
 exports.successNotice = function(message) {
+  console.log(message);
 };
 
 /**
@@ -293,4 +327,81 @@ exports.successNotice = function(message) {
  */
 exports.failureNotice = function(error) {
   console.log(error);
+};
+
+/**
+ * gives the upload image form appropriate event handlers
+ * @param {string} html - The html of the form
+ * @param {function} callback - What to do once an image is created, called w/ the image component
+ * @returns {element} form - the jquery element w/ events attached
+ */
+exports.createImageForm = function(html, callback) {
+  var form = $(html);
+  form.on('submit', function() {
+    //turn image into something we can make data eat
+    var component = new api.Component();
+    component.content_type =  ''; //Get file type
+    component.data.data = ''; //Read file
+    component.create().then(function() {
+      component.update().then(function() {
+        callback(component);
+      });
+    });
+    return false;
+  });
+  return form;
+};
+
+/**
+ * gives the select component form appropriate event handlers
+ * @param {string} html - The html of the form
+ * @param {function} callback - What to do once a component is selected, called w/ the component
+ * @param {object} filter - What kinds of components should be selectable
+ * @returns {string} slug - the slug of the component selected
+ */
+exports.selectComponent = function(html, callback, filter) {
+  var form = $(html);
+  console.log('FIXME have the filter do someting', filter);
+  form.on('submit', function() {
+    var component = new api.Component(form.find('[name="slug"]').val());
+    callback(component);
+    return false;
+  });
+  return form;
+};
+
+/**
+ * gives the edit image form appropriate event handlers
+ * @param {string} html - The html of the form
+ * @param {function} callback - What to do once an image is done being edited, called w/ the image component
+ * @returns {element} form - the form w/ appropriate event handlers
+ */
+exports.editImageForm = function(html, component, callback) {
+  var form = $(html);
+  form.on('submit', function() {
+    //FIXME for each type of thing update this component
+    component.update().then(function() {
+      callback(component);
+    });
+    return false;
+  });
+  return form;
+};
+
+/**
+ * gives the create list form appropriate event handlers
+ * @param {string} html - The html of the form
+ * @param {function} callback - What to do after list creation, called w/ the new component
+ * @return {element} form - the form w/ appropriate event handlers
+ */
+exports.createList = function(html, callback) {
+  var form = $(html);
+  var component = new api.Component();
+  form.on('submit', function() {
+    component.create(function(component) {
+      callback(component);
+    });
+    return false;
+  });
+  return form;
 };

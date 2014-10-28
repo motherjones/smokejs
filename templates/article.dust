@@ -33,7 +33,8 @@
         </figure>
       {/attributes.master_image}
     </header>
-    <section id="component_body">
+    <section class="component_body" data-slug="{slug}">
+
     {#markdown slug=slug /}
     <b>Data url</b>: {data_uri}
     </section>

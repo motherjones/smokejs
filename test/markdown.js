@@ -14,7 +14,7 @@ describe("Markdown", function() {
   it("verify parser handles component type in lexer", function(done){
     var md = '!![barfoo]';
     var html = markdown.toHTML(md);
-    should(html).equal('{#load  slug="barfoo" }');
+    should(html).equal('{#load  slug="barfoo"/}');
     done();
   });
 });

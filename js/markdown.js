@@ -15,7 +15,7 @@ exports.renderer = new marked.Renderer();
 
 // Setup Custom Renderers.
 exports.renderer.component_block = function (that) {
-  var str = '{#load  slug="' + that.token.slug + '" }';
+  var str = '{#load  slug="' + that.token.slug + '"/}';
   return str;
 };
 
@@ -23,7 +23,7 @@ exports.renderer.component_block = function (that) {
 var options = {
   'renderer': exports.renderer,
   'extra_block_rules': {
-    //Looks for pattern !!() we can switch to !!()[args] later
+    //Looks for pattern !![] we can switch to !!()[args] later
     component_block: /^!!\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]/
   },
   'extra_block_lexers': {

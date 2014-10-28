@@ -26,7 +26,7 @@ describe("router properties", function() {
     var test_callback = function() {
       done();
     };
-    router.addRoutes({"test": test_callback});
+    router.addRoutes([["test", test_callback]]);
     router.pop('test');
   });
 });
@@ -46,7 +46,6 @@ describe("router callbacks", function() {
         }
       }
       match.next = function() { return match };
-      console.log("before called\n\n\ntest");
       router.browserCallback(match, 'lolno', 'Title');
     });
     afterEach(function() {

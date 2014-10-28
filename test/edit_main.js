@@ -19,6 +19,6 @@ describe("edit main", function() {
     var main = require('../js/edit_main');
     self.browserStart.calledOnce.should.be.true;
     self.addRoutes.calledOnce.should.be.true;
-    self.addRoutes.calledWith(_.merge(_.clone(routes), editRoutes)).should.be.true;
+    self.addRoutes.calledWith(routes.concat(editRoutes)).should.be.true;
   });
 });

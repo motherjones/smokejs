@@ -13,6 +13,7 @@
   "node": true,
   "predef": [
     "require",
-    "exports"
+    "exports",
+    "-Promise"
   ]
 }

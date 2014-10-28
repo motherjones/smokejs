@@ -1,8 +1,10 @@
-var views = require('./edit_views');
-var router = require('./router');
+/*global window, document */
+'use strict';
 
-module.exports = {
-  "^\/$": views.displayHomepage,
-  "\/?:section/[0-9]+/[0-9]+/:slug": views.displayMainContent,
-  "\/?:schema/:slug": views.displayMainContent
-};
+var edit_views = require('./edit_views');
+
+module.exports = [
+  ["^\/$", edit_views.displayMainContent],
+  ["\/?:section/[0-9]+/[0-9]+/:slug", edit_views.displayMainContent],
+  ["\/?:schema/:slug", edit_views.displayMainContent]
+];
