@@ -63,10 +63,9 @@ exports.headerButton = function(editor) {
 exports.makeStrikethroughButton = function(editor) {
   var strikethroughButton = $('<li class="editButton"><i class="fa fa-strikethrough"></i></li>');
   strikethroughButton.on("click", function() {
-    var newText = editor.getSelection().replace('*', '', 'g');
-    newText = newText.replace(/\s*$/, '');
+    var newText = editor.getSelection().replace(/\s*$/, '');
     newText = newText.replace(/^\s*/, '');
-    editor.replaceSelection(' ~~'+newText+'~~ ', "end");
+    editor.replaceSelection('~~'+newText+'~~', "end");
     editor.focus();
   });
   return strikethroughButton;
