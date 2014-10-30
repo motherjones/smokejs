@@ -22,6 +22,7 @@ var tweditor = require('./smoke_tweditor');
  * @returns {void}
  */
 exports.makeEditable = function(component) {
+  var element = $('#' + component.slug);
   for (var meta in component.metadata) {
     exports.editableMetadata(component, meta);
   }
@@ -33,7 +34,8 @@ exports.makeEditable = function(component) {
     }
   }
   exports.editableData(component);
-  $('#' + component.slug).append(exports.saveComponentButton(component));
+  element.append(exports.saveComponentButton(component));
+  return element;
 };
 
 /**
@@ -279,17 +281,6 @@ exports.editableMetadata = function(component, meta) {
 };
 
 /**
- * Creates an HTML panel from which editors can change component
- * metadata related to social sharing
- * @param {component} component - The component who's social data we're editing
- * @param {string} meta - The name of the metadata we're making editable
- * @returns {string} html - the raw html of the social sharing element
- */
-exports.socialSharingElement = function(component) {
-  return "<div><h4>this could one day be an edit popup or something" + component.slug + "</h4></div>";
-};
-
-/**
  * Creates the button that updates a component on mirrors
  * @param {component} component - The component that will be updated
  * @returns {element} button - the jQuery element that will update a component on click
@@ -406,3 +397,17 @@ exports.createList = function(html, callback) {
   });
   return form;
 };
+
+/**
+ * gives the social sharing form appropriate event handlers
+ * @param {string} html - The html of the form
+ * @param {function} callback - What to do after list creation, called w/ the new component
+ * @return {element} form - the form w/ appropriate event handlers
+ */
+exports.socialForm = function(html, callback) {
+  var form = $(html);
+  form.find('.slider').click(function() {
+    form.toggleClass('out');
+  });
+  return form;
+}

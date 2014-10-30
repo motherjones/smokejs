@@ -1,0 +1,86 @@
+div#social-menu  {
+    transition: left .5s;
+    position: fixed;
+    top: 100px;
+    left: -300px;
+    border: 0 2px 0 0 solid black;
+    width: 300px;
+    background-color: white;
+}
+
+div#social-menu.out {
+      transition: left .5s;
+      left: 0px;
+  }
+div#social-menu {
+  svg {
+      position: absolute;
+      top: 100px;
+      right: -40px;
+      border: 2px solid black;
+
+  }
+  .twitter {
+      width: 300px;
+      background: #fff linear-gradient(#e9f5ff,#fff 100px);
+      font: 13px/1.231 arial,helvetica,clean,sans-serif;
+      clear:both;
+  }
+  .facebook {
+      width: 100%;
+      display:block;
+      height:200px;
+  }
+.facebook .fb-text {
+      height: 134px;
+      float:left;
+      width:66%
+  }
+.twitter h2 {
+      color: #666;
+      text-shadow: #fff 0 1px 0;
+      margin: 0 0 15px;
+      font-weight: bold;
+      font: 13px/1.231 arial,helvetica,clean,sans-serif;
+      font-size: 18px;
+  }
+.facebook h2 {
+      font-family: Georgia, 'lucida grande',tahoma,verdana,arial,sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 22px;
+  }
+.twitter p {
+      width: 240px;
+      text-wrap:unrestricted;
+      overflow:hidden;
+  }
+
+.facebook p {
+      font-family: Georgia, 'lucida grande',tahoma,verdana,arial,sans-serif;
+      line-height: 16px;
+      font-size:12px;
+  }
+.facebook .via {
+      bottom: 60px;
+      color: #9197a3;
+      font-size: 11px;
+      position: absolute;
+      text-transform: uppercase;
+  }
+.twitter .twitter-submit {
+      width: 100%;
+      display:block;
+      height:30px;
+      clear:both;
+  }
+
+.facebook .facebook-submit {
+      background-color:lightblue;
+  }
+.twitter .twitter-submit .char {
+      color:red;
+      float:right;
+      padding-right: 5px;
+  }
+}

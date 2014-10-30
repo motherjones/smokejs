@@ -19,9 +19,11 @@ exports.displayMainContent = function(match, callback) {
   callback = callback ? callback : function() {};
   var cb = function(data, html) {
     var component = new api.Component(data.slug, data);
-    html += editor.socialSharingElement(component);
     callback(data, html);
-    editor.makeEditable(component);
+    var element = editor.makeEditable(component);
+    exports.createSocialForm(match, function(form) {
+      element.prepend(form);
+    });
   };
   return views.displayMainContent(match, cb);
 };
@@ -120,5 +122,24 @@ exports.createList = function(match, callback, formCallback) {
     callback(
       editor.createList(html, formCallback)
     );
+  });
+};
+
+/**
+ * View for rendering social sharing editing
+ * @param {object} match - match object Returned by routes.
+ * @param {function} callback - callback is when form is made
+ * @returns {promise} Resolves when complete
+ */
+exports.createSocialForm = function(match, callback) {
+  var slug = match.params.slug;
+  var component = new api.Component(slug);
+  callback = callback ? callback : function() {};
+  return component.get(function(data) {
+    render.render('social_edit', data, function(html) {
+      callback(
+        editor.socialForm(html)
+      );
+    });
   });
 };
