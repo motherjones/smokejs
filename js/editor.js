@@ -161,7 +161,8 @@ exports.addToListButton = function(name, component) {
 exports.addToListForm = function(name, component, button) {
   //FIXME we really want autocomplete, relying editors to know slugs is dumb
   var form = $('<form><label>Add another ' + name +
-    '</label><input name="slug" type="text" placeholder="slug"/></form>')
+    '</label><input name="slug" type="text" placeholder="slug"/>' +
+    '<button type="submit">Add</submit></form>')
     .submit(function() {
       exports.addItemToList(form, name, component);
       button.prop('disabled', false);
