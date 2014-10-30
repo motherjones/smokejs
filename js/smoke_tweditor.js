@@ -19,7 +19,7 @@ exports.tweditor = function(textarea_selector) {
   tweditor.markdown = Markdown;
 
   editor = tweditor.tweditor(textarea_selector);
-  editor.setSize('auto', 'auto');
+  editor.setSize('auto', $(textarea_selector).height());
 
   return editor;
 };
